@@ -1,0 +1,2 @@
+thinking False content '{"unit": "celsius"}' reasoning ''
+thinking True  content '{"unit":"celsius"}' reasoning ''

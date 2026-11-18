@@ -1,0 +1,1 @@
+NetworkMode=bridge CapAdd=[SYS_ADMIN] Networks=bridge:172.17.0.2 gw 172.17.0.1  User=root Cmd=[tail -f /dev/null]

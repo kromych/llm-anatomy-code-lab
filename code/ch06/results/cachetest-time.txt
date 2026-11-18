@@ -1,0 +1,22 @@
+# cachetest.py with the time of each request at the start of the system
+# message, on S3-macOS (Apple M1 Ultra), llama.cpp build 12359 (b1b770d90),
+# Gemma 3 1B Q4_K_M. The server was started afresh; the unchanged script
+# ran first. The prefill times are those of a machine busy with other work.
+
+$ llama-server -hf ggml-org/gemma-3-1b-it-GGUF --offline --no-log-timestamps --host 127.0.0.1 --port 8104
+$ sed 's/127.0.0.1:8080/127.0.0.1:8104/' cachetest.py > cachetest_8104.py
+$ python3 cachetest_8104.py
+from cache     0   computed  8633   prefill  1849.6 ms
+from cache  8621   computed    11   prefill    26.0 ms
+$ diff cachetest_8104.py cachetest_time.py
+3c3
+< import json, urllib.request
+---
+> import json, time, urllib.request
+9c9
+<         {"role": "system", "content": "Answer from this list: " + doc},
+---
+>         {"role": "system", "content": f"It is {time.time()}. Answer from this list: " + doc},
+$ python3 cachetest_time.py
+from cache     0   computed  8654   prefill  2697.7 ms
+from cache     0   computed  8653   prefill  2634.4 ms

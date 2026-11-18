@@ -1,0 +1,4 @@
+## python3 assemble_r.py
+stop {"role": "assistant", "content": "No: 91 is 7 times 13."}
+usage {'prompt_tokens': 21, 'completion_tokens': 14}
+reasoning '91 = 7 * 13.'

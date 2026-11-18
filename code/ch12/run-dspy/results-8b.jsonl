@@ -1,0 +1,18 @@
+{"port": "port_dspy", "task": "files", "secs": 10.93, "answer": "There are 4 files in the workspace.", "correct": true, "error": null}
+{"port": "port_dspy", "task": "bergen", "secs": 16.31, "answer": "290000", "correct": true, "error": null}
+{"port": "port_dspy", "task": "deadline", "secs": 35.26, "answer": "notes.txt", "correct": true, "error": null}
+{"port": "port_dspy", "task": "norway", "secs": 23.41, "answer": "The total population of Norwegian cities in cities.csv is 1,200,000.", "correct": true, "error": null}
+{"port": "port_dspy", "task": "errors", "secs": 23.03, "answer": "3", "correct": true, "error": null}
+{"port": "port_dspy", "task": "todo", "secs": 13.98, "answer": "Renew passport", "correct": true, "error": null}
+{"port": "port_dspy", "task": "files", "secs": 9.04, "answer": "There are 4 files in the workspace.", "correct": true, "error": null}
+{"port": "port_dspy", "task": "bergen", "secs": 14.59, "answer": "290000", "correct": true, "error": null}
+{"port": "port_dspy", "task": "deadline", "secs": 18.51, "answer": "notes.txt", "correct": true, "error": null}
+{"port": "port_dspy", "task": "norway", "secs": 22.64, "answer": "The total population of Norwegian cities in cities.csv is 1,200,000.", "correct": true, "error": null}
+{"port": "port_dspy", "task": "errors", "secs": 22.69, "answer": "3", "correct": true, "error": null}
+{"port": "port_dspy", "task": "todo", "secs": 12.28, "answer": "Renew passport", "correct": true, "error": null}
+{"port": "port_dspy", "task": "files", "secs": 8.96, "answer": "There are 4 files in the workspace.", "correct": true, "error": null}
+{"port": "port_dspy", "task": "bergen", "secs": 15.31, "answer": "290000", "correct": true, "error": null}
+{"port": "port_dspy", "task": "deadline", "secs": 17.49, "answer": "notes.txt", "correct": true, "error": null}
+{"port": "port_dspy", "task": "norway", "secs": 20.52, "answer": "The total population of Norwegian cities in cities.csv is 1,200,000.", "correct": true, "error": null}
+{"port": "port_dspy", "task": "errors", "secs": 20.11, "answer": "3", "correct": true, "error": null}
+{"port": "port_dspy", "task": "todo", "secs": 11.42, "answer": "Renew passport", "correct": true, "error": null}

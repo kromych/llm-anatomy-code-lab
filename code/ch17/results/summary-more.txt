@@ -1,0 +1,10 @@
+lm-eval vs Inspect t0-parallel-1: lm-eval 56, Inspect 56, paired (100, 0, 0, 1.0)
+lm-eval vs Inspect t0-serial-1: lm-eval 56, Inspect 56, paired (100, 0, 0, 1.0)
+Ollama 54, llama-server 54, identical replies 99, Ollama only 0, llama-server only 0, McNemar p 1.000
+judge qwen3-1.7b: pairs 49, right first 19, right second 17, both 6, verdicts A 30 of 98, unparsed 41
+judge qwen3-8b: pairs 49, right first 44, right second 43, both 39, verdicts A 48 of 98, unparsed 3
+agent hint=false: solved 19 of 40; per task [5, 0, 0, 5, 0, 5, 4, 0]
+  turns [1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 5]
+agent hint=true: solved 21 of 40; per task [5, 0, 1, 5, 0, 5, 5, 0]
+  turns [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+  (first run, before code/ch10/ws/log and config were restored: hint=false 14 of 40, hint=true 16 of 40; task 6 failed every time)

@@ -1,0 +1,10 @@
+== none
+   median of 20 starts: 38.2 ms
+== none+job
+   median of 20 starts: 38.4 ms
+== restricted
+   median of 20 starts: 41.6 ms
+== lowil
+   median of 20 starts: 39.7 ms
+== appcontainer
+   median of 20 starts: 41.8 ms

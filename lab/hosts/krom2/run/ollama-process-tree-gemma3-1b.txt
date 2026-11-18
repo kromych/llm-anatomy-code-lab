@@ -1,0 +1,53 @@
+# pstree -alp 776388 (ollama serve, gemma3:1b loaded)
+ollama,776388 serve
+  |-llama-server,776738 --model /home/labuser/.ollama/models/blobs/sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef --port 39999 --host 127.0.0.1 --no-webui --offline -c 4096 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja --chat-template chatml --load-mode none --flash-attn auto -b 512 -ub 512 --context-shift --keep 4
+  |   |-{llama-server},776740
+  |   |-{llama-server},776741
+  |   |-{llama-server},776742
+  |   |-{llama-server},776743
+  |   |-{llama-server},776744
+  |   |-{llama-server},776745
+  |   |-{llama-server},776746
+  |   |-{llama-server},776747
+  |   |-{llama-server},776748
+  |   |-{llama-server},776749
+  |   |-{llama-server},776750
+  |   |-{llama-server},776751
+  |   |-{llama-server},776752
+  |   |-{llama-server},776753
+  |   |-{llama-server},776754
+  |   |-{llama-server},776755
+  |   |-{llama-server},776756
+  |   `-{llama-server},776757
+  |-{ollama},776391
+  |-{ollama},776392
+  |-{ollama},776393
+  |-{ollama},776394
+  |-{ollama},776395
+  |-{ollama},776397
+  |-{ollama},776398
+  |-{ollama},776399
+  |-{ollama},776400
+  |-{ollama},776401
+  |-{ollama},776402
+  |-{ollama},776403
+  |-{ollama},776428
+  |-{ollama},776496
+  |-{ollama},776497
+  |-{ollama},776512
+  `-{ollama},776513
+
+# ps (serve + children)
+    PID    PPID NLWP   RSS    VSZ %CPU     ELAPSED COMMAND
+ 776388       1   18 44784 2564352 21.8      01:11 /home/labuser/.local/ollama/bin/ollama serve
+ 776738  776388   19 1212112 2066848 365     00:02 /home/labuser/.local/ollama/lib/ollama/llama-server --model /home/labuser/.ollama/models/blobs/sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef --port 39999 --host 127.0.0.1 --no-webui --offline -c 4096 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja --chat-template chatml --load-mode none --flash-attn auto -b 512 -ub 512 --context-shift --keep 4
+
+# /proc/776738/cmdline (NUL separators shown as spaces)
+~/.local/ollama/lib/ollama/llama-server --model ~/.ollama/models/blobs/sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef --port 39999 --host 127.0.0.1 --no-webui --offline -c 4096 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja --chat-template chatml --load-mode none --flash-attn auto -b 512 -ub 512 --context-shift --keep 4 
+# /proc/776738/environ entries matching OLLAMA|LD_LIBRARY_PATH|GGML|PATH
+PATH=~/.cargo/bin:~/.local/bin:~/bin:/usr/lib64/ccache:/usr/local/bin:/usr/bin
+LD_LIBRARY_PATH=~/.local/ollama/lib/ollama
+VmHWM:	 1212112 kB
+VmRSS:	 1212112 kB
+RssAnon:	 1196256 kB
+RssFile:	   15856 kB

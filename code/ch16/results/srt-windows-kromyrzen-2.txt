@@ -1,0 +1,52 @@
+# Anthropic's sandbox runtime 0.0.83 (npm install --prefix into a directory under the
+# user's profile, with Node.js v22.23.1 from nodejs.org beside it; both first on PATH),
+# after srt windows-install --skip-profile-grant.
+# S4-Windows, Windows 11 Pro N for Workstations, build 26300 (10.0.26300.9974), at the
+# desktop of a Remote Desktop logon, from a terminal at medium integrity (not elevated);
+# PowerShell 5.1.26100.9818.
+# With the profile grant skipped, the sandbox account could not start the helper
+# srt-win.exe, which lay under the user's profile. The first call ended with
+#   Error: WFP egress fence could not be verified - srt-win wfp verify exited 1 ...
+#   CreateProcessWithLogonW(srt-sandbox): Access is denied. (0x80070005)
+# until the group had read access to the helper's directory:
+#   icacls ...\sandbox-runtime\vendor\srt-win /grant sandbox-runtime-users:(OI)(CI)(RX)
+# run-windows.ps1 hands srt the command as one string (srt -c). Given as arguments, the
+# path of the program is quoted for a POSIX shell ('C:\WINDOWS\system32\cmd.exe' /c echo hi
+# in srt's debug output) and cmd.exe, which runs it, answers "The filename, directory
+# name, or volume label syntax is incorrect."
+# powershell -NoProfile -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms none,srt -Base C:\Users\labuser
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== srt
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  SocketException
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt no, connections 0
+# the same with -Times 20
+# processor load before and after (Win32_Processor.LoadPercentage): 21 and 7 percent
+== none
+   median of 20 starts: 39.5 ms
+== srt
+   median of 20 starts: 936.9 ms
+# The srt case once more, from a copy of the directory in which battery.cs prints the
+# code and the message of each failure (one line changed, in Probe).
+== srt
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 Access to the path 'C:\Users\labuser\battery-sbx-1337937320\outside\probe.txt' is denied.
+read    BLOCKED  UnauthorizedAccessException 0x80070005 Access to the path 'C:\Users\labuser\battery-sbx-1337937320\secret\token.txt' is denied.
+net     BLOCKED  SocketException 0x80004005 An attempt was made to access a socket in a way forbidden by its access permissions 127.0.0.1:54717
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt no, connections 0

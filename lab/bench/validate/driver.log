@@ -1,0 +1,19 @@
+2026-11-14T06:42:07 bbench: bench lock taken
+2026-11-14T06:45:04 bbench: start (8 retries, busy=17% hogs=[], load averages: 8.18 12.37 18.22)
+2026-11-14T06:47:53 bbench: rc=0 load averages: 4.65 9.05 15.81
+2026-11-14T06:47:53 replay: bench lock taken
+2026-11-14T06:55:54 replay: start (17 retries, busy=28% hogs=[], load averages: 8.71 10.69 14.01)
+2026-11-14T07:03:46 replay: rc=0 load averages: 4.91 6.11 10.13
+2026-11-14T07:03:46 web: bench lock taken
+2026-11-14T07:13:29 web: start (70 retries, busy=9% hogs=[37.3:llama-server ], load averages: 2.69 4.43 7.55)
+2026-11-14T07:13:50 web: rc=0 load averages: 3.57 4.53 7.51
+2026-11-14T07:13:50 cached: bench lock taken
+2026-11-14T07:22:04 cached: start (70 retries, busy=27% hogs=[19.0:llama-server 14.5:/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/Resources/Python.app/Contents/MacOS/Python ], load averages: 6.36 5.90 6.98)
+2026-11-14T07:23:35 cached: rc=0 load averages: 6.54 6.06 6.92
+2026-11-14T07:23:35 blas: bench lock taken
+2026-11-14T07:32:27 blas: start (70 retries, busy=22% hogs=[30.6:llama-server 15.6:/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/Resources/Python.app/Contents/MacOS/Python ], load averages: 6.26 7.48 7.57)
+2026-11-14T07:33:47 blas: rc=0 load averages: 14.93 9.88 8.47
+2026-11-14T07:33:47 all done
+2026-11-14T07:33:47 bbench2: bench lock taken
+2026-11-14T07:42:37 bbench2: start (70 retries, busy=24% hogs=[99.2:another-program ], load averages: 6.27 7.25 7.78)
+2026-11-14T07:48:48 bbench2: rc=0 load averages: 6.33 6.91 7.51

@@ -1,0 +1,10 @@
+[2 turns, 811 tokens, 7.5 s]
+user      Compute 987654321 * 123456789 exactly. End your reply with one
+          line 'ANSWER: <value>', giving an integer or a fraction p/q in
+          lowest terms.
+model     (thinks for 2109 characters)
+model     calls calc__calculate
+          {"expression": "(987654321 * 123456789) // 1"}
+server    (987654321 * 123456789) // 1 = 121932631112635269
+model     (thinks for 976 characters)
+model     ANSWER: 121932631112635269

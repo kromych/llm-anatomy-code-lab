@@ -1,0 +1,13 @@
+{
+  "name": "ch10-aisdk",
+  "private": true,
+  "type": "module",
+  "description": "One AI SDK call through three dialects (Chapter 10)",
+  "dependencies": {
+    "ai": "7.0.173",
+    "@ai-sdk/openai-compatible": "3.0.92",
+    "@ai-sdk/openai": "4.0.118",
+    "@ai-sdk/anthropic": "4.0.105",
+    "zod": "4.6.7"
+  }
+}

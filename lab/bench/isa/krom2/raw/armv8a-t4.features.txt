@@ -1,0 +1,2 @@
+[armv8a-t4.completion.log] 0.00.811.048 I system_info: n_threads = 4 (n_threads_batch = 4) / 8 | CPU : NEON = 1 | ARM_FMA = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 |
+[armv8a-t4.stderr] build: 61dbf4922 (12376)

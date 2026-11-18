@@ -1,0 +1,3 @@
+field absent                 [['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima']]
+parallel_tool_calls: true    [['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima']]
+parallel_tool_calls: false   [['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima']]

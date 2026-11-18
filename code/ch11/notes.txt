@@ -1,0 +1,12 @@
+The server listens on port 9931 unless it is started with --port.
+A model file in Q4_K_M takes a little over half a byte per weight.
+Restart the server before a comparison to empty the prefix cache.
+Requests 107, 119, and 133 failed: the prompt exceeded the context.
+Use temperature 0 and seed 1 when two runs are to be compared.
+The tools refuse every path that leads out of the workspace.
+Elide old tool output before the conversation reaches the high mark.
+Gemma 3 1B has no tool calls in Ollama; use the text protocol.
+Thinking solved six tasks for four, at eight times the output tokens.
+An answer is right when the expected text appears as a whole word.
+Close the connection to cancel a generation; the slot is freed.
+A tool that may hang runs in a child process that can be killed.

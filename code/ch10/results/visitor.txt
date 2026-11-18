@@ -1,0 +1,38 @@
+## llama-server 1.0.0 (build 12359) with ggml-org/Qwen3-1.7B-GGUF:Q4_K_M on
+## port 8107, llama-server without a model (a router) on 8109, and Ollama
+## 0.40.16 on 11434, all on S3-macOS and none with a key.
+## python3 visitor.py http://127.0.0.1:8107 llama
+method path                 status, from a page?, and the reply
+GET    /props                200  any page  holds: model_path chat_template
+GET    /slots                200  any page  holds: n_ctx is_processing
+POST   /props                501  any page  This server does not suppor
+POST   /slots/0?action=save  501  any page  This server does not suppor
+GET    /metrics              501  any page  This server does not suppor
+## python3 visitor.py http://127.0.0.1:8109 router
+method path                 status, from a page?, and the reply
+GET    /models               200  any page  5 models listed
+POST   /models/load          404  any page  File Not Found
+POST   /models/unload        400  any page  model is not found
+DELETE /models               400  any page  model must be a non-empty s
+## python3 visitor.py http://127.0.0.1:11434 ollama
+method path                 status, from a page?, and the reply
+GET    /api/tags             200  no page   2 models listed
+GET    /api/ps               200  no page   keys: models
+POST   /api/show             404  no page   model 'no-such-model-here:l
+DELETE /api/delete           404  no page   model 'no-such-model-here' 
+
+## The two llama-servers started again with --api-key sesame; the visitor
+## still has no key.
+## python3 visitor.py http://127.0.0.1:8107 llama
+method path                 status, from a page?, and the reply
+GET    /props                401  any page  Invalid API Key
+GET    /slots                401  any page  Invalid API Key
+POST   /props                401  any page  Invalid API Key
+POST   /slots/0?action=save  401  any page  Invalid API Key
+GET    /metrics              401  any page  Invalid API Key
+## python3 visitor.py http://127.0.0.1:8109 router
+method path                 status, from a page?, and the reply
+GET    /models               401  any page  Invalid API Key
+POST   /models/load          401  any page  Invalid API Key
+POST   /models/unload        401  any page  Invalid API Key
+DELETE /models               401  any page  Invalid API Key

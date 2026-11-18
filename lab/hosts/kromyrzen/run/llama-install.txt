@@ -1,0 +1,66 @@
+Time: 2026-11-13T22:33:15.9226481-08:00
+Download: https://github.com/ggml-org/llama.cpp/releases/download/b12359/llama-b12359-bin-win-cpu-x64.zip
+SHA256 837c1655e87df3b66989f4be33a792a1399c785bf259038dc75c900096683e69 (expected 837c1655e87df3b66989f4be33a792a1399c785bf259038dc75c900096683e69) match=True  size=25097509
+Extracted to: C:\Users\labuser\AppData\Local\Programs\llama.cpp
+Zone.Identifier on llama-server.exe: False
+--- files (name, size, file version) ---
+ggml-base.dll  832,000  
+ggml-cpu-alderlake.dll  1,459,200  
+ggml-cpu-cannonlake.dll  1,692,160  
+ggml-cpu-cascadelake.dll  1,666,048  
+ggml-cpu-cooperlake.dll  1,675,264  
+ggml-cpu-haswell.dll  1,464,320  
+ggml-cpu-icelake.dll  1,672,192  
+ggml-cpu-ivybridge.dll  1,345,536  
+ggml-cpu-piledriver.dll  1,338,880  
+ggml-cpu-sandybridge.dll  1,314,304  
+ggml-cpu-sapphirerapids.dll  1,952,256  
+ggml-cpu-skylakex.dll  1,686,016  
+ggml-cpu-sse42.dll  937,472  
+ggml-cpu-x64.dll  930,304  
+ggml-cpu-zen4.dll  1,681,920  
+ggml-rpc-server.exe  117,248  
+ggml-rpc.dll  234,496  
+ggml.dll  78,848  
+libomp.dll  768,000  20140926
+LICENSE-LLVM-OpenMP  19,741  
+llama-batched-bench-impl.dll  62,464  
+llama-batched-bench.exe  9,728  
+llama-bench-impl.dll  406,016  
+llama-bench.exe  9,728  
+llama-cli-impl.dll  3,398,656  
+llama-cli.exe  9,728  
+llama-common.dll  8,507,904  
+llama-completion-impl.dll  139,264  
+llama-completion.exe  9,728  
+llama-connect.exe  11,473,920  
+llama-fit-params-impl.dll  48,128  
+llama-fit-params.exe  9,728  
+llama-gemma3-cli.exe  27,648  
+llama-gguf-split.exe  61,952  
+llama-imatrix.exe  254,976  
+llama-llava-cli.exe  27,648  
+llama-minicpmv-cli.exe  27,648  
+llama-mtmd-cli.exe  97,792  
+llama-mtmd-debug.exe  56,832  
+llama-perplexity-impl.dll  198,144  
+llama-perplexity.exe  9,728  
+llama-quantize-impl.dll  141,312  
+llama-quantize.exe  9,728  
+llama-qwen2vl-cli.exe  27,648  
+llama-results.exe  47,616  
+llama-server-impl.dll  10,343,424  
+llama-server.exe  9,728  
+llama-tokenize.exe  59,904  
+llama-tts.exe  47,104  
+llama.dll  3,868,672  
+llama.exe  105,984  
+mtmd.dll  2,244,096  
+--- llama-server --version ---
+version: 1.0.0-dev (build 12359, commit b1b770d90)
+built with Clang 20.1.8 for Windows x86_64
+--- llama-cli --list-devices ---
+Available devices:
+  (none)
+--- Get-Command llama-server (PATH check) ---
+llama-server is NOT on PATH (zip install does not modify PATH)

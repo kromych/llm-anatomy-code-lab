@@ -1,0 +1,2 @@
+[native-t4.completion.log] 0.00.371.444 I system_info: n_threads = 4 (n_threads_batch = 4) / 8 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | OPENMP = 1 | REPACK = 1 |
+[native-t4.stderr] build: 61dbf4922 (12376)

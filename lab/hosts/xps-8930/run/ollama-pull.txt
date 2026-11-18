@@ -1,0 +1,59 @@
+$ ollama pull gemma3:1b; ollama pull qwen3:1.7b; ollama list; ollama show <model>
+pull gemma3:1b exit=0 seconds=10
+pull qwen3:1.7b exit=0 seconds=19
+NAME          ID              SIZE      MODIFIED               
+qwen3:1.7b    8f68893c685c    1.4 GB    Less than a second ago    
+gemma3:1b     97558784bdc9    806 MB    18 seconds ago            
+
+  Model
+    architecture        gemma3         
+    parameters          999.89M        
+    context length      32768          
+    embedding length    1152           
+    quantization        Q4_K_M         
+    requires            0.30.0         
+    template source     go_template    
+
+  Capabilities
+    completion    
+
+  Parameters
+    stop           "<end_of_turn>"    
+    temperature    1                  
+    top_k          64                 
+    top_p          0.95               
+
+  License
+    Gemma Terms of Use                  
+    Last modified: February 21, 2024    
+    ...                                 
+
+  Model
+    architecture        qwen3          
+    parameters          2.0B           
+    context length      40960          
+    embedding length    2048           
+    quantization        Q4_K_M         
+    template source     go_template    
+
+  Capabilities
+    completion     
+    tools          
+    thinking       
+        levels     false, true    
+        default    true           
+
+  Parameters
+    temperature       0.6               
+    top_k             20                
+    top_p             0.95              
+    repeat_penalty    1                 
+    stop              "<|im_start|>"    
+    stop              "<|im_end|>"      
+
+  License
+    Apache License               
+    Version 2.0, January 2004    
+    ...                          
+
+ls: cannot access '/home/labuser/.ollama': No such file or directory

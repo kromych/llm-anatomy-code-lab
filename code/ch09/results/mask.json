@@ -1,0 +1,575 @@
+{
+ "vocab_rows": 151936,
+ "tokenizer_len": 151669,
+ "candidates": 150198,
+ "output": "{\"unit\": \"celsius\"}",
+ "steps": [
+  {
+   "step": 0,
+   "prefix": "",
+   "n_allowed": 2,
+   "top": [
+    [
+     "```",
+     29.75,
+     false
+    ],
+    [
+     "{\n",
+     25.125,
+     false
+    ],
+    [
+     "{\"",
+     22.25,
+     true
+    ],
+    [
+     "{",
+     21.875,
+     true
+    ],
+    [
+     "``",
+     21.375,
+     false
+    ],
+    [
+     "-",
+     18.875,
+     false
+    ],
+    [
+     "[\n",
+     18.0,
+     false
+    ],
+    [
+     "`",
+     17.5,
+     false
+    ]
+   ],
+   "chosen": "{\"",
+   "chosen_logit": 22.25,
+   "allowed": [
+    [
+     "{\"",
+     22.25
+    ],
+    [
+     "{",
+     21.875
+    ]
+   ]
+  },
+  {
+   "step": 1,
+   "prefix": "{\"",
+   "n_allowed": 4,
+   "top": [
+    [
+     "temperature",
+     28.0,
+     false
+    ],
+    [
+     "answer",
+     22.375,
+     false
+    ],
+    [
+     "temp",
+     20.375,
+     false
+    ],
+    [
+     "used",
+     19.75,
+     false
+    ],
+    [
+     "Temperature",
+     19.375,
+     false
+    ],
+    [
+     "unit",
+     19.25,
+     true
+    ],
+    [
+     "correct",
+     18.875,
+     false
+    ],
+    [
+     "tem",
+     18.75,
+     false
+    ]
+   ],
+   "chosen": "unit",
+   "chosen_logit": 19.25,
+   "allowed": [
+    [
+     "unit",
+     19.25
+    ],
+    [
+     "un",
+     11.0
+    ],
+    [
+     "uni",
+     9.125
+    ],
+    [
+     "u",
+     8.9375
+    ]
+   ]
+  },
+  {
+   "step": 2,
+   "prefix": "{\"unit",
+   "n_allowed": 3,
+   "top": [
+    [
+     "\":",
+     28.25,
+     true
+    ],
+    [
+     "_used",
+     23.25,
+     false
+    ],
+    [
+     "_of",
+     22.75,
+     false
+    ],
+    [
+     "_name",
+     22.375,
+     false
+    ],
+    [
+     "\"",
+     21.875,
+     true
+    ],
+    [
+     "\":\"",
+     20.875,
+     true
+    ],
+    [
+     "Used",
+     19.75,
+     false
+    ],
+    [
+     "_temperature",
+     19.25,
+     false
+    ]
+   ],
+   "chosen": "\":",
+   "chosen_logit": 28.25,
+   "allowed": [
+    [
+     "\":",
+     28.25
+    ],
+    [
+     "\"",
+     21.875
+    ],
+    [
+     "\":\"",
+     20.875
+    ]
+   ]
+  },
+  {
+   "step": 3,
+   "prefix": "{\"unit\":",
+   "n_allowed": 5,
+   "top": [
+    [
+     " \"",
+     31.0,
+     true
+    ],
+    [
+     " [\"",
+     21.75,
+     false
+    ],
+    [
+     " {\"",
+     21.25,
+     false
+    ],
+    [
+     " ",
+     18.125,
+     true
+    ],
+    [
+     " \"#",
+     16.875,
+     false
+    ],
+    [
+     " \"$",
+     16.375,
+     false
+    ],
+    [
+     " [{\"",
+     16.125,
+     false
+    ],
+    [
+     " \"\",",
+     15.875,
+     false
+    ]
+   ],
+   "chosen": " \"",
+   "chosen_logit": 31.0,
+   "allowed": [
+    [
+     " \"",
+     31.0
+    ],
+    [
+     " ",
+     18.125
+    ],
+    [
+     "\"",
+     8.125
+    ],
+    [
+     "\"c",
+     6.5
+    ],
+    [
+     "\"f",
+     4.125
+    ]
+   ]
+  },
+  {
+   "step": 4,
+   "prefix": "{\"unit\": \"",
+   "n_allowed": 6,
+   "top": [
+    [
+     "kel",
+     24.25,
+     false
+    ],
+    [
+     "K",
+     21.75,
+     false
+    ],
+    [
+     "C",
+     20.875,
+     false
+    ],
+    [
+     "Kel",
+     20.5,
+     false
+    ],
+    [
+     "k",
+     20.0,
+     false
+    ],
+    [
+     "degrees",
+     19.375,
+     false
+    ],
+    [
+     "degree",
+     19.25,
+     false
+    ],
+    [
+     "cel",
+     17.625,
+     true
+    ]
+   ],
+   "chosen": "cel",
+   "chosen_logit": 17.625,
+   "allowed": [
+    [
+     "cel",
+     17.625
+    ],
+    [
+     "c",
+     17.125
+    ],
+    [
+     "fahren",
+     14.125
+    ],
+    [
+     "f",
+     12.4375
+    ],
+    [
+     "ce",
+     10.0625
+    ],
+    [
+     "fa",
+     7.34375
+    ]
+   ]
+  },
+  {
+   "step": 5,
+   "prefix": "{\"unit\": \"cel",
+   "n_allowed": 2,
+   "top": [
+    [
+     "ci",
+     20.875,
+     false
+    ],
+    [
+     "ius",
+     17.0,
+     false
+    ],
+    [
+     "erator",
+     16.25,
+     false
+    ],
+    [
+     "vin",
+     15.9375,
+     false
+    ],
+    [
+     "er",
+     15.375,
+     false
+    ],
+    [
+     "is",
+     15.375,
+     false
+    ],
+    [
+     "us",
+     14.5,
+     false
+    ],
+    [
+     "vis",
+     14.5,
+     false
+    ]
+   ],
+   "chosen": "si",
+   "chosen_logit": 14.4375,
+   "allowed": [
+    [
+     "si",
+     14.4375
+    ],
+    [
+     "s",
+     2.0
+    ]
+   ]
+  },
+  {
+   "step": 6,
+   "prefix": "{\"unit\": \"celsi",
+   "n_allowed": 2,
+   "top": [
+    [
+     "us",
+     24.25,
+     true
+    ],
+    [
+     "uses",
+     16.5,
+     false
+    ],
+    [
+     "use",
+     15.625,
+     false
+    ],
+    [
+     " degree",
+     15.3125,
+     false
+    ],
+    [
+     "u",
+     15.25,
+     true
+    ],
+    [
+     "\",",
+     15.1875,
+     false
+    ],
+    [
+     "uss",
+     14.9375,
+     false
+    ],
+    [
+     "uges",
+     14.375,
+     false
+    ]
+   ],
+   "chosen": "us",
+   "chosen_logit": 24.25,
+   "allowed": [
+    [
+     "us",
+     24.25
+    ],
+    [
+     "u",
+     15.25
+    ]
+   ]
+  },
+  {
+   "step": 7,
+   "prefix": "{\"unit\": \"celsius",
+   "n_allowed": 2,
+   "top": [
+    [
+     "\",",
+     25.0,
+     false
+    ],
+    [
+     "\"}",
+     23.0,
+     true
+    ],
+    [
+     " (",
+     21.375,
+     false
+    ],
+    [
+     "\"",
+     19.125,
+     true
+    ],
+    [
+     "\"}\n\n",
+     17.75,
+     false
+    ],
+    [
+     " temperature",
+     15.0625,
+     false
+    ],
+    [
+     "\"}\n",
+     14.9375,
+     false
+    ],
+    [
+     "\",\"",
+     14.9375,
+     false
+    ]
+   ],
+   "chosen": "\"}",
+   "chosen_logit": 23.0,
+   "allowed": [
+    [
+     "\"}",
+     23.0
+    ],
+    [
+     "\"",
+     19.125
+    ]
+   ]
+  },
+  {
+   "step": 8,
+   "prefix": "{\"unit\": \"celsius\"}",
+   "n_allowed": 1,
+   "top": [
+    [
+     "<|im_end|>",
+     31.0,
+     true
+    ],
+    [
+     " (",
+     19.25,
+     false
+    ],
+    [
+     ".",
+     19.25,
+     false
+    ],
+    [
+     "</think>",
+     18.75,
+     false
+    ],
+    [
+     " \ufffd",
+     16.75,
+     false
+    ],
+    [
+     "\u0627\u0645\u0644",
+     16.5,
+     false
+    ],
+    [
+     " ",
+     16.125,
+     false
+    ],
+    [
+     " \ufffd",
+     15.9375,
+     false
+    ]
+   ],
+   "chosen": "<|im_end|>",
+   "chosen_logit": 31.0,
+   "allowed": [
+    [
+     "<|im_end|>",
+     31.0
+    ]
+   ]
+  }
+ ]
+}

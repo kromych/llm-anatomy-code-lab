@@ -1,0 +1,53 @@
+Chapter 15 harnesses on krom1u (macOS 27, Apple M1 Ultra), 2026-11-14.
+Each <harness>/changes.txt lists what changed between three snapshots taken
+by code/ch15/footprint.sh: before the install, right after it, and after the
+measurement runs. It covers Homebrew packages, top-level entries of ~,
+~/.config, ~/.local/*, ~/.cache and ~/Library/..., launchd jobs, listening
+sockets, and the files in the harness's own data directories (names and
+sizes only, never contents). The full snapshots were discarded; only
+the differences are kept, and Spotlight workers and apps opened by hand are
+left out of the launchd differences. The harnesses were installed one after
+another, so a harness's "added by the runs" also shows the later installs.
+
+Installs (HOMEBREW_NO_INSTALL_CLEANUP=1, HOMEBREW_NO_AUTO_UPDATE=1):
+  codex 0.169.0       brew install --cask codex      (Caskroom 419 MB: codex,
+                      codex-code-mode-host, codex-exec-server, rg)
+  opencode 2.3.0      brew install opencode          (+ ripgrep 15.2.0; one Bun
+                      executable of 231 MB)
+  goose 1.59.1        brew install block-goose-cli   (172 MB)
+  aider 0.86.2        brew install aider             (+ python@3.12, gcc,
+                      openblas, certifi, isl, mpfr, libmpc; Cellar 413 MB)
+  openhands CLI 1.16.0 (SDK 1.21.0, LiteLLM 1.109.1)
+                      brew install uv (0.13.8); uv tool install openhands
+                      --python 3.12 (~/.local/share/uv/tools/openhands 448 MB,
+                      launchers in ~/.local/bin)
+OpenHands ran here, as the CLI with its local workspace (no Docker needed),
+so its footprint belongs to this host; nothing of OpenHands is on xps-8930.
+
+What the runs left behind:
+  codex     ~/.codex: installation_id, SQLite (state_5, thread_history_1,
+            logs_2, memories_1, goals_1, queue_1), sessions/YYYY/MM/DD/
+            rollout-*.jsonl, shell_snapshots/, skills/.system/, .tmp/plugins
+            (a git clone of a plugin marketplace, fetched at start-up),
+            tmp/arg0-macos/codex-arg0*/{apply_patch,applypatch} -> codex.
+            No daemon left running (codex app-server daemon not started).
+  opencode  ~/.local/share/opencode/opencode.db (SQLite; kv holds the
+            models.dev catalog, 11.6 MB), log/opencode.log, snapshot/, shell/;
+            ~/.cache/opencode/bin; empty ~/.config/opencode and
+            ~/.local/state/opencode. Background service: stopped (we used
+            --standalone, which runs `opencode serve --stdio --port 0`).
+            Reads ~/.claude/skills (Claude Code's skills) and watches it.
+  goose     ~/.local/share/goose/sessions/sessions.db, model_catalog/
+            models_dev_api.json (6.1 MB), apps/clock.html (default app),
+            ~/.local/state/goose/logs/llm_request.N.jsonl (every LLM request
+            logged in full), ~/.config/goose (empty; keyring disabled).
+            Also reads ~/.claude/skills.
+  aider     ~/.aider/{analytics.json, installs.json,
+            caches/model_prices_and_context_window.json (4.1 MB)}; in each
+            repository .aider.chat.history.md, .aider.input.history,
+            .aider.tags.cache.v4/, ".aider*" appended to .gitignore, and git
+            commits of every edit.
+  openhands ~/.openhands/{cache, conversations/<id>/, profiles} (13 MB;
+            the cache holds the 73 public skills listed in its prompt).
+No harness left a listening port or a launchd job. The shared Ollama
+(127.0.0.1:11434) was not touched.

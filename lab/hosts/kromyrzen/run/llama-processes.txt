@@ -1,0 +1,13 @@
+command: llama-server.exe -hf ggml-org/gemma-3-1b-it-GGUF
+started 2026-11-13T22:39:52.9813631-08:00, ready=True after 1.6 s, pid=7944
+--- TCP listening sockets owned by llama-server ---
+127.0.0.1:9931 pid=7944 llama-server
+--- UDP endpoints owned by llama-server ---
+--- llama-server process and children ---
+pid=7944 ppid=8172 llama-server.exe session=0
+  cmd: "C:\Users\labuser\AppData\Local\Programs\llama.cpp\llama-server.exe" -hf ggml-org/gemma-3-1b-it-GGUF
+  WorkingSet=1,092 MB threads=36
+POST http://127.0.0.1:9931/v1/chat/completions -> wall time 1.29 s, response bytes 819
+GET http://127.0.0.1:8080/health while running: no answer: The request was canceled due to the configured HttpClient.Timeout of 2 seconds elapsing.
+GET http://[::1]:9931/health while running: no answer: The request was canceled due to the configured HttpClient.Timeout of 2 seconds elapsing.
+after Stop-Process: llama-server processes = 0; port 9931 listening = False

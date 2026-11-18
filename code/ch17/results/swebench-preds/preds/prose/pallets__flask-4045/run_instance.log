@@ -1,0 +1,25 @@
+2026-11-14 14:52:58,460 - INFO - Creating container for pallets__flask-4045...
+2026-11-14 14:52:58,505 - INFO - Container for pallets__flask-4045 created: 3423dd86bfae236c20ebf3d2281a5a367629ef6a0514e50f1f704322c7ddb732
+2026-11-14 14:52:58,614 - INFO - Container for pallets__flask-4045 started: 3423dd86bfae236c20ebf3d2281a5a367629ef6a0514e50f1f704322c7ddb732
+2026-11-14 14:52:58,614 - INFO - Intermediate patch for pallets__flask-4045 written to logs/run_evaluation/preds/prose/pallets__flask-4045/patch.diff, now applying to container...
+2026-11-14 14:52:58,704 - INFO - Failed to apply patch to container: git apply --verbose
+2026-11-14 14:52:58,803 - INFO - Failed to apply patch to container: git apply --verbose --3way
+2026-11-14 14:52:58,897 - INFO - Failed to apply patch to container: git apply --verbose --reject
+2026-11-14 14:52:58,988 - INFO - Failed to apply patch to container: patch --batch --forward --fuzz=5 -p1 -i
+2026-11-14 14:52:59,025 - INFO - >>>>> Patch Apply Failed:
+patch: **** Only garbage was found in the patch input.
+
+2026-11-14 14:52:59,032 - INFO - Traceback (most recent call last):
+  File "/home/labuser/llm-arch-l3-ch17/venv/lib64/python3.14/site-packages/swebench/harness/run_evaluation.py", line 333, in run_instance
+    raise EvaluationError(
+    ...<3 lines>...
+    )
+swebench.harness.utils.EvaluationError: Error in evaluation for pallets__flask-4045: >>>>> Patch Apply Failed:
+patch: **** Only garbage was found in the patch input.
+
+Check (logs/run_evaluation/preds/prose/pallets__flask-4045/run_instance.log) for more information.
+
+2026-11-14 14:52:59,032 - INFO - Attempting to stop container sweb.eval.pallets__flask-4045.preds...
+2026-11-14 14:53:14,309 - INFO - Container sweb.eval.pallets__flask-4045.preds stopped successfully.
+2026-11-14 14:53:14,309 - INFO - Attempting to remove container sweb.eval.pallets__flask-4045.preds...
+2026-11-14 14:53:14,345 - INFO - Container sweb.eval.pallets__flask-4045.preds removed successfully.

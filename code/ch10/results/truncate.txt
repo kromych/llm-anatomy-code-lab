@@ -1,0 +1,12 @@
+dimensions 256: 1024 numbers
+encoding_format 'base64': a string of 5464 characters for 4096 bytes
+What guarantees that a model's answer is valid JSON?
+  1024 components: passages [9, 1, 11], best 0.543
+   256 components: passages [9, 10, 11], best 0.551
+    64 components: passages [9, 11, 10], best 0.609
+    32 components: passages [9, 2, 11], best 0.632
+Where do the weights of a model live on disk?
+  1024 components: passages [4, 1, 11], best 0.446
+   256 components: passages [1, 11, 4], best 0.440
+    64 components: passages [1, 11, 5], best 0.490
+    32 components: passages [1, 4, 11], best 0.549

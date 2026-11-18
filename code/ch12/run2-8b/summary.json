@@ -1,0 +1,207 @@
+[
+ {
+  "port": "baseline",
+  "tasks": 18,
+  "correct": 15,
+  "errors": 0,
+  "requests_per_task": 2.83,
+  "prompt_tokens_per_task": 958,
+  "completion_tokens_per_task": 67,
+  "cached_share": 0.811,
+  "secs_per_task": 1.49,
+  "secs_median": 1.21,
+  "capped": 0,
+  "loc": 37,
+  "ends": {
+   "text": 18
+  },
+  "replies": {
+   "tool_calls, no text, call": 33,
+   "stop, text, no call": 18
+  },
+  "requests_max": 3,
+  "prompt_tokens_max": 435,
+  "system_chars": {
+   "121": 51
+  },
+  "same_tokens": 6,
+  "same_answer": 6,
+  "bergen_first": {
+   "bytes": 887,
+   "system_chars": 121,
+   "prompt_tokens": 286,
+   "n_tools": 3,
+   "keys": [
+    "messages",
+    "model",
+    "tools"
+   ]
+  }
+ },
+ {
+  "port": "smolagents",
+  "tasks": 18,
+  "correct": 17,
+  "errors": 0,
+  "requests_per_task": 9.78,
+  "prompt_tokens_per_task": 40129,
+  "completion_tokens_per_task": 5358,
+  "cached_share": 0.688,
+  "secs_per_task": 149.67,
+  "secs_median": 193.74,
+  "capped": 93,
+  "loc": 11,
+  "ends": {
+   "step limit": 15,
+   "call final_answer": 3
+  },
+  "replies": {
+   "tool_calls, no text, call": 39,
+   "length, text, no call": 93,
+   "stop, text, no call": 15,
+   "stop, no text, no call": 26,
+   "tool_calls, no text, final_answer": 3
+  },
+  "requests_max": 11,
+  "prompt_tokens_max": 10443,
+  "system_chars": {
+   "3829": 161,
+   "152": 15
+  },
+  "same_tokens": 0,
+  "same_answer": 3,
+  "bergen_first": {
+   "bytes": 5332,
+   "system_chars": 3829,
+   "prompt_tokens": 1371,
+   "n_tools": 4,
+   "keys": [
+    "messages",
+    "model",
+    "stop",
+    "tool_choice",
+    "tools"
+   ]
+  }
+ },
+ {
+  "port": "pydanticai",
+  "tasks": 18,
+  "correct": 18,
+  "errors": 0,
+  "requests_per_task": 3.0,
+  "prompt_tokens_per_task": 1238,
+  "completion_tokens_per_task": 56,
+  "cached_share": 0.834,
+  "secs_per_task": 1.42,
+  "secs_median": 1.29,
+  "capped": 0,
+  "loc": 11,
+  "ends": {
+   "text": 18
+  },
+  "replies": {
+   "tool_calls, no text, call": 36,
+   "stop, text, no call": 18
+  },
+  "requests_max": 4,
+  "prompt_tokens_max": 560,
+  "system_chars": {
+   "121": 54
+  },
+  "same_tokens": 6,
+  "same_answer": 6,
+  "bergen_first": {
+   "bytes": 1147,
+   "system_chars": 121,
+   "prompt_tokens": 351,
+   "n_tools": 3,
+   "keys": [
+    "messages",
+    "model",
+    "stream",
+    "tool_choice",
+    "tools"
+   ]
+  }
+ },
+ {
+  "port": "openai_agents",
+  "tasks": 18,
+  "correct": 18,
+  "errors": 0,
+  "requests_per_task": 3.0,
+  "prompt_tokens_per_task": 1358,
+  "completion_tokens_per_task": 56,
+  "cached_share": 0.856,
+  "secs_per_task": 1.4,
+  "secs_median": 1.28,
+  "capped": 0,
+  "loc": 13,
+  "ends": {
+   "text": 18
+  },
+  "replies": {
+   "tool_calls, no text, call": 36,
+   "stop, text, no call": 18
+  },
+  "requests_max": 4,
+  "prompt_tokens_max": 600,
+  "system_chars": {
+   "121": 54
+  },
+  "same_tokens": 6,
+  "same_answer": 6,
+  "bergen_first": {
+   "bytes": 1251,
+   "system_chars": 121,
+   "prompt_tokens": 391,
+   "n_tools": 3,
+   "keys": [
+    "messages",
+    "model",
+    "tools"
+   ]
+  }
+ },
+ {
+  "port": "dspy",
+  "tasks": 18,
+  "correct": 18,
+  "errors": 0,
+  "requests_per_task": 5.0,
+  "prompt_tokens_per_task": 6016,
+  "completion_tokens_per_task": 384,
+  "cached_share": 0.482,
+  "secs_per_task": 11.65,
+  "secs_median": 11.79,
+  "capped": 0,
+  "loc": 14,
+  "ends": {
+   "text": 18
+  },
+  "replies": {
+   "stop, text, no call": 90
+  },
+  "requests_max": 7,
+  "prompt_tokens_max": 1904,
+  "system_chars": {
+   "1578": 57,
+   "1925": 33
+  },
+  "same_tokens": 6,
+  "same_answer": 6,
+  "bergen_first": {
+   "bytes": 3557,
+   "system_chars": 1578,
+   "prompt_tokens": 863,
+   "n_tools": 0,
+   "keys": [
+    "max_completion_tokens",
+    "messages",
+    "model",
+    "temperature"
+   ]
+  }
+ }
+]

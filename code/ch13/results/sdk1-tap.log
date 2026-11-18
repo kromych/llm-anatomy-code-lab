@@ -1,0 +1,9 @@
+    2.301 -> {"jsonrpc": "2.0", "id": 1, "method": "server/discover", "params": {"_meta": {"io.modelcontextprotocol/protocolVersion": "2026-07-28", "io.modelcontextprotocol/clientCapabilities": {}, "io.modelcontextprotocol/clientInfo": {"name": "mcp_client.py", "version": "1.0"}}}}
+  305.890 <- {"jsonrpc":"2.0","id":1,"error":{"code":-32602,"message":"Invalid request parameters","data":""}}
+  306.076 -> {"jsonrpc": "2.0", "id": 2, "method": "initialize", "params": {"protocolVersion": "2025-11-25", "capabilities": {}, "clientInfo": {"name": "mcp_client.py", "version": "1.0"}}}
+  306.610 <- {"jsonrpc":"2.0","id":2,"result":{"protocolVersion":"2025-11-25","capabilities":{"experimental":{},"prompts":{"listChanged":false},"resources":{"subscribe":false,"listChanged":false},"tools":{"listChanged":false}},"serverInfo":{"name":"legacy-files","version":"1.30.0"}}}
+  306.769 -> {"jsonrpc": "2.0", "method": "notifications/initialized"}
+  306.796 -> {"jsonrpc": "2.0", "id": 3, "method": "tools/list", "params": {}}
+  307.608 <- {"jsonrpc":"2.0","id":3,"result":{"tools":[{"name":"list_files","description":"List the entries of a directory under the root.","inputSchema":{"properties":{"path":{"default":".","title":"Path","type":"string"}},"title":"list_filesArguments","type":"object"},"outputSchema":{"properties":{"result":{"title":"Result","type":"string"}},"required":["result"],"title":"list_filesOutput","type":"object"}}]}}
+  307.704 -> {"jsonrpc": "2.0", "id": 4, "method": "tools/call", "params": {"name": "list_files", "arguments": {"path": "."}}}
+  308.930 <- {"jsonrpc":"2.0","id":4,"result":{"content":[{"type":"text","text":".env\na.txt\ngarden.py\ntodo.txt"}],"structuredContent":{"result":".env\na.txt\ngarden.py\ntodo.txt"},"isError":false}}

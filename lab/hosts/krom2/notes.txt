@@ -1,0 +1,158 @@
+krom2 (Apple M2, 7.4 GiB RAM, Fedora Linux Asahi Remix 44, 16K pages) - llama.cpp + Ollama at user level
+Run on 2026-11-13, 22:28-22:44 PST. No sudo, no system changes, no services. Nothing left running.
+Hardware/OS details: system.txt. Install differences: footprint/engines/changes.txt (full snapshots discarded). Logs, JSON, tables: run/.
+
+INSTALL: llama.cpp (from source, CPU only)
+- git clone https://github.com/ggml-org/llama.cpp ~/src/llama.cpp   (18 s; .git 488 MB, worktree 186 MB)
+  commit 61dbf4922 (2026-11-13 20:57 -0800), `git describe` b12375-1-g61dbf4922, build number 12376
+- cmake -B build -DCMAKE_BUILD_TYPE=Release -DGGML_CCACHE=OFF
+  cmake --build build --config Release -j 4      (3 min, 22:30:39-22:33:37; no swapping)
+- llama-server --version: "version: 1.0.0-dev (build 12376, commit 61dbf4922) / built with GNU 16.2.1 for Linux aarch64"
+- Native CPU flags chosen by CMake: -mcpu=apple-m2+crc+aes+sha3+fp16+dotprod+i8mm+nosve+nosme (GGML_NATIVE default ON)
+- LLAMA_CURL no longer exists: CMakeLists.txt has llama_option_depr(WARNING LLAMA_CURL), so passing it only prints
+  "LLAMA_CURL is deprecated and will be ignored".
+  HTTPS downloads (-hf) go through OpenSSL (LLAMA_OPENSSL=ON by default; openssl-devel 3.5.9 was present).
+  libcurl-devel is not installed and is not needed, so `-hf` worked and the -DLLAMA_CURL=OFF fallback was not needed.
+- The build downloads the web UI at build time from a Hugging Face bucket:
+  https://huggingface.co/buckets/ggml-org/llama-ui/resolve/<build>/dist.tar.gz. No artifact existed for b12376,
+  so it fell back to "latest" (the embedded UI is not pinned to the commit). Stored only in build/tools/ui; the build needs network access.
+- Output stays in the build tree: build/bin has 128 files (llama-server, llama-cli, llama-bench, tests, ...),
+  with shared libs (libllama.so.1, libggml*.so.1, libggml-cpu.so.1, libmtmd.so.1) and RUNPATH=/home/labuser/src/llama.cpp/build/bin.
+  Nothing was installed into ~/.local or PATH. build/ = 150 MB; whole tree 822 MB. Build log: 18 GCC 16
+  -Wdeprecated-enum-enum warnings (ggml_scale_mode | ggml_scale_flag), no errors.
+- ccache surprise: -DGGML_CCACHE=OFF did NOT stop ccache. Fedora's ccache package puts /usr/lib64/ccache (cc, c++,
+  gcc, g++ wrappers) on PATH ahead of /usr/bin, so CMake recorded CMAKE_C_COMPILER=/usr/lib64/ccache/cc. The build
+  added about 618 entries to ~/.cache/ccache (309 misses, 4 hits) and, because the cache was already full (5.0/5.0 GiB),
+  triggered 2 LRU cleanups that evicted other projects' entries. To avoid this, use CCACHE_DISABLE=1 or
+  -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++.
+
+INSTALL: Ollama (official release archive, user level)
+- The official instructions (docs/linux.mdx, "Manual install" > "ARM64 install") say:
+    curl -fsSL https://ollama.com/download/ollama-linux-arm64.tar.zst | sudo tar x -C /usr
+  ollama.com returns 307 -> https://github.com/ollama/ollama/releases/latest/download/ollama-linux-arm64.tar.zst
+- User-level variant used here: download (1,600,610,073 bytes in 15 s), sha256 checked against the release's
+  sha256sum.txt (match), then  mkdir -p ~/.local/ollama && tar --zstd -xf ollama-linux-arm64.tar.zst -C ~/.local/ollama
+  Archive deleted afterwards. Version: Ollama 0.40.16 (release published 2026-11-09).
+- Unpacked: 2.2 GB. bin/ollama (41 MB Go binary) plus lib/ollama/: a bundled llama.cpp llama-server and llama-quantize,
+  libllama 0.9.0, libggml 0.29.0, 8 CPU backend variants libggml-cpu-armv{8.0_1,8.2_1,8.2_2,8.2_3,8.6_1,8.6_2,9.2_1,9.2_2}.so,
+  libgomp, libomp, and cuda_v12/ (1.2 GB) + cuda_v13/ (923 MB) with libggml-cuda.so and cuBLAS. The CUDA part is
+  about 2.1 GB of the 2.2 GB and is useless on Apple silicon (tar --exclude='lib/ollama/cuda_*' would skip it). There is no Vulkan or MLX library.
+  Listing: run/ollama-archive-listing.txt
+- Started by hand: ~/.local/ollama/bin/ollama serve (in the background, no env overrides). No PATH or shell rc change, no systemd unit.
+  `ollama --version` with no server running prints a warning and creates nothing.
+
+FILES AND DIRECTORIES CREATED (all under /home/labuser; see footprint/engines/changes.txt)
+- ~/src/llama.cpp/                       822 MB (source + .git + build/)
+- ~/.cache/huggingface/hub/models--ggml-org--gemma-3-1b-it-GGUF/   769 MB (llama-server -hf); also hub/.locks/...
+- ~/.local/ollama/{bin,lib}              2.2 GB
+- ~/.ollama/                             2.1 GB, created by the first `ollama serve`:
+    id_ed25519 (private key, mode 0600) and id_ed25519.pub; the log prints "Couldn't find ... Generating new private key"
+    and the public key (redacted in run/ollama-serve.log). The keys were not copied.
+    cache/model-recommendations.json (fetched from the network at start-up; refresh scheduled about 4 h later)
+    models/blobs/sha256-* (GGUF weights + template/params/license/config blobs), models/manifests/registry.ollama.ai/library/<name>/<tag>,
+    models/manifests-v2/ollama.com/library/<name>/<tag> (symlinks to manifest blobs), models/metadata/sha256-*.json (mode 0600)
+- ~/.cache/ccache: entries changed (see above); no new directory.
+- Unchanged: ~/.config, ~/.local/bin, ~/.local/share, systemd --user unit files, shell rc files, listening sockets after stop.
+
+PORTS AND BIND ADDRESSES
+- llama-server: DEFAULT PORT IS NOW 9931, NOT 8080. It listens on 127.0.0.1:9931 by default (--host default 127.0.0.1,
+  env LLAMA_ARG_HOST/LLAMA_ARG_PORT). Changed by commit b42b7e6d3 "server: use port 9931 by default (#30159)",
+  2026-10-09 (first in tag b11521), after a notice PR #26508 (2026-08-03). Port 8080 needs --port 8080 (tested: works).
+  The brief's URL http://127.0.0.1:8080/v1/... therefore only works with --port 8080.
+- llama-server start-up warns: "security: no API key is set and CORS allows all origins".
+- Ollama: 127.0.0.1:11434 (OLLAMA_HOST default). Each loaded model gets a runner subprocess listening on a random
+  loopback port (seen: 127.0.0.1:39999 for gemma3:1b, 127.0.0.1:39349 for qwen3:1.7b).
+- Ollama defaults from its "server config" log line: OLLAMA_KEEP_ALIVE 5m, OLLAMA_NUM_PARALLEL 1,
+  OLLAMA_MAX_LOADED_MODELS 0 (auto), OLLAMA_CONTEXT_LENGTH 0 (auto -> 4096 here), OLLAMA_NO_CLOUD false
+  ("Ollama cloud disabled: false"), OLLAMA_REMOTES [ollama.com], OLLAMA_VULKAN true (but no Vulkan library is shipped for arm64),
+  OLLAMA_ORIGINS = http(s)://localhost, 127.0.0.1, 0.0.0.0 (with any port) plus app://*, file://*, tauri://*,
+  vscode-webview://*, vscode-file://*.
+
+MODEL CACHE LOCATIONS
+- llama.cpp -hf: Hugging Face hub cache layout, ~/.cache/huggingface/hub/models--ggml-org--gemma-3-1b-it-GGUF/
+  {blobs/<sha256>, snapshots/<rev>/gemma-3-1b-it-Q4_K_M.gguf -> ../../blobs/..., refs/main}, plus hub/.locks/.
+  File: gemma-3-1b-it-Q4_K_M.gguf, 806,058,240 bytes (762.49 MiB, Q4_K_M, 999.89 M params), downloaded in about 7 s.
+  There is no ~/.cache/llama.cpp. A restart with --offline used the cache.
+- Ollama: ~/.ollama/models (OLLAMA_MODELS). gemma3:1b = 806 MB (ID 97558784bdc9; GGUF blob 806,058,400 bytes, a different file
+  from the HF one), qwen3:1.7b = 1.4 GB (ID 8f68893c685c). Pull times 9.6 s and 14.4 s.
+  The gemma3:1b manifest names "runner": "llamacpp", "format": "gguf", and its layers come "from": "dhiltgen/gemma3:1b-it-q4_K_M-llamacpp";
+  the qwen3:1.7b manifest has no runner field, but it also ran on the llamacpp runner (ollama ps: RUNNER llamacpp).
+  Manifests: run/ollama-manifests.json.txt
+
+OLLAMA RUNNER (process tree: run/ollama-process-tree-*.txt)
+- ollama serve (PID 776388, RSS 45 MB) -> child with LD_LIBRARY_PATH=~/.local/ollama/lib/ollama:
+  ~/.local/ollama/lib/ollama/llama-server --model ~/.ollama/models/blobs/sha256-2f8c3d13... --port 39999 --host 127.0.0.1
+    --no-webui --offline -c 4096 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja
+    --chat-template chatml --load-mode none --flash-attn auto -b 512 -ub 512 --context-shift --keep 4
+  The qwen3:1.7b runner used the same flags with its own blob and port.
+- "disabling mmap for llama-server load by default ... reason=cpu" -> --load-mode none: the runner's RSS is anonymous
+  (gemma3: 1.2 GB anon, 16 MB file-backed; qwen3: 1.9 GB anon), while standalone llama-server mmaps the GGUF (RSS 1.5 GB = 0.8 GB file + 0.7 GB anon).
+- Context: "vram-based default context total_vram=0 B default_num_ctx=4096" (CPU only). Compare the M1 Ultra Homebrew run (krom1u): -c 32768 -b 1024 -ub 1024, mmap.
+- The runner start took 1.76 s (gemma3) and 2.02 s (qwen3); `ollama stop <model>` kills the runner; stopping serve leaves nothing behind.
+
+CPU FEATURES AS DETECTED
+- /proc/cpuinfo: asimddp yes, i8mm yes, bf16 yes, fphp/asimdhp yes, sve/sve2/sme no ("dotprod" is not a Linux hwcap name; it is asimddp).
+- Own llama.cpp build, system_info: CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | OPENMP = 1 | REPACK = 1
+  device_info: only "CPU (7563 MiB, 7563 MiB free)"; llama-server --list-devices -> "(none)" (no GPU backend built).
+- Ollama's runner loaded libggml-cpu-armv8.2_2.so, system_info: NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | DOTPROD = 1 | LLAMAFILE = 1 | REPACK = 1
+  -> NO MATMUL_INT8. Reason (ggml/src/CMakeLists.txt): in the Linux arm64 variant list every i8mm variant (armv8.6_*, armv9.2_*)
+  also requires SVE, which Apple cores lack, so the best match is armv8.2_2 (DOTPROD+FP16) and i8mm goes unused.
+  The Android list has an i8mm variant without SVE; the Linux list does not.
+- Page size 16384. llama.cpp and Ollama's runner both ran without complaint on the 16K-page kernel (no page-size warnings in the logs).
+
+VULKAN / GPU
+- Runtime present (mesa-vulkan-drivers 26.2.6 with asahi_icd, vulkan-loader 1.4.341, /dev/dri/renderD128 mode 0666),
+  but the build pieces are missing: vulkan-headers, vulkan-loader-devel (pkg-config vulkan: no), glslc, glslang; vulkaninfo is also absent.
+  Installing them needs sudo dnf, so build-vulkan was NOT attempted and there is no GPU benchmark.
+- Ollama 0.40.16 linux-arm64 ships no Vulkan backend; its GPU discovery found only "id=cpu library=cpu".
+
+BENCHMARKS (CPU, 8 threads = 4 Blizzard E-cores + 4 Avalanche P-cores; no other LLM process running)
+- llama-bench -m gemma-3-1b-it-Q4_K_M.gguf -p 512 -n 128 -r 3   (run/llama-bench-cpu.md)
+    pp512: 186.68 +/- 0.82 t/s
+    tg128:  42.26 +/- 2.47 t/s
+- Chat Completions spot timings (21 prompt tokens, 27 completion tokens, temperature 0):
+    llama-server, first request after the download (cold): prompt 116 t/s, generation 20.2 t/s
+    llama-server, after a restart (warm page cache): prompt 154 t/s, generation 33.0 t/s
+    Ollama gemma3:1b: 2.56 s wall including the 1.76 s runner start (the OpenAI endpoint returns no timings)
+    Ollama qwen3:1.7b: 300 completion tokens in 11.35 s wall including the 2.02 s runner start
+- Memory: free RAM never dropped below about 490 MB, and swap stayed at the pre-existing 313 MB (no si/so) during the build, serving and the bench.
+
+API BEHAVIOUR (run/*.json)
+- llama-server: system_fingerprint "b12376-61dbf4922"; the response carries a non-standard "timings" object;
+  /v1/models returns both an Ollama-style "models" list and an OpenAI "data" list. Default 4 slots x 32768 ctx, unified KV
+  (iSWA: 128 MiB global + 55 MiB SWA KV), Flash Attention auto -> enabled, prompt cache limit 8192 MiB.
+  Memory plan: 875 MiB host (605 model + 183 context + 86 compute) + 462 MiB CPU_REPACK buffers.
+- Ollama: system_fingerprint "fp_ollama"; ids like "chatcmpl-317"; qwen3 thinking text arrives in a separate
+  message.reasoning field (content holds only the final answer). Same prompt, temperature 0: gemma3 via Ollama
+  gave a different (wrong) answer from gemma3 via llama.cpp (different GGUF and chatml template path; not investigated).
+
+LAB HYGIENE
+- Helper scripts and logs were kept in /tmp/llm-lab-* and ~/llm-lab-tmp on krom2 and deleted at the end.
+- For politeness the build and llama-bench ran under `flock ~/.badc-heavy.lock` (a pre-existing, unheld lock file in $HOME
+  that some other tooling on this machine appears to use). The file itself was not changed.
+- Final check: no ollama, llama-server or llama-bench processes; no listeners on 8080, 9931 or 11434; no LLM systemd --user units.
+
+OPEN QUESTIONS (not acted on)
+1. Should the book's llama.cpp examples use the new default port 9931 or pass --port 8080? (This affects every curl example.)
+2. Should we ask the machine owner to install vulkan-headers, vulkan-loader-devel, glslc (and vulkan-tools) with sudo, so the Asahi GPU
+   can be measured with -DGGML_VULKAN=ON?
+3. The ~2.1 GB of CUDA libraries in the Ollama arm64 archive could be skipped with --exclude; the catalogue currently records the full documented unpack.
+4. Ollama's generic arm64 CPU variant does not use i8mm on Apple silicon. A same-model pp/tg comparison (llama-bench with
+   GGML_CPU_ALL_VARIANTS vs the native build) would quantify it; not measured here.
+5. The machine's ccache was full before the build; the 2 evictions caused by the build cannot be undone (harmless, but recorded).
+
+SANDBOX BATTERY, SECOND RUN (Chapter 16; code/ch16/results/*-2.txt)
+- Programs copied to ~/llm-arch-l1-ch16/ch16 (scp) and run there: run-unix.sh none bwrap landlock seccomp podman codex srt,
+  all seven probes; the same with TIMES=20 (load averages 0.1 to 0.2); two variants from copies of run-unix.sh (bubblewrap
+  without --die-with-parent, Landlock with a rule for /dev/null). bubblewrap 0.12.0, podman 5.8.9, Python 3.14.10, Linux 7.2.12 (16k pages).
+  nonet.c was compiled by /usr/lib64/ccache/cc, so the ccache gained one small entry.
+- Podman image docker.io/library/python:3.13-alpine (51.6 MB): pulled for the runs, removed (podman rmi).
+- Codex CLI 0.169.0: codex-aarch64-unknown-linux-musl.tar.gz from the GitHub release rust-v0.169.0 (sha256 97b97d87...96f3f checked),
+  unpacked as ~/llm-arch-l1-ch16/codex/codex (277 MB, one static binary; it used the system's bwrap). Footprint outside the
+  directory as on xps-8930: ~/.codex/tmp/arg0-linux/... from `codex --version`, /tmp/codex-daemon-1000 and
+  /tmp/codex-bwrap-synthetic-mount-targets-1000/lock from `codex sandbox`. All removed, ~/.codex included (it did not exist before).
+- Anthropic sandbox runtime (srt) 0.0.83 needs Node >= 22.12 and ripgrep, which this machine lacks: Node v22.23.1 from
+  nodejs.org (node-v22.23.1-linux-arm64.tar.xz, checked against SHASUMS256.txt, 197 MB unpacked) and ripgrep 15.2.0 from
+  Fedora's package without root (dnf download, rpm -K, rpm2cpio | cpio), both under ~/llm-arch-l1-ch16 and on PATH for the runs;
+  socat and bubblewrap were installed already. Node left /tmp/node-compile-cache (removed).
+- Removed: rm -rf ~/llm-arch-l1-ch16 (about 510 MB). No container, listener or process of the runs remained.

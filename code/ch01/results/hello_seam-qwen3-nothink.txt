@@ -1,0 +1,43 @@
+# llama-server build 12359 (b1b770d90) from Homebrew on S3-macOS (macOS 27.2),
+#   llama-server -hf ggml-org/Qwen3-1.7B-GGUF:Q4_K_M --host 127.0.0.1 --port 8101
+# The request of hello_seam.py with Qwen3's marker /no_think appended to the
+# question; compare hello_seam-qwen3.json.
+$ curl -s http://127.0.0.1:8101/v1/chat/completions \
+    -H 'Content-Type: application/json' \
+    -d '{"model": "default", "max_tokens": 128, "messages": [{"role": "user", "content": "In one sentence: what is a KV cache? /no_think"}]}'
+{
+    "choices": [
+        {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+                "role": "assistant",
+                "content": "A KV cache is a cache that stores key-value pairs, used to speed up memory access by storing previously retrieved data, commonly used in machine learning and large-scale systems to improve efficiency."
+            }
+        }
+    ],
+    "created": 1794683016,
+    "model": "ggml-org/Qwen3-1.7B-GGUF:Q4_K_M",
+    "system_fingerprint": "b12359-b1b770d90",
+    "object": "chat.completion",
+    "usage": {
+        "completion_tokens": 42,
+        "prompt_tokens": 22,
+        "total_tokens": 64,
+        "prompt_tokens_details": {
+            "cached_tokens": 21
+        }
+    },
+    "id": "chatcmpl-6SBkw5GpdrzoKW69bc4VAhsJhfKEEmba",
+    "timings": {
+        "cache_n": 21,
+        "prompt_n": 1,
+        "prompt_ms": 31.371,
+        "prompt_per_token_ms": 31.371,
+        "prompt_per_second": 31.8765739058366,
+        "predicted_n": 42,
+        "predicted_ms": 448.284,
+        "predicted_per_token_ms": 10.933756097560975,
+        "predicted_per_second": 91.45987811298195
+    }
+}

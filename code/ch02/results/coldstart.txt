@@ -1,0 +1,55 @@
+## python3 coldstart.py Qwen3-8B-Q8_0.gguf 8102 3
+## llama-server 1.0.0 (build 12359) on S3-macOS, alone on the machine; the
+## file is ggml-org/Qwen3-8B-GGUF:Q8_0. Seconds: until the server answers
+## /health (ready), from then to the first token (first), and their sum;
+## cached is the share of the file in the page cache before the start.
+Qwen3-8B-Q8_0.gguf, 8.71 GB
+read with the page cache empty: 1.25 s
+read with the page cache warm: 0.78 s
+page cache  options                       cached  ready  first    sum
+empty       --no-warmup                     0.00   3.82   0.08   3.90
+empty       --no-warmup                     0.00   3.79   0.08   3.88
+empty       --no-warmup                     0.00   3.78   0.08   3.86
+empty       (default)                       0.00   3.81   0.08   3.90
+empty       (default)                       0.00   3.83   0.08   3.91
+empty       (default)                       0.00   3.83   0.08   3.91
+empty       --load-mode none --no-warmup    0.00   3.36   0.08   3.45
+empty       --load-mode none --no-warmup    0.00   2.67   0.08   2.75
+empty       --load-mode none --no-warmup    0.00   2.67   0.08   2.75
+empty       --load-mode none                0.00   2.70   0.09   2.79
+empty       --load-mode none                0.00   2.70   0.09   2.79
+empty       --load-mode none                0.00   2.69   0.08   2.78
+warm        --no-warmup                     1.00   0.86   0.08   0.95
+warm        --no-warmup                     1.00   0.86   0.08   0.94
+warm        --no-warmup                     1.00   0.86   0.08   0.94
+warm        (default)                       1.00   0.88   0.08   0.97
+warm        (default)                       1.00   0.88   0.08   0.96
+warm        (default)                       1.00   0.88   0.08   0.96
+warm        --load-mode none --no-warmup    1.00   2.24   0.08   2.33
+warm        --load-mode none --no-warmup    1.00   2.24   0.08   2.33
+warm        --load-mode none --no-warmup    1.00   2.26   0.08   2.35
+warm        --load-mode none                1.00   2.27   0.08   2.35
+warm        --load-mode none                1.00   2.27   0.08   2.35
+warm        --load-mode none                1.00   2.27   0.08   2.35
+
+## python3 coldstart.py Qwen3-8B-Q8_0.gguf 8102 2 -ngl 0   (no GPU)
+Qwen3-8B-Q8_0.gguf, 8.71 GB -ngl 0
+read with the page cache empty: 1.25 s
+read with the page cache warm: 0.79 s
+page cache  options                       cached  ready  first    sum
+empty       --no-warmup                     0.00  11.96   0.18  12.14
+empty       --no-warmup                     0.00  11.91   0.18  12.09
+empty       (default)                       0.00  11.93   0.17  12.10
+empty       (default)                       0.00  11.93   0.17  12.11
+empty       --load-mode none --no-warmup    0.00  10.08   0.17  10.25
+empty       --load-mode none --no-warmup    0.00  10.09   0.17  10.26
+empty       --load-mode none                0.00  10.13   0.17  10.30
+empty       --load-mode none                0.00  10.14   0.17  10.31
+warm        --no-warmup                     1.00   9.31   0.17   9.48
+warm        --no-warmup                     1.00   9.30   0.17   9.47
+warm        (default)                       1.00   9.36   0.17   9.53
+warm        (default)                       1.00   9.44   0.17   9.61
+warm        --load-mode none --no-warmup    1.00   9.58   0.17   9.75
+warm        --load-mode none --no-warmup    1.00   9.62   0.19   9.80
+warm        --load-mode none                1.00   9.68   0.17   9.85
+warm        --load-mode none                1.00   9.68   0.17   9.85

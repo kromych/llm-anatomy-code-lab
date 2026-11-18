@@ -1,0 +1,13 @@
+2026-11-13T23:21:39.2548162-08:00
+Caption     : Microsoft Windows 11 Pro N for Workstations
+Version     : 10.0.26300
+BuildNumber : 26300
+Name                      : AMD Ryzen 7 3700X 8-Core Processor             
+NumberOfCores             : 8
+NumberOfLogicalProcessors : 16
+MaxClockSpeed             : 3600
+Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)
+load_backend: loaded RPC backend from C:\Users\labuser\AppData\Local\Programs\llama.cpp\ggml-rpc.dll
+load_backend: loaded CPU backend from C:\Users\labuser\AppData\Local\Programs\llama.cpp\ggml-cpu-haswell.dll
+version: 1.0.0-dev (build 12359, commit b1b770d90)
+built with Clang 20.1.8 for Windows x86_64

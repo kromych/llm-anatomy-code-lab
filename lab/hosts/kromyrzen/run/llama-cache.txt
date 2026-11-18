@@ -1,0 +1,9 @@
+# Where `llama-server -hf ggml-org/gemma-3-1b-it-GGUF` cached the model on Windows (build 12359, CPU zip).
+# Hugging Face hub cache layout under %USERPROFILE%\.cache\huggingface\hub (no %LOCALAPPDATA%\llama.cpp directory was created).
+# %USERPROFILE%\.cache already existed before the install (it held an unrelated 'pkg' directory); 'huggingface' was new.
+C:\Users\labuser\.cache\huggingface\hub\.locks\models--ggml-org--gemma-3-1b-it-GGUF\8ccc5cd1f1b3602548715ae25a66ed73fd5dc68a210412eea643eb20eb75a135.lock   0 bytes
+C:\Users\labuser\.cache\huggingface\hub\models--ggml-org--gemma-3-1b-it-GGUF\blobs\8ccc5cd1f1b3602548715ae25a66ed73fd5dc68a210412eea643eb20eb75a135   806,058,240 bytes (the GGUF)
+C:\Users\labuser\.cache\huggingface\hub\models--ggml-org--gemma-3-1b-it-GGUF\refs\main   40 bytes
+C:\Users\labuser\.cache\huggingface\hub\models--ggml-org--gemma-3-1b-it-GGUF\snapshots\f9c28bcd85737ffc5aef028638d3341d49869c27\gemma-3-1b-it-Q4_K_M.gguf   <SYMLINK> -> ..\..\blobs\8ccc5cd1...a135
+# The snapshot entry is an NTFS file symbolic link (created by an elevated administrator session; see notes.txt).
+# Default quantization chosen by -hf without a :tag suffix: Q4_K_M.

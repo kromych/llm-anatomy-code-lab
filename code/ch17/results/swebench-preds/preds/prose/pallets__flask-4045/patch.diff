@@ -1,0 +1,1 @@
+Add a check to Blueprint.__init__ that raises ValueError for a dot.

@@ -1,0 +1,4 @@
+fewshot-Q8_0: 1319 replies, 336 with ####, 184 with \boxed, 0 with both, 799 with neither, of which 33 repeat a line
+chat-Q8_0: 1319 replies, 744 with ####, 459 with \boxed, 42 with both, 158 with neither, of which 142 repeat a line
+chat-Q4_K_M: 1319 replies, 993 with ####, 300 with \boxed, 124 with both, 150 with neither, of which 131 repeat a line
+chat-Q4_0: 1319 replies, 1073 with ####, 111 with \boxed, 14 with both, 149 with neither, of which 120 repeat a line

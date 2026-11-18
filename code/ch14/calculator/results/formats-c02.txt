@@ -1,0 +1,28 @@
+// POST /api/chat (native): the model's reply, then our tool message
+{
+  "role": "assistant",
+  "content": "",
+  "thinking": "...",
+  "tool_calls": [{"id": "call_y5hq5yg3", "function": {"index": 0,
+    "name": "calculator__calculate", "arguments": {"expression":
+    "987654321 * 123456789"}}}]
+}
+{
+  "role": "tool",
+  "tool_name": "calculator__calculate",
+  "content": "987654321 * 123456789 = 121932631112635269"
+}
+// POST /v1/chat/completions: the same call
+{
+  "role": "assistant",
+  "content": "",
+  "reasoning": "...",
+  "tool_calls": [{"id": "call_cn04k9ui", "index": 0, "type": "function",
+    "function": {"name": "calculator__calculate", "arguments":
+    "{\"expression\":\"987654321 * 123456789\"}"}}]
+}
+{
+  "role": "tool",
+  "tool_call_id": "call_cn04k9ui",
+  "content": "987654321 * 123456789 = 121932631112635269"
+}

@@ -1,0 +1,20 @@
+# Second run of the start-up times, in the session of the battery.
+# S2-LinuxArm64, Linux 7.2.12-402.asahi.fc44.aarch64+16k; bubblewrap 0.12.0; podman version 5.8.9;
+# codex-cli 0.169.0; sandbox-runtime 0.0.83; Python 3.14.10; socat version 1.8.1.3.
+# TIMES=20 SRT=.../srt ./run-unix.sh none bwrap landlock seccomp podman codex srt
+# load averages before: 0.13 0.10 0.14
+== none
+   median of 20 starts: 0.5 ms
+== bwrap
+   median of 20 starts: 3.8 ms
+== landlock
+   median of 20 starts: 15.9 ms
+== seccomp
+   median of 20 starts: 1.0 ms
+== podman
+   median of 20 starts: 69.4 ms
+== codex
+   median of 20 starts: 14.0 ms
+== srt
+   median of 20 starts: 143.3 ms
+# load averages after: 0.20 0.12 0.15

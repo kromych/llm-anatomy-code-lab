@@ -1,0 +1,4 @@
+max_tokens 8: length {"role": "assistant", "content": "<tool_call>\n{\"name\": \"read_file"}
+max_tokens 20: length {"role": "assistant", "content": "", "tool_calls": [{"type": "function", "function": {"name": "read_file", "arguments": "{\"path\": \"docs/formats.md"}, "id": "..."}]}
+max_tokens 64: tool_calls {"role": "assistant", "content": "", "tool_calls": [{"type": "function", "function": {"name": "read_file", "arguments": "{\"path\": \"docs/formats.md\"}"}, "id": "..."}]}
+long prompt: 400 {"code": 400, "message": "request (60376 tokens) exceeds the available context size (40960 tokens), try increasing it", "type": "exceed_context_size_error", "n_prompt_tokens": 60376, "n_ctx": 40960}

@@ -1,0 +1,83 @@
+Engine installs (llama.cpp and Ollama) on krom2, 2026-11-13: differences
+between snapshots before and after, one section per snapshot kind.
+Only added (+) and removed (-) lines are kept; the full snapshots were
+discarded. Narrative and commands: ../../notes.txt.
+
+== summary
+# krom2 footprint diff summary: before (2026-11-13T22:28:59-08:00) vs after (2026-11-13T22:43:11-08:00)
+# Changed:
+diff-ls-home.txt            +.ollama/                 (created by the first `ollama serve`)
+diff-ls-home_src.txt        +llama.cpp/               (git clone + build/)
+diff-ls-home_.cache.txt     +huggingface/             (llama-server -hf download, HF hub cache layout)
+diff-ls-home_.local.txt     +ollama/                  (release archive unpacked by hand; reconstructed, see file)
+diff-du-home.txt            ~/.local +2.1G, ~/.ollama 2.1G new, ~/.cache +~0.8G, ~/src +~0.8G
+diff-ccache.txt             build went through Fedora's /usr/lib64/ccache wrappers: +309 misses, +4 hits, +2 cleanups (cache full at 5 GiB)
+diff-memory.txt             free/cached memory only (page cache now holds model files); swap unchanged at ~314 MB
+diff-cpu.txt                lscpu "scaling MHz" sample only (noise)
+diff-os-release.txt         snapshot timestamp line only
+# Unchanged:
+listening.txt (no listeners left), systemd-user-unit-files.txt, systemd-user-running.txt,
+ls-home_.config.txt, ls-home_.local_bin.txt, ls-home_.local_share.txt, gpu.txt, kernel.txt, pagesize.txt, tools.txt
+# Outside home: nothing installed; lab helper files were kept in /tmp/llm-lab-* and removed at the end.
+# ~/.bashrc, ~/.bash_profile, PATH: not modified (ollama is run by full path ~/.local/ollama/bin/ollama).
+
+== ccache
+--- before/ccache.txt
++++ after/ccache.txt
+-Cacheable calls:     967580 / 3037080 (31.86%)
+-  Hits:              545899 /  967580 (56.42%)
+-    Direct:          505306 /  545899 (92.56%)
+-    Preprocessed:     40593 /  545899 ( 7.44%)
+-  Misses:            421681 /  967580 (43.58%)
+-Uncacheable calls:  2069496 / 3037080 (68.14%)
+-Errors:                   4 / 3037080 ( 0.00%)
++Cacheable calls:     967893 / 3037541 (31.86%)
++  Hits:              545903 /  967893 (56.40%)
++    Direct:          505310 /  545903 (92.56%)
++    Preprocessed:     40593 /  545903 ( 7.44%)
++  Misses:            421990 /  967893 (43.60%)
++Uncacheable calls:  2069644 / 3037541 (68.14%)
++Errors:                   4 / 3037541 ( 0.00%)
+-  Cache size (GiB):     5.0 /     5.0 (99.96%)
+-  Cleanups:            3946
+-  Hits:              545899 /  967580 (56.42%)
+-  Misses:            421681 /  967580 (43.58%)
+-(default) cache_dir = /home/labuser/.cache/ccache
+-(default) max_size = 5.0 GiB
++  Cache size (GiB):     5.0 /     5.0 (99.90%)
++  Cleanups:            3948
++  Hits:              545903 /  967893 (56.40%)
++  Misses:            421990 /  967893 (43.60%)
+-nproc=8
+
+== du-home
+--- before/du-home.txt
++++ after/du-home.txt
+-20G	/home/labuser/.cache
++21G	/home/labuser/.cache
+-2.6G	/home/labuser/.local
++4.7G	/home/labuser/.local
++2.1G	/home/labuser/.ollama
+-55G	/home/labuser/src
++56G	/home/labuser/src
+
+== ls-home
+--- before/ls-home.txt
++++ after/ls-home.txt
++.ollama/
+
+== ls-home_.cache
+--- before/ls-home_.cache.txt
++++ after/ls-home_.cache.txt
++huggingface/
+
+== ls-home_.local
+# ~/.local top level was not listed in the before snapshot (only ~/.local/bin and ~/.local/share were).
+# Reconstructed from btrfs birth times (after/ls-home_.local-birth.txt); baseline taken 2026-11-13T22:28:59-08:00.
+# Entries born before the baseline existed before; ollama/ was created by `mkdir -p ~/.local/ollama` at 22:34:23.
++ollama/
+
+== ls-home_src
+--- before/ls-home_src.txt
++++ after/ls-home_src.txt
++llama.cpp/

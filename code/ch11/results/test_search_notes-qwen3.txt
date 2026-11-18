@@ -1,0 +1,7 @@
+call: search_notes {"query": "canceling a generation"}
+A model file in Q4_K_M takes a little over half a byte per weight.
+Restart the server before a comparison to empty the prefix cache.
+Close the connection to cancel a generation; the slot is freed.
+
+answer: The notes mention that to cancel a generation, you need to restart the server before emptying the prefix cache and close the connection.
+texts per embeddings request: 12 1

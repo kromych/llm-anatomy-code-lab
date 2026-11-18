@@ -1,0 +1,16 @@
+PASS  t_models
+PASS  t_basic
+FAIL  t_stream -- AssertionError objects {'chat.completion', 'chat.completion.chunk'}
+PASS  t_stop
+PASS  t_length
+PASS  t_max_completion
+FAIL  t_n -- AssertionError n ignored
+PASS  t_seed
+PASS  t_logprobs
+PASS  t_cached
+PASS  t_reasoning
+PASS  t_tool_auto
+FAIL  t_tool_required -- AssertionError no tool call: '\n\nHello! How can I assist you today?'
+PASS  t_tool_stream
+FAIL  t_schema -- AssertionError not JSON: '\n\n```json\n{\n  "temperature_unit": "kelvi'
+FAIL  t_error -- AssertionError error "'str' object has no attribute 'get'"

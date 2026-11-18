@@ -1,0 +1,3 @@
+14:51  up 7 days, 22:10, 5 users, load averages: 18.31 15.18 12.14
+15:41  up 7 days, 22:59, 5 users, load averages: 9.02 5.82 5.05
+15:42  up 7 days, 23 hrs, 5 users, load averages: 8.20 6.25 5.27

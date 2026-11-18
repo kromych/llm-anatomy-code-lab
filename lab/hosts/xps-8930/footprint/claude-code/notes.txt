@@ -1,0 +1,63 @@
+Claude Code 2.1.325 on xps-8930, 2026-11-14.  Closed source:
+observed only at its interfaces (requests to the model, files, sockets).
+
+Why this machine: the Mac of the lab holds the owner's own Claude Code
+session and credentials; xps-8930 had none, so nothing could log in or
+borrow an account.
+
+Install: the documented native installer, downloaded first and read before
+running (curl -fsSL https://claude.ai/install.sh -o install.sh; bash
+install.sh).  It fetches downloads.claude.ai/claude-code-releases/latest,
+the manifest and the binary into ~/.claude/downloads (a fixed path in the
+script), then runs `claude install`, which sets up ~/.local/bin/claude.
+
+Configuration for the runs (code/ch15/run_claude_code.sh): no login, no
+account.
+  CLAUDE_CONFIG_DIR=$HOME/ch13-cc/config
+  ANTHROPIC_BASE_URL=http://127.0.0.1:48195/<tag>   SSH reverse tunnel to
+      the Mac's logging proxy (code/ch15/proxy_messages.py), which forwards
+      /v1/messages to llama-server b12359 (Anthropic-compatible endpoint)
+  ANTHROPIC_API_KEY=<dummy>   sent as x-api-key; the proxy neither forwards
+                              nor logs it
+  ANTHROPIC_MODEL and ANTHROPIC_DEFAULT_{HAIKU,SONNET,OPUS}_MODEL,
+      CLAUDE_CODE_SUBAGENT_MODEL = qwen3-8b
+  CLAUDE_CODE_MAX_CONTEXT_TOKENS=40960, CLAUDE_CODE_MAX_OUTPUT_TOKENS=8192
+  CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1, DISABLE_AUTOUPDATER=1
+  claude -p "<task>" --output-format stream-json --verbose
+      --dangerously-skip-permissions
+SELinux: sshd could not listen on port 18195 for the reverse tunnel; 48195
+worked.
+
+Network during the runs: HTTPS_PROXY pointed at code/ch15/netlog_proxy.py
+on xps-8930 received no connection at all, and a sampler of `ss -tnp`
+every 2 s saw the claude process connected only to 127.0.0.1:48195 (the
+model).  With the defaults and no CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC,
+the documentation lists usage metrics (on by default for the Claude API),
+error reports (only for Pro/Max/Ultra sign-ins), feedback and session
+surveys, background update checks of the native installation, and a check
+of every WebFetch hostname against api.anthropic.com, which runs whatever
+the provider and that variable say
+(https://code.claude.com/docs/en/data-usage).
+
+Requests seen by the proxy: POST /v1/messages?beta=true, streamed;
+User-Agent claude-cli/2.1.325 (external, sdk-cli); anthropic-version
+2023-06-01; anthropic-beta with eight features; body keys
+context_management, max_tokens (8192), messages, metadata (user_id),
+model, output_config (effort high), stream, system, thinking (adaptive),
+tools.  System field: a line "x-anthropic-billing-header: cc_version=...;
+cc_entrypoint=sdk-cli;" (no per-request stamp in our requests), a
+one-sentence identity, and 5558 characters of instructions under five
+headings; a further 8926 characters arrive as a message of the system role
+among the messages, and the first user turn carries three reminders
+(AGENTS.md, git status, commit attribution) before the instruction.
+12 tools, 30.4 KB of schemas (Agent, Bash, Edit, ListAgents, Read,
+ReportFindings, ScheduleWakeup, Skill, ToolSearch, Workflow, Write and a
+DeferredToolPlaceholder with defer_loading).
+
+stderr of every run: "[claude-code:unrecognized_model]" for qwen3-8b, a
+warning only.  When llama-server failed with a GPU out-of-memory error
+(round 4), Claude Code retried the request ten times over 140 s and then
+ended with "API Error: 500".
+
+Removal: as documented; ~/.local/state/claude, ~/.cache/claude and the
+stale socket under /run/user/1000/cc-socks remained and were deleted by us.

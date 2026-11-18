@@ -1,0 +1,127 @@
+Engine installs (llama.cpp and Ollama) on kromyrzen, 2026-11-13: differences
+between snapshots before and after, one section per snapshot kind.
+Only added (+) and removed (-) lines are kept; the full snapshots were
+discarded. Narrative and commands: ../../notes.txt.
+
+== by-tool
+# Footprint attributed per install step. 'mid' = snapshot taken after the llama.cpp zip install, llama-server runs and llama-bench, before Ollama.
+# Only categories with differences are shown. Categories compared: winget list, uninstall entries, services, scheduled tasks, Run/RunOnce/StartupApproved keys,
+# Startup folders, firewall rules (all + ollama/llama), user/machine PATH, env var names, top-level directories, TCP/UDP listeners, process images, HKCU/HKLM Software top level.
+
+# llama.cpp step (before -> mid): dirs.txt  (+ added, - removed; unchanged lines omitted)
+[LOCALAPPDATA\Programs = C:\Users\labuser\AppData\Local\Programs]
++   d llama.cpp
+[USERPROFILE\.cache = C:\Users\labuser\.cache]
++   d huggingface
+
+# llama.cpp step (before -> mid): winget-list.txt  (+ added, - removed; unchanged lines omitted)
+
+- The `msstore` source requires that you view the following agreements before using.
+- Terms of Transaction: https://aka.ms/microsoft-store-terms-of-transaction
+- The source requires the current machine's 2-letter geographic region to be sent to the backend service to function properly (ex. "US").
+
+
+# Ollama step (mid -> after): dirs.txt  (+ added, - removed; unchanged lines omitted)
+[USERPROFILE = C:\Users\labuser]
++   d .ollama
+[LOCALAPPDATA = C:\Users\labuser\AppData\Local]
++   d Ollama
+[LOCALAPPDATA\Programs = C:\Users\labuser\AppData\Local\Programs]
++   d Ollama
+[Start Menu (user) Programs = C:\Users\labuser\AppData\Roaming\Microsoft\Windows\Start Menu\Programs]
++   d Ollama
++   f Ollama.lnk
+
+# Ollama step (mid -> after): path.txt  (+ added, - removed; unchanged lines omitted)
+[User PATH]
++   C:\Users\labuser\AppData\Local\Programs\Ollama
+
+# Ollama step (mid -> after): registry-toplevel.txt  (+ added, - removed; unchanged lines omitted)
+[HKCU:\Software\Classes]
++   ollama
+
+# Ollama step (mid -> after): uninstall-entries.txt  (+ added, - removed; unchanged lines omitted)
+
++ HKCU\Microsoft\Windows\CurrentVersion\Uninstall\{44E83376-CE68-45EB-8FC1-393500EB558C}_is1 | Ollama version 0.40.16 | 0.40.16 | Ollama | C:\Users\labuser\AppData\Local\Programs\Ollama\
+
+# Ollama step (mid -> after): winget-list.txt  (+ added, - removed; unchanged lines omitted)
+
++ Ollama version 0.40.16 ARP\User\X64\{44E83376-CE68-45EB-8FC1-393500EB558C}_is1 0.40.16
+
+== dirs
+# before -> after (llama.cpp zip + Ollama 0.40.16): dirs.txt  (+ added, - removed; unchanged lines omitted)
+[USERPROFILE = C:\Users\labuser]
++   d .ollama
+[LOCALAPPDATA = C:\Users\labuser\AppData\Local]
++   d Ollama
+[LOCALAPPDATA\Programs = C:\Users\labuser\AppData\Local\Programs]
++   d llama.cpp
++   d Ollama
+[USERPROFILE\.cache = C:\Users\labuser\.cache]
++   d huggingface
+[Start Menu (user) Programs = C:\Users\labuser\AppData\Roaming\Microsoft\Windows\Start Menu\Programs]
++   d Ollama
++   f Ollama.lnk
+
+== env-names
+# before -> after (llama.cpp zip + Ollama 0.40.16): env-names.txt  (+ added, - removed; unchanged lines omitted)
+(no differences)
+
+== firewall-all
+# before -> after (llama.cpp zip + Ollama 0.40.16): firewall-all.txt  (+ added, - removed; unchanged lines omitted)
+(no differences)
+
+== firewall-llm
+# before -> after (llama.cpp zip + Ollama 0.40.16): firewall-llm.txt  (+ added, - removed; unchanged lines omitted)
+(no differences)
+
+== listening-udp
+# before -> after (llama.cpp zip + Ollama 0.40.16): listening-udp.txt  (+ added, - removed; unchanged lines omitted)
+(no differences)
+
+== listening
+# before -> after (llama.cpp zip + Ollama 0.40.16): listening.txt  (+ added, - removed; unchanged lines omitted)
+(no differences)
+
+== path
+# before -> after (llama.cpp zip + Ollama 0.40.16): path.txt  (+ added, - removed; unchanged lines omitted)
+[User PATH]
++   C:\Users\labuser\AppData\Local\Programs\Ollama
+
+== processes
+# before -> after (llama.cpp zip + Ollama 0.40.16): processes.txt  (+ added, - removed; unchanged lines omitted)
+(no differences)
+
+== registry-toplevel
+# before -> after (llama.cpp zip + Ollama 0.40.16): registry-toplevel.txt  (+ added, - removed; unchanged lines omitted)
+[HKCU:\Software\Classes]
++   ollama
+
+== run-keys
+# before -> after (llama.cpp zip + Ollama 0.40.16): run-keys.txt  (+ added, - removed; unchanged lines omitted)
+(no differences)
+
+== scheduled-tasks
+# before -> after (llama.cpp zip + Ollama 0.40.16): scheduled-tasks.txt  (+ added, - removed; unchanged lines omitted)
+(no differences)
+
+== services
+# before -> after (llama.cpp zip + Ollama 0.40.16): services.txt  (+ added, - removed; unchanged lines omitted)
+(no differences)
+
+== startup-folders
+# before -> after (llama.cpp zip + Ollama 0.40.16): startup-folders.txt  (+ added, - removed; unchanged lines omitted)
+(no differences)
+
+== uninstall-entries
+# before -> after (llama.cpp zip + Ollama 0.40.16): uninstall-entries.txt  (+ added, - removed; unchanged lines omitted)
+
++ HKCU\Microsoft\Windows\CurrentVersion\Uninstall\{44E83376-CE68-45EB-8FC1-393500EB558C}_is1 | Ollama version 0.40.16 | 0.40.16 | Ollama | C:\Users\labuser\AppData\Local\Programs\Ollama\
+
+== winget
+# before -> after (llama.cpp zip + Ollama 0.40.16): winget-list.txt  (+ added, - removed; unchanged lines omitted)
+
++ Ollama version 0.40.16 ARP\User\X64\{44E83376-CE68-45EB-8FC1-393500EB558C}_is1 0.40.16
+- The `msstore` source requires that you view the following agreements before using.
+- Terms of Transaction: https://aka.ms/microsoft-store-terms-of-transaction
+- The source requires the current machine's 2-letter geographic region to be sent to the backend service to function properly (ex. "US").

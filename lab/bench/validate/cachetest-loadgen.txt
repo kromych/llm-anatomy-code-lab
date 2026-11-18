@@ -1,0 +1,12 @@
+2026-11-14T07:13:29 web: start (70 retries, busy=9% hogs=[37.3:llama-server ], load averages: 2.69 4.43 7.55)
+## cachetest
+from cache     0   computed  8633   prefill  2435.2 ms
+from cache  8621   computed    11   prefill    20.0 ms
+## loadgen 32 4
+3.83 requests/s, 332.5 chunks/s
+TTFT ms: p50 57.7  p90 198.7
+gap  ms: p50 9.8  p99 26.1
+## loadgen 32 8
+3.84 requests/s, 334.6 chunks/s
+TTFT ms: p50 1056.6  p90 1134.3
+gap  ms: p50 11.2  p99 26.6

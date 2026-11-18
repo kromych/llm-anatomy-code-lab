@@ -1,0 +1,174 @@
+# State right after the installer finished (22:35:35), before any model pull.
+$ command -v ollama; ollama --version
+/usr/local/bin/ollama
+-rwxr-xr-x. 1 root root 44289232 Nov  9 15:01 /usr/local/bin/ollama
+ollama version is 0.40.16
+
+$ ls -la /usr/local/lib/ollama; du -sh
+total 34788
+drwxr-xr-x. 5 root root    4096 Nov 13 22:35 .
+drwxr-xr-x. 3 root root    4096 Nov 13 22:35 ..
+-rw-r--r--. 1 root root    1075 Nov  9 07:27 CPP_HTTPLIB_LICENSE
+-rw-r--r--. 1 root root   11345 Nov  9 07:28 DLPACK_LICENSE
+-rw-r--r--. 1 root root    1431 Nov  9 07:28 FMT_LICENSE
+-rw-r--r--. 1 root root  137370 Nov  9 15:01 GO_LICENSE
+-rw-r--r--. 1 root root    1078 Nov  9 07:27 LLAMA_CPP_LICENSE
+-rw-r--r--. 1 root root    7257 Nov  9 07:27 LLAMA_CPP_VENDORS_LICENSE
+-rw-r--r--. 1 root root    1067 Nov  9 07:27 MLX_C_LICENSE
+-rw-r--r--. 1 root root    1066 Nov  9 07:27 MLX_LICENSE
+-rw-r--r--. 1 root root    1414 Nov  9 07:28 PICOJSON_LICENSE
+-rw-r--r--. 1 root root   11357 Nov  9 07:28 XGRAMMAR_LICENSE
+-rw-r--r--. 1 root root      54 Nov  9 07:28 XGRAMMAR_NOTICE
+drwxr-xr-x. 2 root root    4096 Nov  9 07:38 cuda_v12
+drwxr-xr-x. 2 root root    4096 Nov  9 07:37 cuda_v13
+lrwxrwxrwx. 1 root root      17 Nov  9 07:28 libggml-base.so -> libggml-base.so.0
+lrwxrwxrwx. 1 root root      22 Nov  9 07:28 libggml-base.so.0 -> libggml-base.so.0.29.0
+-rwxr-xr-x. 1 root root  845712 Nov  9 07:28 libggml-base.so.0.29.0
+-rw-r--r--. 1 root root 1309000 Nov  9 07:28 libggml-cpu-alderlake.so
+-rw-r--r--. 1 root root 1485128 Nov  9 07:28 libggml-cpu-cannonlake.so
+-rw-r--r--. 1 root root 1497416 Nov  9 07:28 libggml-cpu-cascadelake.so
+-rw-r--r--. 1 root root 1497416 Nov  9 07:28 libggml-cpu-cooperlake.so
+-rw-r--r--. 1 root root 1313096 Nov  9 07:28 libggml-cpu-haswell.so
+-rw-r--r--. 1 root root 1497416 Nov  9 07:28 libggml-cpu-icelake.so
+-rw-r--r--. 1 root root 1239464 Nov  9 07:28 libggml-cpu-ivybridge.so
+-rw-r--r--. 1 root root 1235368 Nov  9 07:28 libggml-cpu-piledriver.so
+-rw-r--r--. 1 root root 1239464 Nov  9 07:28 libggml-cpu-sandybridge.so
+-rw-r--r--. 1 root root 1755776 Nov  9 07:28 libggml-cpu-sapphirerapids.so
+-rw-r--r--. 1 root root 1485128 Nov  9 07:28 libggml-cpu-skylakex.so
+-rw-r--r--. 1 root root  936392 Nov  9 07:28 libggml-cpu-sse42.so
+-rw-r--r--. 1 root root  936424 Nov  9 07:28 libggml-cpu-x64.so
+-rw-r--r--. 1 root root 1497416 Nov  9 07:28 libggml-cpu-zen4.so
+lrwxrwxrwx. 1 root root      12 Nov  9 07:28 libggml.so -> libggml.so.0
+lrwxrwxrwx. 1 root root      17 Nov  9 07:28 libggml.so.0 -> libggml.so.0.29.0
+-rwxr-xr-x. 1 root root  220784 Nov  9 07:28 libggml.so.0.29.0
+lrwxrwxrwx. 1 root root      16 Aug 26  2025 libgomp.so.1 -> libgomp.so.1.0.0
+-rwxr-xr-x. 1 root root  235072 Aug 26  2025 libgomp.so.1.0.0
+lrwxrwxrwx. 1 root root      20 Nov  9 07:28 libllama-common.so -> libllama-common.so.0
+lrwxrwxrwx. 1 root root      24 Nov  9 07:28 libllama-common.so.0 -> libllama-common.so.0.9.0
+-rwxr-xr-x. 1 root root 4843992 Nov  9 07:28 libllama-common.so.0.9.0
+-rwxr-xr-x. 1 root root   72560 Nov  9 07:28 libllama-quantize-impl.so
+-rwxr-xr-x. 1 root root 3478096 Nov  9 07:28 libllama-server-impl.so
+lrwxrwxrwx. 1 root root      13 Nov  9 07:28 libllama.so -> libllama.so.0
+lrwxrwxrwx. 1 root root      17 Nov  9 07:28 libllama.so.0 -> libllama.so.0.9.0
+-rwxr-xr-x. 1 root root 4777392 Nov  9 07:28 libllama.so.0.9.0
+lrwxrwxrwx. 1 root root      12 Nov  9 07:28 libmtmd.so -> libmtmd.so.0
+lrwxrwxrwx. 1 root root      16 Nov  9 07:28 libmtmd.so.0 -> libmtmd.so.0.9.0
+-rwxr-xr-x. 1 root root 1930704 Nov  9 07:28 libmtmd.so.0.9.0
+-rwxr-xr-x. 1 root root   15096 Nov  9 07:28 llama-quantize
+-rwxr-xr-x. 1 root root   15096 Nov  9 07:28 llama-server
+drwxr-xr-x. 2 root root    4096 Nov  9 07:32 vulkan
+2.4G	/usr/local/lib/ollama
+subdirectories:
+  /usr/local/lib/ollama/cuda_v12/               1.3G
+      libcublas.so.12
+      libcublas.so.12.8.5.5
+      libcublasLt.so.12
+      libcublasLt.so.12.8.5.5
+      libcudart.so.12
+      libcudart.so.12.8.90
+      libggml-cuda.so
+  /usr/local/lib/ollama/cuda_v13/               1.1G
+      libcublas.so
+      libcublas.so.13
+      libcublas.so.13.1.1.3
+      libcublasLt.so
+      libcublasLt.so.13
+      libcublasLt.so.13.1.1.3
+      libcudart.so
+      libcudart.so.13
+      libcudart.so.13.0.96
+      libggml-cuda.so
+      libnvJitLink.so
+      libnvJitLink.so.13
+      libnvJitLink.so.13.0.88
+      libnvfatbin.so
+      libnvfatbin.so.13
+      libnvfatbin.so.13.0.85
+      libnvrtc-builtins.so
+      libnvrtc-builtins.so.13.0
+      libnvrtc-builtins.so.13.0.88
+      libnvrtc.so
+      libnvrtc.so.13
+      libnvrtc.so.13.0.88
+  /usr/local/lib/ollama/vulkan/                 39M
+      libggml-vulkan.so
+
+$ getent passwd ollama; getent group ollama render video; id ollama; id labuser
+ollama:x:386:384::/usr/share/ollama:/bin/false
+ollama:x:384:labuser
+render:x:105:ollama
+video:x:39:ollama
+uid=386(ollama) gid=384(ollama) groups=384(ollama),39(video),105(render)
+uid=1000(labuser) gid=1000(labuser) groups=1000(labuser),10(wheel),976(docker),384(ollama)
+
+$ sudo ls -la /usr/share/ollama
+total 48
+drwx------.   5 ollama ollama  4096 Nov 13 22:35 .
+drwxr-xr-x. 350 root   root   12288 Nov 13 22:35 ..
+-rw-r--r--.   1 ollama ollama    18 Jan 15  2026 .bash_logout
+-rw-r--r--.   1 ollama ollama   144 Jan 15  2026 .bash_profile
+-rw-r--r--.   1 ollama ollama   522 Jan 15  2026 .bashrc
+drwx------.   3 ollama ollama  4096 Nov 13 22:35 .cache
+drwxr-xr-x.   3 ollama ollama  4096 Jun  1 22:11 .config
+drwxr-xr-x.   4 ollama ollama  4096 Nov 13 22:35 .ollama
+-rw-r--r--.   1 ollama ollama   299 Jul 21 17:00 .zprofile
+-rw-r--r--.   1 ollama ollama   658 Jul 21 17:00 .zshrc
+
+$ systemctl cat ollama
+# /etc/systemd/system/ollama.service
+[Unit]
+Description=Ollama Service
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/ollama serve
+User=ollama
+Group=ollama
+Restart=always
+RestartSec=3
+Environment="PATH=/home/labuser/.cargo/bin:/usr/local/bin:/usr/bin"
+
+[Install]
+WantedBy=default.target
+
+# /usr/lib/systemd/system/service.d/10-timeout-abort.conf
+# This file is part of the systemd package.
+# See https://fedoraproject.org/wiki/Changes/Shorter_Shutdown_Timer.
+#
+# To facilitate debugging when a service fails to stop cleanly,
+# TimeoutStopFailureMode=abort is set to "crash" services that fail to stop in
+# the time allotted. This will cause the service to be terminated with SIGABRT
+# and a coredump to be generated.
+#
+# To undo this configuration change, create a mask file:
+#   sudo mkdir -p /etc/systemd/system/service.d
+#   sudo ln -sv /dev/null /etc/systemd/system/service.d/10-timeout-abort.conf
+
+[Service]
+TimeoutStopFailureMode=abort
+
+$ systemctl is-enabled ollama; is-active
+enabled
+active
+● ollama.service - Ollama Service
+     Loaded: loaded (/etc/systemd/system/ollama.service; enabled; preset: disabled)
+    Drop-In: /usr/lib/systemd/system/service.d
+             └─10-timeout-abort.conf
+     Active: active (running) since Fri 2026-11-13 22:35:35 PST; 10s ago
+ Invocation: b22afe450742493384e552c34c9dfde8
+   Main PID: 2007836 (ollama)
+      Tasks: 13 (limit: 38242)
+     Memory: 12.8M (peak: 30.2M)
+        CPU: 387ms
+     CGroup: /system.slice/ollama.service
+             └─2007836 /usr/local/bin/ollama serve
+
+$ ls -l /etc/systemd/system/default.target.wants/
+total 0
+lrwxrwxrwx. 1 root root 34 Nov 13 22:35 ollama.service -> /etc/systemd/system/ollama.service
+
+$ sudo ss -ltnp | grep ollama
+LISTEN 0      4096       127.0.0.1:11434      0.0.0.0:*    users:(("ollama",pid=2007836,fd=4))      
+
+$ ls -la ~/.ollama
+ls: cannot access '/home/labuser/.ollama': No such file or directory

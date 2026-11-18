@@ -1,0 +1,2 @@
+A KV cache is a caching system that speeds up database queries by storing frequently accessed data in memory, reducing the load on the database server.
+{'model': 'gemma3:1b', 'system_fingerprint': 'fp_ollama'} {'prompt_tokens': 19, 'prompt_tokens_details': {'cached_tokens': 0}, 'completion_tokens': 29, 'total_tokens': 48}

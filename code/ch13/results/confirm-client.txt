@@ -1,0 +1,21 @@
+## echo y | python3 confirm_client.py garden.py python3 confirm_server.py sample
+garden.py has 1045 characters.
+Return the whole file? [y/n/q] isError False, 1045 characters
+"""garden.py: say which beds of the garden need water today.
+
+  python3 garden.py [DAY]     DAY counts the days since the beds were
+                  
+
+## echo n | python3 confirm_client.py garden.py python3 confirm_server.py sample
+garden.py has 1045 characters.
+Return the whole file? [y/n/q] isError False, 1000 characters
+"""garden.py: say which beds of the garden need water today.
+
+  python3 garden.py [DAY]     DAY counts the days since the beds were
+                  
+
+## echo q | python3 confirm_client.py garden.py python3 confirm_server.py sample
+garden.py has 1045 characters.
+Return the whole file? [y/n/q] isError True, 17 characters
+the user declined
+

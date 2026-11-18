@@ -1,0 +1,38 @@
+vLLM on xps-8930, 2026-11-14.
+
+Install (CPU wheel, as in the CPU installation page of the vLLM docs, but
+with uv inside the venv instead of a user-wide uv, and the stable release
+instead of `releases/latest`, which pointed to 0.33.0rc3 that day):
+  python3 -m venv ~/vllm-cpu                      (Python 3.14.8)
+  ~/vllm-cpu/bin/pip install uv
+  ~/vllm-cpu/bin/uv pip install --python ~/vllm-cpu/bin/python \
+    https://github.com/vllm-project/vllm/releases/download/v0.32.0/vllm-0.32.0+cpu-cp38-abi3-manylinux_2_39_x86_64.whl \
+    --torch-backend cpu                           (17 s; 152 packages)
+The documented URL pattern ends in manylinux_2_34_x86_64.whl; for 0.32.0 that
+file does not exist (HTTP 404), and the release ships manylinux_2_39 wheels
+for x86_64 and aarch64 and a macosx_11_0_arm64 wheel (30 MB), although the
+docs say Apple silicon has no pre-built wheel. The docs list avx512f as
+recommended and avx2 as "limited features"; the wheel carries _C, _C_AVX2 and
+_C_AVX512 extension modules.
+
+Serve (LD_PRELOAD=~/vllm-cpu/lib/libiomp5.so, as the docs ask):
+ 1. vllm serve Qwen/Qwen3-0.6B
+    -> worker refused to start: "Available memory on node 0 (27.52/31.17 GiB)
+       on startup is less than desired CPU memory utilization (0.92, 28.68
+       GiB). On the CPU backend, the `--gpu-memory-utilization` flag controls
+       the fraction of CPU memory reserved (despite its name)."
+ 2. ... --gpu-memory-utilization 0.2
+    -> after weight download (12.6 s, 1.40 GiB) and a 46 s compile warm-up:
+       "To serve at least one request with the model's max seq len (40960),
+       4.38 GiB KV cache is needed, which is larger than the available KV
+       cache memory (2.65 GiB)."
+ 3. ... --gpu-memory-utilization 0.2 --max-model-len 8192
+    -> healthy 99 s after start (load 2.1 s, warm-up 25 s with the compile
+       cache of attempt 2, KV cache 3.97 GiB auto-sized); one chat request
+       to /v1/chat/completions answered "The largest planet in one word is
+       **Jupiter**." with an empty <think></think> block (Qwen3, /no_think).
+ Stopped with SIGINT to the API server; all children exited.
+
+All heavy steps ran under the badc load lock (code/lab/mac-lockrun.py
+protocol): install shared, serving exclusive (waited 319 s for the third
+attempt).

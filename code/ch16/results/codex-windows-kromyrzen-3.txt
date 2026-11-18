@@ -1,0 +1,105 @@
+# Codex CLI 0.169.0 (codex.exe of the user's own installation, in
+# %LOCALAPPDATA%\Programs\OpenAI\Codex\bin and on PATH), both Windows backends:
+# codex is -c windows.sandbox=unelevated, codex+elevated is -c windows.sandbox=elevated.
+# S4-Windows, Windows 11 Pro N for Workstations, build 26300 (10.0.26300.9974), at the
+# desktop of a Remote Desktop logon, from a terminal at medium integrity (not elevated);
+# PowerShell 5.1.26100.9818.
+# The elevated backend had been set up on this machine before the run, by the Codex app
+# installed the same day: accounts CodexSandboxOffline and CodexSandboxOnline, the group
+# CodexSandboxUsers, four firewall rules codex_sandbox_offline_*, twelve WFP filters
+# codex_wfp_*. The run reused that setup through the user's CODEX_HOME, and no elevation
+# prompt appeared. USERPROFILE, TEMP and TMP of these runs pointed to scratch directories,
+# so that the entries Codex writes for its roots stayed off the real profile and the
+# real %TEMP%; -Base is that scratch profile.
+# powershell -NoProfile -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms none,codex,codex+elevated -Base C:\Users\labuser\llm-arch-h1-ch16\home
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== codex
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== codex+elevated
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+# the same with -Times 20
+# processor load before and after (Win32_Processor.LoadPercentage): 30 and 1 percent
+== none
+   median of 20 starts: 40.0 ms
+== codex
+   median of 20 starts: 85.7 ms
+== codex+elevated
+   median of 20 starts: 206.1 ms
+# codex --version, mean of 20 starts (Measure-Command): 28.0 ms
+# Who the command runs as:
+# codex -c windows.sandbox=elevated sandbox -P :workspace -C cx-work -- whoami
+kromyrzen\codexsandboxoffline
+# codex -c windows.sandbox=unelevated sandbox -P :workspace -C cx-work -- whoami
+kromyrzen\labuser
+# One TCP connection to 1.1.1.1:443 (TcpClient in PowerShell 5.1, 4 s), without a sandbox,
+# under the elevated and under the unelevated backend:
+connected
+failed: SocketException AccessDenied
+connected
+# The firewall rule for loopback was present and enabled during these runs
+# (Get-NetFirewallRule with its address, port and security filters):
+#   codex_sandbox_offline_block_loopback_tcp  Outbound, Block, profile Any, TCP,
+#   remote address 127.0.0.0/255.0.0.0 and ::/127, remote port 1-65535,
+#   local user S-1-5-21-...-1006 (CodexSandboxOffline)
+# and Get-NetFirewallProfile showed Domain, Private and Public enabled.
+# The elevated case once more, from a copy of the directory in which battery.cs prints
+# the code and the message of each failure (one line changed, in Probe).
+== codex+elevated
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 Access to the path 'C:\Users\labuser\llm-arch-h1-ch16\home\battery-sbx-1521000624\outside\probe.txt' is denied.
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException 0x80070005 Access to the path 'C:\Users\labuser\llm-arch-h1-ch16\home\battery-sbx-1521000624\work\.git\hooks\pre-commit' is denied.
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+# The network-related environment of the command (cmd /c set, lines naming a proxy, an
+# offline switch or git; PATH cut after its first entries).
+# codex -c windows.sandbox=unelevated sandbox -P :workspace -C cx-work -- cmd /c set
+ALL_PROXY=http://127.0.0.1:9
+CARGO_NET_OFFLINE=true
+GIT_ALLOW_PROTOCOLS=
+GIT_ASKPASS=
+GIT_EDITOR=true
+GIT_HTTPS_PROXY=http://127.0.0.1:9
+GIT_HTTP_PROXY=http://127.0.0.1:9
+GIT_PAGER=more.com
+GIT_SSH_COMMAND=cmd /c exit 1
+GIT_TERMINAL_PROMPT=0
+HTTPS_PROXY=http://127.0.0.1:9
+HTTP_PROXY=http://127.0.0.1:9
+NO_PROXY=localhost,127.0.0.1,::1
+NPM_CONFIG_OFFLINE=true
+PATH=C:\Users\labuser\.sbx-denybin;C:\Users\labuser\llm-arch-h1-ch16\cx-home-unelev\tmp\arg0-windows\codex-arg0uWGdsm; ...
+PIP_NO_INDEX=1
+SBX_NONET_ACTIVE=1
+# codex -c windows.sandbox=elevated sandbox -P :workspace -C cx-work -- cmd /c set
+GIT_ASKPASS=
+GIT_EDITOR=true
+GIT_PAGER=more.com
+GIT_TERMINAL_PROMPT=0
+PATH=C:\Users\labuser\.codex\tmp\arg0-windows\codex-arg05MJ50A; ...
+# %USERPROFILE%\.sbx-denybin (ssh.bat, ssh.cmd, scp.bat, scp.cmd, 26 bytes each) is made by
+# the unelevated backend in the real profile, whatever USERPROFILE says.

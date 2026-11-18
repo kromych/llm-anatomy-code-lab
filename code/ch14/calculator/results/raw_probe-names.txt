@@ -1,0 +1,18 @@
+calculator__calculate -> calculator__calculate
+calculator__calculate -> calculator__calculate
+calculator__calculate -> calculator__calculate
+calculator__calculate -> calculator__calculate
+calculator__calculate -> calculator__calculate
+calculator__calculate -> calculator__calculate
+calculator__calculate -> calculator__calculate
+calculator__calculate -> calculator__calculate
+== calculator__calculate: exact name in 8 of 8; written: ['calculator__calculate']
+calc__calculate -> calc__calculate
+calc__calculate -> calc__calculate
+calc__calculate -> calc__calculate
+calc__calculate -> calc__calculate
+calc__calculate -> calc__calculate
+calc__calculate -> calc__calculate
+calc__calculate -> calc__calculate
+calc__calculate -> calc__calculate
+== calc__calculate: exact name in 8 of 8; written: ['calc__calculate']

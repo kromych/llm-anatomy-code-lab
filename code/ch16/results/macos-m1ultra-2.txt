@@ -1,0 +1,48 @@
+# Second run, all seven probes, under the profiles as the chapter prints them.
+# S3-macOS, macOS 27.2; codex-cli 0.169.0; sandbox-runtime 0.0.83; Python 3.15.2.
+# SRT=$HOME/llm-arch-l1-ch16/srt/node_modules/.bin/srt ./run-unix.sh none seatbelt seatbelt-exec codex srt
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== seatbelt
+control ALLOWED
+write   BLOCKED  PermissionError EPERM
+read    BLOCKED  PermissionError EPERM
+net     BLOCKED  PermissionError EPERM
+spawn   ALLOWED
+hook    BLOCKED  PermissionError EPERM
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 0
+== seatbelt-exec
+control ALLOWED
+write   BLOCKED  PermissionError EPERM
+read    BLOCKED  PermissionError EPERM
+net     BLOCKED  PermissionError EPERM
+spawn   BLOCKED  PermissionError EPERM
+hook    BLOCKED  PermissionError EPERM
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 0
+== codex
+control ALLOWED
+write   BLOCKED  PermissionError EPERM
+read    ALLOWED
+net     BLOCKED  PermissionError EPERM
+spawn   ALLOWED
+hook    BLOCKED  PermissionError EPERM
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 0
+== srt
+control ALLOWED
+write   BLOCKED  PermissionError EPERM
+read    BLOCKED  PermissionError EPERM
+net     BLOCKED  PermissionError EPERM
+spawn   ALLOWED
+hook    BLOCKED  PermissionError EPERM
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 0

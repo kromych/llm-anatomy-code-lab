@@ -1,0 +1,168 @@
+{
+ "timeline": [
+  [
+   159.2,
+   "role",
+   "assistant"
+  ],
+  [
+   159.3,
+   "content",
+   "The"
+  ],
+  [
+   171.3,
+   "content",
+   " weather"
+  ],
+  [
+   179.2,
+   "content",
+   " in"
+  ],
+  [
+   200.9,
+   "content",
+   " Oslo"
+  ],
+  [
+   204.9,
+   "content",
+   " is"
+  ],
+  [
+   213.8,
+   "content",
+   " currently"
+  ],
+  [
+   226.6,
+   "content",
+   " cloudy"
+  ],
+  [
+   231.8,
+   "content",
+   "."
+  ],
+  [
+   241.5,
+   "content",
+   " \n\n"
+  ],
+  [
+   339.0,
+   "tool",
+   "{\"index\": 0, \"id\": \"oWwWN4qFkvHeG7Joxk6cz3isFu3FhpsZ\", \"name\": \"get_weather\", \"arguments\": \"{\"}"
+  ],
+  [
+   375.0,
+   "tool",
+   "{\"index\": 0, \"id\": null, \"name\": null, \"arguments\": \"\\\"\"}"
+  ],
+  [
+   384.0,
+   "tool",
+   "{\"index\": 0, \"id\": null, \"name\": null, \"arguments\": \"city\"}"
+  ],
+  [
+   395.7,
+   "tool",
+   "{\"index\": 0, \"id\": null, \"name\": null, \"arguments\": \"\\\":\"}"
+  ],
+  [
+   403.0,
+   "tool",
+   "{\"index\": 0, \"id\": null, \"name\": null, \"arguments\": \" \\\"\"}"
+  ],
+  [
+   410.6,
+   "tool",
+   "{\"index\": 0, \"id\": null, \"name\": null, \"arguments\": \"Os\"}"
+  ],
+  [
+   421.5,
+   "tool",
+   "{\"index\": 0, \"id\": null, \"name\": null, \"arguments\": \"lo\"}"
+  ],
+  [
+   427.5,
+   "tool",
+   "{\"index\": 0, \"id\": null, \"name\": null, \"arguments\": \"\\\"}\"}"
+  ],
+  [
+   444.1,
+   "finish",
+   "tool_calls"
+  ],
+  [
+   444.1,
+   "usage",
+   "{\"completion_tokens\": 30, \"prompt_tokens\": 165, \"total_tokens\": 195, \"prompt_tokens_details\": {\"cached_tokens\": 0}}"
+  ],
+  [
+   444.1,
+   "done",
+   ""
+  ]
+ ],
+ "chat": {
+  "finish_reason": "tool_calls",
+  "index": 0,
+  "message": {
+   "role": "assistant",
+   "content": "The weather in Oslo is currently cloudy. \n\n",
+   "tool_calls": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "arguments": "{\"city\": \"Oslo\"}"
+     },
+     "id": "SfT99BPitzZf5OgijmLQAdwoUSmF6gHU"
+    }
+   ]
+  }
+ },
+ "responses": [
+  {
+   "content": [
+    {
+     "type": "output_text",
+     "annotations": [],
+     "logprobs": [],
+     "text": "The weather in Oslo is currently cloudy. \n\n"
+    }
+   ],
+   "id": "msg_4RyLhogMyFFo7P6lhOFEbnZqnGCyRcSV",
+   "role": "assistant",
+   "status": "completed",
+   "type": "message"
+  },
+  {
+   "id": "fc_QdUNKv2InZVronUGTy7sds3NR4wma73y",
+   "type": "function_call",
+   "status": "completed",
+   "arguments": "{\"city\": \"Oslo\"}",
+   "call_id": "call_QdUNKv2InZVronUGTy7sds3NR4wma73y",
+   "name": "get_weather"
+  }
+ ],
+ "messages": {
+  "content": [
+   {
+    "type": "text",
+    "text": "The weather in Oslo is currently cloudy. \n\n"
+   },
+   {
+    "type": "tool_use",
+    "id": "eZVCKKKSsMePie1dmxYbOJXzzXY9JElL",
+    "name": "get_weather",
+    "input": {
+     "city": "Oslo"
+    }
+   }
+  ],
+  "stop_reason": "tool_use"
+ }
+}

@@ -1,0 +1,49 @@
+# ollama pull gemma3:1b -> success (elapsed 9.58s); ollama pull qwen3:1.7b -> success (elapsed 14.40s)
+
+# ollama list
+NAME          ID              SIZE      MODIFIED               
+qwen3:1.7b    8f68893c685c    1.4 GB    Less than a second ago    
+gemma3:1b     97558784bdc9    806 MB    14 seconds ago            
+
+# find ~/.ollama (type mode size path)
+d drwxr-xr-x           70 ~/.ollama
+d drwxr-xr-x           52 ~/.ollama/cache
+f -rw-------         2067 ~/.ollama/cache/model-recommendations.json
+f -rw-------          387 ~/.ollama/id_ed25519
+f -rw-r--r--           81 ~/.ollama/id_ed25519.pub
+d drwxr-xr-x           68 ~/.ollama/models
+d drwxr-xr-x         1704 ~/.ollama/models/blobs
+f -rw-r--r--    806058400 ~/.ollama/models/blobs/sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef
+f -rw-r--r--           77 ~/.ollama/models/blobs/sha256-3116c52250752e00dd06b16382e952bd33c34fd79fc4fe3a5d2c77cf7de1b14b
+f -rw-r--r--   1359279776 ~/.ollama/models/blobs/sha256-3d0b790534fe4b79525fc3692950408dca41171676ed7e21db57af5c65ef6ab6
+f -rw-r--r--          487 ~/.ollama/models/blobs/sha256-517ccaff02fe9f99718ab2f478e611aa2813c36263eeed86c2427bc122d14ad8
+f -rw-r--r--          140 ~/.ollama/models/blobs/sha256-76a6b777faea7a8fda1d339bfc81ea919ed429c64ed0d7c1b0617bc14afc76b6
+f -rw-r--r--          859 ~/.ollama/models/blobs/sha256-8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7
+f -rw-r--r--         1079 ~/.ollama/models/blobs/sha256-97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c
+f -rw-r--r--         1723 ~/.ollama/models/blobs/sha256-ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4
+f -rw-r--r--          120 ~/.ollama/models/blobs/sha256-cff3f395ef3756ab63e58b0ad1b32bb6f802905cae1472e6a12034e4246fbbdb
+f -rw-r--r--        11338 ~/.ollama/models/blobs/sha256-d18a5cc71b84bc4af394a31116bd3932b42241de70c77d2b76d69a314ec8aa12
+f -rw-r--r--         8432 ~/.ollama/models/blobs/sha256-dd084c7d92a3c1c14cc09ae77153b903fd2024b64a100a0cc8ec9316063d2dbc
+f -rw-r--r--          358 ~/.ollama/models/blobs/sha256-e0a42594d802e5d31cdc786deb4823edb8adff66094d49de8fffe976d753e348
+d drwxr-xr-x           36 ~/.ollama/models/manifests
+d drwxr-xr-x           14 ~/.ollama/models/manifests/registry.ollama.ai
+d drwxr-xr-x           22 ~/.ollama/models/manifests/registry.ollama.ai/library
+d drwxr-xr-x            4 ~/.ollama/models/manifests/registry.ollama.ai/library/gemma3
+f -rw-r--r--         1243 ~/.ollama/models/manifests/registry.ollama.ai/library/gemma3/1b
+d drwxr-xr-x            8 ~/.ollama/models/manifests/registry.ollama.ai/library/qwen3
+f -rw-r--r--         1022 ~/.ollama/models/manifests/registry.ollama.ai/library/qwen3/1.7b
+d drwxr-xr-x           20 ~/.ollama/models/manifests-v2
+d drwxr-xr-x           14 ~/.ollama/models/manifests-v2/ollama.com
+d drwxr-xr-x           22 ~/.ollama/models/manifests-v2/ollama.com/library
+d drwxr-xr-x            4 ~/.ollama/models/manifests-v2/ollama.com/library/gemma3
+l lrwxrwxrwx           89 ~/.ollama/models/manifests-v2/ollama.com/library/gemma3/1b
+d drwxr-xr-x            8 ~/.ollama/models/manifests-v2/ollama.com/library/qwen3
+l lrwxrwxrwx           89 ~/.ollama/models/manifests-v2/ollama.com/library/qwen3/1.7b
+d drwxr-xr-x          304 ~/.ollama/models/metadata
+f -rw-------         3090 ~/.ollama/models/metadata/sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef.json
+f -rw-------         5540 ~/.ollama/models/metadata/sha256-3d0b790534fe4b79525fc3692950408dca41171676ed7e21db57af5c65ef6ab6.json
+
+# du
+2.1G	/home/labuser/.ollama
+~/.ollama/models/manifests-v2/ollama.com/library/gemma3/1b -> ../../../../blobs/sha256-97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c
+~/.ollama/models/manifests-v2/ollama.com/library/qwen3/1.7b -> ../../../../blobs/sha256-8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7

@@ -1,0 +1,10 @@
+model 13647.8 ms  [{'type': 'function', 'function': {'name': 'web__web_search', 'arguments': '{"query": "llama.cpp version 1.0.0 release date", "max_results": 5}'}, 'id': 'fgeSQsGrYX8ElYU3rzdmAH7WjeMgdRkc'}]
+mcp     656.5 ms  ('web_search', {'query': 'llama.cpp version 1.0.0 release date', 'max_results': 5}, "Search results for 'llama.cpp version 1.0.0 release date' (e")
+model  8186.4 ms  final answer
+The llama.cpp version 1.0.0 was released on **November 13, 2026**. 
+
+**Source**:  
+1. [Grafy News](https://grafy.ai/news/llama-cpp-and-ggml-hit-1-0-0-with-a-stable-api-promise)  
+2. [Firmwarely](https://www.firmwarely.com/devices/llama-cpp/)  
+
+This date is corroborated by multiple independent sources, including news articles and release tracking platforms.

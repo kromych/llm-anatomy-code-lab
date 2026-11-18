@@ -1,0 +1,10 @@
+# code/ch08/bw.c on krom2 (Apple M2, 4P+4E, Fedora Asahi Remix 44), 2026-11-14 06:07,
+# gcc -O3 -march=native -pthread; run under badc's exclusive host-load lock
+# (code/lab/mac-lockrun.py); cpufreq governor schedutil on both clusters.
+# Each run sums a 1 GiB array five times; GB/s = 5 * 2^30 bytes / seconds.
+threads  1  23.2 GB/s
+threads  2  42.5 GB/s
+threads  4  45.1 GB/s
+threads  8  44.8 GB/s
+threads  4  45.0 GB/s   (taskset -c 4-7, performance cores)
+threads  4  42.5 GB/s   (taskset -c 0-3, efficiency cores)

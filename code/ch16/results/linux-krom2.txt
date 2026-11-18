@@ -1,0 +1,35 @@
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+   on the host: ok.txt yes, probe.txt yes, connections 1
+== bwrap
+control ALLOWED
+write   BLOCKED  OSError EROFS
+read    BLOCKED  FileNotFoundError ENOENT
+net     BLOCKED  ConnectionRefusedError ECONNREFUSED
+spawn   ALLOWED
+   on the host: ok.txt yes, probe.txt no, connections 0
+== landlock
+control ALLOWED
+write   BLOCKED  PermissionError EACCES
+read    BLOCKED  PermissionError EACCES
+net     BLOCKED  PermissionError EACCES
+spawn   ALLOWED
+   on the host: ok.txt yes, probe.txt no, connections 0
+== seccomp
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     BLOCKED  PermissionError EPERM
+spawn   ALLOWED
+   on the host: ok.txt yes, probe.txt yes, connections 0
+== podman
+control ALLOWED
+write   BLOCKED  FileNotFoundError ENOENT
+read    BLOCKED  FileNotFoundError ENOENT
+net     BLOCKED  ConnectionRefusedError ECONNREFUSED
+spawn   ALLOWED
+   on the host: ok.txt yes, probe.txt no, connections 0

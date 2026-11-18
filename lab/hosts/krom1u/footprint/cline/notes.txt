@@ -1,0 +1,53 @@
+Cline CLI 3.0.74 on krom1u, 2026-11-14.
+
+Version and source: npm package cline 3.0.74; repository cline/cline, tag
+cli-v3.0.74 (commit 071e1b25b48f, 2026-10-26).  The npm package carries a
+Node.js wrapper; the agent is a Bun-compiled executable from the optional
+dependency @cline/cli-darwin-arm64.
+
+Install: npm install -g cline@3.0.74 (npm 11.20 skipped the package's
+postinstall script, which only links the executable to bin/.cline for a
+faster start; the wrapper finds it anyway).
+
+Configuration used for the measurements (code/ch15/run_cline.sh):
+  ~/.cline/data/settings/global-settings.json
+      {"telemetryOptOut": true, "autoUpdateEnabled": false}
+  cline auth -p openai-compatible -k <dummy> -m qwen3-8b \
+      -b http://127.0.0.1:8195/<tag>/v1        (the logging proxy)
+  cline --json -c <dir> -P openai-compatible -m qwen3-8b "<task>"
+      (act mode, every tool approved: the default for a prompt)
+  cline -y ...  (yolo mode, for runs without a user)
+No Cline account was created or used.
+
+Network (HTTPS_PROXY pointed at code/ch15/netlog_proxy.py, which records
+host, port and bytes only; NO_PROXY for the local model):
+  - first command (`cline config`), telemetry still at its default (on):
+    data.cline.bot:443 (a CNAME of PostHog's proxy), 2131 bytes up;
+    registry.npmjs.org:443 (update check).  The hub daemon it started also
+    held a direct TLS connection to 34.49.39.67:443, a Google Cloud
+    address that did not go through the proxy; the host was not
+    identified.
+  - with telemetryOptOut true and autoUpdateEnabled false: one connection
+    to data.cline.bot:443 when the hub started for the first run (2131
+    bytes up), which the documentation explains as feature flags; no
+    further connections in eight runs.
+  Documentation: telemetry is on by default in the CLI, also with one's own
+  API keys; telemetryOptOut in global-settings.json turns it off; Cline
+  still contacts its servers for sign-in, feature flags and requests to
+  the Cline provider (https://docs.cline.bot/more-info/telemetry).
+
+Processes: node (wrapper) -> .cline (Bun executable) -> .cline
+--cline-hub-daemon, which listens on 127.0.0.1:25463 (constant in the
+code; CLINE_HUB_PORT overrides) and keeps running after the command exits.
+Commands run by the model are children of the hub's session.
+
+Requests (code/ch15/proxy_messages.py): Chat Completions, streamed, with
+stream_options.include_usage; User-Agent ai-sdk-openai-compatible/3.0.67
+(Vercel AI SDK) on bun/1.4.2.  Act mode: 25 tools (18 of them team_*
+tools for sub-agent teams), system message 4501 characters with
+AGENTS.md under "## Workspace AGENTS.md"; ~/.claude/skills was not read.
+Yolo mode: 4 tools (read_files, run_commands, editor, submit_and_exit),
+system message 4757 characters.
+
+Removal: cline hub stop; npm uninstall -g cline; ~/.cline remains (6.7 MB)
+and was deleted by us.  Nothing of Cline is left on krom1u.

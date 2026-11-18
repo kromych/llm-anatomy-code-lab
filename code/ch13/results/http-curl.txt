@@ -1,0 +1,26 @@
+## Mcp-Name: read_file (the headers agree with call.json)
+HTTP/1.1 200 OK
+Server: BaseHTTP Python/3.15.2
+Date: Sat, 14 Nov 2026 18:57:19 GMT
+Content-Type: application/json
+Content-Length: 379
+
+{"jsonrpc": "2.0", "id": 1, "result": {"content": [{"type": "text", "text": "Tasks for this week\n1. Order seeds for the two raised beds\n2. Fix the latch of the garden gate\n3. Water the tomatoes on Tuesday and on Friday\n4. Turn the compost\n"}], "isError": false, "resultType": "complete", "_meta": {"io.modelcontextprotocol/serverInfo": {"name": "files", "version": "1.0"}}}}
+
+## Mcp-Name: list_files (the header contradicts the body)
+HTTP/1.1 400 Bad Request
+Server: BaseHTTP Python/3.15.2
+Date: Sat, 14 Nov 2026 18:57:19 GMT
+Content-Type: application/json
+Content-Length: 94
+
+{"jsonrpc": "2.0", "id": 1, "error": {"code": -32020, "message": "Header mismatch: Mcp-Name"}}
+
+## Mcp-Name: read_file, Origin: http://evil.example
+HTTP/1.1 403 Forbidden
+Server: BaseHTTP Python/3.15.2
+Date: Sat, 14 Nov 2026 18:57:19 GMT
+Content-Length: 0
+
+
+

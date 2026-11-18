@@ -1,0 +1,67 @@
+# Second run, all seven probes, under the mechanisms as the chapter describes them.
+# S4-Windows, Windows 11 Pro N for Workstations, build 26300 (10.0.26300.9974), over SSH;
+# PowerShell 5.1.26100.9818.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== none+job
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   BLOCKED  Win32Exception
+hook    ALLOWED
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== none+tree
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== restricted
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== lowil
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+== appcontainer+job
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   BLOCKED  Win32Exception
+hook    ALLOWED
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt no, connections 0

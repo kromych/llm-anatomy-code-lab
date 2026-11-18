@@ -1,0 +1,26 @@
+# Second run of the start-up times, in the session of macos-m1ultra-2.txt.
+# S3-macOS, macOS 27.2; codex-cli 0.169.0; sandbox-runtime 0.0.83.
+# under python3 code/lab/mac-lockrun.py exclusive (the lock arrived after 723 s)
+# TIMES=20 SRT=$HOME/llm-arch-l1-ch16/srt/node_modules/.bin/srt ./run-unix.sh none seatbelt seatbelt-exec codex srt
+# load averages before: 3.73 4.28 5.94
+== none
+   median of 20 starts: 2.6 ms
+== seatbelt
+   median of 20 starts: 10.6 ms
+== seatbelt-exec
+sandbox-exec: execvp() of 'true' failed: Operation not permitted
+Traceback (most recent call last):
+  File "code/ch16/timeit.py", line 15, in <module>
+    subprocess.run(command, stdout=subprocess.DEVNULL, check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 692, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command ['sandbox-exec', '-f', '/Users/labuser/.battery-sbx.mgMTPR/exec.sb', '-D', 'WORK=/Users/labuser/.battery-sbx.mgMTPR/work', '-D', 'GIT=/Users/labuser/.battery-sbx.mgMTPR/work/.git', '-D', 'SECRET=/Users/labuser/.battery-sbx.mgMTPR/secret', '-D', 'PY=/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15', 'true'] returned non-zero exit status 71.
+== codex
+   median of 20 starts: 33.6 ms
+== srt
+   median of 20 starts: 208.1 ms
+# load averages after: 3.83 4.29 5.93
+# seatbelt-exec has no time: its allowlist admits the Python installation alone,
+# so sandbox-exec cannot execute `true` there.

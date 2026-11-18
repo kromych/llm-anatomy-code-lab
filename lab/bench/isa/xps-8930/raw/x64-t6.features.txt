@@ -1,0 +1,2 @@
+[x64-t6.completion.log] 0.00.817.320 I system_info: n_threads = 6 (n_threads_batch = 6) / 12 | CPU : LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 |
+[x64-t6.stderr] build: 61dbf4922 (12376)

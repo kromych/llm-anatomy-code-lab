@@ -1,0 +1,7 @@
+[vulkan-t4.completion.log] MESA: error: Opening /dev/dri/card2 failed: Permission denied
+[vulkan-t4.completion.log] MESA: error: Opening /dev/dri/card1 failed: Permission denied
+[vulkan-t4.completion.log] 0.01.710.797 I system_info: n_threads = 4 (n_threads_batch = 4) / 8 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | OPENMP = 1 | REPACK = 1 |
+[vulkan-t4.stderr] MESA: error: Opening /dev/dri/card2 failed: Permission denied
+[vulkan-t4.stderr] MESA: error: Opening /dev/dri/card1 failed: Permission denied
+[vulkan-t4.stderr] ggml_vulkan: 0 = Apple M2 (G14G B0) (Honeykrisp) | uma: 1 | rebar: 1 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 32768 | int dot: 0 | matrix cores: none
+[vulkan-t4.stderr] build: 61dbf4922 (12376)

@@ -1,0 +1,6 @@
+unknown model    404  Retry-After=None
+    error: {"message": "model 'no-such-model' not found", "type": "not_found_error", "param": null, "code": null}
+prompt too long  200  Retry-After=None
+    usage: {'prompt_tokens': 20482, 'prompt_tokens_details': {'cached_tokens': 20481}, 'completion_tokens': 5, 'total_tokens': 20487}
+malformed        400  Retry-After=None
+    error: {"message": "json: cannot unmarshal string into Go struct field ChatCompletionRequest.messages of type []openai.Message", "type": "invalid_request_error", "param": null, "code": null}

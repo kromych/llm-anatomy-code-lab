@@ -1,0 +1,5 @@
+# krom2 Linux-7.2.12-402.asahi.fc44.aarch64+16k-aarch64-with-glibc2.43 page 16384 B, file 0.67 GiB, 2000 random pages, 2026-11-14T06:08:23-0800
+case,n,median_us,p10_us,p90_us
+cold,2000,109.459,84.458,118.375
+warm,2000,2.792,2.666,2.958
+hot,2000,0.417,0.375,0.458

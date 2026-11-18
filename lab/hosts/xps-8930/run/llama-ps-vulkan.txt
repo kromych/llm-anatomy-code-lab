@@ -1,0 +1,6 @@
+# cmd: build-vulkan/bin/llama-server -hf ggml-org/gemma-3-1b-it-GGUF --port 8080 -lv 4
+    PID    PPID USER       RSS COMMAND
+2013529 2013522 labuser     636448 build-vulkan/bin/llama-server -hf ggml-org/gemma-3-1b-it-GGUF --port 8080 -lv 4
+llama-server(2013529)-+-{llama-server}(2013536)
+(17 threads)
+LISTEN 0      512        127.0.0.1:8080       0.0.0.0:*    users:(("llama-server",pid=2013529,fd=5))

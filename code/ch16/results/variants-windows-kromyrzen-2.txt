@@ -1,0 +1,56 @@
+# A variant of the AppContainer case: a copy of run-windows.ps1 in which the
+# container gets no write entry on .git instead of a deny entry.
+# S4-Windows, Windows 11 Pro N for Workstations, build 26300 (10.0.26300.9974), over SSH;
+# PowerShell 5.1.26100.9818.
+# diff run-windows.ps1 run-cut.ps1
+75c75,82
+<             Grant $git $sid $nowrite Deny
+---
+>             $acl = Get-Acl $git             # stop inheriting from work
+>             $acl.SetAccessRuleProtection($true, $true)
+>             Set-Acl $git $acl
+>             $acl = Get-Acl $git             # drop the container's entry
+>             $acl.PurgeAccessRules((New-Object `
+>                 Security.Principal.SecurityIdentifier $sid))
+>             Set-Acl $git $acl
+>             Grant $git $sid ReadAndExecute
+# powershell -ExecutionPolicy Bypass -File run-cut.ps1 -Mechanisms appcontainer,appcontainer+job
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 0
+== appcontainer+job
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   BLOCKED  Win32Exception
+hook    BLOCKED  UnauthorizedAccessException
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt no, connections 0
+# The AppContainer case once more, from a copy of run-windows.ps1 that prints the
+# access list of .git\hooks after the grants (one line added after each
+# `Grant $git $sid $nowrite Deny`:  icacls "$git\hooks" | Out-Host).
+# The deny entry for the container's identifier stands first, and the hook is written.
+# powershell -ExecutionPolicy Bypass -File run-showacl.ps1 -Mechanisms appcontainer
+== appcontainer
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-469762520\work\.git\hooks S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                       S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                       NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                       BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                       KROMYRZEN\labuser:(I)(OI)(CI)(F)
+
+Successfully processed 1 files; Failed processing 0 files
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0

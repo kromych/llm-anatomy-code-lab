@@ -1,0 +1,11 @@
+# Versions used for Chapter 17 (Python 3.14, macOS arm64).
+lm_eval==0.4.13
+inspect_ai==0.3.289
+openai==3.51.0
+datasets==5.2.0
+# only for the in-process (hf) runs
+torch==2.15.0
+transformers==5.23.0
+accelerate==1.15.0
+# SWE-bench ran on Linux with Docker, in a separate environment
+# swebench==5.0.2

@@ -1,0 +1,87 @@
+# The mechanisms of run-windows.ps1 from a logon at the desktop, where the earlier
+# records (windows-kromyrzen-2.txt and the other -2 files) were made over SSH from an
+# elevated session.
+# S4-Windows, Windows 11 Pro N for Workstations, build 26300 (10.0.26300.9974), at the
+# desktop of a Remote Desktop logon, from a terminal at medium integrity (not elevated);
+# PowerShell 5.1.26100.9818.
+# All runs are from run-exit.ps1, a copy of run-windows.ps1 as committed at 7f086db with
+# one change, which prints the launcher's exit code:
+#   & $exe @opts -- @battery; "   exit code $LASTEXITCODE (0x{0:X8})" -f $LASTEXITCODE
+#
+# 1. lowil, appcontainer, lowil in one directory.
+# The second lowil does not start: after one AppContainer start, programs that load
+# user32 fail at low integrity in this logon session (whoami and PowerShell exit with
+# 0xC0000142, cmd.exe runs), until the entries that LetIn of sbx.cs wrote for the
+# container on the window station WinSta0 and on the desktop Default are removed again.
+# Checked both ways with sbx.exe alone: low-integrity whoami exit 0; one
+# sbx appcontainer --sid ... -- cmd /c exit 0; low-integrity whoami exit 0xC0000142;
+# entries removed (SetEntriesInAcl with REVOKE_ACCESS for the container's SID on both
+# objects); low-integrity whoami exit 0.
+# The hook under the AppContainer is refused here (IOException, 0x80070522, "A required
+# privilege is not held by the client"): lowil has labeled .git as medium before. Over
+# SSH the same order left the hook open.
+# powershell -NoProfile -ExecutionPolicy Bypass -File run-exit.ps1 -Mechanisms lowil,appcontainer,lowil -Base C:\Users\labuser
+== lowil
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   exit code 0 (0x00000000)
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    BLOCKED  IOException
+orphan  ALLOWED
+   exit code 0 (0x00000000)
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 0
+== lowil
+   exit code -1066598274 (0xC06D007E)
+   on the host: ok.txt no, probe.txt no, pre-commit no, orphan.txt no, connections 0
+#
+# 2. appcontainer alone, in a fresh directory: as over SSH, the deny entry on .git goes
+# unheeded and the hook is written.
+# powershell -NoProfile -ExecutionPolicy Bypass -File run-exit.ps1 -Mechanisms appcontainer -Base C:\Users\labuser
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   exit code 0 (0x00000000)
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+#
+# 3. restricted: the .NET probe ends before its first line with 0x8007045A
+# (ERROR_DLL_INIT_FAILED). The desktop of the logon admits neither restricting
+# identifier of the token (the random one and Everyone).
+# powershell -NoProfile -ExecutionPolicy Bypass -File run-exit.ps1 -Mechanisms restricted -Base C:\Users\labuser
+== restricted
+   exit code -2147023782 (0x8007045A)
+   on the host: ok.txt no, probe.txt no, pre-commit no, orphan.txt no, connections 0
+#
+# 4. restricted once more, with a copy of sbx.cs that lets the random identifier into the
+# window station and the desktop, as it does for an AppContainer. The entries were
+# removed after the run.
+# git diff -U0 sbx.cs (committed) and the copy:
+@@ -230,0 +231,2 @@ static class Sbx
++            LetIn(GetProcessWindowStation(), false, Sid(sid));
++            LetIn(GetThreadDesktop(GetCurrentThreadId()), true, Sid(sid));
+# powershell -NoProfile -ExecutionPolicy Bypass -File run-exit.ps1 -Mechanisms restricted -Base C:\Users\labuser
+== restricted
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   exit code 0 (0x00000000)
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1

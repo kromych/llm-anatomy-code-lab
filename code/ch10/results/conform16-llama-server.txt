@@ -1,0 +1,16 @@
+PASS  t_models
+PASS  t_basic
+PASS  t_stream
+PASS  t_stop
+PASS  t_length
+PASS  t_max_completion
+PASS  t_n
+PASS  t_seed
+PASS  t_logprobs
+PASS  t_cached
+PASS  t_reasoning
+PASS  t_tool_auto
+FAIL  t_tool_required -- AssertionError no tool call: 'Hello! How can I assist you today? 😊</think>\n\nHello! How can I assist you today? 😊\n\n**Step-by-Step Ex
+PASS  t_tool_stream
+PASS  t_schema
+PASS  t_error

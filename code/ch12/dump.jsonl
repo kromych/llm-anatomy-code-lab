@@ -1,0 +1,4 @@
+{"port": "port_smolagents", "task": "bergen", "secs": 1.99, "answer": "Bergen has a population of 290000.", "correct": true, "error": null}
+{"port": "port_pydanticai", "task": "bergen", "secs": 0.65, "answer": "The `cities.csv` file gives the population of Bergen as 290000.", "correct": true, "error": null}
+{"port": "port_openai_agents", "task": "bergen", "secs": 0.78, "answer": "The `cities.csv` file gives the population of Bergen as 290000.", "correct": true, "error": null}
+{"port": "port_baseline", "task": "bergen", "secs": 1.02, "answer": "The population of Bergen, as given in the `cities.csv` file, is 290,000.", "correct": true, "error": null}

@@ -1,0 +1,75 @@
+Chapter 15 measurements, 2026-11-14, Apple M1 Ultra, llama-server 1.0.0 (b12359),
+Qwen3-8B Q8_0, -c 40960 -np 1. Tags ending in -t1: thinking on (temp 0.6, top-p 0.95,
+top-k 20, min-p 0, presence 1.5). Others: thinking off (temp 0.7, top-p 0.8, top-k 20,
+min-p 0, presence 1.5). The tag 'opencode' holds two runs: requests 1-7 with llama-server's
+default sampler (request 4 repeated itself to 8192 tokens), 8-11 thinking off.
+codex, codex2: codex exec -s workspace-write; codex3: --approve-for-me.
+
+run             req system tools toolkB  first  prompt  cached    gen   secs
+codex             2  19769     9   17.8   6867   13887    6866    172     14
+codex2            2  19769     9   17.8   6867   13871   12893    144      6
+codex3            3  23605     9   17.8   7663   21312   13599    246     17
+opencode         11  19565    12   14.0   7905  100033   73798   8764    364
+goose1            4  13729    17   13.4   6492   26493   19649    142     47
+aider1            6   1191     0    0.0    894    6809    1784    954     83
+aider-diff        6   5411     0    0.0   2670   10430    3520    918     40
+aider-udiff       6   1886     0    0.0   1448    7579    2571    853     32
+codex-t1         79  19771     9   17.8   6863 1750280 1740766  27852   1192
+opencode-t1       4  19573    12   14.0   7903   27070   18504   2839    141
+goose-t1          5  13729    17   13.4   6488   47419   40400   6219    217
+aider-t1          6   1191     0    0.0    890    5829     804   6683    175
+openhands-t1      9  41199     7   21.7  14013   93622   75835   5895    224
+
+Outcomes, thinking on (run_harnesses.sh):
+codex-t1 rc=124 secs=1200 tests=fail tests_kept=yes
+opencode-t1 rc=0 secs=117 tests=fail tests_kept=yes
+goose-t1 rc=0 secs=217 tests=pass tests_kept=yes
+aider-t1 rc=0 secs=179 tests=pass tests_kept=yes
+openhands-t1 rc=0 secs=236 tests=fail tests_kept=yes
+
+Outcomes, thinking off: codex x3 fail (escalation rejected); opencode fail
+(no bug found); goose1 fail (answered '.'); aider whole/diff/udiff pass after one
+reflection each.
+
+First request in tokens (composition.py):
+
+Repeats with thinking on, 2026-11-14 (same settings; llama-server on port 8094, proxy 8194):
+rounds t2, t3 and t5; t4 and openhands-t3 broke off when the engine ran out of GPU memory
+(ggml_metal: kIOGPUCommandBufferCallbackErrorOutOfMemory, other models sharing the GPU) and were
+discarded; openhands-t3r replaced openhands-t3.
+
+run             req system tools toolkB  first  prompt  cached    gen   secs
+codex-t2          7  19773     9   17.8   6872   60836   53471   3560     87
+opencode-t2       4  19579    12   14.0   7906   27751   19182   3183    164
+goose-t2          8  13729    17   13.4   6489   74673   67075   4592    261
+aider-t2          6   1191     0    0.0    890    7244    1446   5720    159
+openhands-t2      3  41201     7   21.7  14015   43165   28381   2365    152
+codex-t3          2  19773     9   17.8   6872   14795    7894   1548     80
+opencode-t3       4  19579    12   14.0   7906   27012   18465   2567    172
+goose-t3         12  13729    17   13.4   6489  104728  103732   4140    195
+aider-t3          6   1191     0    0.0    890    5876    3785   5864    328
+openhands-t3r    10  41202     7   21.7  14017  111115   92448   6901    253
+codex-t5         55  19773     9   17.8   6872 1275550 1264409  30504    830
+opencode-t5       2  19579    12   14.0   7906    8377       8   1761    106
+goose-t5          8  13729    17   13.4   6489   69608   62399   3232    146
+aider-t5          6   1191     0    0.0    890    7307    1454   6219    123
+openhands-t5     14  41201     7   21.7  14015  150657  129243  11538    294
+
+codex-t2 rc=0 secs=88 tests=fail tests_kept=yes
+opencode-t2 rc=0 secs=150 tests=fail tests_kept=yes
+goose-t2 rc=0 secs=263 tests=pass tests_kept=yes
+aider-t2 rc=0 secs=166 tests=pass tests_kept=yes
+openhands-t2 rc=0 secs=165 tests=fail tests_kept=yes
+codex-t3 rc=0 secs=80 tests=fail tests_kept=yes
+opencode-t3 rc=0 secs=144 tests=fail tests_kept=yes
+goose-t3 rc=0 secs=196 tests=pass tests_kept=yes
+aider-t3 rc=0 secs=335 tests=pass tests_kept=yes
+openhands-t3r rc=0 secs=263 tests=pass tests_kept=yes
+codex-t5 rc=0 secs=835 tests=fail tests_kept=yes
+opencode-t5 rc=0 secs=89 tests=fail tests_kept=yes
+goose-t5 rc=0 secs=147 tests=pass tests_kept=yes
+aider-t5 rc=0 secs=127 tests=pass tests_kept=yes
+openhands-t5 rc=0 secs=306 tests=fail tests_kept=yes
+
+Solved in four runs (t1, t2, t3/t3r, t5): Goose 4, Aider 4, OpenHands 1, opencode 0, Codex 0.
+codex-t5: 39 identical calls of grep -n 'def median(data):' (no such definition); ended after 55 requests.

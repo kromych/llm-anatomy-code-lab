@@ -1,0 +1,33 @@
+# Variants of two wrappers, each a copy of run-unix.sh with one change.
+# S2-LinuxArm64, Linux 7.2.12-402.asahi.fc44.aarch64+16k; bubblewrap 0.12.0; podman version 5.8.9;
+# codex-cli 0.169.0; sandbox-runtime 0.0.83; Python 3.14.10; socat version 1.8.1.3.
+== bubblewrap without --die-with-parent
+# sed 's/ --die-with-parent//' run-unix.sh > run-nodie.sh; ./run-nodie.sh bwrap
+63c63
+<       --unshare-all --die-with-parent --new-session -- $battery ;;
+---
+>       --unshare-all --new-session -- $battery ;;
+== bwrap
+control ALLOWED
+write   BLOCKED  OSError EROFS
+read    BLOCKED  FileNotFoundError ENOENT
+net     BLOCKED  ConnectionRefusedError ECONNREFUSED
+spawn   ALLOWED
+hook    BLOCKED  OSError EROFS
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 0
+== Landlock with a rule for /dev/null
+# sed 's|--rw "$root/work" --|--rw "$root/work" --rw /dev/null --|' run-unix.sh > run-devnull.sh; ./run-devnull.sh landlock
+66c66
+<       --rw "$root/work" -- $battery ;;
+---
+>       --rw "$root/work" --rw /dev/null -- $battery ;;
+== landlock
+control ALLOWED
+write   BLOCKED  PermissionError EACCES
+read    BLOCKED  PermissionError EACCES
+net     BLOCKED  PermissionError EACCES
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0

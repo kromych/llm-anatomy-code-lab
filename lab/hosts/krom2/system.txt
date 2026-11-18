@@ -1,0 +1,33 @@
+krom2.local - system summary (captured 2026-11-13, before any install; install differences in footprint/engines/changes.txt)
+
+OS        Fedora Linux Asahi Remix 44 (Workstation Edition), ID=fedora-asahi-remix
+Kernel    Linux 7.2.12-402.asahi.fc44.aarch64+16k (aarch64, PREEMPT_DYNAMIC)
+Page size 16384 bytes (getconf PAGESIZE) - 16K-page Asahi kernel
+CPU       Apple M2, 8 cores, 1 thread/core, no frequency boost
+          CPUs 0-3: Blizzard-M2 (efficiency, MIDR part 0x032), 600-2424 MHz
+          CPUs 4-7: Avalanche-M2 (performance, MIDR part 0x033), 660-3204 MHz
+          L1d 768 KiB (8x), L1i 1.3 MiB (8x), L2 20 MiB (2 clusters), 1 NUMA node
+CPU hwcaps (from /proc/cpuinfo, identical on all cores):
+          fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma
+          lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm ssbs sb paca pacg dcpodp
+          flagm2 frint i8mm bf16 bti ecv
+          present: asimddp (dot product), i8mm, bf16, fphp/asimdhp (FP16)
+          absent:  sve, sve2, sme
+RAM       7.4 GiB (MemTotal 7745248 kB); 5.4 GiB available at baseline
+Swap      8 GiB swap file /var/swap/swapfile (313 MB in use at baseline, unchanged throughout)
+Disk      /home on /dev/nvme0n1p7 (btrfs), 165 GB, 80 GB free at baseline
+/tmp      tmpfs, 3.7 GB (RAM-backed: not a place for large downloads on this host)
+GPU       Apple AGX via the Asahi DRM driver: /dev/dri/card1 (platform-206400000.gpu),
+          /dev/dri/renderD128 (mode 0666), /dev/dri/card2 = display subsystem
+Vulkan    runtime present: mesa-vulkan-drivers-26.2.6-1.fc44 (asahi_icd.aarch64.json in
+          /usr/share/vulkan/icd.d), vulkan-loader-1.4.341.0-1.fc44
+          NOT installed: vulkan-headers, vulkan-loader-devel, glslc, glslang, vulkan-tools (no vulkaninfo)
+          pkg-config --exists vulkan: no; glslc: not found
+Dev libs  openssl-devel-3.5.9 installed; libcurl-devel NOT installed (pkg-config libcurl: no)
+Toolchain git 2.56.0, gcc/g++ 16.2.1 (Red Hat 16.2.1-3), cmake 4.3.0, GNU make 4.4.1, ninja 1.13.2,
+          pkg-config 2.5.1, Python 3.14.10, curl 8.18.0, podman 5.8.9, Docker 29.9.3, ccache 4.12.3
+          PATH contains /usr/lib64/ccache before /usr/bin (Fedora ccache package), so cc/gcc/c++/g++
+          resolve to ccache wrappers; ~/.cache/ccache was already full (5.0/5.0 GiB)
+Access    user labuser; sudo requires a password (not used); systemd --user has no lingering services
+Listeners before install: sshd 0.0.0.0:22 and [::]:22, LLMNR 5355, cupsd 127.0.0.1:631/[::1]:631,
+          systemd-resolved 127.0.0.53:53 and 127.0.0.54:53

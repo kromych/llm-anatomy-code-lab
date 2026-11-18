@@ -1,0 +1,18 @@
+GET  /v1/models       200 {models, object=list, data} ids ['Qwen/Qwen3-Embedding-0.6B-GGUF:Q8_0'] meta {"vocab_type": 2, "n_vocab": 151669, "n_ctx": 32768, "n_ctx_train": 32768, "n_embd": 1024, "n_params": 595776512, "size": 633205056, "ftype": "Q8_0"}
+POST /v1/completions  200 {choices, created, model, system_fingerprint, object=text_completion, usage, id, timings}
+POST /v1/embeddings   200 {model, object=list, usage, data}
+POST /v1/responses    200 {completed_at, created_at, id, model, object=response, output, status=completed, usage}
+POST /v1/messages     200 {id, type=message, role, content, model, stop_reason, stop_sequence, usage}
+POST /v1/rerank       501 {error}
+GET  /health          200 {status=ok}
+GET  /metrics         501 {error}
+GET  /props           200 {default_generation_settings, total_slots, model_alias, model_ftype, model_path, modalities, media_marker, endpoint_slots, endpoint_props, endpoint_metrics, ui, ui_settings, chat_template, chat_template_caps, bos_token, eos_token, build_info, is_sleeping, cors_proxy_enabled}
+GET  /slots           200 [4] {id, n_ctx, speculative, is_processing, id_task, n_prompt_tokens, n_prompt_tokens_processed, n_prompt_tokens_cache, params, next_token}
+POST /tokenize        200 {tokens}
+POST /detokenize      200 {content}
+POST /apply-template  200 {prompt}
+GET  /                415 'Error: gzip is not supported by this bro'
+GET  /api/version     404 {error}
+GET  /api/tags        404 {error}
+POST /api/embed       404 {error}
+prompt '<|im_start|>user\nSay hi.<|im_end|>\n<|im_start|>assistant\n': 11 tokens; the chat endpoint counts 12

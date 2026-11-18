@@ -1,0 +1,62 @@
+## python3 steer.py MODEL_DIR feeling.gguf   (NumPy 2.5.4; MODEL_DIR holds
+## config.json, model.safetensors and tokenizer.json of SmolLM2-135M)
+feeling.gguf: 29 directions of 576 numbers, 68256 bytes
+length of the direction and of the hidden state, by layer:
+  layer  1     0.6    59.4
+  layer 10     5.2   122.9
+  layer 20    31.5   247.2
+  layer 29   236.5   949.6
+component of the state along the direction, layer 20:
+    25.7  'I love this movie. It is'
+    13.8  'The movie was'
+    -6.5  'I hate this movie. It is'
+the next token after 'The movie was', tokens [504, 7704, 436]:
+  as it is       ' released' 0.092  ' a' 0.078  ' made' 0.035
+  added          ' great' 0.345  ' well' 0.331  ' excellent' 0.036
+  subtracted     ' Worse' 0.120  ' worse' 0.064  ' disc' 0.058
+  projected out  ' called' 0.121  ' about' 0.060  ' in' 0.054
+
+## python3 ../../ch02/scripts/ggufread.py feeling.gguf
+general.architecture                     'controlvector'
+controlvector.model_hint                 'llama'
+controlvector.layer_count                '29'
+29 tensors; data section starts at byte 1440
+direction.1                [576]           F32         1440
+direction.2                [576]           F32         3744
+direction.3                [576]           F32         6048
+direction.4                [576]           F32         8352
+direction.5                [576]           F32        10656
+direction.6                [576]           F32        12960
+direction.7                [576]           F32        15264
+direction.8                [576]           F32        17568
+direction.9                [576]           F32        19872
+direction.10               [576]           F32        22176
+direction.11               [576]           F32        24480
+direction.12               [576]           F32        26784
+direction.13               [576]           F32        29088
+direction.14               [576]           F32        31392
+direction.15               [576]           F32        33696
+direction.16               [576]           F32        36000
+direction.17               [576]           F32        38304
+direction.18               [576]           F32        40608
+direction.19               [576]           F32        42912
+direction.20               [576]           F32        45216
+direction.21               [576]           F32        47520
+direction.22               [576]           F32        49824
+direction.23               [576]           F32        52128
+direction.24               [576]           F32        54432
+direction.25               [576]           F32        56736
+direction.26               [576]           F32        59040
+direction.27               [576]           F32        61344
+direction.28               [576]           F32        63648
+direction.29               [576]           F32        65952
+
+## The same prompt in llama-server 1.0.0 (build 12359) on S3-macOS, with
+## QuantFactory/SmolLM2-135M-GGUF, SmolLM2-135M.Q8_0.gguf; the last line
+## of  python3 steer.py MODEL_DIR feeling.gguf http://127.0.0.1:8105
+## llama-server -m SmolLM2-135M.Q8_0.gguf 
+  llama-server   ' released' 0.091  ' a' 0.078  ' directed' 0.036
+## llama-server -m SmolLM2-135M.Q8_0.gguf --control-vector feeling.gguf
+  llama-server   ' great' 0.335  ' well' 0.329  ' excellent' 0.040
+## llama-server -m SmolLM2-135M.Q8_0.gguf --control-vector-scaled feeling.gguf:-1
+  llama-server   ' Worse' 0.122  ' worse' 0.064  ' disc' 0.055

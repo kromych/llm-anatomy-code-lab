@@ -1,0 +1,21 @@
+[2259 tokens exceed the window of 2048; elided 5, left 1360]
+{"question": 1, "request": 1, "prompt": 369, "cached": 0, "completion": 23, "answer": null}
+{"question": 1, "request": 2, "prompt": 797, "cached": 365, "completion": 20, "answer": null}
+{"question": 1, "request": 3, "prompt": 858, "cached": 793, "completion": 21, "answer": "The file `docs/formats.md` mentions that GGUF stores metadata and tensors in one"}
+{"question": 2, "request": 4, "prompt": 899, "cached": 854, "completion": 25, "answer": "The file `docs/serving.md` summarizes the serving aspects of the model, includin"}
+{"question": 3, "request": 5, "prompt": 944, "cached": 895, "completion": 23, "answer": null}
+{"question": 3, "request": 6, "prompt": 1367, "cached": 940, "completion": 31, "answer": "The first sentence of `docs/agents.md` is: \"An agent calls the model in a loop a"}
+{"question": 4, "request": 7, "prompt": 1417, "cached": 1363, "completion": 19, "answer": null}
+{"question": 4, "request": 8, "prompt": 1573, "cached": 1413, "completion": 18, "answer": "There are 3 lines in `log/server.log` that contain the ERROR message."}
+{"question": 5, "request": 9, "prompt": 1611, "cached": 1569, "completion": 30, "answer": "According to `log/server.log`, the request numbers that failed are 107, 119, and"}
+{"question": 6, "request": 10, "prompt": 1659, "cached": 1607, "completion": 23, "answer": null}
+{"question": 6, "request": 11, "prompt": 1753, "cached": 1655, "completion": 18, "answer": "The port set by `config/server.toml` is 9931."}
+{"question": 7, "request": 12, "prompt": 1790, "cached": 1749, "completion": 25, "answer": "Yes, `docs/formats.md` mentions safetensors, stating that it keeps a JSON header"}
+{"question": 8, "request": 13, "prompt": 1836, "cached": 1786, "completion": 23, "answer": null}
+{"question": 8, "request": 14, "prompt": 1360, "cached": 394, "completion": 15, "answer": "The title of `docs/serving.md` is \"Serving\"."}
+{"question": 9, "request": 15, "prompt": 1391, "cached": 1356, "completion": 19, "answer": null}
+{"question": 9, "request": 16, "prompt": 1459, "cached": 1387, "completion": 52, "answer": "The files in the workspace are:\n- README.md\n- config/server.toml\n- data/sizes.cs"}
+{"question": 10, "request": 17, "prompt": 1535, "cached": 1455, "completion": 21, "answer": null}
+{"question": 10, "request": 18, "prompt": 1580, "cached": 1531, "completion": 25, "answer": "The total of the \"gigabytes\" column in `data/sizes.csv` is 1234."}
+{"question": 11, "request": 19, "prompt": 1621, "cached": 1576, "completion": 17, "answer": "The file that defines `dequantize` is `src/quant.py`."}
+{"question": 12, "request": 20, "prompt": 1659, "cached": 1617, "completion": 14, "answer": "The title of `docs/agents.md` is \"Agents\"."}

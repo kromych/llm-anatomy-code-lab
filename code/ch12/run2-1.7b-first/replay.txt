@@ -1,0 +1,7 @@
+request of smolagents-r1 with 10 messages; logged reply: 1024 tokens
+tool_choice required finish length tokens  1024 in   10.3 s, calls [], text of 3489 characters
+    "Action:\n{\n  \"name\": \"final_answer\",\n  \"arguments\": {\"answer\": \"35\"}\n}</think>\n\n{\n  \"name\": \"final_answer\",\n  \"arguments\": {\"answer\": \"35\"}\n}"
+    ... "wer\", \"arguments\": {\"answer\": \"35\"}}</think>\n\n{\"name\": \"final_answer\","
+tool_choice auto     finish stop   tokens    24 in    0.2 s, calls [], text of 69 characters
+    "Action:\n{\n  \"name\": \"final_answer\",\n  \"arguments\": {\"answer\": \"35\"}\n}"
+    ... "Action:\n{\n  \"name\": \"final_answer\",\n  \"arguments\": {\"answer\": \"35\"}\n}"

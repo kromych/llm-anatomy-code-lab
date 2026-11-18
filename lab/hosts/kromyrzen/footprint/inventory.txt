@@ -1,0 +1,28 @@
+# code/appB/inventory.ps1 on kromyrzen (Windows 11 26H2), 2026-11-14. Tool-owned paths,
+# processes, listeners, services and registry entries only; no file contents.
+== llama.cpp
+  dir   62M     %USERPROFILE%\AppData\Local\Programs\llama.cpp
+== ollama
+  dir   3,197M  %USERPROFILE%\AppData\Local\Programs\Ollama
+  dir   0M      %USERPROFILE%\AppData\Local\Ollama
+  dir   2,065M  %USERPROFILE%\.ollama
+  cred  present  %USERPROFILE%\.ollama\id_ed25519 (contents not read)
+  path  user PATH has %USERPROFILE%\AppData\Local\Programs\Ollama
+  url   ollama:// handler in HKCU\Software\Classes\ollama
+  unin  Ollama version 0.40.16
+== huggingface
+  dir   769M    %USERPROFILE%\.cache\huggingface\hub
+== torch
+== docker
+== wsl
+  proc  4000    wslservice
+  svc   service WSLService (Running, Automatic)
+== codex
+== opencode
+== goose
+== aider
+== openhands
+== claude
+  dir   0M      %USERPROFILE%\.claude
+== cline
+== python

@@ -1,0 +1,2 @@
+{"port": "port_smolagents", "task": "bergen", "secs": 288.19, "answer": "The population of Bergen according to the `cities.csv` file is **290000**.", "correct": true, "error": null}
+{"port": "port_baseline", "task": "deadline", "secs": 4.42, "answer": "The file \"todo.md\" mentions a deadline.", "correct": false, "error": null}

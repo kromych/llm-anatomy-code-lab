@@ -1,0 +1,241 @@
+# ggml-org/SmolVLM-256M-Instruct-GGUF at commit b9e4379657e1450d04d02eec8e345667265b0a00, read over HTTP Range
+$ python3 scripts/ggufread.py hf:ggml-org/SmolVLM-256M-Instruct-GGUF/mmproj-SmolVLM-256M-Instruct-Q8_0.gguf
+general.architecture                     'clip'
+general.type                             'clip-vision'
+general.name                             'SmolVLM 256M Instruct'
+general.finetune                         '256m-Instruct'
+general.basename                         'SmolVLM'
+general.size_label                       '94M'
+general.license                          'apache-2.0'
+general.base_model.count                 '2'
+general.base_model.0.name                'SmolLM2 135M Instruct'
+general.base_model.0.organization        'HuggingFaceTB'
+general.base_model.0.repo_url            'https://huggingface.co/HuggingFa'
+general.base_model.1.name                'Siglip Base Patch16 512'
+general.base_model.1.version             '512'
+general.base_model.1.organization        'Google'
+general.base_model.1.repo_url            'https://huggingface.co/google/si'
+general.dataset.count                    '2'
+general.dataset.0.name                   'The_Cauldron'
+general.dataset.0.organization           'HuggingFaceM4'
+general.dataset.0.repo_url               'https://huggingface.co/HuggingFa'
+general.dataset.1.name                   'Docmatix'
+general.dataset.1.organization           'HuggingFaceM4'
+general.dataset.1.repo_url               'https://huggingface.co/HuggingFa'
+general.tags                             "[1 items] ['image-text-to-text']"
+general.languages                        "[1 items] ['en']"
+general.file_type                        '7'
+clip.vision.projection_dim               '576'
+clip.has_vision_encoder                  'True'
+clip.vision.image_size                   '512'
+clip.vision.patch_size                   '16'
+clip.vision.embedding_length             '768'
+clip.vision.feed_forward_length          '3072'
+clip.vision.block_count                  '12'
+clip.vision.attention.head_count         '12'
+clip.vision.image_mean                   '[3 items] [0.5, 0.5, 0.5]'
+clip.vision.image_std                    '[3 items] [0.5, 0.5, 0.5]'
+clip.projector_type                      'idefics3'
+clip.vision.attention.layer_norm_epsilon '9.999999974752427e-07'
+clip.vision.projector.scale_factor       '4'
+clip.use_gelu                            'True'
+general.quantization_version             '2'
+198 tensors; data section starts at byte 13056
+mm.model.fc.weight         [12288, 576]    Q8_0       13056
+v.patch_embd.bias          [768]           F32      7533312
+v.patch_embd.weight        [16, 16, 3, 768] F32      7536384
+v.position_embd.weight     [768, 1024]     F32      9895680
+v.blk.0.ln1.bias           [768]           F32     13041408
+v.blk.0.ln1.weight         [768]           F32     13044480
+v.blk.0.ln2.bias           [768]           F32     13047552
+v.blk.0.ln2.weight         [768]           F32     13050624
+v.blk.0.ffn_down.bias      [3072]          F32     13053696
+v.blk.0.ffn_down.weight    [768, 3072]     Q8_0    13065984
+v.blk.0.ffn_up.bias        [768]           F32     15572736
+v.blk.0.ffn_up.weight      [3072, 768]     Q8_0    15575808
+v.blk.0.attn_k.bias        [768]           F32     18082560
+v.blk.0.attn_k.weight      [768, 768]      Q8_0    18085632
+v.blk.0.attn_out.bias      [768]           F32     18712320
+v.blk.0.attn_out.weight    [768, 768]      Q8_0    18715392
+v.blk.0.attn_q.bias        [768]           F32     19342080
+v.blk.0.attn_q.weight      [768, 768]      Q8_0    19345152
+v.blk.0.attn_v.bias        [768]           F32     19971840
+v.blk.0.attn_v.weight      [768, 768]      Q8_0    19974912
+v.blk.1.ln1.bias           [768]           F32     20601600
+v.blk.1.ln1.weight         [768]           F32     20604672
+v.blk.1.ln2.bias           [768]           F32     20607744
+v.blk.1.ln2.weight         [768]           F32     20610816
+v.blk.1.ffn_down.bias      [3072]          F32     20613888
+v.blk.1.ffn_down.weight    [768, 3072]     Q8_0    20626176
+v.blk.1.ffn_up.bias        [768]           F32     23132928
+v.blk.1.ffn_up.weight      [3072, 768]     Q8_0    23136000
+v.blk.1.attn_k.bias        [768]           F32     25642752
+v.blk.1.attn_k.weight      [768, 768]      Q8_0    25645824
+v.blk.1.attn_out.bias      [768]           F32     26272512
+v.blk.1.attn_out.weight    [768, 768]      Q8_0    26275584
+v.blk.1.attn_q.bias        [768]           F32     26902272
+v.blk.1.attn_q.weight      [768, 768]      Q8_0    26905344
+v.blk.1.attn_v.bias        [768]           F32     27532032
+v.blk.1.attn_v.weight      [768, 768]      Q8_0    27535104
+v.blk.10.ln1.bias          [768]           F32     28161792
+v.blk.10.ln1.weight        [768]           F32     28164864
+v.blk.10.ln2.bias          [768]           F32     28167936
+v.blk.10.ln2.weight        [768]           F32     28171008
+v.blk.10.ffn_down.bias     [3072]          F32     28174080
+v.blk.10.ffn_down.weight   [768, 3072]     Q8_0    28186368
+v.blk.10.ffn_up.bias       [768]           F32     30693120
+v.blk.10.ffn_up.weight     [3072, 768]     Q8_0    30696192
+v.blk.10.attn_k.bias       [768]           F32     33202944
+v.blk.10.attn_k.weight     [768, 768]      Q8_0    33206016
+v.blk.10.attn_out.bias     [768]           F32     33832704
+v.blk.10.attn_out.weight   [768, 768]      Q8_0    33835776
+v.blk.10.attn_q.bias       [768]           F32     34462464
+v.blk.10.attn_q.weight     [768, 768]      Q8_0    34465536
+v.blk.10.attn_v.bias       [768]           F32     35092224
+v.blk.10.attn_v.weight     [768, 768]      Q8_0    35095296
+v.blk.11.ln1.bias          [768]           F32     35721984
+v.blk.11.ln1.weight        [768]           F32     35725056
+v.blk.11.ln2.bias          [768]           F32     35728128
+v.blk.11.ln2.weight        [768]           F32     35731200
+v.blk.11.ffn_down.bias     [3072]          F32     35734272
+v.blk.11.ffn_down.weight   [768, 3072]     Q8_0    35746560
+v.blk.11.ffn_up.bias       [768]           F32     38253312
+v.blk.11.ffn_up.weight     [3072, 768]     Q8_0    38256384
+v.blk.11.attn_k.bias       [768]           F32     40763136
+v.blk.11.attn_k.weight     [768, 768]      Q8_0    40766208
+v.blk.11.attn_out.bias     [768]           F32     41392896
+v.blk.11.attn_out.weight   [768, 768]      Q8_0    41395968
+v.blk.11.attn_q.bias       [768]           F32     42022656
+v.blk.11.attn_q.weight     [768, 768]      Q8_0    42025728
+v.blk.11.attn_v.bias       [768]           F32     42652416
+v.blk.11.attn_v.weight     [768, 768]      Q8_0    42655488
+v.blk.2.ln1.bias           [768]           F32     43282176
+v.blk.2.ln1.weight         [768]           F32     43285248
+v.blk.2.ln2.bias           [768]           F32     43288320
+v.blk.2.ln2.weight         [768]           F32     43291392
+v.blk.2.ffn_down.bias      [3072]          F32     43294464
+v.blk.2.ffn_down.weight    [768, 3072]     Q8_0    43306752
+v.blk.2.ffn_up.bias        [768]           F32     45813504
+v.blk.2.ffn_up.weight      [3072, 768]     Q8_0    45816576
+v.blk.2.attn_k.bias        [768]           F32     48323328
+v.blk.2.attn_k.weight      [768, 768]      Q8_0    48326400
+v.blk.2.attn_out.bias      [768]           F32     48953088
+v.blk.2.attn_out.weight    [768, 768]      Q8_0    48956160
+v.blk.2.attn_q.bias        [768]           F32     49582848
+v.blk.2.attn_q.weight      [768, 768]      Q8_0    49585920
+v.blk.2.attn_v.bias        [768]           F32     50212608
+v.blk.2.attn_v.weight      [768, 768]      Q8_0    50215680
+v.blk.3.ln1.bias           [768]           F32     50842368
+v.blk.3.ln1.weight         [768]           F32     50845440
+v.blk.3.ln2.bias           [768]           F32     50848512
+v.blk.3.ln2.weight         [768]           F32     50851584
+v.blk.3.ffn_down.bias      [3072]          F32     50854656
+v.blk.3.ffn_down.weight    [768, 3072]     Q8_0    50866944
+v.blk.3.ffn_up.bias        [768]           F32     53373696
+v.blk.3.ffn_up.weight      [3072, 768]     Q8_0    53376768
+v.blk.3.attn_k.bias        [768]           F32     55883520
+v.blk.3.attn_k.weight      [768, 768]      Q8_0    55886592
+v.blk.3.attn_out.bias      [768]           F32     56513280
+v.blk.3.attn_out.weight    [768, 768]      Q8_0    56516352
+v.blk.3.attn_q.bias        [768]           F32     57143040
+v.blk.3.attn_q.weight      [768, 768]      Q8_0    57146112
+v.blk.3.attn_v.bias        [768]           F32     57772800
+v.blk.3.attn_v.weight      [768, 768]      Q8_0    57775872
+v.blk.4.ln1.bias           [768]           F32     58402560
+v.blk.4.ln1.weight         [768]           F32     58405632
+v.blk.4.ln2.bias           [768]           F32     58408704
+v.blk.4.ln2.weight         [768]           F32     58411776
+v.blk.4.ffn_down.bias      [3072]          F32     58414848
+v.blk.4.ffn_down.weight    [768, 3072]     Q8_0    58427136
+v.blk.4.ffn_up.bias        [768]           F32     60933888
+v.blk.4.ffn_up.weight      [3072, 768]     Q8_0    60936960
+v.blk.4.attn_k.bias        [768]           F32     63443712
+v.blk.4.attn_k.weight      [768, 768]      Q8_0    63446784
+v.blk.4.attn_out.bias      [768]           F32     64073472
+v.blk.4.attn_out.weight    [768, 768]      Q8_0    64076544
+v.blk.4.attn_q.bias        [768]           F32     64703232
+v.blk.4.attn_q.weight      [768, 768]      Q8_0    64706304
+v.blk.4.attn_v.bias        [768]           F32     65332992
+v.blk.4.attn_v.weight      [768, 768]      Q8_0    65336064
+v.blk.5.ln1.bias           [768]           F32     65962752
+v.blk.5.ln1.weight         [768]           F32     65965824
+v.blk.5.ln2.bias           [768]           F32     65968896
+v.blk.5.ln2.weight         [768]           F32     65971968
+v.blk.5.ffn_down.bias      [3072]          F32     65975040
+v.blk.5.ffn_down.weight    [768, 3072]     Q8_0    65987328
+v.blk.5.ffn_up.bias        [768]           F32     68494080
+v.blk.5.ffn_up.weight      [3072, 768]     Q8_0    68497152
+v.blk.5.attn_k.bias        [768]           F32     71003904
+v.blk.5.attn_k.weight      [768, 768]      Q8_0    71006976
+v.blk.5.attn_out.bias      [768]           F32     71633664
+v.blk.5.attn_out.weight    [768, 768]      Q8_0    71636736
+v.blk.5.attn_q.bias        [768]           F32     72263424
+v.blk.5.attn_q.weight      [768, 768]      Q8_0    72266496
+v.blk.5.attn_v.bias        [768]           F32     72893184
+v.blk.5.attn_v.weight      [768, 768]      Q8_0    72896256
+v.blk.6.ln1.bias           [768]           F32     73522944
+v.blk.6.ln1.weight         [768]           F32     73526016
+v.blk.6.ln2.bias           [768]           F32     73529088
+v.blk.6.ln2.weight         [768]           F32     73532160
+v.blk.6.ffn_down.bias      [3072]          F32     73535232
+v.blk.6.ffn_down.weight    [768, 3072]     Q8_0    73547520
+v.blk.6.ffn_up.bias        [768]           F32     76054272
+v.blk.6.ffn_up.weight      [3072, 768]     Q8_0    76057344
+v.blk.6.attn_k.bias        [768]           F32     78564096
+v.blk.6.attn_k.weight      [768, 768]      Q8_0    78567168
+v.blk.6.attn_out.bias      [768]           F32     79193856
+v.blk.6.attn_out.weight    [768, 768]      Q8_0    79196928
+v.blk.6.attn_q.bias        [768]           F32     79823616
+v.blk.6.attn_q.weight      [768, 768]      Q8_0    79826688
+v.blk.6.attn_v.bias        [768]           F32     80453376
+v.blk.6.attn_v.weight      [768, 768]      Q8_0    80456448
+v.blk.7.ln1.bias           [768]           F32     81083136
+v.blk.7.ln1.weight         [768]           F32     81086208
+v.blk.7.ln2.bias           [768]           F32     81089280
+v.blk.7.ln2.weight         [768]           F32     81092352
+v.blk.7.ffn_down.bias      [3072]          F32     81095424
+v.blk.7.ffn_down.weight    [768, 3072]     Q8_0    81107712
+v.blk.7.ffn_up.bias        [768]           F32     83614464
+v.blk.7.ffn_up.weight      [3072, 768]     Q8_0    83617536
+v.blk.7.attn_k.bias        [768]           F32     86124288
+v.blk.7.attn_k.weight      [768, 768]      Q8_0    86127360
+v.blk.7.attn_out.bias      [768]           F32     86754048
+v.blk.7.attn_out.weight    [768, 768]      Q8_0    86757120
+v.blk.7.attn_q.bias        [768]           F32     87383808
+v.blk.7.attn_q.weight      [768, 768]      Q8_0    87386880
+v.blk.7.attn_v.bias        [768]           F32     88013568
+v.blk.7.attn_v.weight      [768, 768]      Q8_0    88016640
+v.blk.8.ln1.bias           [768]           F32     88643328
+v.blk.8.ln1.weight         [768]           F32     88646400
+v.blk.8.ln2.bias           [768]           F32     88649472
+v.blk.8.ln2.weight         [768]           F32     88652544
+v.blk.8.ffn_down.bias      [3072]          F32     88655616
+v.blk.8.ffn_down.weight    [768, 3072]     Q8_0    88667904
+v.blk.8.ffn_up.bias        [768]           F32     91174656
+v.blk.8.ffn_up.weight      [3072, 768]     Q8_0    91177728
+v.blk.8.attn_k.bias        [768]           F32     93684480
+v.blk.8.attn_k.weight      [768, 768]      Q8_0    93687552
+v.blk.8.attn_out.bias      [768]           F32     94314240
+v.blk.8.attn_out.weight    [768, 768]      Q8_0    94317312
+v.blk.8.attn_q.bias        [768]           F32     94944000
+v.blk.8.attn_q.weight      [768, 768]      Q8_0    94947072
+v.blk.8.attn_v.bias        [768]           F32     95573760
+v.blk.8.attn_v.weight      [768, 768]      Q8_0    95576832
+v.blk.9.ln1.bias           [768]           F32     96203520
+v.blk.9.ln1.weight         [768]           F32     96206592
+v.blk.9.ln2.bias           [768]           F32     96209664
+v.blk.9.ln2.weight         [768]           F32     96212736
+v.blk.9.ffn_down.bias      [3072]          F32     96215808
+v.blk.9.ffn_down.weight    [768, 3072]     Q8_0    96228096
+v.blk.9.ffn_up.bias        [768]           F32     98734848
+v.blk.9.ffn_up.weight      [3072, 768]     Q8_0    98737920
+v.blk.9.attn_k.bias        [768]           F32    101244672
+v.blk.9.attn_k.weight      [768, 768]      Q8_0   101247744
+v.blk.9.attn_out.bias      [768]           F32    101874432
+v.blk.9.attn_out.weight    [768, 768]      Q8_0   101877504
+v.blk.9.attn_q.bias        [768]           F32    102504192
+v.blk.9.attn_q.weight      [768, 768]      Q8_0   102507264
+v.blk.9.attn_v.bias        [768]           F32    103133952
+v.blk.9.attn_v.weight      [768, 768]      Q8_0   103137024
+v.post_ln.bias             [768]           F32    103763712
+v.post_ln.weight           [768]           F32    103766784

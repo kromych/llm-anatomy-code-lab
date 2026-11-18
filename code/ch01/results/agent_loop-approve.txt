@@ -1,0 +1,9 @@
+# llama-server build 12359 (b1b770d90) from Homebrew on S3-macOS (macOS 27.2),
+#   llama-server -hf ggml-org/Qwen3-1.7B-GGUF:Q4_K_M --host 127.0.0.1 --port 8101
+# Python 3.15.2; working directory code/ch10/ws; NO_COLOR=1 in the environment.
+# A terminal session, recorded with expect(1); the lines after the prompts
+# are the keys typed.
+$ python3 ../../ch01/agent_loop.py http://127.0.0.1:8101/v1
+> List the Python files in src/
+run 'find src/ -type f -name "*.py"'? [y/N] y
+The Python file found in the `src/` directory is `quant.py`. Let me know if you'd like to list more files or perform further actions!

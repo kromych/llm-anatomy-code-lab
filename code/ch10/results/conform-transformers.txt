@@ -1,0 +1,11 @@
+PASS  t_basic
+FAIL  t_stream -- AssertionError stream does not end with [DONE]
+FAIL  t_stop -- AssertionError 
+PASS  t_length
+FAIL  t_n -- AssertionError n ignored
+FAIL  t_logprobs -- AssertionError None
+PASS  t_tool_auto
+FAIL  t_tool_required -- AssertionError no tool call: 'Hello! How can I assist you today? 😊'
+PASS  t_tool_stream
+FAIL  t_schema -- AssertionError not JSON: '```json\n{\n  "temperature_unit": "kelvin"'
+FAIL  t_error -- JSONDecodeError Expecting value: line 1 column 1 (char 0)

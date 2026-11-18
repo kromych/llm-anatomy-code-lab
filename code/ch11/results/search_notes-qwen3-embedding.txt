@@ -1,0 +1,25 @@
+How do I stop the model in the middle of an answer?
+An answer is right when the expected text appears as a whole word.
+Elide old tool output before the conversation reaches the high mark.
+Requests 107, 119, and 133 failed: the prompt exceeded the context.
+
+What can I do about a tool that never returns?
+The tools refuse every path that leads out of the workspace.
+A tool that may hang runs in a child process that can be killed.
+Elide old tool output before the conversation reaches the high mark.
+
+Which address does the engine answer on?
+An answer is right when the expected text appears as a whole word.
+Requests 107, 119, and 133 failed: the prompt exceeded the context.
+The server listens on port 9931 unless it is started with --port.
+
+Why did some requests break?
+Requests 107, 119, and 133 failed: the prompt exceeded the context.
+The tools refuse every path that leads out of the workspace.
+Thinking solved six tasks for four, at eight times the output tokens.
+
+How much disk space does a compressed model need?
+A model file in Q4_K_M takes a little over half a byte per weight.
+Thinking solved six tasks for four, at eight times the output tokens.
+Gemma 3 1B has no tool calls in Ollama; use the text protocol.
+

@@ -1,0 +1,70 @@
+Exercise 15.13: files_server.py of Chapter 13 attached to Codex and opencode.
+S3-macOS, llama-server 1.0.0 (b12359), Qwen3-8B Q8_0, -c 40960 -np 1, thinking
+on (temp 0.6, top-p 0.95, top-k 20, min-p 0, presence 1.5), behind proxy.py;
+Codex 0.169.0 with a CODEX_HOME of its own, opencode 2.3.0.
+
+$ sh run_mcp.sh OUT
+codex-mcp0 rc=0
+codex-mcp1 rc=0
+opencode-mcp0 rc=0
+opencode-mcp1 rc=0
+opencode-mcp2 rc=0
+gate-hint        files_read_file {"path": "stats.py"} ->  """Small statistics helpers."""   def mean(xs):     return sum(xs) / len(
+gate-nohint      files_read_file {"path": "stats.py"} ->  """Small statistics helpers."""   def mean(xs):     return sum(xs) / len(
+gate-own         read            {"path": "stats.py"} ->  Read file stats.py, lines 1-17 1: """Small statistics helpers.""" 2:  3: 
+gate-env         files_read_file {"path": ".env"}     ->  TOKEN=secret-value 
+gate-ownenv      read            {"path": ".env"}     ->  {"error":{"type":"permission.rejected","message":"This non-interactive ru
+ask-hint         files_read_file {"path": "stats.py"} ->  {"error":{"type":"permission.rejected","message":"This non-interactive ru
+ask-nohint       files_read_file {"path": "stats.py"} ->  {"error":{"type":"permission.rejected","message":"This non-interactive ru
+ask-own          read            {"path": "stats.py"} ->  {"error":{"type":"permission.rejected","message":"This non-interactive ru
+
+The gate lines show what the model was told after its one call: the text of
+the file when the call ran, or opencode's rejection.  gate-*: opencode's
+base policy; ask-*: a rule that asks for all actions; -nohint: the server
+without readOnlyHint; -own: opencode's own tool read; -env: the file .env.
+The rejection in full: "This non-interactive run cannot ask the user for
+permission, so the request was rejected. Continue without this action."
+
+$ GATE_ONLY=1 sh run_mcp.sh OUT        (the gate part alone, run later)
+auto-env         files_read_file {"path": ".env"}     ->  TOKEN=secret-value 
+auto-ownenv      read            {"path": ".env"}     ->  Read file .env, lines 1-1 1: TOKEN=secret-value
+auto-*: the two calls for .env under "opencode run --auto", which the help
+text describes as "Auto-approve permissions that are not explicitly denied".
+The own tool then read the file that the base policy had stopped.  The
+eight other gate lines came out as above.
+
+$ python3 composition.py http://127.0.0.1:8084 log.jsonl dumps codex-mcp0 \
+      codex-mcp1 opencode-mcp0 opencode-mcp1 opencode-mcp2
+codex-mcp0   system   4283  tools   1770  rest    916  total   6969
+codex-mcp1   system   4283  tools   2201  rest    913  total   7397
+opencode-mcp0 system   4634  tools   3691  rest     61  total   8386
+opencode-mcp1 system   4696  tools   3691  rest     61  total   8448
+opencode-mcp2 system   4634  tools   3831  rest     53  total   8518
+
+The tool lists of the first requests, read from dumps/ (tokens counted with
+/tokenize; llama-server passes the functions on and skips the other entries):
+codex-mcp0: 9 entries (7 function, 1 namespace, 1 web_search), 17767 bytes
+    exec_command write_stdin request_user_input view_image multi_agent_v1 get_goal create_goal update_goal web_search
+    calls of the model: exec_command "cat stats.py"
+codex-mcp1: 13 entries (10 function, 2 namespace, 1 web_search), 20328 bytes
+    exec_command write_stdin list_mcp_resources list_mcp_resource_templates read_mcp_resource request_user_input view_image multi_agent_v1 mcp__files get_goal create_goal update_goal web_search
+    the namespace mcp__files holds list_files and read_file: 162 tokens
+    the three functions for resources: 431 tokens
+    calls of the model: exec_command "cat stats.py"; exec_command "python3 -c \"with open('stats.py', 'r') as f: print(f.read())\""; exec_command "python3 -c \"with open('stats.py', 'r') as f: print(f.read())\""
+opencode-mcp0: 13 entries (13 function), 15973 bytes
+    edit experimental_image_generate glob grep question read shell skill subagent webfetch websearch write execute
+    calls of the model: read {"path":"stats.py"}
+opencode-mcp1: 13 entries (13 function), 15973 bytes
+    edit experimental_image_generate glob grep question read shell skill subagent webfetch websearch write execute
+    calls of the model: read {"path":"stats.py"}
+opencode-mcp2: 15 entries (15 function), 16516 bytes
+    edit experimental_image_generate files_list_files files_read_file glob grep question read shell skill subagent webfetch websearch write execute
+    calls of the model: files_read_file {"path":"stats.py"}
+arguments of exec_command (Codex 0.169.0): cmd, justification, login, max_output_tokens, prefix_rule, sandbox_permissions, shell, tty, workdir, yield_time_ms
+
+Codex also takes the server from a file: with
+  [mcp_servers.files]
+  command = "python3"
+  args = ["/path/to/files_server.py", "/path/to/project"]
+in $CODEX_HOME/config.toml, `codex mcp list` shows it and the first request
+carries the same four additional entries.

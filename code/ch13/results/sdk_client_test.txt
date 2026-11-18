@@ -1,0 +1,6 @@
+auto ['list_files', 'read_file'] 'alpha\n' | escape: True ../../etc/passwd: outside the root
+   unknown tool -> MCPError Unknown tool: rm_rf
+legacy ['list_files', 'read_file'] 'alpha\n' | escape: True ../../etc/passwd: outside the root
+   unknown tool -> MCPError Unknown tool: rm_rf
+2026-07-28 ['list_files', 'read_file'] 'alpha\n' | escape: True ../../etc/passwd: outside the root
+   unknown tool -> MCPError Unknown tool: rm_rf

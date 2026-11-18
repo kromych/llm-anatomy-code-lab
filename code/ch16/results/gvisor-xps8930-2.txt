@@ -1,0 +1,38 @@
+gVisor on xps-8930 (S1-LinuxX64), second run of the battery
+runsc version release-20261109.0, spec 1.2.1, unpacked from gvisor.tar.zstd
+(https://storage.googleapis.com/gvisor/releases/release/20261109.0/x86_64/)
+into ~/opt/gvisor; Linux 7.2.11-200.fc44.x86_64, Python 3.14.8.
+
+$ RUNSC=$HOME/opt/gvisor/runsc ./run-unix.sh none runsc
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== runsc
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     BLOCKED  ConnectionRefusedError ECONNREFUSED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt no, probe.txt no, pre-commit no, orphan.txt no, connections 0
+
+$ flock ~/.llm-arch-bench.lock env TIMES=20 RUNSC=$HOME/opt/gvisor/runsc ./run-unix.sh none runsc
+== none
+   median of 20 starts: 0.3 ms
+== runsc
+   median of 20 starts: 19.0 ms
+(load average 7.13, 6.06, 5.50; a second run under the lock gave 0.4 ms and 18.3 ms)
+
+Does anything of the sandbox outlive `runsc do`?
+$ runsc --rootless --network=none do sh -c "(setsid sleep 20 >/dev/null 2>&1 &); echo started; exit 0"
+started
+One second after the command returned, `pgrep -fl "runsc|sleep 20"` showed
+the calling shell alone: no runsc process and no sleep. The detached child
+ended with the sandbox.

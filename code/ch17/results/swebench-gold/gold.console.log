@@ -1,0 +1,24 @@
+ 14:17:32 up 7 days, 20:22,  2 users,  load average: 1.19, 1.06, 1.02
+1794694652
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Using gold predictions - ignoring predictions_path
+Generating test split:   0%|          | 0/300 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 300/300 [00:00<00:00, 24418.14 examples/s]
+Generating dev split:   0%|          | 0/23 [00:00<?, ? examples/s]Generating dev split: 100%|██████████| 23/23 [00:00<00:00, 6880.81 examples/s]
+Running 2 instances...
+  0%|          | 0/2 [00:00<?, ?it/s] 50%|█████     | 1/2 [00:52<00:52, 52.94s/it]1 ran successfully, 0 failed:  50%|█████     | 1/2 [00:52<00:52, 52.94s/it]1 ran successfully, 0 failed: 100%|██████████| 2/2 [07:49<00:00, 234.59s/it]2 ran successfully, 0 failed: 100%|██████████| 2/2 [07:49<00:00, 234.59s/it]2 ran successfully, 0 failed: 100%|██████████| 2/2 [07:49<00:00, 234.59s/it]
+All instances run.
+Total instances: 2
+Instances submitted: 2
+Instances completed: 2
+Instances incomplete: 0
+Instances resolved: 1
+Instances unresolved: 1
+Instances with likely infrastructure failures: 0
+Instances with ambiguous failures: 0
+Instances with empty patches: 0
+Instances with errors: 0
+Unstopped containers: 0
+Unremoved images: 2
+Report written to gold.gold.json
+exit 0
+1794695124

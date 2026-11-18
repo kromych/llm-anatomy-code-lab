@@ -1,0 +1,22 @@
+cmdchild.ps1 on kromyrzen (Windows 11 Pro N for Workstations, build 26300),
+over SSH, 2026-11-14. Each line: the command given to cmd.exe /c inside an
+AppContainer (no capabilities) made by sbx.cs, then cmd's output and exit.
+
+whoami                                       kromyrzen\labuser            exit 0
+C:\WINDOWS\System32\whoami.exe               Access is denied.         exit 1
+where whoami                                 INFO: Could not find ...  exit 1
+curl --version                               curl 8.22.0 (Windows) ... ran
+C:\WINDOWS\System32\curl.exe --version       Access is denied.         exit 1
+echo %PATH%                                  (the user's PATH)         exit 0
+dir /b C:\Windows\System32\whoami.exe        Access is denied.         exit 1
+dir /b C:\                                   Access is denied.         exit 1
+dir /b C:\Windows\System32\drivers\etc       Access is denied.         exit 1
+type C:\Windows\System32\drivers\etc\hosts   # Copyright (c) 1993-...  ran
+cd /d C:\Windows\System32 && whoami.exe      Access is denied.         exit 1
+cd /d C:\Windows\System32 && .\whoami.exe    Access is denied.         exit 1
+dir /b \\?\C:\Windows\System32\whoami.exe    Access is denied.         exit 1
+cd                                           %TEMP%\ch14-cmd-...\work  exit 0
+dir /b whoami.exe   (in the working dir)     Access is denied.         exit 1
+
+The profile ch14.cmdtest and the temporary directory were removed; no
+AppContainer mapping or Packages folder remained.

@@ -1,0 +1,2 @@
+first request: 365 tokens with four tools, 426 with five
+three notes as a result: 48 52 48 42 tokens

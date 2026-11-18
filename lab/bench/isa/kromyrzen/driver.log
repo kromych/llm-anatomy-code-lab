@@ -1,0 +1,25 @@
+2026-11-13T23:21:40.6096936-08:00 removed stray C:\Users\labuser\x64
+2026-11-13T23:21:40.7517448-08:00 copy C:\Users\labuser\AppData\Local\isa-bench\llama-x64: 39 files, cpu dll: ggml-cpu-x64.dll
+2026-11-13T23:21:40.7674000-08:00 removed stray C:\Users\labuser\sse42
+2026-11-13T23:21:40.8147833-08:00 copy C:\Users\labuser\AppData\Local\isa-bench\llama-sse42: 39 files, cpu dll: ggml-cpu-sse42.dll
+2026-11-13T23:21:40.8306526-08:00 removed stray C:\Users\labuser\sandybridge
+2026-11-13T23:21:40.8846760-08:00 copy C:\Users\labuser\AppData\Local\isa-bench\llama-sandybridge: 39 files, cpu dll: ggml-cpu-sandybridge.dll
+2026-11-13T23:21:40.8954852-08:00 removed stray C:\Users\labuser\ivybridge
+2026-11-13T23:21:40.9538795-08:00 copy C:\Users\labuser\AppData\Local\isa-bench\llama-ivybridge: 39 files, cpu dll: ggml-cpu-ivybridge.dll
+2026-11-13T23:21:40.9627928-08:00 removed stray C:\Users\labuser\piledriver
+2026-11-13T23:21:41.0206547-08:00 copy C:\Users\labuser\AppData\Local\isa-bench\llama-piledriver: 39 files, cpu dll: ggml-cpu-piledriver.dll
+2026-11-13T23:21:41.0206547-08:00 removed stray C:\Users\labuser\haswell
+2026-11-13T23:21:41.0834142-08:00 copy C:\Users\labuser\AppData\Local\isa-bench\llama-haswell: 39 files, cpu dll: ggml-cpu-haswell.dll
+2026-11-13T23:21:52.4508957-08:00 bench x64-t8 start
+2026-11-13T23:26:23.3112520-08:00 bench x64-t8 rc=0 interference_samples=0
+2026-11-13T23:26:30.3729243-08:00 bench sse42-t8 start
+2026-11-13T23:29:50.9985070-08:00 bench sse42-t8 rc=0 interference_samples=0
+2026-11-13T23:29:58.0616031-08:00 bench sandybridge-t8 start
+2026-11-13T23:31:58.5172100-08:00 bench sandybridge-t8 rc=0 interference_samples=0
+2026-11-13T23:32:05.5699988-08:00 bench ivybridge-t8 start
+2026-11-13T23:34:06.0492104-08:00 bench ivybridge-t8 rc=0 interference_samples=0
+2026-11-13T23:34:13.1201861-08:00 bench piledriver-t8 start
+2026-11-13T23:36:13.5593773-08:00 bench piledriver-t8 rc=0 interference_samples=0
+2026-11-13T23:36:21.6219419-08:00 bench haswell-t8 start
+2026-11-13T23:39:37.3842015-08:00 bench haswell-t8 rc=0 interference_samples=0
+2026-11-13T23:39:37.3842015-08:00 ALL DONE

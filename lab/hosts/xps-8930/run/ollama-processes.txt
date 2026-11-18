@@ -1,0 +1,30 @@
+$ ollama ps
+NAME         ID              SIZE      PROCESSOR    CONTEXT    RUNNER      UNTIL              
+gemma3:1b    97558784bdc9    883 MB    100% CPU     4096       llamacpp    4 minutes from now    
+
+$ curl -s http://127.0.0.1:11434/api/ps
+{"models":[{"name":"gemma3:1b","model":"gemma3:1b","size":883173621,"digest":"97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c","details":{"parent_model":"","format":"gguf","family":"gemma3","families":["gemma3"],"parameter_size":"999.89M","quantization_level":"Q4_K_M"},"expires_at":"2026-11-13T22:47:58.289222383-08:00","size_vram":0,"context_length":4096,"runner":"llamacpp"}]}
+
+$ ps -ef --forest | grep ollama
+ollama   2007836       1  2 22:35 ?        00:00:09  \_ /usr/local/bin/ollama serve
+ollama   2013651 2007836 99 22:42 ?        00:00:07  |   \_ /usr/local/lib/ollama/llama-server --model /usr/share/ollama/.ollama/models/blobs/sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef --port 45539 --host 127.0.0.1 --no-webui --offline -c 4096 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja --chat-template chatml --load-mode none --flash-attn auto -b 512 -ub 512 --context-shift --keep 4
+
+$ pstree -p -a -u <MainPID of ollama.service>   (thread lines {..} collapsed)
+MainPID=2007836
+ollama,2007836,ollama serve
+  |-llama-server,2013651 --model/usr/share/ollama/.ollama/models/blobs/sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a74
+  (ollama serve: 19 threads; llama-server runner: 20 threads)
+
+$ tr "\0" " " < /proc/<runner pid>/cmdline; ps -o user=,rss=,etimes= -p <runner pid>
+--- child 2013651 cmdline:
+/usr/local/lib/ollama/llama-server --model /usr/share/ollama/.ollama/models/blobs/sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef --port 45539 --host 127.0.0.1 --no-webui --offline -c 4096 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja --chat-template chatml --load-mode none --flash-attn auto -b 512 -ub 512 --context-shift --keep 4 
+--- child 2013651 user/rss:
+ollama   899036      1
+
+$ /usr/local/lib/ollama/llama-server --version      (the runner binary Ollama bundles)
+version: 0.9.0-dev (build 1, commit 6c01da627)
+built with GNU 13.3.1 for Linux x86_64
+(15 KB stub executable; the server code is in /usr/local/lib/ollama/libllama-server-impl.so; links libllama.so.0, libggml.so.0 (0.29.0), libmtmd.so.0 from /usr/local/lib/ollama)
+
+$ ps -eZ | grep ollama      (SELinux enforcing)
+system_u:system_r:unconfined_service_t:s0 2007836 ? 00:00:09 ollama

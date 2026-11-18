@@ -1,0 +1,22 @@
+## python3 padding.py Qwen3-1.7B-Q4_K_M.gguf http://127.0.0.1:8107 QWEN3_DIR
+## (llama-server build 12359 with ggml-org/Qwen3-1.7B-GGUF:Q4_K_M; QWEN3_DIR
+## holds the tokenizer files of Qwen/Qwen3-1.7B; Transformers 5.23.0)
+GGUF vocabulary: 151936 tokens
+  151668 '</think>' (user defined)
+  151669 '[PAD151669]' (unused)
+  151700 '[PAD151700]' (unused)
+  151935 '[PAD151935]' (unused)
+  unused: 267 tokens, IDs 151669 to 151935
+llama-server /detokenize
+  151668 {'content': '</think>'}
+  151669 {'content': ''}
+  151700 {'content': ''}
+  151935 {'content': ''}
+  151936 status 500 {"error":{"code":500,"message":"vector","type":"server_error"}}
+Transformers 5.23.0: 151669 tokens
+  151668 '</think>' '</think>'
+  151669 '' None
+  151700 '' None
+  151935 '' None
+  151936 '' None
+  'Hello world'

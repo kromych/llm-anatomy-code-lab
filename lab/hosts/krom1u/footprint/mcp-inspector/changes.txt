@@ -1,0 +1,116 @@
+Footprint of the MCP Inspector 2.15.0 on krom1u (macOS 27.2, Apple M1 Ultra),
+2026-11-14. Differences between snapshots taken by code/appB/snapshot.sh:
+before, after `--help` and the two command-line runs of the Try it box of
+Chapter 13, while the web mode ran, and after it was stopped. Only the
+differences are kept; Spotlight workers and the model servers of other
+chapters are left out. The package was already in ~/.npm (downloaded the day
+before), so the first download was repeated into an empty npm cache in a
+scratch directory (npm_config_cache). Sizes are those of `du -sh`.
+Narrative and commands: notes.txt.
+
+== Homebrew formulae and casks
+  added at any stage: 0   (Node.js 26.13.0 with npm 11.20.0 was there before)
+
+== entries in ~, ~/.config, ~/.local/*, ~/.cache, ~/Library/..., /Applications
+  added by `--help`: 0
+  added by the two command-line runs: 0
+  added by the web mode (page never opened in a browser): 0
+  present before and after, from the runs of Chapter 13:
+    ~/.mcp-inspector            one subdirectory, storage, empty; 0 bytes
+    ~/.npm                      see the npm cache below
+
+== the same commands with an empty home directory (HOME=<scratch>/home)
+  added by `--help`: 0
+  added by the two command-line runs (tools/list, tools/call): 0
+      (nothing appeared in the project directory either)
+  added by the web mode until it was stopped (page never opened): 0
+      (the banner named <home>/.mcp-inspector/secrets.json as the place for
+      secrets, see notes.txt; the file itself did not appear)
+
+== npm cache, first download into an empty cache (npm_config_cache=<scratch>)
+  added by `npx -y @modelcontextprotocol/inspector@2.15.0 --help`: 4
+    + _npx/b07e2997c50ce20b     102 MB: package.json, package-lock.json (163
+                                entries), node_modules with 120 packages
+                                installed; the other 43 entries are optional
+                                packages of other platforms. The directory
+                                has the same name and the same
+                                package-lock.json as the one in ~/.npm.
+                                Largest: @modelcontextprotocol 25 MB (the
+                                inspector itself 6.4 MB in 44 files; client
+                                7.2 MB; server 7.0 MB), es-toolkit 18 MB,
+                                @rolldown/binding-darwin-arm64 17 MB,
+                                lightningcss-darwin-arm64 8.2 MB, zod 8.1 MB
+    + _cacache                  139 MB: content-v2 138 MB in 284 files (the
+                                downloaded archives and the registry's
+                                metadata), index-v5 1.1 MB
+    + _logs                     one debug log per run of npm or npx; ~/.npm
+                                keeps the newest 10 (logs-max)
+    + _update-notifier-last-checked   empty file
+  requests of that run (npm's debug log): 288 GET and 1 POST, all to
+    https://registry.npmjs.org; the POST went to
+    /-/npm/v1/security/advisories/bulk
+  ~/.npm itself at the end: _cacache 486 MB, _npx 143 MB (the Inspector
+    102 MB and one other package); the runs added no entry to either, and
+    one log each to _logs
+
+== shell start-up files
+  changed at any stage: 0
+
+== launchd jobs, LaunchAgents, login items
+  added at any stage: 0
+
+== listening TCP sockets (command, address)
+  during `--help` and the command-line runs: 0
+  while the web mode ran: 3, all of one process
+    + node 127.0.0.1:6274       the web page and its API (/api/*, /healthz)
+    + node 127.0.0.1:6275       sandbox for MCP Apps (/sandbox)
+    + node 127.0.0.1:6278       origin for the documents of MCP Apps
+  after the process was stopped (SIGTERM to the node process): 0
+
+== processes
+  command-line runs: npm exec (node) -> node .../_npx/b07e2997c50ce20b/
+      node_modules/.bin/inspector --cli ...; the MCP server (python3
+      files_server.py) is its child for the length of the call; all three
+      end with the command
+  web mode: npm exec (node, RSS 103 MB) -> node .../.bin/inspector (RSS
+      106 MB); no further child until a page connects to a server; `npm exec`
+      ended by itself when its child was stopped
+
+== outbound connections (lsof)
+  every run, also with the package in the cache: npm exec ->
+      104.16.x.34:443 (registry.npmjs.org), one connection
+  the inspector process itself: none in the runs above
+
+== answers of the web mode (curl, 127.0.0.1; token = the one of the banner)
+  GET /healthz                                   200 {"status":"ok"}
+  GET /api/config, no token                      401 "Authentication
+      required. Use the x-mcp-remote-auth header with Bearer token."
+  GET /api/config, wrong token                   401
+  GET /api/config, x-mcp-remote-auth: Bearer <token>            200
+  the same with Origin: http://example.com       403
+  GET / with Host: example.com                   403
+  GET /                                          200; the page contains the
+                                                 token
+  GET http://127.0.0.1:6275/sandbox              200
+  GET http://127.0.0.1:6278/                     404
+
+== credentials
+  login keychain, generic passwords of the service "mcp-inspector": none
+      before or after (nothing was saved)
+  ~/.mcp-inspector/secrets.json: absent
+
+== code/appB/inventory.sh mcp-inspector node, while the web mode ran
+  == mcp-inspector
+    dir     0B   ~/.mcp-inspector
+    port  127.0.0.1:6274 (node)
+    port  127.0.0.1:6275 (node)
+    port  127.0.0.1:6278 (node)
+  == node
+    dir   486M   ~/.npm/_cacache
+    dir   143M   ~/.npm/_npx
+  after the stop: the same without the three port lines
+
+== after the runs
+  the last snapshot equals the first in entries, shell start-up files,
+  Homebrew packages and listening sockets; no process of the Inspector is
+  left. Nothing was removed: ~/.mcp-inspector and ~/.npm are as they were.

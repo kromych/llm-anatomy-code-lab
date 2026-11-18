@@ -1,0 +1,325 @@
+# ggml-org/SmolVLM-256M-Instruct-GGUF at commit b9e4379657e1450d04d02eec8e345667265b0a00, read over HTTP Range
+$ python3 scripts/ggufread.py hf:ggml-org/SmolVLM-256M-Instruct-GGUF/SmolVLM-256M-Instruct-Q8_0.gguf
+general.architecture                     'llama'
+general.type                             'model'
+general.name                             'SmolVLM 256M Instruct'
+general.finetune                         'Instruct'
+general.basename                         'SmolVLM'
+general.size_label                       '256M'
+general.license                          'apache-2.0'
+general.base_model.count                 '2'
+general.base_model.0.name                'SmolLM2 135M Instruct'
+general.base_model.0.organization        'HuggingFaceTB'
+general.base_model.0.repo_url            'https://huggingface.co/HuggingFa'
+general.base_model.1.name                'Siglip Base Patch16 512'
+general.base_model.1.version             '512'
+general.base_model.1.organization        'Google'
+general.base_model.1.repo_url            'https://huggingface.co/google/si'
+general.dataset.count                    '2'
+general.dataset.0.name                   'The_Cauldron'
+general.dataset.0.organization           'HuggingFaceM4'
+general.dataset.0.repo_url               'https://huggingface.co/HuggingFa'
+general.dataset.1.name                   'Docmatix'
+general.dataset.1.organization           'HuggingFaceM4'
+general.dataset.1.repo_url               'https://huggingface.co/HuggingFa'
+general.tags                             "[1 items] ['image-text-to-text']"
+general.languages                        "[1 items] ['en']"
+llama.block_count                        '30'
+llama.context_length                     '8192'
+llama.embedding_length                   '576'
+llama.feed_forward_length                '1536'
+llama.attention.head_count               '9'
+llama.attention.head_count_kv            '3'
+llama.rope.freq_base                     '100000.0'
+llama.attention.layer_norm_rms_epsilon   '9.999999747378752e-06'
+llama.attention.key_length               '64'
+llama.attention.value_length             '64'
+llama.vocab_size                         '49280'
+llama.rope.dimension_count               '64'
+tokenizer.ggml.model                     'gpt2'
+tokenizer.ggml.pre                       'smollm'
+tokenizer.ggml.tokens                    "[49280 items] ['<|endoftext|>', "
+tokenizer.ggml.token_type                '[49280 items] [3, 3, 3]'
+tokenizer.ggml.merges                    "[48900 items] ['Ġ t', 'Ġ a', 'i "
+tokenizer.ggml.bos_token_id              '1'
+tokenizer.ggml.eos_token_id              '49279'
+tokenizer.ggml.unknown_token_id          '0'
+tokenizer.ggml.padding_token_id          '2'
+tokenizer.chat_template                  '<|im_start|>{% for message in me'
+tokenizer.ggml.add_space_prefix          'False'
+general.quantization_version             '2'
+general.file_type                        '7'
+273 tensors; data section starts at byte 1791424
+output.weight              [576, 49280]    Q8_0     1791424
+output_norm.weight         [576]           F32     31950784
+token_embd.weight          [576, 49280]    Q8_0    31953088
+blk.0.attn_k.weight        [576, 192]      Q8_0    62112448
+blk.0.attn_norm.weight     [576]           F32     62229952
+blk.0.attn_output.weight   [576, 576]      Q8_0    62232256
+blk.0.attn_q.weight        [576, 576]      Q8_0    62584768
+blk.0.attn_v.weight        [576, 192]      Q8_0    62937280
+blk.0.ffn_down.weight      [1536, 576]     Q8_0    63054784
+blk.0.ffn_gate.weight      [576, 1536]     Q8_0    63994816
+blk.0.ffn_norm.weight      [576]           F32     64934848
+blk.0.ffn_up.weight        [576, 1536]     Q8_0    64937152
+blk.1.attn_k.weight        [576, 192]      Q8_0    65877184
+blk.1.attn_norm.weight     [576]           F32     65994688
+blk.1.attn_output.weight   [576, 576]      Q8_0    65996992
+blk.1.attn_q.weight        [576, 576]      Q8_0    66349504
+blk.1.attn_v.weight        [576, 192]      Q8_0    66702016
+blk.1.ffn_down.weight      [1536, 576]     Q8_0    66819520
+blk.1.ffn_gate.weight      [576, 1536]     Q8_0    67759552
+blk.1.ffn_norm.weight      [576]           F32     68699584
+blk.1.ffn_up.weight        [576, 1536]     Q8_0    68701888
+blk.2.attn_k.weight        [576, 192]      Q8_0    69641920
+blk.2.attn_norm.weight     [576]           F32     69759424
+blk.2.attn_output.weight   [576, 576]      Q8_0    69761728
+blk.2.attn_q.weight        [576, 576]      Q8_0    70114240
+blk.2.attn_v.weight        [576, 192]      Q8_0    70466752
+blk.2.ffn_down.weight      [1536, 576]     Q8_0    70584256
+blk.2.ffn_gate.weight      [576, 1536]     Q8_0    71524288
+blk.2.ffn_norm.weight      [576]           F32     72464320
+blk.2.ffn_up.weight        [576, 1536]     Q8_0    72466624
+blk.3.attn_k.weight        [576, 192]      Q8_0    73406656
+blk.3.attn_norm.weight     [576]           F32     73524160
+blk.3.attn_output.weight   [576, 576]      Q8_0    73526464
+blk.3.attn_q.weight        [576, 576]      Q8_0    73878976
+blk.3.attn_v.weight        [576, 192]      Q8_0    74231488
+blk.3.ffn_down.weight      [1536, 576]     Q8_0    74348992
+blk.3.ffn_gate.weight      [576, 1536]     Q8_0    75289024
+blk.3.ffn_norm.weight      [576]           F32     76229056
+blk.3.ffn_up.weight        [576, 1536]     Q8_0    76231360
+blk.4.attn_k.weight        [576, 192]      Q8_0    77171392
+blk.4.attn_norm.weight     [576]           F32     77288896
+blk.4.attn_output.weight   [576, 576]      Q8_0    77291200
+blk.4.attn_q.weight        [576, 576]      Q8_0    77643712
+blk.4.attn_v.weight        [576, 192]      Q8_0    77996224
+blk.4.ffn_down.weight      [1536, 576]     Q8_0    78113728
+blk.4.ffn_gate.weight      [576, 1536]     Q8_0    79053760
+blk.4.ffn_norm.weight      [576]           F32     79993792
+blk.4.ffn_up.weight        [576, 1536]     Q8_0    79996096
+blk.5.attn_k.weight        [576, 192]      Q8_0    80936128
+blk.5.attn_norm.weight     [576]           F32     81053632
+blk.5.attn_output.weight   [576, 576]      Q8_0    81055936
+blk.5.attn_q.weight        [576, 576]      Q8_0    81408448
+blk.5.attn_v.weight        [576, 192]      Q8_0    81760960
+blk.5.ffn_down.weight      [1536, 576]     Q8_0    81878464
+blk.5.ffn_gate.weight      [576, 1536]     Q8_0    82818496
+blk.5.ffn_norm.weight      [576]           F32     83758528
+blk.5.ffn_up.weight        [576, 1536]     Q8_0    83760832
+blk.6.attn_k.weight        [576, 192]      Q8_0    84700864
+blk.6.attn_norm.weight     [576]           F32     84818368
+blk.6.attn_output.weight   [576, 576]      Q8_0    84820672
+blk.6.attn_q.weight        [576, 576]      Q8_0    85173184
+blk.6.attn_v.weight        [576, 192]      Q8_0    85525696
+blk.6.ffn_down.weight      [1536, 576]     Q8_0    85643200
+blk.6.ffn_gate.weight      [576, 1536]     Q8_0    86583232
+blk.6.ffn_norm.weight      [576]           F32     87523264
+blk.6.ffn_up.weight        [576, 1536]     Q8_0    87525568
+blk.7.attn_k.weight        [576, 192]      Q8_0    88465600
+blk.7.attn_norm.weight     [576]           F32     88583104
+blk.7.attn_output.weight   [576, 576]      Q8_0    88585408
+blk.7.attn_q.weight        [576, 576]      Q8_0    88937920
+blk.7.attn_v.weight        [576, 192]      Q8_0    89290432
+blk.7.ffn_down.weight      [1536, 576]     Q8_0    89407936
+blk.7.ffn_gate.weight      [576, 1536]     Q8_0    90347968
+blk.7.ffn_norm.weight      [576]           F32     91288000
+blk.7.ffn_up.weight        [576, 1536]     Q8_0    91290304
+blk.8.attn_k.weight        [576, 192]      Q8_0    92230336
+blk.8.attn_norm.weight     [576]           F32     92347840
+blk.8.attn_output.weight   [576, 576]      Q8_0    92350144
+blk.8.attn_q.weight        [576, 576]      Q8_0    92702656
+blk.8.attn_v.weight        [576, 192]      Q8_0    93055168
+blk.8.ffn_down.weight      [1536, 576]     Q8_0    93172672
+blk.8.ffn_gate.weight      [576, 1536]     Q8_0    94112704
+blk.8.ffn_norm.weight      [576]           F32     95052736
+blk.8.ffn_up.weight        [576, 1536]     Q8_0    95055040
+blk.9.attn_k.weight        [576, 192]      Q8_0    95995072
+blk.9.attn_norm.weight     [576]           F32     96112576
+blk.9.attn_output.weight   [576, 576]      Q8_0    96114880
+blk.9.attn_q.weight        [576, 576]      Q8_0    96467392
+blk.9.attn_v.weight        [576, 192]      Q8_0    96819904
+blk.9.ffn_down.weight      [1536, 576]     Q8_0    96937408
+blk.9.ffn_gate.weight      [576, 1536]     Q8_0    97877440
+blk.9.ffn_norm.weight      [576]           F32     98817472
+blk.9.ffn_up.weight        [576, 1536]     Q8_0    98819776
+blk.10.attn_k.weight       [576, 192]      Q8_0    99759808
+blk.10.attn_norm.weight    [576]           F32     99877312
+blk.10.attn_output.weight  [576, 576]      Q8_0    99879616
+blk.10.attn_q.weight       [576, 576]      Q8_0   100232128
+blk.10.attn_v.weight       [576, 192]      Q8_0   100584640
+blk.10.ffn_down.weight     [1536, 576]     Q8_0   100702144
+blk.10.ffn_gate.weight     [576, 1536]     Q8_0   101642176
+blk.10.ffn_norm.weight     [576]           F32    102582208
+blk.10.ffn_up.weight       [576, 1536]     Q8_0   102584512
+blk.11.attn_k.weight       [576, 192]      Q8_0   103524544
+blk.11.attn_norm.weight    [576]           F32    103642048
+blk.11.attn_output.weight  [576, 576]      Q8_0   103644352
+blk.11.attn_q.weight       [576, 576]      Q8_0   103996864
+blk.11.attn_v.weight       [576, 192]      Q8_0   104349376
+blk.11.ffn_down.weight     [1536, 576]     Q8_0   104466880
+blk.11.ffn_gate.weight     [576, 1536]     Q8_0   105406912
+blk.11.ffn_norm.weight     [576]           F32    106346944
+blk.11.ffn_up.weight       [576, 1536]     Q8_0   106349248
+blk.12.attn_k.weight       [576, 192]      Q8_0   107289280
+blk.12.attn_norm.weight    [576]           F32    107406784
+blk.12.attn_output.weight  [576, 576]      Q8_0   107409088
+blk.12.attn_q.weight       [576, 576]      Q8_0   107761600
+blk.12.attn_v.weight       [576, 192]      Q8_0   108114112
+blk.12.ffn_down.weight     [1536, 576]     Q8_0   108231616
+blk.12.ffn_gate.weight     [576, 1536]     Q8_0   109171648
+blk.12.ffn_norm.weight     [576]           F32    110111680
+blk.12.ffn_up.weight       [576, 1536]     Q8_0   110113984
+blk.13.attn_k.weight       [576, 192]      Q8_0   111054016
+blk.13.attn_norm.weight    [576]           F32    111171520
+blk.13.attn_output.weight  [576, 576]      Q8_0   111173824
+blk.13.attn_q.weight       [576, 576]      Q8_0   111526336
+blk.13.attn_v.weight       [576, 192]      Q8_0   111878848
+blk.13.ffn_down.weight     [1536, 576]     Q8_0   111996352
+blk.13.ffn_gate.weight     [576, 1536]     Q8_0   112936384
+blk.13.ffn_norm.weight     [576]           F32    113876416
+blk.13.ffn_up.weight       [576, 1536]     Q8_0   113878720
+blk.14.attn_k.weight       [576, 192]      Q8_0   114818752
+blk.14.attn_norm.weight    [576]           F32    114936256
+blk.14.attn_output.weight  [576, 576]      Q8_0   114938560
+blk.14.attn_q.weight       [576, 576]      Q8_0   115291072
+blk.14.attn_v.weight       [576, 192]      Q8_0   115643584
+blk.14.ffn_down.weight     [1536, 576]     Q8_0   115761088
+blk.14.ffn_gate.weight     [576, 1536]     Q8_0   116701120
+blk.14.ffn_norm.weight     [576]           F32    117641152
+blk.14.ffn_up.weight       [576, 1536]     Q8_0   117643456
+blk.15.attn_k.weight       [576, 192]      Q8_0   118583488
+blk.15.attn_norm.weight    [576]           F32    118700992
+blk.15.attn_output.weight  [576, 576]      Q8_0   118703296
+blk.15.attn_q.weight       [576, 576]      Q8_0   119055808
+blk.15.attn_v.weight       [576, 192]      Q8_0   119408320
+blk.15.ffn_down.weight     [1536, 576]     Q8_0   119525824
+blk.15.ffn_gate.weight     [576, 1536]     Q8_0   120465856
+blk.15.ffn_norm.weight     [576]           F32    121405888
+blk.15.ffn_up.weight       [576, 1536]     Q8_0   121408192
+blk.16.attn_k.weight       [576, 192]      Q8_0   122348224
+blk.16.attn_norm.weight    [576]           F32    122465728
+blk.16.attn_output.weight  [576, 576]      Q8_0   122468032
+blk.16.attn_q.weight       [576, 576]      Q8_0   122820544
+blk.16.attn_v.weight       [576, 192]      Q8_0   123173056
+blk.16.ffn_down.weight     [1536, 576]     Q8_0   123290560
+blk.16.ffn_gate.weight     [576, 1536]     Q8_0   124230592
+blk.16.ffn_norm.weight     [576]           F32    125170624
+blk.16.ffn_up.weight       [576, 1536]     Q8_0   125172928
+blk.17.attn_k.weight       [576, 192]      Q8_0   126112960
+blk.17.attn_norm.weight    [576]           F32    126230464
+blk.17.attn_output.weight  [576, 576]      Q8_0   126232768
+blk.17.attn_q.weight       [576, 576]      Q8_0   126585280
+blk.17.attn_v.weight       [576, 192]      Q8_0   126937792
+blk.17.ffn_down.weight     [1536, 576]     Q8_0   127055296
+blk.17.ffn_gate.weight     [576, 1536]     Q8_0   127995328
+blk.17.ffn_norm.weight     [576]           F32    128935360
+blk.17.ffn_up.weight       [576, 1536]     Q8_0   128937664
+blk.18.attn_k.weight       [576, 192]      Q8_0   129877696
+blk.18.attn_norm.weight    [576]           F32    129995200
+blk.18.attn_output.weight  [576, 576]      Q8_0   129997504
+blk.18.attn_q.weight       [576, 576]      Q8_0   130350016
+blk.18.attn_v.weight       [576, 192]      Q8_0   130702528
+blk.18.ffn_down.weight     [1536, 576]     Q8_0   130820032
+blk.18.ffn_gate.weight     [576, 1536]     Q8_0   131760064
+blk.18.ffn_norm.weight     [576]           F32    132700096
+blk.18.ffn_up.weight       [576, 1536]     Q8_0   132702400
+blk.19.attn_k.weight       [576, 192]      Q8_0   133642432
+blk.19.attn_norm.weight    [576]           F32    133759936
+blk.19.attn_output.weight  [576, 576]      Q8_0   133762240
+blk.19.attn_q.weight       [576, 576]      Q8_0   134114752
+blk.19.attn_v.weight       [576, 192]      Q8_0   134467264
+blk.19.ffn_down.weight     [1536, 576]     Q8_0   134584768
+blk.19.ffn_gate.weight     [576, 1536]     Q8_0   135524800
+blk.19.ffn_norm.weight     [576]           F32    136464832
+blk.19.ffn_up.weight       [576, 1536]     Q8_0   136467136
+blk.20.attn_k.weight       [576, 192]      Q8_0   137407168
+blk.20.attn_norm.weight    [576]           F32    137524672
+blk.20.attn_output.weight  [576, 576]      Q8_0   137526976
+blk.20.attn_q.weight       [576, 576]      Q8_0   137879488
+blk.20.attn_v.weight       [576, 192]      Q8_0   138232000
+blk.20.ffn_down.weight     [1536, 576]     Q8_0   138349504
+blk.20.ffn_gate.weight     [576, 1536]     Q8_0   139289536
+blk.20.ffn_norm.weight     [576]           F32    140229568
+blk.20.ffn_up.weight       [576, 1536]     Q8_0   140231872
+blk.21.attn_k.weight       [576, 192]      Q8_0   141171904
+blk.21.attn_norm.weight    [576]           F32    141289408
+blk.21.attn_output.weight  [576, 576]      Q8_0   141291712
+blk.21.attn_q.weight       [576, 576]      Q8_0   141644224
+blk.21.attn_v.weight       [576, 192]      Q8_0   141996736
+blk.21.ffn_down.weight     [1536, 576]     Q8_0   142114240
+blk.21.ffn_gate.weight     [576, 1536]     Q8_0   143054272
+blk.21.ffn_norm.weight     [576]           F32    143994304
+blk.21.ffn_up.weight       [576, 1536]     Q8_0   143996608
+blk.22.attn_k.weight       [576, 192]      Q8_0   144936640
+blk.22.attn_norm.weight    [576]           F32    145054144
+blk.22.attn_output.weight  [576, 576]      Q8_0   145056448
+blk.22.attn_q.weight       [576, 576]      Q8_0   145408960
+blk.22.attn_v.weight       [576, 192]      Q8_0   145761472
+blk.22.ffn_down.weight     [1536, 576]     Q8_0   145878976
+blk.22.ffn_gate.weight     [576, 1536]     Q8_0   146819008
+blk.22.ffn_norm.weight     [576]           F32    147759040
+blk.22.ffn_up.weight       [576, 1536]     Q8_0   147761344
+blk.23.attn_k.weight       [576, 192]      Q8_0   148701376
+blk.23.attn_norm.weight    [576]           F32    148818880
+blk.23.attn_output.weight  [576, 576]      Q8_0   148821184
+blk.23.attn_q.weight       [576, 576]      Q8_0   149173696
+blk.23.attn_v.weight       [576, 192]      Q8_0   149526208
+blk.23.ffn_down.weight     [1536, 576]     Q8_0   149643712
+blk.23.ffn_gate.weight     [576, 1536]     Q8_0   150583744
+blk.23.ffn_norm.weight     [576]           F32    151523776
+blk.23.ffn_up.weight       [576, 1536]     Q8_0   151526080
+blk.24.attn_k.weight       [576, 192]      Q8_0   152466112
+blk.24.attn_norm.weight    [576]           F32    152583616
+blk.24.attn_output.weight  [576, 576]      Q8_0   152585920
+blk.24.attn_q.weight       [576, 576]      Q8_0   152938432
+blk.24.attn_v.weight       [576, 192]      Q8_0   153290944
+blk.24.ffn_down.weight     [1536, 576]     Q8_0   153408448
+blk.24.ffn_gate.weight     [576, 1536]     Q8_0   154348480
+blk.24.ffn_norm.weight     [576]           F32    155288512
+blk.24.ffn_up.weight       [576, 1536]     Q8_0   155290816
+blk.25.attn_k.weight       [576, 192]      Q8_0   156230848
+blk.25.attn_norm.weight    [576]           F32    156348352
+blk.25.attn_output.weight  [576, 576]      Q8_0   156350656
+blk.25.attn_q.weight       [576, 576]      Q8_0   156703168
+blk.25.attn_v.weight       [576, 192]      Q8_0   157055680
+blk.25.ffn_down.weight     [1536, 576]     Q8_0   157173184
+blk.25.ffn_gate.weight     [576, 1536]     Q8_0   158113216
+blk.25.ffn_norm.weight     [576]           F32    159053248
+blk.25.ffn_up.weight       [576, 1536]     Q8_0   159055552
+blk.26.attn_k.weight       [576, 192]      Q8_0   159995584
+blk.26.attn_norm.weight    [576]           F32    160113088
+blk.26.attn_output.weight  [576, 576]      Q8_0   160115392
+blk.26.attn_q.weight       [576, 576]      Q8_0   160467904
+blk.26.attn_v.weight       [576, 192]      Q8_0   160820416
+blk.26.ffn_down.weight     [1536, 576]     Q8_0   160937920
+blk.26.ffn_gate.weight     [576, 1536]     Q8_0   161877952
+blk.26.ffn_norm.weight     [576]           F32    162817984
+blk.26.ffn_up.weight       [576, 1536]     Q8_0   162820288
+blk.27.attn_k.weight       [576, 192]      Q8_0   163760320
+blk.27.attn_norm.weight    [576]           F32    163877824
+blk.27.attn_output.weight  [576, 576]      Q8_0   163880128
+blk.27.attn_q.weight       [576, 576]      Q8_0   164232640
+blk.27.attn_v.weight       [576, 192]      Q8_0   164585152
+blk.27.ffn_down.weight     [1536, 576]     Q8_0   164702656
+blk.27.ffn_gate.weight     [576, 1536]     Q8_0   165642688
+blk.27.ffn_norm.weight     [576]           F32    166582720
+blk.27.ffn_up.weight       [576, 1536]     Q8_0   166585024
+blk.28.attn_k.weight       [576, 192]      Q8_0   167525056
+blk.28.attn_norm.weight    [576]           F32    167642560
+blk.28.attn_output.weight  [576, 576]      Q8_0   167644864
+blk.28.attn_q.weight       [576, 576]      Q8_0   167997376
+blk.28.attn_v.weight       [576, 192]      Q8_0   168349888
+blk.28.ffn_down.weight     [1536, 576]     Q8_0   168467392
+blk.28.ffn_gate.weight     [576, 1536]     Q8_0   169407424
+blk.28.ffn_norm.weight     [576]           F32    170347456
+blk.28.ffn_up.weight       [576, 1536]     Q8_0   170349760
+blk.29.attn_k.weight       [576, 192]      Q8_0   171289792
+blk.29.attn_norm.weight    [576]           F32    171407296
+blk.29.attn_output.weight  [576, 576]      Q8_0   171409600
+blk.29.attn_q.weight       [576, 576]      Q8_0   171762112
+blk.29.attn_v.weight       [576, 192]      Q8_0   172114624
+blk.29.ffn_down.weight     [1536, 576]     Q8_0   172232128
+blk.29.ffn_gate.weight     [576, 1536]     Q8_0   173172160
+blk.29.ffn_norm.weight     [576]           F32    174112192
+blk.29.ffn_up.weight       [576, 1536]     Q8_0   174114496

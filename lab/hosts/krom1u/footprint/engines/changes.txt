@@ -1,0 +1,32 @@
+Engine installs (llama.cpp and Ollama via Homebrew) on krom1u, 2026-11-13:
+differences between snapshots before and after. The full snapshots were
+discarded. Narrative: ../../notes.txt; logs and responses: ../../run/.
+
+== Homebrew formulae added (brew install llama.cpp ollama)
+ggml
+libomp
+llama.cpp
+mlx
+mlx-c
+ollama
+
+== tool paths checked before the installs
+absent: ~/.ollama
+absent: ~/Library/Caches/llama.cpp
+absent: ~/.cache/llama.cpp
+exists: ~/.cache/huggingface
+absent: ~/Library/Application Support/Ollama
+
+== files of the llama.cpp formula outside bin/
+   2 lib/cmake
+   1 share/llama.cpp
+   1 sbom.spdx.json/
+   1 README.md/
+   1 LICENSE/
+   1 lib/pkgconfig
+
+== launchd jobs (Spotlight workers and opened apps omitted)
+(no differences)
+
+== listening sockets
++ Python 127.0.0.1:8092   (another experiment running at the time; not an install)

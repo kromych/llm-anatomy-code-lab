@@ -1,0 +1,31 @@
+# render.py with Jinja2 3.1.6; each result is shown as a Python literal
+# (python3 render.py ... | python3 -c 'import sys; print(repr(sys.stdin.read()))')
+
+$ python3 scripts/render.py dl-Qwen_Qwen3-8B/tokenizer_config.json
+'<|im_start|>user\nList the Python files in src/<|im_end|>\n<|im_start|>assistant\n'
+
+$ python3 scripts/render.py dl-Qwen_Qwen3-8B/tokenizer_config.json inputs/two.json
+'<|im_start|>system\nAnswer briefly.<|im_end|>\n<|im_start|>user\nList the Python files in src/<|im_end|>\n<|im_start|>assistant\n'
+
+$ python3 scripts/render.py dl-Qwen_Qwen3-8B/tokenizer_config.json inputs/qwen3-excerpt.jinja inputs/two.json
+'<|im_start|>system\nAnswer briefly.<|im_end|>\n<|im_start|>user\nList the Python files in src/<|im_end|>\n<|im_start|>assistant\n'
+
+# unsloth/gemma-3-1b-it, tokenizer_config.json (1,158,491 bytes, not kept here)
+$ python3 scripts/render.py gemma/tokenizer_config.json inputs/two.json
+'<bos><start_of_turn>user\nAnswer briefly.\n\nList the Python files in src/<end_of_turn>\n<start_of_turn>model\n'
+
+$ python3 scripts/render.py gemma/tokenizer_config.json inputs/four.json
+'<bos><start_of_turn>user\nAnswer briefly.\n\nHi<end_of_turn>\n<start_of_turn>model\nHello.<end_of_turn>\n<start_of_turn>user\nList the Python files in src/<end_of_turn>\n<start_of_turn>model\n'
+
+# mistralai/Mistral-7B-Instruct-v0.3, tokenizer_config.json (140,874 bytes, not kept here)
+$ python3 scripts/render.py mistral/tokenizer_config.json inputs/four.json
+'<s>[INST] Hi[/INST] Hello.</s>[INST] Answer briefly.\n\nList the Python files in src/[/INST]'
+
+# the excerpt of Qwen3's template again (it lost three lines after the run above)
+$ python3 scripts/render.py dl-Qwen_Qwen3-8B/tokenizer_config.json inputs/qwen3-excerpt.jinja inputs/two.json
+'<|im_start|>system\nAnswer briefly.<|im_end|>\n<|im_start|>user\nList the Python files in src/<|im_end|>\n<|im_start|>assistant\n'
+
+# Gemma 3's template as a separate file, and a message whose content is
+# an image part and a text part
+$ python3 scripts/render.py gemma/tokenizer_config.json dl-unsloth_gemma-3-1b-it/chat_template.jinja inputs/image.json
+'<bos><start_of_turn>user\n<start_of_image>Describe the picture.<end_of_turn>\n<start_of_turn>model\n'

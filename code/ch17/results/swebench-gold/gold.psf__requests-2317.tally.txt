@@ -1,0 +1,7 @@
+   4 failure  ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1147)
+              first: RequestsTestCase.test_mixed_case_scheme_acceptable
+   1 failure  IndexError: list index out of range
+              first: RequestsTestCase.test_auth_is_stripped_on_redirect_off_host
+   1 failure  TypeError: 'requests.post(url, data=\'[{"some": "data"}]\', files={\'some\': f})' object (type: <class 'str'>) must be callable
+              first: RequestsTestCase.test_conflicting_post_params
+   6 blocks

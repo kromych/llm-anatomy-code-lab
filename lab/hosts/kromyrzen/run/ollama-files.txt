@@ -1,0 +1,72 @@
+[install dir C:\Users\labuser\AppData\Local\Programs\Ollama] total size 3,352,686,329 bytes, 989 files
+  f app.ico  7,502  
+  d lib  (3,276,612,848 bytes)
+  f ollama app.exe  30,073,224  
+  f ollama.exe  41,268,104  
+  f unins000.dat  345,407  
+  f unins000.exe  4,353,928  51.1054.0.0
+  f unins000.msg  25,316  
+[C:\Users\labuser\AppData\Local\Programs\Ollama\lib] second level
+  d ollama  (3,276,610,761 bytes, 982 files)
+  f Ollama.lnk  2,087
+[C:\Users\labuser\AppData\Local\Programs\Ollama\lib\ollama]
+  f CPP_HTTPLIB_LICENSE  1,097
+  d cuda_v12  (1,188,987,760 bytes, 14 files)
+  d cuda_v13  (951,446,416 bytes, 18 files)
+  f ggml-base.dll  852,360
+  f ggml-cpu-alderlake.dll  1,760,136
+  f ggml-cpu-cannonlake.dll  2,045,320
+  f ggml-cpu-cascadelake.dll  2,016,648
+  f ggml-cpu-cooperlake.dll  2,014,600
+  f ggml-cpu-haswell.dll  1,767,816
+  f ggml-cpu-icelake.dll  2,023,816
+  f ggml-cpu-ivybridge.dll  1,646,472
+  f ggml-cpu-piledriver.dll  1,651,592
+  f ggml-cpu-sandybridge.dll  1,665,928
+  f ggml-cpu-sapphirerapids.dll  2,316,168
+  f ggml-cpu-skylakex.dll  2,038,152
+  f ggml-cpu-sse42.dll  1,291,144
+  f ggml-cpu-x64.dll  1,276,808
+  f ggml-cpu-zen4.dll  2,021,768
+  f ggml.dll  49,032
+  f GO_LICENSE  182,211
+  f libc++.dll  1,767,816
+  f libllama-common.dll  4,465,032
+  f libllama-quantize-impl.dll  83,848
+  f libllama-server-impl.dll  3,091,336
+  f libllama.dll  4,130,184
+  f libmtmd.dll  1,705,352
+  f libomp.dll  965,000
+  f libunwind.dll  107,912
+  f libwinpthread-1.dll  390,024
+  f LLAMA_CPP_LICENSE  1,099
+  f LLAMA_CPP_VENDORS_LICENSE  7,424
+  f llama-quantize.exe  23,944
+  f llama-server.exe  23,944
+  d rocm_v7_1  (1,050,603,586 bytes, 908 files)
+  d vulkan  (42,189,016 bytes, 11 files)
+[C:\Users\labuser\.ollama] exists=True
+  d cache
+  f cache\model-recommendations.json  2,067
+  f id_ed25519  387
+  f id_ed25519.pub  81
+  d models
+  d models\blobs
+  d models\manifests
+  d models\manifests-v2
+  d models\manifests-v2\ollama.com
+  d models\manifests-v2\ollama.com\library
+  d models\manifests\registry.ollama.ai
+  d models\manifests\registry.ollama.ai\library
+  d models\metadata
+  f models\metadata\sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef.json  3,090
+  f models\metadata\sha256-3d0b790534fe4b79525fc3692950408dca41171676ed7e21db57af5c65ef6ab6.json  5,540
+  (models\blobs: 12 files sha256-*, total 2,165,362,789 bytes; names omitted)
+[C:\Users\labuser\AppData\Local\Ollama] exists=True
+  f app.log  606
+  f db.sqlite  4,096
+  f db.sqlite-shm  32,768
+  f db.sqlite-wal  103,032
+  f server.log  0
+[C:\Users\labuser\AppData\Roaming\Ollama] exists=False
+[C:\Users\labuser\AppData\Local\ollama app.exe] exists=False

@@ -1,0 +1,18 @@
+# cmd: build/bin/llama-server -hf ggml-org/gemma-3-1b-it-GGUF --port 8080 -lv 4
+$ sudo ss -ltnp   (while llama-server ran; Ollama service also listening)
+State  Recv-Q Send-Q Local Address:Port  Peer Address:PortProcess                                   
+LISTEN 0      4096       127.0.0.1:631        0.0.0.0:*    users:(("cupsd",pid=1049,fd=8))          
+LISTEN 0      4096         0.0.0.0:5355       0.0.0.0:*    users:(("systemd-resolve",pid=577,fd=13))
+LISTEN 0      4096      127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=577,fd=21))
+LISTEN 0      512        127.0.0.1:8080       0.0.0.0:*    users:(("llama-server",pid=2013395,fd=3))
+LISTEN 0      128          0.0.0.0:22         0.0.0.0:*    users:(("sshd",pid=1058,fd=6))           
+LISTEN 0      5          127.0.0.1:4330       0.0.0.0:*    users:(("pmlogger",pid=1892,fd=7))       
+LISTEN 0      4096       127.0.0.1:11434      0.0.0.0:*    users:(("ollama",pid=2007836,fd=4))      
+LISTEN 0      5          127.0.0.1:44321      0.0.0.0:*    users:(("pmcd",pid=1288,fd=0))           
+LISTEN 0      4096   127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=577,fd=19))
+LISTEN 0      4096            [::]:5355          [::]:*    users:(("systemd-resolve",pid=577,fd=15))
+LISTEN 0      128             [::]:22            [::]:*    users:(("sshd",pid=1058,fd=7))           
+LISTEN 0      5              [::1]:44321         [::]:*    users:(("pmcd",pid=1288,fd=3))           
+LISTEN 0      5              [::1]:4330          [::]:*    users:(("pmlogger",pid=1892,fd=8))       
+LISTEN 0      4096           [::1]:631           [::]:*    users:(("cupsd",pid=1049,fd=7))          
+LISTEN 0      4096               *:9090             *:*    users:(("systemd",pid=1,fd=521))         

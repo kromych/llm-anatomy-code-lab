@@ -1,0 +1,25 @@
+{
+  "id": "chatcmpl-840",
+  "object": "chat.completion",
+  "created": 1794638578,
+  "model": "gemma3:1b",
+  "system_fingerprint": "fp_ollama",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "A GGUF file is a lightweight, quantized version of a language model, designed for efficient inference and deployment on various platforms."
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 21,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens": 27,
+    "total_tokens": 48
+  }
+}

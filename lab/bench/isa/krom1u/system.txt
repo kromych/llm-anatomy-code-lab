@@ -1,0 +1,83 @@
+Fri Nov 13 23:12:01 PST 2026
+ProductName:		macOS
+ProductVersion:		27.2
+BuildVersion:		26B123
+Darwin krom1u.local 27.2.0 Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000 arm64
+Apple clang version 21.0.0 (clang-2100.4.1.1)
+cmake version 4.5.0
+61dbf49228c8a96b72e40c89d93cb7c003411f8c
+Apple M1 Ultra
+16
+4
+68719476736
+hw.optional.arm.FEAT_DotProd: 1
+hw.optional.arm.FEAT_BF16: 0
+hw.optional.arm.FEAT_I8MM: 0
+hw.optional.arm.FEAT_FP16: 1
+hw.optional.arm.FEAT_SME: 0
+hw.optional.arm.FEAT_SME2: 0
+hw.optional.arm.FEAT_SME2p1: 0
+hw.optional.arm.FEAT_SME_F64F64: 0
+hw.optional.arm.FEAT_SME_I16I64: 0
+hw.optional.arm.FEAT_SME_F16F16: 0
+hw.optional.arm.FEAT_SME_B16B16: 0
+hw.optional.arm.FEAT_SME_LUTv2: 0
+hw.optional.arm.FEAT_SME_F8F16: 0
+hw.optional.arm.FEAT_SME_F8F32: 0
+hw.optional.arm.FEAT_SVE_B16B16: 0
+load_backend: loaded BLAS backend from /opt/homebrew/Cellar/ggml/1.0.0/libexec/libggml-blas.so
+ggml_metal_device_init: tensor API disabled for pre-M5 and pre-A19 devices
+ggml_metal_library_init: using embedded metal library
+ggml_metal_library_compile_all: compiled 'fa_aux' library in 0.545 sec
+ggml_metal_library_compile_all: compiled 'fa_f16' library in 3.228 sec
+ggml_metal_library_compile_all: compiled 'fa_f32' library in 2.001 sec
+ggml_metal_library_compile_all: compiled 'fa_q4_0' library in 2.116 sec
+ggml_metal_library_compile_all: compiled 'fa_q4_1' library in 2.978 sec
+ggml_metal_library_compile_all: compiled 'fa_q5_0' library in 2.208 sec
+ggml_metal_library_compile_all: compiled 'fa_q5_1' library in 2.012 sec
+ggml_metal_library_compile_all: compiled 'fa_q8_0' library in 2.128 sec
+ggml_metal_library_compile_all: compiled 'fa_tensor' library in 0.404 sec
+ggml_metal_library_compile_all: compiled 'fa_vec_f16' library in 5.872 sec
+ggml_metal_library_compile_all: compiled 'fa_vec_f32' library in 1.259 sec
+ggml_metal_library_compile_all: compiled 'fa_vec_q4_0' library in 5.895 sec
+ggml_metal_library_compile_all: compiled 'fa_vec_q4_1' library in 5.593 sec
+ggml_metal_library_compile_all: compiled 'fa_vec_q5_0' library in 4.942 sec
+ggml_metal_library_compile_all: compiled 'fa_vec_q5_1' library in 5.445 sec
+ggml_metal_library_compile_all: compiled 'fa_vec_q8_0' library in 5.163 sec
+ggml_metal_library_compile_all: compiled 'mul_mv' library in 2.342 sec
+ggml_metal_library_compile_all: compiled 'mul_mv_mma' library in 2.799 sec
+ggml_metal_library_compile_all: compiled 'mul_mm' library in 2.977 sec
+ggml_metal_library_compile_all: compiled 'quantize' library in 3.227 sec
+ggml_metal_library_compile_all: compiled 'softmax' library in 2.799 sec
+ggml_metal_library_compile_all: compiled 'norm' library in 0.459 sec
+ggml_metal_library_compile_all: compiled 'unary' library in 0.304 sec
+ggml_metal_library_compile_all: compiled 'binbcast' library in 0.251 sec
+ggml_metal_library_compile_all: compiled 'reduce' library in 2.000 sec
+ggml_metal_library_compile_all: compiled 'tri' library in 2.115 sec
+ggml_metal_library_compile_all: compiled 'ssm' library in 0.459 sec
+ggml_metal_library_compile_all: compiled 'wkv' library in 2.011 sec
+ggml_metal_library_compile_all: compiled 'gated_delta_net' library in 2.127 sec
+ggml_metal_library_compile_all: compiled 'solve_tri' library in 0.207 sec
+ggml_metal_library_compile_all: compiled 'rope' library in 0.235 sec
+ggml_metal_library_compile_all: compiled 'conv' library in 0.544 sec
+ggml_metal_library_compile_all: compiled 'upscale' library in 0.212 sec
+ggml_metal_library_compile_all: compiled 'argsort' library in 4.941 sec
+ggml_metal_library_compile_all: compiled 'pool' library in 1.258 sec
+ggml_metal_library_compile_all: compiled 'misc' library in 0.400 sec
+ggml_metal_library_compile_all: loaded 36 libraries from embedded data in 5.895 sec (max single = 5.895 sec)
+ggml_metal_rsets_init: creating a residency set collection (keep_alive = 180 s)
+ggml_metal_device_init: GPU name:   MTL0 (Apple M1 Ultra)
+ggml_metal_device_init: GPU family: MTLGPUFamilyApple7  (1007)
+ggml_metal_device_init: GPU family: MTLGPUFamilyMetal4  (5002)
+ggml_metal_device_init: simdgroup reduction   = true
+ggml_metal_device_init: simdgroup matrix mul. = true
+ggml_metal_device_init: has unified memory    = true
+ggml_metal_device_init: has bfloat            = true
+ggml_metal_device_init: has tensor            = false
+ggml_metal_device_init: use residency sets    = true
+ggml_metal_device_init: use shared buffers    = true
+ggml_metal_device_init: recommendedMaxWorkingSetSize  = 55662.79 MB
+load_backend: loaded MTL backend from /opt/homebrew/Cellar/ggml/1.0.0/libexec/libggml-metal.so
+load_backend: loaded CPU backend from /opt/homebrew/Cellar/ggml/1.0.0/libexec/libggml-cpu-apple_m1.so
+version: 1.0.0 (build 12359, commit b1b770d90)
+built with AppleClang 21.0.0.21000401 for Darwin arm64

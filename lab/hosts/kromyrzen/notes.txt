@@ -1,0 +1,264 @@
+kromyrzen.local - CPU-only Windows desktop: llama.cpp + Ollama install, test and footprint (2026-11-13, times are UTC-08:00)
+
+HOST AND ACCESS
+- Windows 11 Pro N for Workstations 26H2, build 10.0.26300.9974; AMD Ryzen 7 3700X (8C/16T, AVX2, no AVX-512); 32 GiB RAM;
+  GPU Radeon HD 5450 (no usable compute). Details: system.txt.
+- Everything ran over OpenSSH with key authentication as labuser: local administrator, elevated token, session 0. No user was
+  logged on interactively. This affected both winget and the Ollama desktop app (see below).
+
+WINGET (the book's Chapter 1 route) - FAILED OVER SSH
+- `winget search llama.cpp` -> "Failed when searching source; results will not be included: winget" / "No package found"
+  (exit 0x8A150014). `winget install llama.cpp --accept-source-agreements --accept-package-agreements --disable-interactivity`
+  and `winget install Ollama.Ollama ...` -> "0x8a15000f : Data required by the source is missing" (exit 0x8A15000F).
+- Cause (winget DiagOutputDir logs): adding the winget source package (source2.msix -> Microsoft.Winget.Source_8wekyb3d8bbwe)
+  fails with 0x80073D19 "An error occurred because a user was logged off". The msstore source fails with DPAPI 0x8009000B
+  "Key not valid for use in specified state". So winget's community source cannot be used from a key-auth SSH logon for this
+  account (the source package is registered only for another local account). `winget source update` prints "Done" (exit 0)
+  but the source still does not work. `winget source reset --force` was not tried. Details: run/winget-attempts.txt.
+- Not verified on the machine: whether `winget install llama.cpp` resolves to ggml.llamacpp. The winget-pkgs manifest current
+  on 2026-11-13 is ggml.llamacpp b12343 (PackageName "llama.cpp", Publisher ggml). It installs
+  llama-b12343-bin-win-vulkan-x64.zip (the Vulkan build, NOT the CPU build) as a portable zip package, with the
+  dependency Microsoft.VCRedist.2015+.x64 (already installed here, v14.52.37025). Ollama.Ollama 0.40.16 is an inno installer
+  with Scope user, using the same OllamaSetup.exe URL and SHA256 that I ran directly (see below).
+- Side effects of the winget attempts: the first `winget list --accept-source-agreements` accepted the msstore source
+  agreements, so that banner is missing from later `winget list` output. winget also left
+  %TEMP%\WinGet\Microsoft.Winget.Source_8wekyb3d8bbwe.msix and its own logs in DiagOutputDir.
+
+LLAMA.CPP (fallback: official prebuilt CPU release)
+- Asset: llama-b12359-bin-win-cpu-x64.zip (25,097,509 bytes, sha256 837c1655e87df3b66989f4be33a792a1399c785bf259038dc75c900096683e69)
+  from https://github.com/ggml-org/llama.cpp/releases/download/b12359/ .
+  Surprise for readers: the GitHub "Latest" release is v1.0.0 (2026-11-13). It has no binaries, only nightly-tag.txt = "b12359".
+  The bNNNNN build releases that carry the zips are now marked pre-release.
+- Commands (PowerShell): curl.exe -sSL --fail -o <tmp>\llama-b12359-bin-win-cpu-x64.zip <url>;
+  Expand-Archive <zip> -DestinationPath $env:LOCALAPPDATA\Programs\llama.cpp   (I chose this location; the zip has no installer)
+- `llama-server --version` -> "version: 1.0.0-dev (build 12359, commit b1b770d90) / built with Clang 20.1.8 for Windows x86_64".
+  `llama-cli --list-devices` -> "(none)".
+- Footprint: one directory, C:\Users\labuser\AppData\Local\Programs\llama.cpp (52 files, 64.6 MB). It made no PATH, registry, service,
+  scheduled task, Run key, Startup, firewall or Start Menu changes. llama-server is NOT on PATH. Files downloaded with curl.exe
+  have no Zone.Identifier stream (a browser download would add one).
+- The zip has 14 CPU backend DLLs: ggml-cpu-{x64,sse42,sandybridge,ivybridge,piledriver,haswell,skylakex,cannonlake,cascadelake,
+  cooperlake,icelake,alderlake,sapphirerapids,zen4}.dll. There is no zen2 variant. On the Ryzen 3700X, ggml loads
+  ggml-cpu-haswell.dll ("load_backend: loaded CPU backend from ...\ggml-cpu-haswell.dll"). The ggml-rpc.dll backend is also loaded.
+  The .exe files are 9.7 KB stubs that load *-impl.dll. New binaries include llama.exe, llama-connect.exe and llama-results.exe.
+- `llama-server -hf ggml-org/gemma-3-1b-it-GGUF` downloaded gemma-3-1b-it-Q4_K_M.gguf (806,058,240 bytes) in about 7 s.
+  Its cache is the Hugging Face hub layout, %USERPROFILE%\.cache\huggingface\hub\models--ggml-org--gemma-3-1b-it-GGUF\{blobs,refs,snapshots}
+  plus hub\.locks\models--ggml-org--gemma-3-1b-it-GGUF. The snapshots\<rev>\gemma-3-1b-it-Q4_K_M.gguf entry is an NTFS symlink
+  to the blob. No %LOCALAPPDATA%\llama.cpp directory was created. %USERPROFILE%\.cache already existed. See run/llama-cache.txt.
+- DEFAULT PORT IS 9931, NOT 8080 in this build. `llama-server --help`: "--port PORT  port to listen (default: 9931)". The book
+  command listened on 127.0.0.1:9931 only: IPv4 loopback, nothing on ::1, no UDP. For the brief's URL I ran a second test
+  with `--port 8080 -lv 4`.
+- Process: one llama-server.exe with no child processes, 36 threads, about 1.09 GB working set. Settings: n_threads 8,
+  n_slots 4 (n_parallel auto), n_ctx_slot 32768, kv_unified, flash attention auto, prompt cache 8192 MiB. It logs to stderr
+  only (stdout stays empty) and warns "security: no API key is set and CORS allows all origins". The ready time was 1.6 s
+  once the model was cached.
+- Misleading log text on CPU: "offloading 25 repeating layers to GPU / offloaded 27/27 layers to GPU" (run/llama-server-8080-verbose.log).
+- Chat Completions on 127.0.0.1:9931 and on 127.0.0.1:8080 both returned HTTP 200 with model "ggml-org/gemma-3-1b-it-GGUF",
+  system_fingerprint "b12359-b1b770d90", 21 prompt and 36 completion tokens. Prompt processing ran at 160-167 tok/s and
+  generation at 30.9-31.0 tok/s. Stop-Process stopped the server and closed the port.
+
+BENCHMARK (run/llama-bench.txt)
+- llama-bench -m <...snapshots\f9c28bcd...\gemma-3-1b-it-Q4_K_M.gguf> -p 512 -n 128 -r 3
+  Model: gemma3 1B Q4_K - Medium, 762.49 MiB, 999.89 M params. Backend CPU, 8 threads, variant ggml-cpu-haswell.dll.
+  pp512 282.16 +/- 3.41 t/s;  tg128 32.96 +/- 0.02 t/s;  build b1b770d90 (12359). Power plan Balanced, CPU 1.6 % busy before the run.
+
+OLLAMA 0.40.16
+- Because winget failed, I ran the installer it would have used: OllamaSetup.exe from
+  https://github.com/ollama/ollama/releases/download/v0.40.16/OllamaSetup.exe (1,857,663,944 bytes, sha256 84db4f75...912d,
+  the same as the winget manifest; Authenticode valid, signer CN=Ollama Inc.). I used winget's inno switches:
+  OllamaSetup.exe /SP- /SILENT /SUPPRESSMSGBOXES /NORESTART /LOG=<file>   -> exit 0 after 74 s. Inno Setup 6.7.1 with
+  PrivilegesRequired=lowest installs per user under HKCU, even when run from an elevated session.
+- Files: C:\Users\labuser\AppData\Local\Programs\Ollama, 3,352,686,329 bytes in 989 files:
+  * ollama app.exe (30 MB), ollama.exe (41 MB), app.ico, unins000.exe/.dat/.msg, lib\Ollama.lnk
+  * lib\ollama: llama-server.exe, llama-quantize.exe, the same 14 ggml-cpu-*.dll variants, libllama*.dll, libc++/libomp/libunwind
+  * GPU runtimes: lib\ollama\cuda_v12 (1.19 GB), cuda_v13 (0.95 GB), rocm_v7_1 (1.05 GB, 908 files), vulkan (42 MB).
+  About 3.2 GB of GPU runtimes are installed even on this CPU-only machine.
+- Start Menu shortcuts: %APPDATA%\Microsoft\Windows\Start Menu\Programs\Ollama.lnk and ...\Programs\Ollama\Ollama.lnk,
+  both pointing to "ollama app.exe" with working directory = the install dir.
+- Registry, all HKCU:
+  * HKCU\Environment\Path (REG_EXPAND_SZ): ";C:\Users\labuser\AppData\Local\Programs\Ollama" appended. The old value ended in ';',
+    so the new value contains ";;". A new logon finds ollama.exe on PATH.
+  * HKCU\Software\Classes\ollama: (default) "URL:Ollama Protocol", "URL Protocol" = "", and
+    shell\open\command = "C:\Users\labuser\AppData\Local\Programs\Ollama\ollama app.exe" "%1". This registers the ollama:// URL scheme.
+  * HKCU\Software\Microsoft\Windows\CurrentVersion\Uninstall\{44E83376-CE68-45EB-8FC1-393500EB558C}_is1:
+    "Ollama version 0.40.16", QuietUninstallString "...\unins000.exe" /SILENT, EstimatedSize 3273743 KB.
+    winget list now shows it as ARP\User\X64\{44E83376-...}_is1.
+- None of these appeared: services, scheduled tasks, Run/RunOnce values, firewall rules, HKLM changes, machine PATH changes
+  (footprint/engines/changes.txt).
+- Startup entry: the installer does NOT create one. It writes lib\Ollama.lnk, and the desktop app copies that file to
+  %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Ollama.lnk the first time it starts successfully. The source is
+  createLoginShortcut() in app/cmd/app/app_windows.go at v0.40.16. The app does this only on the first run, so a deleted
+  link stays deleted. The uninstaller removes {userstartup}\Ollama.lnk. In this lab the app never started successfully,
+  so no Startup link exists.
+- Post-install [Run] entry (postinstall nowait runhidden, run as the original user):
+  cmd.exe /C set PATH=C:\Users\labuser\AppData\Local\Programs\Ollama;%PATH% & "...\ollama app.exe".
+  Over SSH (session 0, no desktop), "ollama app.exe" started and logged "starting ollama server", then "starting ui server" on
+  port 62314, then "Failed to start: Unable to init instance: Unspecified error" (tray initialization). It exited and never
+  opened port 11434. It did create %LOCALAPPDATA%\Ollama\{app.log, server.log (empty), db.sqlite, db.sqlite-shm, db.sqlite-wal}.
+  Because of this I started `ollama.exe serve` by hand (full path) for the tests.
+- First `ollama serve` run:
+  * Created %USERPROFILE%\.ollama\id_ed25519 and id_ed25519.pub and printed "Couldn't find '...\.ollama\id_ed25519'.
+    Generating new private key." plus the public key to stdout.
+  * Before any pull, opened an HTTPS connection to ollama.com (34.36.133.15:443) and wrote .ollama\cache\model-recommendations.json.
+  * Logged "Ollama cloud disabled: false"; server config shows OLLAMA_HOST http://127.0.0.1:11434, OLLAMA_KEEP_ALIVE 5m,
+    OLLAMA_VULKAN true, OLLAMA_MODELS C:\Users\labuser\.ollama\models.
+  * GPU discovery runs a short-lived "lib\ollama\llama-server.exe --port 51692 --host 127.0.0.1 --no-webui --offline --verbose".
+    Result: "inference compute id=cpu library=cpu", total_vram 0 B, so default_num_ctx is 4096.
+- Sockets: ollama.exe listens only on 127.0.0.1:11434. Each loaded model gets its own bundled llama-server.exe child process
+  on a random loopback port (127.0.0.1:62366 for gemma3:1b, 127.0.0.1:62378 for qwen3:1.7b). Both stayed loaded at once.
+  Model downloads came from registry.ollama.ai (104.18.17.170) and 172.64.190.1.
+- Runner command line (Get-CimInstance Win32_Process, gemma3:1b):
+  C:\Users\labuser\AppData\Local\Programs\Ollama\lib\ollama\llama-server.exe --model C:\Users\labuser\.ollama\models\blobs\sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef --port 62366 --host 127.0.0.1 --no-webui --offline -c 4096 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja --chat-template chatml --load-mode none --flash-attn auto -b 512 -ub 512 --context-shift --keep 4
+  The qwen3:1.7b runner is identical apart from its blob and port. The serve log says "disabling mmap for llama-server load
+  by default ... reason=cpu", which explains --load-mode none. The runner loads ggml-cpu-haswell.dll.
+  Compared with the M1 Ultra host (krom1u): there it used -c 32768 -b 1024 -ub 1024 and no --load-mode none.
+- Pulls: `ollama pull gemma3:1b` (ID 97558784bdc9, 806 MB, 14 s) and `ollama pull qwen3:1.7b` (ID 8f68893c685c, 1.4 GB, 20 s).
+  Model store: %USERPROFILE%\.ollama\models\blobs (12 sha256-* files, 2,165,362,789 bytes), manifests\registry.ollama.ai\library,
+  manifests-v2\ollama.com\library, and metadata\sha256-*.json.
+- Contents of %USERPROFILE%\.ollama after first use: id_ed25519, id_ed25519.pub, cache\model-recommendations.json, models\{blobs,manifests,
+  manifests-v2,metadata}.
+- Chat Completions at http://127.0.0.1:11434/v1/chat/completions (system_fingerprint "fp_ollama", ids like "chatcmpl-80"):
+  * gemma3:1b: 200 OK, 21 prompt and 27 completion tokens, 2.06 s wall time including model load. The runner reported
+    136 tok/s prompt and 31.5 tok/s generation.
+  * qwen3:1.7b: 200 OK, 346 completion tokens including thinking, which is returned in choices[0].message.reasoning;
+    17.5 s wall time, 21.8 tok/s generation. Its answer was factually wrong (it called GGUF a "G-Code Generator" CAD format).
+  `ollama ps` showed PROCESSOR "100% CPU", CONTEXT 4096, RUNNER "llamacpp", UNTIL "4 minutes from now".
+- Background state: when the SSH session that started `ollama serve` closed, the server and both runners ended. In a new
+  session no ollama or llama process was running and nothing listened on 11434. Final state: installed, not running, and no
+  autostart entry. That is all the installer itself creates without an interactive logon.
+
+FOOTPRINT FILES
+- footprint/engines/changes.txt holds the differences between snapshots: before any install; mid = after llama.cpp (zip, -hf model, benchmark), before Ollama;
+  after = after Ollama install/tests, once all servers had stopped. Its sections compare before with after;
+  the section by-tool splits the changes into the llama.cpp step and the Ollama step.
+- No services, scheduled tasks, Run keys, Startup items, firewall rules, listening sockets or processes remain from either tool.
+
+OPEN QUESTIONS / DECISIONS FOR THE AUTHOR
+1. The book's `winget install llama.cpp` and `winget install Ollama.Ollama` could not be tested over key-auth SSH. Testing them
+   needs an interactive logon (console or RDP) as labuser, or approval for a workaround such as `winget source reset --force`.
+   Also note that the winget llama.cpp package is the Vulkan build. On this GPU Vulkan should find no device, but that is untested.
+2. Ollama's intended post-install state (tray app running, Startup\Ollama.lnk created by the app on first run, and any WebView2
+   UI data under %LOCALAPPDATA%\Ollama) needs an interactive logon. Someone needs to sign in as labuser, start Ollama once from
+   the Start Menu and then take another snapshot.
+3. llama-server b12359 defaults to port 9931, but the brief and the krom1u notes say 8080. Check the book text and the Mac
+   observation; did the Mac test pass --port, or use another build?
+4. The HF cache snapshot entry is a symlink, created here with admin rights. Behavior for a standard user without Developer
+   Mode is untested.
+5. The llama.cpp zip route leaves llama-server off PATH. I did not add it to PATH, because that would be a manual
+   environment change, not an installer action.
+
+SANDBOX BATTERY, SECOND RUN (Chapter 16; code/ch16/results/*-2.txt)
+- Programs copied to %USERPROFILE%\llm-arch-l1-ch16\ch16 (scp) and run there over SSH (cmd.exe, an elevated session:
+  High Mandatory Level): run-windows.ps1 with its seven default mechanisms, the same with -Times 20 (processor load 2 to 5 percent),
+  netjob.ps1, cmdchild.ps1 (default list and nine more commands), and a variant from a copy of run-windows.ps1 for the
+  AppContainer's rule on .git. Windows 11 Pro N for Workstations 10.0.26300.9974, PowerShell 5.1.26100.9818.
+  The scripts made and removed %TEMP%\battery-sbx-*, battery-net-*, battery-cmd-* and the AppContainer profiles battery.sandbox
+  and battery.cmdtest; afterwards no such directory, no AppContainer mapping under HKCU and no Packages folder remained.
+- Codex CLI 0.169.0: codex-package-x86_64-pc-windows-msvc.tar.gz from the GitHub release rust-v0.169.0 (sha256 456db280...65737
+  checked), unpacked in %USERPROFILE%\llm-arch-l1-ch16\codex (570 MB), bin\ put first on PATH for the runs. With
+  `-c windows.sandbox=unelevated`, `codex sandbox` started cmd.exe, but the .NET probes (battery.exe) ended at once with exit code
+  -2147023782 (0x8007045A, ERROR_DLL_INIT_FAILED), so the battery has no result for Codex here (results/codex-windows-kromyrzen-2.txt).
+  For these runs TEMP and TMP pointed to a scratch directory, because the profile :workspace makes the temporary directory a
+  writable root and Codex adds an access entry for a capability SID to each such root (seen on the scratch directory:
+  S-1-5-21-...:(OI)(CI)(M), one per CODEX_HOME). The access lists of %USERPROFILE%, of the real %TEMP% and of the NUL device
+  were the same before and after. Footprint outside the directory: %USERPROFILE%\.codex\tmp\arg0-windows\codex-arg0XXXXXX
+  (.lock, apply_patch.bat, applypatch.bat) from `codex --version`, and %USERPROFILE%\.sbx-denybin with ssh.bat, ssh.cmd,
+  scp.bat, scp.cmd (26 bytes each) from `codex sandbox`. All removed, .codex included (it did not exist before).
+- The sandbox runtime's Windows backend (`srt windows-install`) creates an account and WFP filters behind an elevation prompt;
+  it was not installed.
+- Removed: rmdir /s /q %USERPROFILE%\llm-arch-l1-ch16. No process of the runs remained.
+
+SANDBOX BATTERY, SECOND ROUND (Chapter 16): the system-level sandboxes were NOT set up
+- Asked for: the sandbox runtime's Windows backend (`srt windows-install`) and Codex CLI's elevated sandbox, each with its
+  own uninstall afterwards. Neither setup ran: the session's permission check refused the command that would have created
+  the sandbox account and the WFP filters, and the Codex setup, which is the same kind of change, was then not attempted.
+- State before, by a read-only inventory (and unchanged after, checked with `net user`, `reg query` and `query user`):
+  local users Administrator, DefaultAccount, Guest, labuser, WDAGUtilityAccount; 23 local groups, none of the sandbox tools';
+  no key HKLM\SOFTWARE\sandbox-runtime; no values under Winlogon\SpecialAccounts\UserList; 504 firewall rules, none named
+  codex_sandbox_*; 2354 WFP filters, none naming srt, sandbox or codex; profiles in C:\Users: labuser, labuser2, Public;
+  `query user`: "No User exists for *" (nobody logged on at the console, so no interactive session for a scheduled task).
+- Installed at user level and REMOVED again: Node.js v22.23.1 (node-v22.23.1-win-x64.zip from nodejs.org, checked against
+  SHASUMS256.txt) and the sandbox runtime 0.0.83 (npm install --prefix, with its own npm cache), both under
+  %USERPROFILE%\llm-arch-l1-ch16 (122 MB). Only `srt --version` and the help of `windows-install` and `windows-uninstall`
+  ran; they left nothing in the profile, in %APPDATA% or in %LOCALAPPDATA%. No account, group, filter, registry key,
+  scheduled task or process was created.
+
+SANDBOX BATTERY, THIRD ROUND (Chapter 16; review/lab/WINDOWS-HANDOFF.md): the two harness sandboxes at the desktop
+- Session: Claude Code in a terminal of a Remote Desktop logon as labuser (session 2, WinSta0), at medium integrity. The
+  terminal was not elevated; the commands that need an administrator went through a UAC prompt each (netsh wfp show
+  filters three times, srt windows-install, srt windows-uninstall). Windows 11 Pro N for Workstations 10.0.26300.9974,
+  PowerShell 5.1.26100.9818 for the scripts. Work directory %USERPROFILE%\llm-arch-h1-ch16 (removed at the end).
+- INVENTORY BEFORE. The machine was no longer as the second round left it: the Codex app (Store package
+  OpenAI.Codex_26.1111.2228.0, with codex.exe 0.169.0 in %LOCALAPPDATA%\Programs\OpenAI\Codex\bin) had been installed
+  earlier the same day, and its elevated sandbox was set up (config.toml: [windows] sandbox = "elevated").
+  * net user: Administrator, CodexSandboxOffline, CodexSandboxOnline, DefaultAccount, Guest, labuser, WDAGUtilityAccount.
+  * net localgroup: 24 groups, CodexSandboxUsers (members: the two Codex accounts) among them.
+  * reg query HKLM\SOFTWARE\sandbox-runtime: "unable to find the specified registry key or value".
+  * Winlogon\SpecialAccounts\UserList: CodexSandboxOffline = 0, CodexSandboxOnline = 0.
+  * Get-NetFirewallRule: 516 rules; four named codex_sandbox_offline_block_{loopback_udp, loopback_tcp, outbound,
+    inbound}, all enabled.
+  * netsh wfp show filters: 2438 filters; 12 named codex_wfp_{icmp_connect, icmp_assign, dns_53, dns_853, smb_445,
+    smb_139}_{v4,v6} under the provider "Codex Windows Sandbox WFP", 24 that the four firewall rules produce, none of
+    srt. A provider "Tessera Sandbox Provider" without filters was there before and after; it belongs to neither tool.
+  * C:\Users: CodexSandboxOffline, CodexSandboxOnline, labuser, labuser2, Public. ProfileList has the two Codex accounts.
+  * Access lists: CodexSandboxUsers:(OI)(CI)(RX) on 53 top-level entries of C:\Users\labuser ((RX) on the files, NTUSER.DAT
+    among them); none on .ssh, .local, AppData, or on C:\Users\labuser itself and %TEMP%.
+- THE SANDBOX RUNTIME 0.0.83. Node.js v22.23.1 (zip from nodejs.org, checked against SHASUMS256.txt) and
+  `npm install --prefix` into the work directory.
+  * `srt windows-install --skip-profile-grant` (one UAC prompt, 5 s) created: the user srt-sandbox (member of Users and
+    of the new group), the group sandbox-runtime-users, HKLM\SOFTWARE\sandbox-runtime (values SandboxUser,
+    SandboxUserSid, SandboxGroupSid, CreatedAt, MarkerVersion = 3, AmbientDenies, LoopbackModes; subkeys Ca and Cred,
+    the second with one binary value), the value srt-sandbox = 0 under Winlogon\SpecialAccounts\UserList, four WFP
+    filters srt-win-{v4,v6}-{permit-loopback-user, block-user} (2442 filters in all; the permit covers 127.0.0.0/8
+    ports 60080 to 60089), the empty directory %ProgramData%\sandbox-runtime, %LOCALAPPDATA%\sandbox-runtime
+    (.acl-init.lock, later state.db), and a deny entry srt-sandbox:(OI)(CI)(DENY)(DE,WD,AD,WEA,WA) on each of
+    C:\ProgramData, C:\Users\Public, C:\Windows\Tasks, C:\Windows\tracing, C:\Windows\Registration\CRMLog,
+    C:\Windows\System32\spool\drivers\color and C:\Windows\SysWOW64\Tasks. No firewall rule. The profile
+    C:\Users\srt-sandbox appeared with the first sandboxed command.
+  * With the profile grant skipped the runtime could not start: its helper srt-win.exe lay under the user's profile,
+    which the sandbox account cannot read ("CreateProcessWithLogonW(srt-sandbox): Access is denied. (0x80070005)").
+    One entry made it run: icacls ...\vendor\srt-win /grant sandbox-runtime-users:(OI)(CI)(RX).
+  * `srt <program> <arguments>` quotes the program's path for a POSIX shell and cmd.exe rejects it; run-windows.ps1
+    therefore uses `srt -c "<command line>"`.
+  * Each run left a kept write grant for its (deleted) work directory in the runtime's state (eight by the end,
+    `srt-win status`, persistent_grants.roots). A sandboxed command also adds an entry for srt-sandbox to the access
+    list of the logon's window station WinSta0.
+  * Results: code/ch16/results/srt-windows-kromyrzen-2.txt.
+  * `srt windows-uninstall` (one UAC prompt, 5 s; a first attempt was "cancelled at the UAC prompt" after two minutes
+    without an answer and removed nothing) printed "WFP filters and `srt-sandbox` account removed." REMOVED: the
+    user with its profile directory and ProfileList entry, the group, the registry key, the hidden-user value, the
+    four filters, the seven deny entries. LEFT: %ProgramData%\sandbox-runtime (empty, with an entry for the SID of the
+    deleted group), %LOCALAPPDATA%\sandbox-runtime (.acl-init.lock, state.db of 77,824 bytes), the entry of the deleted
+    account on WinSta0 (it would go with the logon). The README names the two directories as left. All three were
+    then removed by hand (Remove-Item needs no administrator for either directory).
+- CODEX CLI 0.169.0, both backends, with the installation that was there. For the runs USERPROFILE, TEMP and TMP
+  pointed to scratch directories under the work directory and -Base to the scratch profile.
+  * Unelevated (CODEX_HOME in the run's directory): entries for a capability SID on the writable roots (the scratch
+    TEMP got S-1-5-21-...:(OI)(CI)(M)), and %USERPROFILE%\.sbx-denybin in the REAL profile (ssh.bat, ssh.cmd, scp.bat,
+    scp.cmd, 26 bytes each), first on the command's PATH. Removed afterwards.
+  * Elevated: run with the user's CODEX_HOME, since the passwords of the two accounts are kept there; with a fresh
+    CODEX_HOME Codex would start its setup again and reset them (sandbox_users.rs, read, not tried). No elevation
+    prompt appeared; the command ran as kromyrzen\codexsandboxoffline. In the user's %USERPROFILE%\.codex the runs
+    left cap_sid (856 bytes), .sandbox-bin\codex-command-runner-0.169.0.exe, .sandbox\sandbox.2026-11-15.log, a
+    rewritten .sandbox\deny_read_acl_state.json and tmp\arg0-windows\codex-arg0*; they stay, with the rest of that
+    directory. The access lists of C:\Users\labuser, of its top-level entries and of %TEMP% are as before.
+  * Results: code/ch16/results/codex-windows-kromyrzen-3.txt. The listener on 127.0.0.1 was reached under the elevated
+    backend although codex_sandbox_offline_block_loopback_tcp (TCP, remote 127.0.0.0/8 and ::1, ports 1-65535, local
+    user CodexSandboxOffline) was enabled and all three firewall profiles were on; a connection to 1.1.1.1:443 failed
+    there with WSAEACCES.
+  * `codex sandbox uninstall` was NOT run, by the author's decision in the session: the accounts, the group, the
+    rules and the read entries belong to the Codex app in use on this machine and stay.
+- OUR OWN LAUNCHER AT THE DESKTOP (code/ch16/results/variants-windows-kromyrzen-3.txt). Two things differ from the
+  runs over SSH. (1) `restricted` does not start the .NET probes (0x8007045A); it does when sbx.cs calls LetIn for the
+  random restricting SID. (2) After one AppContainer start, the entries that LetIn wrote on WinSta0 and Default stop
+  programs that load user32 at low integrity (0xC0000142) for the rest of the logon, so a second `lowil` in the same
+  logon fails; removing the entries (SetEntriesInAcl, REVOKE_ACCESS) cures it. sbx.cs was left as it is; every entry
+  that these runs put on the two objects was removed again, and a low-integrity whoami ran at the end.
+- INVENTORY AFTER, with the same commands: net user, net localgroup, the two registry queries, Get-NetFirewallRule
+  (516 rules, the same four), C:\Users, ProfileList, Get-LocalUser, Get-LocalGroup, and icacls of C:\Users\labuser, of
+  its top-level entries and of %TEMP% all agree with BEFORE line for line; netsh wfp show filters has 2438 filters
+  with the same keys. Gone: %USERPROFILE%\llm-arch-h1-ch16 (Node.js, the runtime, a sparse clone of the Codex
+  sources at rust-v0.169.0, scratch directories), .sbx-denybin, the two sandbox-runtime directories. No process,
+  listener, AppContainer profile or battery-sbx-* directory of the runs is left.
+  %TEMP%\node-compile-cache\v22.23.1-x64-9de703df held 551 files created at 15:10 the same day, before this round
+  (Node.js of the second round, which its section does not list); the 551 that this round's Node.js added were removed,
+  the older ones stay.

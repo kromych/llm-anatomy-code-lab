@@ -1,0 +1,28 @@
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+   on the host: ok.txt yes, probe.txt yes, connections 1
+== seatbelt
+control ALLOWED
+write   BLOCKED  PermissionError EPERM
+read    BLOCKED  PermissionError EPERM
+net     BLOCKED  PermissionError EPERM
+spawn   ALLOWED
+   on the host: ok.txt yes, probe.txt no, connections 0
+== seatbelt-exec
+control ALLOWED
+write   BLOCKED  PermissionError EPERM
+read    BLOCKED  PermissionError EPERM
+net     BLOCKED  PermissionError EPERM
+spawn   BLOCKED  PermissionError EPERM
+   on the host: ok.txt yes, probe.txt no, connections 0
+== codex
+control ALLOWED
+write   BLOCKED  PermissionError EPERM
+read    ALLOWED
+net     BLOCKED  PermissionError EPERM
+spawn   ALLOWED
+   on the host: ok.txt yes, probe.txt no, connections 0

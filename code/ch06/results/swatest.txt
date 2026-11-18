@@ -1,0 +1,46 @@
+# swatest.py on S3-macOS (Apple M1 Ultra), llama.cpp build 12359 (b1b770d90),
+# with Gemma 3 1B (ggml-org/gemma-3-1b-it-GGUF, Q4_K_M). Three servers, each
+# started afresh. Below, for each: the command lines, the output of the
+# script, and the lines of the server's log (-lv 4) that report a restored
+# checkpoint or a prompt that is processed again in full. The replies are in
+# swatest-*.jsonl; swatest-*.log hold the lines of each log that describe
+# the KV buffers and everything from "listening on" to the end.
+
+$ llama-server -hf ggml-org/gemma-3-1b-it-GGUF --offline -np 1 -lv 4 --no-log-timestamps --host 127.0.0.1 --port 8104
+$ python3 swatest.py http://127.0.0.1:8104/v1 swatest-ckpt.jsonl
+first     from cache     0   computed  8634   generated  1092
+extended  from cache  9725   computed    18   generated    11
+repeated  from cache  8629   computed     5   generated    32
+edited    from cache  8117   computed   516   generated    11
+$ grep -E 'restored context checkpoint|forcing full prompt' swatest-ckpt.log
+I slot   operator(): id  0 | task 1113 | restored context checkpoint (pos_min = 7606, pos_max = 8629, n_tokens = 8630, n_past = 8629, size = 11.006 MiB)
+I slot   operator(): id  0 | task 1147 | restored context checkpoint (pos_min = 7094, pos_max = 8117, n_tokens = 8118, n_past = 8117, size = 11.006 MiB)
+
+$ llama-server -hf ggml-org/gemma-3-1b-it-GGUF --offline -np 1 -lv 4 --no-log-timestamps --ctx-checkpoints 0 --host 127.0.0.1 --port 8104
+$ python3 swatest.py http://127.0.0.1:8104/v1 swatest-nockpt.jsonl
+first     from cache     0   computed  8634   generated  1092
+extended  from cache  9725   computed    18   generated    11
+repeated  from cache     0   computed  8634   generated    32
+edited    from cache  8620   computed    13   generated    11
+$ grep -E 'restored context checkpoint|forcing full prompt' swatest-nockpt.log
+I slot   operator(): id  0 | task 1109 | forcing full prompt re-processing due to lack of cache data (likely due to SWA or hybrid/recurrent memory, see https://github.com/ggml-org/llama.cpp/pull/13194#issuecomment-2868343055)
+
+$ llama-server -hf ggml-org/gemma-3-1b-it-GGUF --offline -np 1 -lv 4 --no-log-timestamps --swa-full --host 127.0.0.1 --port 8104
+$ python3 swatest.py http://127.0.0.1:8104/v1 swatest-swafull.jsonl
+first     from cache     0   computed  8634   generated  1092
+extended  from cache  9725   computed    18   generated    11
+repeated  from cache  8633   computed     1   generated    32
+edited    from cache  8620   computed    13   generated    11
+$ grep -E 'restored context checkpoint|forcing full prompt' swatest-swafull.log
+
+# The default configuration: four slots that share the buffers.
+$ llama-server -hf ggml-org/gemma-3-1b-it-GGUF --offline -lv 4 --no-log-timestamps --host 127.0.0.1 --port 8104
+$ python3 swatest.py http://127.0.0.1:8104/v1 swatest-np4.jsonl
+first     from cache     0   computed  8634   generated  1092
+extended  from cache  9725   computed    18   generated    11
+repeated  from cache  8633   computed     1   generated    32
+edited    from cache  8620   computed    13   generated    11
+$ grep -E 'restored context checkpoint|forcing full prompt' swatest-np4.log
+$ grep 'SWA KV cache' swatest-np4.log
+I llama_kv_cache_iswa: creating non-SWA KV cache, size = 32768 cells
+I llama_kv_cache_iswa: creating     SWA KV cache, size = 2560 cells

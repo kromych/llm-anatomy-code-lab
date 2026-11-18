@@ -1,0 +1,31 @@
+# pstree -alp 775040
+llama-server,775040 -hf ggml-org/gemma-3-1b-it-GGUF
+  |-{llama-server},775043
+  |-{llama-server},775044
+  |-{llama-server},775068
+  |-{llama-server},775069
+  |-{llama-server},775070
+  |-{llama-server},775071
+  |-{llama-server},775072
+  |-{llama-server},775073
+  |-{llama-server},775074
+  |-{llama-server},775075
+  |-{llama-server},775076
+  |-{llama-server},775077
+  |-{llama-server},775078
+  |-{llama-server},775079
+  |-{llama-server},775080
+  |-{llama-server},775081
+  |-{llama-server},775082
+  |-{llama-server},775083
+  `-{llama-server},775084
+
+# ps
+    PID    PPID NLWP   RSS    VSZ %CPU     ELAPSED COMMAND
+ 775040       1   20 1528208 2098640 6.2     03:32 ./build/bin/llama-server -hf ggml-org/gemma-3-1b-it-GGUF
+
+# threads: 20
+VmHWM:	 1528208 kB
+VmRSS:	 1528208 kB
+RssAnon:	  727264 kB
+RssFile:	  800944 kB

@@ -1,0 +1,222 @@
+[
+ {
+  "id": "n01",
+  "n": 7988601,
+  "a": 7,
+  "b": 7987789,
+  "expected": {
+   "matches": true,
+   "x": 116
+  },
+  "question": "Is 7988601 of the form 7*x + 7987789 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n02",
+  "n": 8000000,
+  "a": 7,
+  "b": 7987789,
+  "expected": {
+   "matches": false,
+   "x": null
+  },
+  "question": "Is 8000000 of the form 7*x + 7987789 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n03",
+  "n": 8123456,
+  "a": 7,
+  "b": 7987789,
+  "expected": {
+   "matches": true,
+   "x": 19381
+  },
+  "question": "Is 8123456 of the form 7*x + 7987789 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n04",
+  "n": 8123457,
+  "a": 7,
+  "b": 7987789,
+  "expected": {
+   "matches": false,
+   "x": null
+  },
+  "question": "Is 8123457 of the form 7*x + 7987789 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n05",
+  "n": 7987789,
+  "a": 7,
+  "b": 7987789,
+  "expected": {
+   "matches": true,
+   "x": 0
+  },
+  "question": "Is 7987789 of the form 7*x + 7987789 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n06",
+  "n": 7987000,
+  "a": 7,
+  "b": 7987789,
+  "expected": {
+   "matches": false,
+   "x": null
+  },
+  "question": "Is 7987000 of the form 7*x + 7987789 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n07",
+  "n": 9876543,
+  "a": 7,
+  "b": 7987789,
+  "expected": {
+   "matches": true,
+   "x": 269822
+  },
+  "question": "Is 9876543 of the form 7*x + 7987789 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n08",
+  "n": 9876544,
+  "a": 7,
+  "b": 7987789,
+  "expected": {
+   "matches": false,
+   "x": null
+  },
+  "question": "Is 9876544 of the form 7*x + 7987789 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n09",
+  "n": 12347676,
+  "a": 7,
+  "b": 7987789,
+  "expected": {
+   "matches": true,
+   "x": 622841
+  },
+  "question": "Is 12347676 of the form 7*x + 7987789 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n10",
+  "n": 12347679,
+  "a": 7,
+  "b": 7987789,
+  "expected": {
+   "matches": false,
+   "x": null
+  },
+  "question": "Is 12347679 of the form 7*x + 7987789 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n11",
+  "n": 55555554,
+  "a": 7,
+  "b": 7987789,
+  "expected": {
+   "matches": true,
+   "x": 6795395
+  },
+  "question": "Is 55555554 of the form 7*x + 7987789 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n12",
+  "n": 55555555,
+  "a": 7,
+  "b": 7987789,
+  "expected": {
+   "matches": false,
+   "x": null
+  },
+  "question": "Is 55555555 of the form 7*x + 7987789 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n13",
+  "n": 5000187,
+  "a": 11,
+  "b": 5000000,
+  "expected": {
+   "matches": true,
+   "x": 17
+  },
+  "question": "Is 5000187 of the form 11*x + 5000000 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n14",
+  "n": 5000194,
+  "a": 11,
+  "b": 5000000,
+  "expected": {
+   "matches": false,
+   "x": null
+  },
+  "question": "Is 5000194 of the form 11*x + 5000000 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n15",
+  "n": 1995062,
+  "a": 13,
+  "b": 1000003,
+  "expected": {
+   "matches": true,
+   "x": 76543
+  },
+  "question": "Is 1995062 of the form 13*x + 1000003 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n16",
+  "n": 1995068,
+  "a": 13,
+  "b": 1000003,
+  "expected": {
+   "matches": false,
+   "x": null
+  },
+  "question": "Is 1995068 of the form 13*x + 1000003 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n17",
+  "n": 12764815,
+  "a": 97,
+  "b": 12345678,
+  "expected": {
+   "matches": true,
+   "x": 4321
+  },
+  "question": "Is 12764815 of the form 97*x + 12345678 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n18",
+  "n": 12764814,
+  "a": 97,
+  "b": 12345678,
+  "expected": {
+   "matches": false,
+   "x": null
+  },
+  "question": "Is 12764814 of the form 97*x + 12345678 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n19",
+  "n": 10011023,
+  "a": 1001,
+  "b": 2024,
+  "expected": {
+   "matches": true,
+   "x": 9999
+  },
+  "question": "Is 10011023 of the form 1001*x + 2024 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ },
+ {
+  "id": "n20",
+  "n": 10011523,
+  "a": 1001,
+  "b": 2024,
+  "expected": {
+   "matches": false,
+   "x": null
+  },
+  "question": "Is 10011523 of the form 1001*x + 2024 for some integer x >= 0? If it is, find x. End your reply with one line, either 'ANSWER: yes, x = <x>' or 'ANSWER: no'."
+ }
+]

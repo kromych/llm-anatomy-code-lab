@@ -1,0 +1,2 @@
+[i8mm-t4.completion.log] 0.00.373.430 I system_info: n_threads = 4 (n_threads_batch = 4) / 8 | CPU : NEON = 1 | ARM_FMA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | OPENMP = 1 | REPACK = 1 |
+[i8mm-t4.stderr] build: 61dbf4922 (12376)

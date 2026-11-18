@@ -1,0 +1,2 @@
+/opt/homebrew/Cellar/ollama/0.40.16/libexec/lib/ollama/llama-server --model /Users/labuser/.ollama/models/blobs/sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef --port 51745 --host 127.0.0.1 --no-webui --offline -c 32768 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja --chat-template chatml --flash-attn auto -b 1024 -ub 1024 --context-shift --keep 4
+ollama serve

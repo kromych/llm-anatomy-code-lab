@@ -1,0 +1,19 @@
+Inspect 0.3.289 without the packages of its providers, on S3-macOS
+(Python 3.14.10), in a new environment; gsm.py is code/ch15/gsm.py.
+The address is a closed port: no server was needed to see the messages.
+
+$ python3.14 -m venv venv && venv/bin/pip install inspect-ai==0.3.289
+$ LOCAL_BASE_URL=http://127.0.0.1:9/v1 LOCAL_API_KEY=none HF_HUB_OFFLINE=1 \
+      venv/bin/inspect eval gsm.py --model openai-api/local/gemma \
+      --limit 1 --no-log-realtime
+
+ERROR: OpenAI Compatible API requires optional dependencies. Install with:
+
+pip install openai
+
+$ venv/bin/pip install openai==3.51.0
+$ LOCAL_BASE_URL=http://127.0.0.1:9/v1 LOCAL_API_KEY=none HF_HUB_OFFLINE=1 \
+      venv/bin/inspect eval gsm.py --model openai-api/local/gemma --limit 1
+ERROR: Hugging Face Datasets requires optional dependencies. Install with:
+
+pip install datasets

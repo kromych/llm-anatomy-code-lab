@@ -1,0 +1,146 @@
+# llama-server.exe -hf ggml-org/gemma-3-1b-it-GGUF --port 8080 -lv 4 (verbose; repeated CPU_Mapped buffer lines, GGUF key/value dump and print_info lines removed)
+0.00.002.258 I srv  llama_server: initializing ...
+0.00.007.827 I load_backend: loaded RPC backend from C:\Users\labuser\AppData\Local\Programs\llama.cpp\ggml-rpc.dll
+0.00.025.913 I load_backend: loaded CPU backend from C:\Users\labuser\AppData\Local\Programs\llama.cpp\ggml-cpu-haswell.dll
+0.00.254.320 I cmn  common_param: device_info:
+0.00.254.329 I cmn  common_param:   - CPU     : AMD Ryzen 7 3700X 8-Core Processor              (32691 MiB, 20680 MiB free)
+0.00.254.392 I cmn  common_param: system_info: n_threads = 8 (n_threads_batch = 8) / 16 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.00.254.396 I srv  server_prepa: n_parallel is set to auto, using n_parallel = 4 and kv_unified = true
+0.00.254.782 I srv  init_listene: running without SSL
+0.00.254.987 I srv          init: using 15 threads for HTTP server
+0.00.255.050 W srv  server_setup: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.00.260.891 I srv    load_model: loading model 'ggml-org/gemma-3-1b-it-GGUF'
+0.00.260.892 I srv    load_model: local path 'C:\Users\labuser\.cache\huggingface\hub\models--ggml-org--gemma-3-1b-it-GGUF\snapshots\f9c28bcd85737ffc5aef028638d3341d49869c27\gemma-3-1b-it-Q4_K_M.gguf'
+0.00.260.904 I cmn  common_fit_a: fitting params to device memory ...
+0.00.260.905 I cmn  common_fit_a: (for bugs during this step try to reproduce them with -fit off, or provide --verbose logs if the bug only occurs with -fit on)
+0.00.260.938 I common_params_fit_impl: getting device memory data for initial parameters:
+0.00.460.324 I common_memory_breakdown_print: | memory breakdown [MiB] | total   free    self   model   context   compute    unaccounted |
+0.00.460.332 I common_memory_breakdown_print: |   - Host               |                  960 =   690 +     183 +      86                |
+0.00.460.332 I common_memory_breakdown_print: |   - CPU_REPACK         |                   71 =    71 +       0 +       0                |
+0.00.480.257 I common_params_fit_impl: projected to use 960 MiB of host memory vs. 32691 MiB of total host memory
+0.00.480.266 I common_params_fit_impl: will leave 31731 >= 1024 MiB of system memory, no changes needed
+0.00.480.321 I common_fit_params: successfully fit params to free device memory
+0.00.480.326 I common_fit_params: fitting params to free memory took 0.22 seconds
+0.00.520.793 I llama_model_loader: loaded meta data with 38 key-value pairs and 340 tensors from C:\Users\labuser\.cache\huggingface\hub\models--ggml-org--gemma-3-1b-it-GGUF\snapshots\f9c28bcd85737ffc5aef028638d3341d49869c27\gemma-3-1b-it-Q4_K_M.gguf (version GGUF V3 (latest))
+0.00.520.811 I llama_model_loader: Dumping metadata keys/values. Note: KV overrides do not apply in this output.
+0.00.520.867 I llama_model_loader: - type  f32:  157 tensors
+0.00.520.867 I llama_model_loader: - type q5_0:  117 tensors
+0.00.520.868 I llama_model_loader: - type q8_0:   14 tensors
+0.00.520.868 I llama_model_loader: - type q4_K:   39 tensors
+0.00.520.869 I llama_model_loader: - type q6_K:   13 tensors
+0.00.602.244 I load: 6242 unused tokens
+0.00.602.361 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.00.655.459 I load: printing all EOG tokens:
+0.00.655.469 I load:   - 1 ('<eos>')
+0.00.655.470 I load:   - 106 ('<end_of_turn>')
+0.00.655.471 I load:   - 212 ('</s>')
+0.00.656.091 I load: special tokens cache size = 6414
+0.00.680.891 I load: token to piece cache size = 1.9446 MB
+0.00.680.983 I load_tensors: loading model tensors, this can take a while... (load_mode = mmap)
+0.00.752.987 I load_tensors: offloading output layer to GPU
+0.00.752.995 I load_tensors: offloading 25 repeating layers to GPU
+0.00.752.995 I load_tensors: offloaded 27/27 layers to GPU
+0.00.753.031 I load_tensors:   CPU_REPACK model buffer size =    71.98 MiB
+0.00.815.680 I cmn  common_init_: added <eos> logit bias = -inf
+0.00.815.694 I cmn  common_init_: added <end_of_turn> logit bias = -inf
+0.00.815.696 I cmn  common_init_: added </s> logit bias = -inf
+0.00.816.745 I llama_context: constructing llama_context
+0.00.816.750 I llama_context: n_seq_max             = 4
+0.00.816.750 I llama_context: n_ctx                 = 32768
+0.00.816.751 I llama_context: n_ctx_seq             = 32768
+0.00.816.751 I llama_context: n_batch               = 2048
+0.00.816.752 I llama_context: n_ubatch              = 512
+0.00.816.753 I llama_context: causal_attn           = 1
+0.00.816.754 I llama_context: flash_attn            = auto
+0.00.816.754 I llama_context: kv_unified            = true
+0.00.816.756 I llama_context: freq_base             = 1000000.0
+0.00.816.759 I llama_context: freq_scale            = 1
+0.00.816.759 I llama_context: n_rs_seq              = 0
+0.00.816.759 I llama_context: n_outputs_max         = 4
+0.00.816.760 I llama_context: n_outputs_max_per_seq = 1
+0.00.817.312 I llama_context:        CPU  output buffer size =     4.00 MiB
+0.00.817.314 I llama_kv_cache_iswa: creating non-SWA KV cache, size = 32768 cells
+0.00.834.621 I llama_kv_cache:        CPU KV buffer size =   128.00 MiB
+0.00.834.629 I llama_kv_cache: size =  128.00 MiB ( 32768 cells,   4 layers,  4/1 seqs), K (f16):   64.00 MiB, V (f16):   64.00 MiB
+0.00.834.634 I llama_kv_cache: n_rot_k = 0, n_embd_head_k_all = 256
+0.00.834.634 I llama_kv_cache: n_rot_v = 0, n_embd_head_k_all = 256
+0.00.834.638 I llama_kv_cache_iswa: creating     SWA KV cache, size = 2560 cells
+0.00.842.061 I llama_kv_cache:        CPU KV buffer size =    55.00 MiB
+0.00.842.066 I llama_kv_cache: size =   55.00 MiB (  2560 cells,  22 layers,  4/1 seqs), K (f16):   27.50 MiB, V (f16):   27.50 MiB
+0.00.842.068 I llama_kv_cache: n_rot_k = 0, n_embd_head_k_all = 256
+0.00.842.069 I llama_kv_cache: n_rot_v = 0, n_embd_head_k_all = 256
+0.00.842.074 I sched_reserve: reserving ...
+0.00.843.357 I resolve_fused_ops: Flash Attention enabled
+0.00.843.942 I resolve_fused_ops: Flash Attention over K/V rows enabled
+0.00.843.942 I resolve_fused_ops: resolving fused DeepSeek V4 HC support:
+0.00.844.521 I resolve_fused_ops: fused DeepSeek V4 HC pre enabled
+0.00.845.096 I resolve_fused_ops: fused DeepSeek V4 HC comb enabled
+0.00.845.678 I resolve_fused_ops: fused DeepSeek V4 HC post enabled
+0.00.847.920 I sched_reserve:        CPU compute buffer size =    86.82 MiB
+0.00.847.926 I sched_reserve: graph: nodes = 1050, splits = 1, input objects = 4, input tensors = 13
+0.00.847.927 I sched_reserve: reserve took 5.85 ms, sched copies = 1
+0.00.848.197 I cmn          init: llama threadpool init, n_threads = 8
+0.00.848.207 I cmn  common_init_: warming up the model with an empty run - please wait ... (--no-warmup to disable)
+0.01.070.237 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 32768, kv_unified = 'true'
+0.01.070.297 I spec common_specu: no implementations specified for speculative decoding
+0.01.070.301 I slot   load_model: id  0 | task -1 | new slot, n_ctx = 32768
+0.01.070.304 I slot   load_model: id  1 | task -1 | new slot, n_ctx = 32768
+0.01.070.304 I slot   load_model: id  2 | task -1 | new slot, n_ctx = 32768
+0.01.070.305 I slot   load_model: id  3 | task -1 | new slot, n_ctx = 32768
+0.01.070.320 I srv    load_model: prompt cache is enabled, size limit: 8192 MiB
+0.01.070.321 I srv    load_model: use `--cache-ram 0` to disable the prompt cache
+0.01.070.322 I srv    load_model: for more info see https://github.com/ggml-org/llama.cpp/pull/16391
+0.01.070.323 I srv    load_model: context checkpoints enabled, max = 32, min spacing = 8192
+0.01.070.350 I srv          init: idle slots will be saved to prompt cache and cleared upon starting a new task
+0.01.076.215 I srv          init: init: chat template, example_format: '<start_of_turn>user
+You are a helpful assistant
+
+Hello<end_of_turn>
+<start_of_turn>model
+Hi there<end_of_turn>
+<start_of_turn>user
+How are you?<end_of_turn>
+<start_of_turn>model
+'
+0.01.076.575 I srv          init: init: chat template, thinking = 0
+0.01.076.594 I srv          init: preserve_reasoning kwarg: not supported by template
+0.01.076.617 I srv  server_run_i: model loaded
+0.01.076.623 I srv  server_on_li: listening on http://127.0.0.1:8080
+0.01.076.694 I srv  update_slots: all slots are idle
+0.02.160.546 I srv  server_strea: conv_id= (empty=1)
+0.02.160.892 I slot get_availabl: id  0 | task -1 |  - skipping, slot is empty
+0.02.160.893 I slot get_availabl: id  1 | task -1 |  - skipping, slot is empty
+0.02.160.893 I slot get_availabl: id  2 | task -1 |  - skipping, slot is empty
+0.02.160.894 I slot get_availabl: id  3 | task -1 |  - skipping, slot is empty
+0.02.160.896 I slot get_availabl: id  0 | task -1 | selected slot by LRU, n_tokens = 0, t_last = -1
+0.02.160.896 I srv  get_availabl: updating prompt cache
+0.02.160.905 I srv          load:  - looking for better prompt, base f_keep = -1.000, f_sim = 0.000
+0.02.160.909 I srv        update:  - cache state: 0 prompts, 0.000 MiB (limits: 8192.000 MiB, 32768 tokens, 8589934592 est)
+0.02.160.910 I srv  get_availabl: prompt cache update took 0.01 ms
+0.02.160.979 I slot launch_slot_: id  0 | task -1 | sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> min-p -> ?xtc -> temp-ext -> greedy 
+0.02.160.990 I slot launch_slot_: id  0 | task -1 | sampler params: 
+	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = 64
+	top_k = 40, top_p = 0.950, min_p = 0.050, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+0.02.160.991 I slot launch_slot_: id  0 | task 0 | processing task, is_child = 0
+0.02.160.992 I slot process_sing: id  1 | task -1 | saving idle slot to prompt cache
+0.02.160.993 I slot prompt_clear: id  1 | task -1 | clearing prompt with 0 tokens
+0.02.161.028 I slot process_sing: id  2 | task -1 | saving idle slot to prompt cache
+0.02.161.028 I slot prompt_clear: id  2 | task -1 | clearing prompt with 0 tokens
+0.02.161.055 I slot process_sing: id  3 | task -1 | saving idle slot to prompt cache
+0.02.161.056 I slot prompt_clear: id  3 | task -1 | clearing prompt with 0 tokens
+0.02.161.097 I slot   operator(): id  0 | task 0 | new prompt, n_ctx_slot = 32768, n_keep = 0, task.n_tokens = 21
+0.02.161.102 I slot   operator(): id  0 | task 0 | cached n_tokens = 0, memory_seq_rm [0, end)
+0.02.180.936 I slot   operator(): id  0 | task 0 | cached n_tokens = 1, memory_seq_rm [1, end)
+0.02.181.054 I slot create_check: id  0 | task 0 | created context checkpoint 1 of 32 (pos_min = 0, pos_max = 0, n_tokens = 1, size = 0.022 MiB)
+0.02.248.788 I slot   operator(): id  0 | task 0 | cached n_tokens = 17, memory_seq_rm [17, end)
+0.02.248.850 I slot init_sampler: id  0 | task 0 | init sampler, took 0.00 ms, tokens: text = 21, total = 21
+0.02.249.017 I slot create_check: id  0 | task 0 | created context checkpoint 2 of 32 (pos_min = 0, pos_max = 16, n_tokens = 17, size = 0.366 MiB)
+0.03.415.100 I slot print_timing: id  0 | task 0 | prompt eval time =     125.65 ms /    21 tokens (    5.98 ms per token,   167.13 tokens per second)
+0.03.415.111 I slot print_timing: id  0 | task 0 |        eval time =    1128.32 ms /    36 tokens (   32.24 ms per token,    31.02 tokens per second)
+0.03.415.113 I slot print_timing: id  0 | task 0 |       total time =    1253.97 ms /    57 tokens
+0.03.415.114 I slot print_timing: id  0 | task 0 |    graphs reused =         35
+0.03.415.116 I slot print_timing: id  0 | task 0 |   graph reallocs =          0    /     0        (same size) / (changed size)
+0.03.415.162 I slot      release: id  0 | task 0 | stop processing: n_tokens = 56, truncated = 0
+0.03.415.171 I srv  update_slots: all slots are idle

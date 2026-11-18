@@ -1,0 +1,4 @@
+## python3 assemble_n.py
+stop {"role": "assistant", "content": "Cloudy in Oslo."}
+tool_calls {"role": "assistant", "content": "", "tool_calls": [{"id": "call_1", "type": "function", "function": {"name": "get_weather", "arguments": "{\"city\": \"Oslo\"}"}}]}
+usage {'prompt_tokens': 20, 'completion_tokens': 30}

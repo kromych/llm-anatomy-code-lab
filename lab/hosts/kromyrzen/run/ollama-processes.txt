@@ -1,0 +1,99 @@
+# Ollama process/socket snapshots taken inside the install+test SSH session (Win32_Process, Get-NetTCPConnection, Get-NetUDPEndpoint)
+
+=== before installer  (2026-11-13T22:43:59.4438646-08:00)
+(no ollama/llama processes)
+--- TCP listening sockets of these processes ---
+--- established TCP connections of these processes ---
+--- UDP endpoints of these processes ---
+
+=== right after installer exit  (2026-11-13T22:45:14.4146725-08:00)
+pid=2164 ppid=1636 session=0 name=ollama app.exe threads=1 ws=2MB
+  exe: C:\Users\labuser\AppData\Local\Programs\Ollama\ollama app.exe
+  cmd: "C:\Users\labuser\AppData\Local\Programs\Ollama\ollama app.exe"
+--- TCP listening sockets of these processes ---
+--- established TCP connections of these processes ---
+--- UDP endpoints of these processes ---
+
+=== after waiting for port 11434  (2026-11-13T22:46:47.8655769-08:00)
+(no ollama/llama processes)
+--- TCP listening sockets of these processes ---
+--- established TCP connections of these processes ---
+--- UDP endpoints of these processes ---
+
+=== after manual ollama serve  (2026-11-13T22:46:49.1163686-08:00)
+pid=7256 ppid=5532 session=0 name=ollama.exe threads=20 ws=28MB
+  exe: C:\Users\labuser\AppData\Local\Programs\Ollama\ollama.exe
+  cmd: "C:\Users\labuser\AppData\Local\Programs\Ollama\ollama.exe" serve
+pid=4360 ppid=7256 session=0 name=llama-server.exe threads=6 ws=9MB
+  exe: C:\Users\labuser\AppData\Local\Programs\Ollama\lib\ollama\llama-server.exe
+  cmd: C:\Users\labuser\AppData\Local\Programs\Ollama\lib\ollama\llama-server.exe --port 51692 --host 127.0.0.1 --no-webui --offline --verbose
+--- TCP listening sockets of these processes ---
+127.0.0.1:11434 pid=7256
+--- established TCP connections of these processes ---
+192.168.88.7:62320 -> 34.36.133.15:443 pid=7256
+--- UDP endpoints of these processes ---
+
+=== while gemma3:1b is loaded (after its chat request)  (2026-11-13T22:47:27.8266948-08:00)
+pid=7256 ppid=5532 session=0 name=ollama.exe threads=26 ws=36MB
+  exe: C:\Users\labuser\AppData\Local\Programs\Ollama\ollama.exe
+  cmd: "C:\Users\labuser\AppData\Local\Programs\Ollama\ollama.exe" serve
+pid=6136 ppid=7256 session=0 name=llama-server.exe threads=30 ws=867MB
+  exe: C:\Users\labuser\AppData\Local\Programs\Ollama\lib\ollama\llama-server.exe
+  cmd: C:\Users\labuser\AppData\Local\Programs\Ollama\lib\ollama\llama-server.exe --model C:\Users\labuser\.ollama\models\blobs\sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef --port 62366 --host 127.0.0.1 --no-webui --offline -c 4096 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja --chat-template chatml --load-mode none --flash-attn auto -b 512 -ub 512 --context-shift --keep 4
+--- TCP listening sockets of these processes ---
+127.0.0.1:11434 pid=7256
+127.0.0.1:62366 pid=6136
+--- established TCP connections of these processes ---
+192.168.88.7:62320 -> 34.36.133.15:443 pid=7256
+192.168.88.7:62326 -> 104.18.17.170:443 pid=7256
+192.168.88.7:62327 -> 104.18.17.170:443 pid=7256
+192.168.88.7:62328 -> 172.64.190.1:443 pid=7256
+192.168.88.7:62344 -> 104.18.17.170:443 pid=7256
+192.168.88.7:62345 -> 172.64.190.1:443 pid=7256
+--- UDP endpoints of these processes ---
+
+=== while qwen3:1.7b is loaded (after its chat request)  (2026-11-13T22:47:45.5898520-08:00)
+pid=7256 ppid=5532 session=0 name=ollama.exe threads=26 ws=37MB
+  exe: C:\Users\labuser\AppData\Local\Programs\Ollama\ollama.exe
+  cmd: "C:\Users\labuser\AppData\Local\Programs\Ollama\ollama.exe" serve
+pid=6136 ppid=7256 session=0 name=llama-server.exe threads=30 ws=867MB
+  exe: C:\Users\labuser\AppData\Local\Programs\Ollama\lib\ollama\llama-server.exe
+  cmd: C:\Users\labuser\AppData\Local\Programs\Ollama\lib\ollama\llama-server.exe --model C:\Users\labuser\.ollama\models\blobs\sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef --port 62366 --host 127.0.0.1 --no-webui --offline -c 4096 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja --chat-template chatml --load-mode none --flash-attn auto -b 512 -ub 512 --context-shift --keep 4
+pid=6952 ppid=7256 session=0 name=llama-server.exe threads=30 ws=1,802MB
+  exe: C:\Users\labuser\AppData\Local\Programs\Ollama\lib\ollama\llama-server.exe
+  cmd: C:\Users\labuser\AppData\Local\Programs\Ollama\lib\ollama\llama-server.exe --model C:\Users\labuser\.ollama\models\blobs\sha256-3d0b790534fe4b79525fc3692950408dca41171676ed7e21db57af5c65ef6ab6 --port 62378 --host 127.0.0.1 --no-webui --offline -c 4096 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja --chat-template chatml --load-mode none --flash-attn auto -b 512 -ub 512 --context-shift --keep 4
+--- TCP listening sockets of these processes ---
+127.0.0.1:11434 pid=7256
+127.0.0.1:62366 pid=6136
+127.0.0.1:62378 pid=6952
+--- established TCP connections of these processes ---
+192.168.88.7:62320 -> 34.36.133.15:443 pid=7256
+192.168.88.7:62326 -> 104.18.17.170:443 pid=7256
+192.168.88.7:62327 -> 104.18.17.170:443 pid=7256
+192.168.88.7:62328 -> 172.64.190.1:443 pid=7256
+192.168.88.7:62344 -> 104.18.17.170:443 pid=7256
+192.168.88.7:62345 -> 172.64.190.1:443 pid=7256
+--- UDP endpoints of these processes ---
+
+=== end of install/test SSH session (just before it closes)  (2026-11-13T22:47:46.0691434-08:00)
+pid=7256 ppid=5532 session=0 name=ollama.exe threads=26 ws=36MB
+  exe: C:\Users\labuser\AppData\Local\Programs\Ollama\ollama.exe
+  cmd: "C:\Users\labuser\AppData\Local\Programs\Ollama\ollama.exe" serve
+pid=6136 ppid=7256 session=0 name=llama-server.exe threads=30 ws=867MB
+  exe: C:\Users\labuser\AppData\Local\Programs\Ollama\lib\ollama\llama-server.exe
+  cmd: C:\Users\labuser\AppData\Local\Programs\Ollama\lib\ollama\llama-server.exe --model C:\Users\labuser\.ollama\models\blobs\sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef --port 62366 --host 127.0.0.1 --no-webui --offline -c 4096 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja --chat-template chatml --load-mode none --flash-attn auto -b 512 -ub 512 --context-shift --keep 4
+pid=6952 ppid=7256 session=0 name=llama-server.exe threads=30 ws=1,802MB
+  exe: C:\Users\labuser\AppData\Local\Programs\Ollama\lib\ollama\llama-server.exe
+  cmd: C:\Users\labuser\AppData\Local\Programs\Ollama\lib\ollama\llama-server.exe --model C:\Users\labuser\.ollama\models\blobs\sha256-3d0b790534fe4b79525fc3692950408dca41171676ed7e21db57af5c65ef6ab6 --port 62378 --host 127.0.0.1 --no-webui --offline -c 4096 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja --chat-template chatml --load-mode none --flash-attn auto -b 512 -ub 512 --context-shift --keep 4
+--- TCP listening sockets of these processes ---
+127.0.0.1:11434 pid=7256
+127.0.0.1:62366 pid=6136
+127.0.0.1:62378 pid=6952
+--- established TCP connections of these processes ---
+192.168.88.7:62320 -> 34.36.133.15:443 pid=7256
+192.168.88.7:62326 -> 104.18.17.170:443 pid=7256
+192.168.88.7:62327 -> 104.18.17.170:443 pid=7256
+192.168.88.7:62328 -> 172.64.190.1:443 pid=7256
+192.168.88.7:62344 -> 104.18.17.170:443 pid=7256
+192.168.88.7:62345 -> 172.64.190.1:443 pid=7256
+--- UDP endpoints of these processes ---

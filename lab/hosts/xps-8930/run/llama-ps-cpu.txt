@@ -1,0 +1,29 @@
+# cmd: build/bin/llama-server -hf ggml-org/gemma-3-1b-it-GGUF --port 8080 -lv 4
+$ ps -o pid,ppid,user,rss,args -p <pid>; pstree -p <pid>   (one process, no children; 20 threads)
+    PID    PPID USER       RSS COMMAND
+2013395 2013388 labuser     1121532 build/bin/llama-server -hf ggml-org/gemma-3-1b-it-GGUF --port 8080 -lv 4
+llama-server(2013395)-+-{llama-server}(2013401)
+                      |-{llama-server}(2013402)
+                      |-{llama-server}(2013405)
+                      |-{llama-server}(2013406)
+                      |-{llama-server}(2013407)
+                      |-{llama-server}(2013408)
+                      |-{llama-server}(2013409)
+                      |-{llama-server}(2013410)
+                      |-{llama-server}(2013411)
+                      |-{llama-server}(2013412)
+                      |-{llama-server}(2013413)
+                      |-{llama-server}(2013414)
+                      |-{llama-server}(2013415)
+                      |-{llama-server}(2013416)
+                      |-{llama-server}(2013424)
+                      |-{llama-server}(2013425)
+                      |-{llama-server}(2013426)
+                      |-{llama-server}(2013427)
+                      |-{llama-server}(2013428)
+                      `-{llama-server}(2013429)
+
+pid=2013395
+health after 1s: {"status":"ok"}
+stopped
+env: HF_HOME=unset LLAMA_CACHE=unset XDG_CACHE_HOME=unset

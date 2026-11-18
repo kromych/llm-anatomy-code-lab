@@ -1,0 +1,53 @@
+## llama-server -hf ggml-org/Qwen3-1.7B-GGUF:Q4_K_M --host 127.0.0.1 --port 8107
+## python3 exp_z5.py http://127.0.0.1:8107/v1   (fresh server)
+## The info lines of the server's log from the end of request 13 to the
+## start of request 14: the summarizing request (task 312) and the next
+## request of the conversation (task 420). Lines cut at 160 characters.
+0.05.366.826 I slot      release: id  0 | task 288 | stop processing: n_tokens = 1858, truncated = 0
+0.05.366.833 I srv  update_slots: all slots are idle
+0.05.379.558 I slot get_availabl: id  0 | task -1 |  - checking sim = 0.002 (3/1412) > 0.100
+0.05.379.560 I slot get_availabl: id  1 | task -1 |  - skipping, slot is empty
+0.05.379.561 I slot get_availabl: id  2 | task -1 |  - skipping, slot is empty
+0.05.379.562 I slot get_availabl: id  3 | task -1 |  - skipping, slot is empty
+0.05.379.568 I slot get_availabl: id  1 | task -1 | selected slot by LRU, n_tokens = 0, t_last = -1
+0.05.379.569 I srv  get_availabl: updating prompt cache
+0.05.379.575 I srv          load:  - looking for better prompt, base f_keep = -1.000, f_sim = 0.000
+0.05.379.580 I srv        update:  - cache state: 0 prompts, 0.000 MiB (limits: 8192.000 MiB, 40960 tokens, 8589934592 est)
+0.05.379.581 I srv  get_availabl: prompt cache update took 0.01 ms
+0.05.379.637 I slot launch_slot_: id  1 | task 312 | processing task, is_child = 0
+0.05.379.773 I srv   prompt_save:  - saving prompt with length 1858, total state size = 203.241 MiB (draft: 0.000 MiB)
+0.05.396.689 I srv        update:  - cache state: 1 prompts, 203.241 MiB (limits: 8192.000 MiB, 40960 tokens, 74890 est)
+0.05.396.690 I srv        update:    - prompt 0x77df14e810:    1858 tokens, checkpoints:  0,   203.241 MiB
+0.05.396.690 I slot prompt_clear: id  0 | task -1 | clearing prompt with 1858 tokens
+0.05.396.843 I slot prompt_clear: id  2 | task -1 | clearing prompt with 0 tokens
+0.05.396.870 I slot prompt_clear: id  3 | task -1 | clearing prompt with 0 tokens
+0.05.396.904 I slot   operator(): id  1 | task 312 | new prompt, n_ctx_slot = 40960, n_keep = 0, task.n_tokens = 1412
+0.05.396.906 I slot   operator(): id  1 | task 312 | cached n_tokens = 0, memory_seq_rm [0, end)
+0.05.397.091 I slot init_sampler: id  1 | task 312 | init sampler, took 0.14 ms, tokens: text = 1412, total = 1412
+0.07.099.681 I slot print_timing: id  1 | task 312 | prompt eval time =     468.07 ms /  1412 tokens (    0.33 ms per token,  3016.64 tokens per second)
+0.07.099.685 I slot print_timing: id  1 | task 312 |        eval time =    1234.68 ms /   107 tokens (   11.65 ms per token,    85.85 tokens per second)
+0.07.099.687 I slot print_timing: id  1 | task 312 |       total time =    1702.75 ms /  1519 tokens
+0.07.099.941 I slot      release: id  1 | task 312 | stop processing: n_tokens = 1518, truncated = 0
+0.07.099.962 I srv  update_slots: all slots are idle
+0.07.123.747 I slot get_availabl: id  0 | task -1 |  - skipping, slot is empty
+0.07.123.751 I slot get_availabl: id  1 | task -1 |  - checking sim = 0.003 (3/911) > 0.100
+0.07.123.751 I slot get_availabl: id  2 | task -1 |  - skipping, slot is empty
+0.07.123.752 I slot get_availabl: id  3 | task -1 |  - skipping, slot is empty
+0.07.123.755 I slot get_availabl: id  2 | task -1 | selected slot by LRU, n_tokens = 0, t_last = -1
+0.07.123.755 I srv  get_availabl: updating prompt cache
+0.07.123.759 I srv          load:  - looking for better prompt, base f_keep = -1.000, f_sim = 0.000
+0.07.123.762 I srv          load:    - prompt with length    1858, lcp =     349, f_keep = 0.188, f_sim = 0.383
+0.07.123.765 I srv        update:  - cache state: 1 prompts, 203.241 MiB (limits: 8192.000 MiB, 40960 tokens, 74890 est)
+0.07.123.767 I srv        update:    - prompt 0x77df14e810:    1858 tokens, checkpoints:  0,   203.241 MiB
+0.07.123.768 I srv  get_availabl: prompt cache update took 0.01 ms
+0.07.124.083 I slot launch_slot_: id  2 | task 420 | processing task, is_child = 0
+0.07.124.085 I slot prompt_clear: id  0 | task -1 | clearing prompt with 0 tokens
+0.07.124.352 I srv   prompt_save:  - saving prompt with length 1518, total state size = 166.049 MiB (draft: 0.000 MiB)
+0.07.143.186 I srv        update:  - cache state: 2 prompts, 369.290 MiB (limits: 8192.000 MiB, 40960 tokens, 74890 est)
+0.07.143.187 I srv        update:    - prompt 0x77df14e810:    1858 tokens, checkpoints:  0,   203.241 MiB
+0.07.143.187 I srv        update:    - prompt 0x77df14df50:    1518 tokens, checkpoints:  0,   166.049 MiB
+0.07.143.188 I slot prompt_clear: id  1 | task -1 | clearing prompt with 1518 tokens
+0.07.143.322 I slot prompt_clear: id  3 | task -1 | clearing prompt with 0 tokens
+0.07.143.357 I slot   operator(): id  2 | task 420 | new prompt, n_ctx_slot = 40960, n_keep = 0, task.n_tokens = 911
+0.07.143.359 I slot   operator(): id  2 | task 420 | cached n_tokens = 0, memory_seq_rm [0, end)
+0.07.143.502 I slot init_sampler: id  2 | task 420 | init sampler, took 0.10 ms, tokens: text = 911, total = 911

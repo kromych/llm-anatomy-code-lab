@@ -1,0 +1,9 @@
+12 passages, 1024 dimensions
+What guarantees that a model's answer is valid JSON?
+  0.543  A grammar masks the tokens that would break a JSON Schema.
+  0.409  A GGUF file holds a model's metadata and tensors in one file.
+  0.401  The Model Context Protocol lets a harness call remote tools.
+Where do the weights of a model live on disk?
+  0.446  Quantization stores a weight in four bits instead of sixteen.
+  0.435  A GGUF file holds a model's metadata and tensors in one file.
+  0.385  The Model Context Protocol lets a harness call remote tools.

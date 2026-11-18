@@ -1,0 +1,133 @@
+Trying:
+    ids = [504, 3575, 282, 4649, 314]         # a list of token IDs
+Expecting nothing
+ok
+Trying:
+    ids[0], ids[-1], ids[1:3], ids[:2]        # indexes and slices
+Expecting:
+    (504, 314, [3575, 282], [504, 3575])
+ok
+Trying:
+    meta = {"magic": "GGUF", "version": 3}    # a dictionary
+Expecting nothing
+ok
+Trying:
+    meta["version"], meta.get("tensors"), meta.get("tensors", 0)
+Expecting:
+    (3, None, 0)
+ok
+Trying:
+    name, size = "gemma.gguf", 806058240      # a tuple, unpacked
+Expecting nothing
+ok
+Trying:
+    f"{name}: {size / 1e6:.0f} MB or {size:,} bytes"
+Expecting:
+    'gemma.gguf: 806 MB or 806,058,240 bytes'
+ok
+Trying:
+    "large" if size > 1e9 else "small"        # a conditional expression
+Expecting:
+    'small'
+ok
+Trying:
+    [t for t in ids if t > 500]               # a list comprehension
+Expecting:
+    [504, 3575, 4649]
+ok
+Trying:
+    {t: i for i, t in enumerate(ids)}[282]    # a dictionary of positions
+Expecting:
+    2
+ok
+Trying:
+    sum(x * y for x, y in zip([1, 2, 0], [1, 2, 0]))    # a dot product
+Expecting:
+    5
+ok
+Trying:
+    sorted(ids, key=lambda t: t % 100)[:3]    # by their last two digits
+Expecting:
+    [504, 314, 4649]
+ok
+Trying:
+    head = "GGUF".encode() + bytes([3, 0, 0, 0])
+Expecting nothing
+ok
+Trying:
+    head, head[:4].decode(), head.hex()
+Expecting:
+    (b'GGUF\x03\x00\x00\x00', 'GGUF', '4747554603000000')
+ok
+Trying:
+    import struct
+Expecting nothing
+ok
+Trying:
+    struct.unpack("<4sI", head), struct.unpack(">4sI", head)
+Expecting:
+    ((b'GGUF', 3), (b'GGUF', 50331648))
+ok
+Trying:
+    1 << 15, 0x9f, 0x9f >> 4, 0x9f & 0x0f     # shifts and masks
+Expecting:
+    (32768, 159, 9, 15)
+ok
+Trying:
+    TOOLS = {}
+Expecting nothing
+ok
+Trying:
+    def tool(f):                    # a decorator: a function that takes
+        TOOLS[f.__name__] = f       # the function defined below it
+        return f
+Expecting nothing
+ok
+Trying:
+    @tool
+    def add(a: int, b: int = 1) -> int:
+        return a + b
+Expecting nothing
+ok
+Trying:
+    add(2), TOOLS["add"](2, 3), add.__annotations__["b"]
+Expecting:
+    (3, 5, <class 'int'>)
+ok
+Trying:
+    class Budget:                   # a class: data with its functions
+        def __init__(self, limit):
+            self.limit, self.used = limit, 0
+        def spend(self, n):
+            if self.used + n > self.limit:
+                raise ValueError(f"{n} tokens exceed the budget")
+            self.used += n
+Expecting nothing
+ok
+Trying:
+    budget = Budget(100)
+Expecting nothing
+ok
+Trying:
+    budget.spend(60)
+Expecting nothing
+ok
+Trying:
+    try:
+        budget.spend(50)
+    except ValueError as e:
+        print("refused:", e)
+Expecting:
+    refused: 50 tokens exceed the budget
+ok
+Trying:
+    budget.used, isinstance(budget, Budget)
+Expecting:
+    (60, True)
+ok
+1 item passed all tests:
+  25 tests in __main__
+25 tests in 1 item.
+25 passed.
+Test passed.
+TestResults(failed=0, attempted=25)

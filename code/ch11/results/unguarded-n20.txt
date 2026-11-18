@@ -1,0 +1,2 @@
+request 2 raised: HTTP Error 500: Internal Server Error {'error': {'code': 500, 'message': 'Failed to parse tool call arguments as JSON: [json.exception.parse_error.101] parse error at line 1, column 26: syntax error while parsing value - invalid string: missing closing quote; last read: \'"docs/formats.md\'', 'type': 'server_error'}}
+finish reasons: length

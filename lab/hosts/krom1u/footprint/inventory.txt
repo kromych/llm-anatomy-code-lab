@@ -1,0 +1,45 @@
+# code/appB/inventory.sh on krom1u (macOS 27.2, Apple M1 Ultra), 2026-11-14. Tool-owned paths, processes,
+# listeners and services only; no file contents.
+== llama.cpp
+  sys    21M   /opt/homebrew/Cellar/llama.cpp
+  sys   8.0M   /opt/homebrew/Cellar/ggml
+== ollama
+  dir   2.0G   ~/.ollama
+  cred  600    ~/.ollama/id_ed25519 (present; contents not read)
+  sys    65M   /opt/homebrew/Cellar/ollama
+== huggingface
+  dir    14G   ~/.cache/huggingface/hub
+  dir   6.7M   ~/.cache/huggingface/datasets
+  dir   352K   ~/.cache/huggingface/xet
+== torch
+== shaders
+  dir   1.3M   ~/.cache/mesa_shader_cache
+  dir   167M   $DARWIN_USER_CACHE_DIR/com.apple.metal
+== docker
+== podman
+== codex
+  dir   103M   ~/.codex
+== opencode
+  dir    12M   ~/.local/share/opencode
+  dir     0B   ~/.cache/opencode
+  dir     0B   ~/.config/opencode
+  dir     0B   ~/.local/state/opencode
+== goose
+  dir     0B   ~/.config/goose
+  dir   6.7M   ~/.local/share/goose
+  dir   1.6M   ~/.local/state/goose
+== aider
+  dir   3.9M   ~/.aider
+== openhands
+  dir    13M   ~/.openhands
+  dir   451M   ~/.local/share/uv/tools/openhands
+== cline
+== inspect
+  dir   8.9M   ~/Library/Application Support/inspect_ai
+  dir   708K   ~/Library/Caches/inspect_ai
+== python
+  dir   814M   ~/Library/Caches/pip
+  dir   448M   ~/.cache/uv
+  dir   451M   ~/.local/share/uv
+== claude
+  (omitted on this host: the author's own Claude Code installation)

@@ -1,0 +1,96 @@
+Footprint of LM Studio on krom1u (macOS 27.2, Apple M1 Ultra), 2026-11-14.
+Differences between snapshots taken by code/appB/snapshot.sh: before the
+install, after the Homebrew cask, after the headless installer (llmster),
+while the daemon, the server and one model ran, after they stopped, after
+the cask was removed, and after the remaining files were deleted by hand.
+Only the differences are kept; Spotlight workers, apps opened by hand and
+the servers of other chapters are left out. Sizes in MB unless stated.
+
+== Homebrew casks
+  added by `brew install --cask lm-studio`: 1
+    + lm-studio 0.4.28,2   (/Applications/LM Studio.app, 1.6 GB, quarantined;
+                            the cask declares auto_updates)
+  gone after `brew uninstall --cask --force lm-studio`: 1
+
+== entries in ~, ~/.config, ~/.local/*, ~/.cache, ~/Library/..., /Applications
+  added by the cask: 1
+    + /Applications/LM Studio.app
+  added by the app's bundled `lms daemon status` (app never opened): 1
+    + ~/.lmstudio-home-pointer      (one line: the path of ~/.lmstudio)
+  added by `curl -fsSL https://lmstudio.ai/install.sh | bash`: 1
+    + ~/.lmstudio                   (2.9 GB right after the installer)
+  added under ~/Library at any stage: 0  (the desktop application never ran)
+  left after the cask was removed: 2
+    ~/.lmstudio (3.0 GB), ~/.lmstudio-home-pointer
+
+== shell start-up files
+  changed by the installer (`lms bootstrap -y`): 2
+    ~/.profile, ~/.zshrc: three lines appended
+        (blank line)
+        # Added by LM Studio CLI tool (lms)
+        export PATH="$PATH:$HOME/.lmstudio/bin"
+  left after the cask was removed: both changes
+
+== launchd jobs, LaunchAgents, login items
+  added at any stage: 0
+
+== listening TCP sockets (command, address)
+  while the daemon ran:
+    + llmster 127.0.0.1:41343      (internal API for lms; .internal/http-server.json)
+  after `lms server start`:
+    + llmster 127.0.0.1:1234       (OpenAI-compatible server; no CORS headers)
+  after `lms load`:
+    + llama-server 127.0.0.1:<random>  (child of llmster, one per loaded model,
+                                       started with a per-start --api-key)
+  after `lms daemon down`: none
+
+== processes while one model was loaded (RSS)
+  llmster (PPID 1)                                        96 MB
+    ~/.lmstudio/.internal/utils/node  x2 (Node IPC)       50-90 MB each
+    ~/.lmstudio/extensions/backends/llama.cpp-mac-arm64-apple-metal-advsimd-2.66.0/llama-server
+                                                          2.2 GB (maps the GGUF)
+  first start only: bundled CPython 3.11 running the MLX backend's post-install
+
+== outbound connections (lsof, every 0.5 s)
+  installer: curl -> 172.67.69.92:80, then :443 (llmster.lmstudio.ai; the
+             script's URL has no scheme, so the first request is plain HTTP
+             and is redirected)
+  daemon start: llmster -> 104.26.6.153:443, 104.26.7.153:443 (Cloudflare
+             addresses of *.lmstudio.ai; the daemon's bundle names
+             versions-prod.lmstudio.ai/update and
+             extensions.lmstudio.ai/master-lists-v2)
+  lms get qwen/qwen3-0.6b: llmster -> 104.26.7.153:443 only (the model came
+             through LM Studio's host, not huggingface.co)
+
+== data files after the runs (size, path; names only, never contents)
+  62.1 MB   ~/.lmstudio/bin                (lms)
+  579.7 MB  ~/.lmstudio/llmster            (0.0.27-1)
+  2194.1 MB ~/.lmstudio/extensions
+    43.2 MB   backends/llama.cpp-mac-arm64-apple-metal-advsimd-2.66.0
+    4.7 MB    backends/mlx-llm-mac-arm64-apple-metal-advsimd-1.13.1
+    1446.3 MB backends/vendor             (bundled CPython and libraries)
+    691.4 MB  frameworks                  (office-document-processor 1.0.0 with
+                                           LibreOffice.app 663 MB; lmlink-connector
+                                           0.1.2; harmony 0.3.5)
+    8.6 MB    plugins
+  324.1 MB  ~/.lmstudio/.internal
+    227.4 MB  utils (node, deno, esbuild, rg, shfmt, office-document-helper)
+              bionic.sqlite, ng-sessions.sqlite, local-inference-owner.sqlite,
+              settings, http-server.json, llmster-pid.lock,
+              lms-key-2 (24 bytes, mode 0644), local-identity.json (0600),
+              cloud-account.json (0600)
+  5.0 MB    ~/.lmstudio/models             (symlink to a GGUF in the Hugging
+                                            Face cache; a .part file of an
+                                            aborted download)
+  0         ~/.lmstudio/credentials/{mcp-oauth,ng-mcp-oauth,ng-mcp-managed-oauth}
+  0         ~/.lmstudio/mcp.json            (no servers)
+            ~/.lmstudio/server-logs/YYYY-MM/YYYY-MM-DD.N.log, settings.json,
+            conversations, projects, skills, hub, workspace, user-files
+
+== after removal
+  `brew uninstall --zap --cask lm-studio` failed ("Unable to remove some files.
+  Please enable Full Disk Access for your terminal"), leaving the app as a
+  backup in /opt/homebrew/Caskroom/lm-studio (1.6 GB) and the cask listed;
+  `brew uninstall --cask --force lm-studio` completed. ~/.lmstudio,
+  ~/.lmstudio-home-pointer and the PATH lines were then removed by hand; the
+  final snapshot equals the first.

@@ -1,0 +1,8 @@
+use_default_settings: true
+server:
+  secret_key: "change-me"   # replace: openssl rand -hex 32
+  limiter: false            # no bot protection on a private instance
+  image_proxy: false
+search:
+  safe_search: 1            # moderate
+  formats: [html, json]     # json is off by default

@@ -1,0 +1,193 @@
+xps-8930.local: llama.cpp + Ollama lab install, 2026-11-13 (PST)
+Fedora 44 Workstation, kernel 7.2.11, i7-8700 (6C/12T, AVX2, no AVX-512), 31 GiB RAM, Intel UHD 630 iGPU only.
+Details: system.txt; install differences: footprint/engines/changes.txt (full snapshots discarded); logs, JSON, tables: run/.
+
+LLAMA.CPP (from source)
+- Commands run:
+    sudo dnf install -y cmake libcurl-devel
+    git clone https://github.com/ggml-org/llama.cpp ~/src/llama.cpp
+    cd ~/src/llama.cpp && cmake -B build && cmake --build build --config Release -j 10
+- Version: commit 61dbf49228c8 (git describe b12375-1-g61dbf4922);
+  `llama-server --version` -> "version: 1.0.0-dev (build 12376, commit 61dbf4922) built with GNU 16.2.1 for Linux x86_64".
+- dnf #45 installed cmake 4.3.0 and libcurl-devel 8.18.0 plus 20 dependencies, and upgraded libbrotli 1.2.0 -> 1.2.1
+  (needed by brotli-devel). That is a partial system update the book's command causes as a side effect.
+- libcurl is no longer used: this commit uses cpp-httplib with OpenSSL for HTTPS (LLAMA_OPENSSL=ON; LLAMA_CURL is deprecated).
+  Configure prints "OpenSSL found: 3.5.9"; `ldd llama-server` shows libssl/libcrypto and no libcurl. On Fedora the build
+  dependency is openssl-devel (already installed here), not libcurl-devel. Suggest updating the book's dnf line.
+- CMake defaults: CMAKE_BUILD_TYPE=Release when none is given, so `--config Release` has no effect with the Makefile generator;
+  GGML_NATIVE (-march=native); OpenMP; shared libraries (libllama.so, libggml*.so, ...) in build/bin with
+  RUNPATH=/home/labuser/src/llama.cpp/build/bin, so the binaries are not relocatable as-is.
+- The build needs the network: by default (LLAMA_USE_PREBUILT_UI=ON) it downloads the web UI from the Hugging Face bucket
+  ggml-org/llama-ui (tries the b12376 tag, which failed with an HTTP error, then falls back to "latest") and embeds 70 assets.
+  LLAMA_BUILD_UI=OFF is the default (no npm build).
+- ccache is used automatically when present ("ccache found, compilation results will be cached. Disable with GGML_CCACHE=OFF"),
+  so ~/.cache/ccache grew from 321 to 363 MB.
+- CPU build: 193 s with -j 10, 22 compiler-warning lines; build/ is 161 MB, 128 entries in build/bin including tests and a
+  new unified `llama` binary (target llama-app). Nothing is installed outside ~/src/llama.cpp (no `cmake --install` step).
+- Fedora packages llama.cpp (recorded only, not installed): llama-cpp b6153-3.fc44 (fedora repo, 1.3 GiB installed,
+  /usr/bin/llama-server etc., requires hipblas/ROCm libraries). Also available: llama-cpp-devel, python3-llama-cpp-python 0.3.14,
+  and ollama 0.12.11-4.fc44 (with /usr/lib/systemd/system/ollama.service, /usr/lib/sysusers.d/ollama.conf, /var/lib/ollama).
+  run/dnf-info-llama-cpp.txt.
+
+LLAMA-SERVER
+- The default port changed: this build listens on 127.0.0.1:9931 (`--help`: "--port PORT ... (default: 9931)").
+  The brief's exact command `llama-server -hf ggml-org/gemma-3-1b-it-GGUF` served on :9931, so the URL :8080/v1/chat/completions
+  only works with `--port 8080`. The verification runs used `--port 8080 -lv 4`. run/llama-server-firstrun-default-port.log.
+- Bind address: 127.0.0.1 only; one process, no child processes, 20 threads; RSS 1.1 GB (CPU build).
+- Default logging (verbosity 3) is terse: no device or backend lines and no download progress. `-lv 4` shows them.
+- -hf download cache: ~/.cache/huggingface/hub/models--ggml-org--gemma-3-1b-it-GGUF/{blobs,refs,snapshots} plus
+  ~/.cache/huggingface/hub/.locks/... (769 MB), the same HF hub layout as on macOS. HF_HOME, LLAMA_CACHE and XDG_CACHE_HOME were unset.
+  The file is snapshots/f9c28bcd85737ffc5aef028638d3341d49869c27/gemma-3-1b-it-Q4_K_M.gguf (Q4_K_M, 762.49 MiB, 999.89 M params).
+  The first start downloaded it in about 8.5 s; a cached start reaches /health in about 1 s.
+- Defaults seen in the log: n_parallel auto -> 4 slots, kv_unified, n_ctx 32768 per slot (model n_ctx_train), flash_attn auto
+  (enabled), prompt cache up to 8192 MiB, 6 compute threads plus 11 HTTP threads. Warning at start:
+  "security: no API key is set and CORS allows all origins".
+- Chat Completions on :8080: HTTP 200, model id "ggml-org/gemma-3-1b-it-GGUF", system_fingerprint "b12376-61dbf4922";
+  the response carries a non-standard "timings" object. CPU: prompt 151.6 t/s, generation 34.7 t/s (21 + 32 tokens).
+  run/llama-response-cpu.json, run/llama-server-cpu.log, run/llama-listen.txt, run/llama-ps-cpu.txt, run/llama-models.json.
+
+VULKAN ON THE INTEL UHD 630: works, but is slower than the CPU
+- Packages: sudo dnf install -y vulkan-headers vulkan-loader-devel glslc vulkan-tools (mesa-vulkan-drivers 26.2.5 and
+  vulkan-loader 1.4.341 were preinstalled). The first configure failed with "Could not find a package configuration file
+  provided by SPIRV-Headers", so a further package was needed: sudo dnf install -y spirv-headers-devel. The book's list should include it.
+- vulkaninfo --summary: GPU0 "Intel(R) UHD Graphics 630 (CFL GT2)", Mesa ANV, Vulkan 1.4.354; GPU1 llvmpipe (CPU).
+  llama.cpp ignores llvmpipe. ggml_vulkan: "uma: 1 | rebar: 1 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 |
+  shared memory: 49152 | int dot: 0 | matrix cores: none". `--list-devices`: Vulkan0 with 23941 MiB (shared system RAM).
+- cmake -B build-vulkan -DGGML_VULKAN=ON && cmake --build build-vulkan --config Release -j 10: 118 s, 450 MB.
+- llama-server (Vulkan build): all 27/27 layers offloaded. Warm-up took about 9.5 s, apparently shader pipeline compilation
+  (59 new entries appeared in ~/.cache/mesa_shader_cache during this run). Log warning: "Flash Attention over K/V rows is assigned to device CPU (usually due to
+  missing support)". First request: prompt 4.2 t/s, generation 11.5 t/s. run/llama-server-vulkan.log, run/llama-response-vulkan.json.
+
+BENCHMARKS: llama-bench -m <gemma-3-1b-it-Q4_K_M.gguf> -p 512 -n 128 -r 3   (run/llama-bench-*.txt)
+    backend           pp512 t/s        tg128 t/s
+    CPU, 6 threads    238.43 +- 0.97   37.46 +- 0.03
+    Vulkan, UHD 630    84.87 +- 0.10   11.77 +- 0.00
+  The CPU is about 2.8x faster for prompt processing and 3.2x faster for generation. On this iGPU, offloading is a loss.
+
+OLLAMA (official installer)
+- Command: curl -fsSL https://ollama.com/install.sh | sh   (as labuser; script sha256 25f64b81...c9f, 455 lines, reviewed first;
+  19 s). Version 0.40.16. run/ollama-install.log, run/ollama-installed.txt.
+- What it did, in order:
+  * picked the first of /usr/local/bin, /usr/bin, /bin found in $PATH -> /usr/local; extracted ollama-linux-amd64.tar.zst
+    (requires zstd) into /usr/local: /usr/local/bin/ollama (43 MB) and /usr/local/lib/ollama (2.4 GB: cuda_v12 1.3 GB,
+    cuda_v13 1.1 GB, vulkan/libggml-vulkan.so 39 MB, 14 libggml-cpu-<microarch>.so variants, libllama*, libmtmd, bundled libgomp,
+    a llama-server runner, license files). About 2.4 GB of CUDA libraries are installed on a machine without an NVIDIA GPU.
+  * created system user and group ollama (uid 386, gid 384, home /usr/share/ollama mode 0700, shell /bin/false), with
+    /etc/skel files copied in (.bashrc, .zshrc, .config/mozilla, ...);
+    added ollama to the render and video groups; added the invoking user (labuser) to group ollama.
+  * wrote /etc/systemd/system/ollama.service (ExecStart=/usr/local/bin/ollama serve, User/Group=ollama, Restart=always,
+    RestartSec=3, WantedBy=default.target) and ran `systemctl enable` (symlink /etc/systemd/system/default.target.wants/ollama.service),
+    then restarted it on exit. The service is enabled and running and was left as installed.
+  * Unit contains Environment="PATH=/home/labuser/.cargo/bin:/usr/local/bin:/usr/bin", the installing user's $PATH copied
+    verbatim into a system unit. The ollama user cannot traverse /home/labuser (mode 0700), so that entry is dead.
+  * no NVIDIA/AMD GPU -> "WARNING: No NVIDIA/AMD GPU detected. Ollama will run in CPU-only mode."; no drivers, repos or RPMs installed.
+  * no change to PATH, shell rc files, /etc/profile.d, ld.so.conf.d, yum repos, udev rules or the firewall (diff-path.txt, diff-dirs.txt).
+- At first start, `ollama serve` (as user ollama) created /usr/share/ollama/.ollama/{id_ed25519,id_ed25519.pub} (identity key pair,
+  not copied; the public key is printed to the journal), .ollama/cache/model-recommendations.json, .ollama/models/blobs,
+  and /usr/share/ollama/.cache/mesa_shader_cache.
+- Listening: 127.0.0.1:11434 (TCP, IPv4 only). Server config defaults from the journal: OLLAMA_MODELS=/usr/share/ollama/.ollama/models,
+  OLLAMA_KEEP_ALIVE=5m, OLLAMA_NUM_PARALLEL=1, OLLAMA_VULKAN=true, OLLAMA_NO_CLOUD=false, OLLAMA_REMOTES=[ollama.com].
+  run/ollama-serve-startup.log.
+- GPU discovery finds the iGPU through Vulkan and drops it: "dropping integrated GPU; to enable, set OLLAMA_IGPU_ENABLE=1",
+  so inference runs on the CPU only, with a "vram-based default context" of 4096 tokens (0 B VRAM).
+- Model store (system-wide, in the service user's home, not ~/.ollama): /usr/share/ollama/.ollama/models/{blobs,manifests/
+  registry.ollama.ai/library/<model>/<tag>,manifests-v2/ollama.com/library/<model>/<tag> (symlink into blobs),metadata}.
+  `ollama pull gemma3:1b` took 10 s (806 MB, Q4_K_M); `ollama pull qwen3:1.7b` took 19 s (1.4 GB, Q4_K_M, capabilities
+  completion/tools/thinking). Store total 2.1 GB. The CLI client created nothing in ~ (no ~/.ollama for labuser).
+  run/ollama-model-store.txt, run/ollama-pull.txt.
+- Runner subprocess (started on the first request, user ollama, child of `ollama serve`, RSS about 0.9 GB):
+    /usr/local/lib/ollama/llama-server --model /usr/share/ollama/.ollama/models/blobs/sha256-2f8c3d13... --port 45539
+    --host 127.0.0.1 --no-webui --offline -c 4096 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja
+    --chat-template chatml --load-mode none --flash-attn auto -b 512 -ub 512 --context-shift --keep 4
+  It listens on a random loopback port (here 45539). It is llama.cpp's llama-server, "version: 0.9.0-dev (build 1,
+  commit 6c01da627) built with GNU 13.3.1", and loads its CPU backend dynamically:
+  "load_backend: loaded CPU backend from /usr/local/lib/ollama/libggml-cpu-haswell.so".
+  Ollama logs "disabling mmap for llama-server load by default ... reason=cpu" and logs "template selection ... selected=go_template",
+  so it apparently renders the prompt itself and the runner's --chat-template chatml is not what formats gemma3 prompts.
+  run/ollama-processes.txt, run/ollama-serve-request.log, run/ollama-listen.txt.
+- Chat Completions on :11434 with gemma3:1b: HTTP 200, id "chatcmpl-840", system_fingerprint "fp_ollama", usage includes
+  prompt_tokens_details.cached_tokens, no timings. From the journal: prompt 168.5 t/s, generation 37.1 t/s on the CPU, the same
+  as the source build. run/ollama-response.json.
+- SELinux enforcing: ollama serve runs as system_u:system_r:unconfined_service_t; no AVC denials in the audit log or journal since 22:29.
+
+FOOTPRINT SUMMARY (footprint/engines/changes.txt)
+- RPMs: +27 new (7 requested: cmake, libcurl-devel, vulkan-headers, vulkan-loader-devel, glslc, vulkan-tools, spirv-headers-devel;
+  20 dependencies: 4 for cmake, 16 for libcurl-devel), and libbrotli upgraded. All from llama.cpp build steps; Ollama added none.
+- Users and groups: +user ollama (386), +group ollama (384, member labuser); ollama added to render and video.
+- Services: +ollama.service (system, enabled, running); no user units changed.
+- Ports, idle: +127.0.0.1:11434 (ollama). While serving: +127.0.0.1:<random> (Ollama runner), and llama-server on
+  127.0.0.1:9931 (default) or :8080 (with --port); llama-server is not left running.
+- Processes, idle: +`ollama serve` (user ollama).
+- Disk: ~/src/llama.cpp 1.3 GB (.git 485 MB, build 161 MB, build-vulkan 450 MB); ~/.cache/huggingface 769 MB; ~/.cache/ccache +42 MB;
+  /usr/local/bin/ollama 43 MB; /usr/local/lib/ollama 2.4 GB; /usr/share/ollama 2.1 GB (models).
+- PATH: unchanged. /usr/local/bin was already on PATH; llama.cpp binaries are used from build/bin.
+
+OTHER NOTES
+- dnf on this host warns that the third-party COPR repo varlad/helix has no fedora-44 repodata (404). This was there before and is harmless.
+- After the tests, Ollama's idle model was unloaded through the API (keep_alive 0) before benchmarking; service settings untouched.
+- Temporary files in the host's /tmp were removed; logs were copied here trimmed.
+
+OPEN QUESTIONS (not acted on)
+1. Should the book's dnf line for llama.cpp replace libcurl-devel with openssl-devel? Installing libcurl-devel pulls in 16 dependency packages
+   and upgrades libbrotli, but the current build does not use curl.
+2. Should the book use llama-server's new default port 9931, or keep 8080 and show `--port 8080` explicitly?
+3. Should Ollama be tested on the iGPU (needs Environment=OLLAMA_IGPU_ENABLE=1 in a drop-in such as
+   /etc/systemd/system/ollama.service.d/override.conf)? That changes the service as installed, so it was left out. Given that
+   llama.cpp's Vulkan backend is about 3x slower than the CPU here, little is expected.
+4. Remove the unused CUDA libraries (2.4 GB) from /usr/local/lib/ollama? The installer has no option to skip them; left as installed.
+
+SANDBOX BATTERY, SECOND RUN (Chapter 16; code/ch16/results/*-2.txt)
+- Programs copied to ~/llm-arch-l1-ch16/ch16 (scp) and run there: run-unix.sh none bwrap landlock seccomp docker codex srt,
+  all seven probes; the same with TIMES=20 under `flock ~/.llm-arch-bench.lock` (load averages 1.1 to 1.5; a test suite of
+  another project was running); two variants from copies of run-unix.sh (bubblewrap without --die-with-parent, Landlock with a rule for /dev/null).
+  bubblewrap 0.12.0, Docker 29.9.2, Python 3.14.8, Linux 7.2.11.
+- Docker image docker.io/library/python:3.13-alpine (45.7 MB, digest sha256:9ef1a599...b960e): pulled for the runs, removed (docker rmi).
+- Codex CLI 0.169.0: `npm install --prefix ~/llm-arch-l1-ch16/codex --cache ~/llm-arch-l1-ch16/npm-cache @openai/codex@0.169.0`
+  (404 MB, npm cache 189 MB). The npm launcher is a Node script (median start 133.0 ms under `codex sandbox`); the recorded runs
+  put the native binary first on PATH (.../node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin, 25.0 ms).
+  Footprint outside the directory: `codex --version` alone created ~/.codex/tmp/arg0-linux/codex-arg0XXXXXX (a lock file and the
+  links apply_patch, applypatch, codex-linux-sandbox to the binary); `codex sandbox` created /tmp/codex-daemon-1000 and
+  /tmp/codex-bwrap-synthetic-mount-targets-1000/lock. The runs themselves used CODEX_HOME inside ~/.battery-sbx.XXXXXX.
+  All removed, ~/.codex included (it did not exist before).
+- Anthropic sandbox runtime (srt) 0.0.83: npm install --prefix ~/llm-arch-l1-ch16/srt (19 MB). It refused to start without socat
+  ("Sandbox dependencies not available: socat not installed"); socat 1.8.1.3 came from Fedora's package without root
+  (`dnf download socat`, signature checked with rpm -K, unpacked with rpm2cpio | cpio into ~/llm-arch-l1-ch16/socat, put on PATH).
+  ripgrep and bubblewrap were installed already. Removed with the directory.
+- gVisor: runsc is no longer on this machine (removed after the first run of the battery), and it was not installed again;
+  the gVisor case did not run a second time. Its release archive is now gvisor.tar.zstd with gvisor-bin/, not a lone runsc binary.
+- Removed: rm -rf ~/llm-arch-l1-ch16 (614 MB). Kept: ~/.llm-arch-bench.lock (the shared lock file, empty).
+  No container, listener or process of the runs remained; /tmp/node-compile-cache and /tmp/claude-1000 are older and were left.
+
+SWE-BENCH HARNESS (lab pass for Chapter 17, 2026-11-14; records: code/ch17/results/swebench-gold, swebench-preds)
+- Installed: swebench 5.0.2 from PyPI (pulls datasets 5.2.0, docker 7.2.0, huggingface_hub 2.4.0, modal 1.6.4 and 75 more packages) into a
+  virtual environment of Python 3.14.8, ~/llm-arch-l3-ch17/venv (476 MB). User-level, no sudo. REMOVED with the directory.
+  Commands: mkdir ~/llm-arch-l3-ch17; python3 -m venv venv; venv/bin/pip install --upgrade pip; venv/bin/pip install swebench==5.0.2
+- Images pulled by the harness from Docker Hub (27 s and 24 s): swebench/sweb.eval.x86_64.pallets_1776_flask-4045:latest (459abea2907f, 2.91 GB)
+  and swebench/sweb.eval.x86_64.psf_1776_requests-2317:latest (3c49e39da214, 2.68 GB), both built 2026-08-15; digests in
+  code/ch17/results/swebench-gold/images.txt. REMOVED after the runs: docker rmi <both>.
+- Containers: the harness creates sweb.eval.<instance>.<run id> on Docker's default bridge network (NetworkMode=bridge, CapAdd SYS_ADMIN, user root)
+  and removes each after its run (docker stop --time=15 takes the full 15 s, since the container's command is `tail -f /dev/null`). Mine, all with
+  --rm from the Requests image: l3-diag-requests, l3-probe, l3-probe2 (requests_probe.sh and its first draft), l3-cabundle, l3-cabundle2
+  (requests_cabundle.sh; the first with REQUESTS_CA_BUNDLE, the second, kept, with the certificate file replaced) and two unnamed one-line
+  reads of files. None is left. The containers and images that were on the machine before (hello-world, alpine, fedora, ubuntu,
+  fedora-toolbox) are untouched.
+- Runs, each under `flock ~/.llm-arch-bench.lock`, with the venv activated, in ~/llm-arch-l3-ch17:
+    python3 -m swebench.harness.run_evaluation -d SWE-bench/SWE-bench_Lite -p gold -id gold -i psf__requests-2317 pallets__flask-4045 --max_workers 2
+      7 min 49 s with the pulls (load average 1.19 at the start); flask resolved, requests unresolved (1 + 4 listed tests fail)
+    the same with -id gold-again: 7 min 20 s; flask identical, requests fails the same five listed tests and a sixth (HTTP 429 from httpbin.org)
+    python3 offline_eval.py (same arguments, -id offline): 24 s; flask resolved, requests fails 60 of 141 listed tests (name resolution)
+    python3 -m swebench.harness.run_evaluation -d SWE-bench/SWE-bench_Lite -p preds-<label>.jsonl -id preds -i pallets__flask-4045 --max_workers 1
+      for the labels copy (resolved, 24 s), half (unresolved, 31 s), empty (empty patch, no container), prose (error, 16 s)
+    docker run --rm ... bash /probe.sh and bash /run.sh (requests_probe.sh 2.5 min, requests_cabundle.sh 7 min; see code/ch17/README.md)
+  From about 14:40 another workload raised the load average to between 7 and 15; the first gold run, whose times the book quotes, ran before
+  that (14:17 to 14:25).
+- Other things created and REMOVED: a clone of pallets/flask in the same directory; the Hugging Face cache of the dataset
+  (~/.cache/huggingface/hub/datasets--SWE-bench--SWE-bench_Lite and ~/.cache/huggingface/datasets, both new in this pass).
+- KEPT: ~/.llm-arch-bench.lock (empty, created by flock; other users of the lock need it) and what pip added to ~/.cache/pip.
+- Network use from the containers: the tests of Requests call httpbin.org (HTTP, HTTPS, and port 1); the test file ran four times with
+  network (gold, gold-again, l3-cabundle, l3-cabundle2), and in gold-again the service answered one request with 429 (rate limit).
+- Docker 29.9.2 was installed before this pass and is unchanged; no service was touched.
+- gVisor, second run of the battery: release-20261109.0 unpacked from gvisor.tar.zstd (checked against its .sha512) into
+  ~/opt/gvisor, where the archive holds runsc at its top level; `RUNSC=~/opt/gvisor/runsc ./run-unix.sh none runsc` with all
+  seven probes and with TIMES=20 under the bench lock (code/ch16/results/gvisor-xps8930-2.txt). Removed again: ~/opt/gvisor
+  and the copy of the battery.

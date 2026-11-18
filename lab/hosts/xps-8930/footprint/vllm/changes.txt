@@ -1,0 +1,70 @@
+Footprint of vLLM 0.32.0 (CPU backend) on xps-8930 (Fedora 44, Core i7-8700,
+AVX2, 31 GiB), 2026-11-14. Differences between snapshots taken by
+code/appB/snapshot.sh before the install, at the start of the third serve
+attempt (the first two failed, see notes.txt), while the server ran, and
+after it stopped; plus what the runs left in /tmp and /dev/shm. Only the
+differences are kept; listeners of other programs are left out.
+
+== entries in ~, ~/.config, ~/.local/*, ~/.cache, /usr/local/*, /opt, /etc/systemd/system
+  added by the install and the serve attempts: 4
+    + ~/vllm-cpu         venv, 3.2 GB: 152 packages; triton (triton-cpu) 962 MB,
+                         torch 2.13.0+cpu 735 MB, vllm 476 MB (_C, _C_AVX2 and
+                         _C_AVX512 extension modules), llvmlite 161 MB, opencv;
+                         lib/libiomp5.so from intel-openmp
+    + ~/.cache/uv        uv's cache; its files are hard links into the venv, so
+                         it adds only 64 MB on disk but must be removed with it
+    + ~/.cache/vllm      14 MB: modelinfos/, torch_compile_cache/torch_aot_compile/
+    + ~/.triton          37 MB: cache/ of Triton-CPU kernels compiled by Inductor
+  changed: ~/.cache/huggingface/hub: + blobs/<xx>/<sha256> (1.5 GB, the
+    Qwen3-0.6B weights) and models--Qwen--Qwen3-0.6B (4.4 MB: refs, snapshots,
+    trees, small blobs): huggingface_hub 2.4.0, installed with vLLM, stores
+    file contents once in a shared content-addressed hub/blobs directory
+  outside the snapshot lists:
+    + /tmp/torchinductor_labuser   160 MB (PyTorch Inductor; created when vllm is
+                                first imported)
+    + /tmp/<uuid>               ZeroMQ ipc:// sockets, 6 per start (2 each for the
+                                API server, the engine core and the worker),
+                                left behind after every start, including a clean
+                                SIGINT shutdown: 19 after three starts
+    + /tmp/vllm_dist_<hex>      file:// rendezvous of torch.distributed (gloo)
+    + /dev/shm/psm_<hex>        shared-memory broadcast queues (removed at exit)
+    + /dev/shm/__KMP_REGISTERED_LIB_<pid>_<uid>  Intel OpenMP registration,
+                                left behind for the engine core and the worker
+  shell start-up files, systemd units, users, PATH: unchanged
+
+== listening sockets while `vllm serve` ran
+    + 0.0.0.0:8000                       API server (all interfaces); Fedora
+                                         Workstation's default firewall zone opens
+                                         1025-65535/tcp, and a server on this port
+                                         answered from another machine on the LAN
+    + [fe80::...%enp2s0]:<13 ports>      the worker's gloo (torch.distributed)
+                                         sockets, on the link-local IPv6 address
+                                         of the Ethernet interface
+  after the server stopped: none
+
+== processes while serving (RSS)
+  vllm serve (API server, FastAPI/uvicorn)                1.2 GB
+    python -c multiprocessing.resource_tracker            21 MB
+    VLLM::EngineCore                                      0.9 GB
+      VLLM::Worker  (OpenMP threads bound to cores 6-10,  6.6 GB (weights 1.15 GiB,
+                     core 11 reserved)                    KV cache 3.97 GiB)
+  API server <-> engine core <-> worker: ZeroMQ over ipc:// sockets in
+  $VLLM_RPC_BASE_PATH (default: the temporary directory); engine core ->
+  worker: shared-memory broadcast queue in /dev/shm
+
+== outbound connections at start-up (ss, every 0.5 s)
+    huggingface.co (99.86.101.56, .64): API server, engine core and worker,
+      model metadata and files
+    aws.cdn.hf.co (52.35.108.102; name from its TLS certificate): API server
+    stats.vllm.ai: none; on the CPU backend of 0.32.0 the usage report is
+      never sent (CPUWorker.init_device replaces the GPU worker's method that
+      calls report_usage_stats); ~/.config/vllm was not created
+
+== left in place (for the validation of Chapter 7)
+    ~/vllm-cpu (3.2 GB), ~/.cache/uv, ~/.cache/vllm, ~/.triton,
+    /tmp/torchinductor_labuser, the Qwen3-0.6B files in the Hugging Face cache.
+    The stale /tmp sockets, the rendezvous file and the /dev/shm OpenMP files
+    of finished runs were deleted.
+  To remove: rm -r ~/vllm-cpu ~/.cache/vllm ~/.triton /tmp/torchinductor_$USER;
+    uv cache clean (or rm -r ~/.cache/uv); the /tmp/<uuid> socket files of past
+    runs; `hf cache` commands or the hub directories for downloaded models.

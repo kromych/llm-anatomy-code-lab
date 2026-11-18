@@ -1,0 +1,42 @@
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+   on the host: ok.txt yes, probe.txt yes, connections 1
+== none+job
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt yes, connections 1
+== restricted
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+   on the host: ok.txt yes, probe.txt no, connections 1
+== lowil
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+   on the host: ok.txt yes, probe.txt no, connections 1
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+   on the host: ok.txt yes, probe.txt no, connections 0
+== appcontainer+job
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt no, connections 0

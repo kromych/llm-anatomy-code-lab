@@ -1,0 +1,19 @@
+# Second run of the start-up times, in the session of windows-kromyrzen-2.txt.
+# S4-Windows, Windows 11 Pro N for Workstations, build 26300 (10.0.26300.9974), over SSH;
+# PowerShell 5.1.26100.9818.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Times 20
+# processor load before and after (Win32_Processor.LoadPercentage): 5 and 2 percent
+== none
+   median of 20 starts: 38.1 ms
+== none+job
+   median of 20 starts: 38.4 ms
+== none+tree
+   median of 20 starts: 38.2 ms
+== restricted
+   median of 20 starts: 39.2 ms
+== lowil
+   median of 20 starts: 39.0 ms
+== appcontainer
+   median of 20 starts: 41.6 ms
+== appcontainer+job
+   median of 20 starts: 44.5 ms

@@ -1,0 +1,51 @@
+# Checks beside the battery on S3-macOS (macOS 27.2, codex-cli 0.169.0), in the
+# session of macos-m1ultra-2.txt: the order of Seatbelt rules (answer 1), a rule
+# for one proxy port (answer 8), the denials in the unified log (answer 10), the
+# environment of a command under codex sandbox, and the start of the codex binary.
+# Each part prints its command; $root is a directory ~/.battery-sbx.XXXXXX laid
+# out as run-unix.sh makes it (with a copy of the dummy secret as secret/t), and
+# parts 1 to 3 run under battery.sb with the parameters of run-unix.sh.
+== 1. Order of the read rules (answer 1): cat $root/secret/token.txt
+-- allow, then deny (battery.sb): (allow file-read*) (deny file-read* (subpath (param "SECRET")))
+cat: $root/secret/token.txt: Operation not permitted
+-- deny, then allow: (deny file-read* (subpath (param "SECRET"))) (allow file-read*)
+cat: $root/secret/token.txt: Operation not permitted
+-- filtered allow, then deny: (allow file-read* (subpath "/")) (deny file-read* (subpath (param "SECRET")))
+cat: $root/secret/token.txt: Operation not permitted
+-- deny, then filtered allow: (deny file-read* (subpath (param "SECRET"))) (allow file-read* (subpath "/"))
+dummy-token-not-a-real-secret
+== 2. A rule for the proxy port (answer 8)
+-- battery.sb plus (allow network-outbound (remote ip "localhost:3128"));
+-- listeners on 127.0.0.1:63842 (listener.py) and 127.0.0.1:3128
+sandbox-exec -f $root/proxy.sb ... python3 battery.py $root 63842
+control ALLOWED
+write   BLOCKED  PermissionError EPERM
+read    BLOCKED  PermissionError EPERM
+net     BLOCKED  PermissionError EPERM
+spawn   ALLOWED
+hook    BLOCKED  PermissionError EPERM
+orphan  ALLOWED
+sandbox-exec -f $root/proxy.sb ... python3 -c 'connect to 127.0.0.1:3128, print the greeting'
+   3128: battery-listener
+   on the host: connections to the first listener 0, to port 3128 1
+== 3. Denials in the unified log (answer 10)
+sandbox-exec -f battery.sb ... /bin/bash -c 'cat $root/secret/t; echo x > $root/out.txt'
+cat: $root/secret/t: Operation not permitted
+/bin/bash: $root/out.txt: Operation not permitted
+-- lines of the stream that mention this run's programs ($root is .battery-sbx.KQDdbb under the home directory)
+Sandbox: bash(25217) deny(1) file-write-data /dev/dtracehelper
+Sandbox: bash(25217) deny(1) file-write-data /dev/tty
+Sandbox: cat(25219) deny(1) file-write-data /dev/dtracehelper
+Sandbox: cat(25219) deny(1) file-read-data /Users/labuser/.battery-sbx.KQDdbb/secret/t
+Sandbox: bash(25217) deny(1) file-write-create /Users/labuser/.battery-sbx.KQDdbb/out.txt
+-- lines in the stream: 12
+== 4. The environment of a command under codex sandbox
+BATTERY_DUMMY_API_KEY=x BATTERY_DUMMY_TOKEN=y codex sandbox -P :workspace -C $root/work -- /usr/bin/env | grep -E "BATTERY_|CODEX_SANDBOX"
+BATTERY_DUMMY_API_KEY=x
+BATTERY_DUMMY_TOKEN=y
+CODEX_SANDBOX_NETWORK_DISABLED=1
+CODEX_SANDBOX=seatbelt
+== 5. The start of the codex binary alone, under the lock of startup-macos-m1ultra-2.txt
+python3 timeit.py 20 codex --version
+   median of 20 starts: 13.6 ms
+# load averages after: 3.83 4.29 5.93
