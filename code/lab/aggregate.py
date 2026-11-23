@@ -11,6 +11,9 @@ HOSTS = {
                       order=['x64', 'sse42', 'sandybridge', 'ivybridge', 'piledriver', 'haswell']),
     'krom1u': dict(os='macOS 27.2', cpu='Apple M1 Ultra (16P+4E)', cc='Apple clang 21.0.0',
                    base='src-armv8a', order=['src-armv8a', 'src-dotprod', 'src-native', 'brew-cpu', 'brew-metal']),
+    'kr0m-gpu': dict(os='Ubuntu 24.04.3 (Linux 6.14.0)', cpu='2 x AMD EPYC 9554 (252 virtual CPUs)', cc='GCC 13.3.0',
+                     base='x64', order=['x64', 'sse42', 'avx', 'avx2', 'avx512', 'icelake', 'zen4', 'native', 'dl',
+                                        'cuda']),
 }
 VARIANT = {
     ('xps-8930', 'x64'): ('baseline: x86-64 (SSE2 only)', 'CPU'),
@@ -35,6 +38,16 @@ VARIANT = {
     ('krom1u', 'src-native'): ('native (-mcpu=native), source build', 'CPU'),
     ('krom1u', 'brew-cpu'): ('Homebrew: ggml-cpu-apple_m1 + Accelerate BLAS, -dev none', 'CPU+BLAS'),
     ('krom1u', 'brew-metal'): ('Homebrew: Metal, all layers on GPU', 'Metal'),
+    ('kr0m-gpu', 'x64'): ('baseline: x86-64 (SSE2 only)', 'CPU'),
+    ('kr0m-gpu', 'sse42'): ('SSE4.2', 'CPU'),
+    ('kr0m-gpu', 'avx'): ('SSE4.2+AVX', 'CPU'),
+    ('kr0m-gpu', 'avx2'): ('AVX2+FMA+F16C+BMI2', 'CPU'),
+    ('kr0m-gpu', 'avx512'): ('AVX-512 (F, CD, BW, DQ, VL)', 'CPU'),
+    ('kr0m-gpu', 'icelake'): ('AVX-512 with VBMI and VNNI', 'CPU'),
+    ('kr0m-gpu', 'zen4'): ('AVX-512 with VBMI, VNNI, and BF16', 'CPU'),
+    ('kr0m-gpu', 'native'): ('native (-march=native)', 'CPU'),
+    ('kr0m-gpu', 'dl'): ('dispatch (BACKEND_DL+ALL_VARIANTS) -> {loaded}', 'CPU'),
+    ('kr0m-gpu', 'cuda'): ('CUDA, all layers on one H100 PCIe', 'CUDA'),
 }
 BUILDNO = {'61dbf4922': '12376', 'b1b770d90': '12359'}
 QUANTS = ['Q4_0', 'Q8_0', 'Q4_K_M']

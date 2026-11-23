@@ -1,0 +1,7 @@
+## CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 llama-bench -m Qwen2.5-72B-Instruct-Q4_K_M.gguf -p 512 -n 128 -r 3 -t 8 -ngl 99
+| model                          |       size |     params | backend    | ngl | threads |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | ------: | --------------: | -------------------: |
+| qwen2 70B Q4_K - Medium        |  44.15 GiB |    72.71 B | CUDA       |  99 |       8 |           pp512 |        873.67 ± 1.71 |
+| qwen2 70B Q4_K - Medium        |  44.15 GiB |    72.71 B | CUDA       |  99 |       8 |           tg128 |         28.42 ± 0.01 |
+
+build: 61dbf4922 (12376)

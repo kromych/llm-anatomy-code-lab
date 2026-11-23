@@ -1,4 +1,5 @@
-# fit.py BENCH.txt -- fit T0, B and F of sim.py's cost model on one device,
+# fit.py BENCH.txt [DEVICE] -- fit T0, B and F of sim.py's cost model on one
+# device (named in the first line of output; the M1 Ultra GPU unless given),
 # then compare the model with every measured configuration.
 # BENCH.txt holds llama-batched-bench tables under "## gemma run k" and
 # "## qwen run k" headers; for each configuration the fastest run counts.
@@ -6,6 +7,7 @@
 #     of different size, which separates T0 from B;
 #   prefill of 2048 tokens, one sequence: t = T0 + 2*N*2048/F.
 import re, sys
+DEVICE = sys.argv[2] if len(sys.argv) > 2 else "the M1 Ultra GPU"
 MODELS = {   # file bytes, parameters, KV bytes per token (F16 cache)
     "gemma": (806058240, 1.0e9, 2 * 26 * 1 * 256 * 2),   # Gemma 3 1B Q4_K_M
     "qwen": (8709518656, 8.19e9, 2 * 36 * 8 * 128 * 2),  # Qwen3-8B Q8_0
@@ -28,7 +30,7 @@ B = (read("qwen", 128, 1) - read("gemma", 128, 1)) / (sq - sg)
 T0 = sq - read("qwen", 128, 1) / B
 W, N, KVT = MODELS["qwen"]
 F = 2 * N * 2048 / (best[("qwen", 2048, 1)][0] - T0)
-print(f"fitted on the M1 Ultra GPU: B = {B / 1e9:.0f} GB/s, "
+print(f"fitted on {DEVICE}: B = {B / 1e9:.0f} GB/s, "
       f"F = {F / 1e12:.1f} TFLOP/s, T0 = {T0 * 1e3:.1f} ms")
 step = lambda tok, kvc: T0 + max((W + KVT * kvc) / B, 2 * N * tok / F)
 print(f"{'PP':>5} {'B':>3} {'step ms':>8} {'model':>6} {'ratio':>6}"

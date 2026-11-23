@@ -94,3 +94,36 @@ krom1u,macOS 27.2,Apple M1 Ultra (16P+4E),"Homebrew: Metal, all layers on GPU",M
 krom1u,macOS 27.2,Apple M1 Ultra (16P+4E),"Homebrew: Metal, all layers on GPU",Metal,Q4_K_M,16,5724.79,5.58,186.33,0.51,1,"b1b770d90 (b12359), Apple clang 21.0.0",2026-11-14T10:32:29Z
 xps-8930,Fedora 44 (Linux 7.2.11),Intel Core i7-8700 (6C/12T),"UHD 630 session: Vulkan build, Intel UHD 630 (Mesa ANV 26.2.5), all layers on GPU; ggml-org/gemma-3-1b-it-GGUF file, -r 3",Vulkan,Q4_K_M,6,84.87,0.10,11.77,0.00,1,"61dbf4922 (b12376), GCC 16.2.1",2026-11-13
 xps-8930,Fedora 44 (Linux 7.2.11),Intel Core i7-8700 (6C/12T),"UHD 630 session: native CPU build (-march=native, OpenMP); ggml-org/gemma-3-1b-it-GGUF file, -r 3",CPU,Q4_K_M,6,238.43,0.97,37.46,0.03,1,"61dbf4922 (b12376), GCC 16.2.1",2026-11-13
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),baseline: x86-64 (SSE2 only),CPU,Q4_0,32,50.07,0.02,33.44,0.02,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:00:58Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),baseline: x86-64 (SSE2 only),CPU,Q8_0,32,130.16,0.23,65.17,0.06,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:02:21Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),baseline: x86-64 (SSE2 only),CPU,Q4_K_M,32,36.36,0.02,25.14,0.01,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:02:55Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),SSE4.2,CPU,Q4_0,32,238.04,0.12,88.34,0.19,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:04:45Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),SSE4.2,CPU,Q8_0,32,151.75,0.04,68.30,0.19,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:05:06Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),SSE4.2,CPU,Q4_K_M,32,39.93,0.01,29.72,0.02,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:05:36Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),SSE4.2+AVX,CPU,Q4_0,32,396.39,0.83,98.99,0.22,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:07:15Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),SSE4.2+AVX,CPU,Q8_0,32,429.81,0.46,73.57,0.12,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:07:30Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),SSE4.2+AVX,CPU,Q4_K_M,32,367.15,0.52,47.50,0.62,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:07:46Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),AVX2+FMA+F16C+BMI2,CPU,Q4_0,32,805.50,2.04,125.24,0.39,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:08:10Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),AVX2+FMA+F16C+BMI2,CPU,Q8_0,32,747.86,1.29,79.16,0.20,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:08:19Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),AVX2+FMA+F16C+BMI2,CPU,Q4_K_M,32,649.55,1.91,102.34,0.29,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:08:32Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),"AVX-512 (F, CD, BW, DQ, VL)",CPU,Q4_0,32,910.76,0.98,131.97,0.16,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:08:44Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),"AVX-512 (F, CD, BW, DQ, VL)",CPU,Q8_0,32,856.75,1.41,79.89,0.12,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:08:53Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),"AVX-512 (F, CD, BW, DQ, VL)",CPU,Q4_K_M,32,841.88,1.93,105.71,0.27,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:09:05Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),AVX-512 with VBMI and VNNI,CPU,Q4_0,32,1104.61,1.00,128.57,0.34,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:09:16Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),AVX-512 with VBMI and VNNI,CPU,Q8_0,32,969.80,2.53,81.54,1.85,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:09:24Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),AVX-512 with VBMI and VNNI,CPU,Q4_K_M,32,936.36,3.68,107.37,0.07,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:09:35Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),"AVX-512 with VBMI, VNNI, and BF16",CPU,Q4_0,32,1129.30,1.87,131.88,0.11,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:09:46Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),"AVX-512 with VBMI, VNNI, and BF16",CPU,Q8_0,32,980.79,1.18,80.44,0.05,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:09:54Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),"AVX-512 with VBMI, VNNI, and BF16",CPU,Q4_K_M,32,942.03,0.91,104.62,0.21,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:10:06Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),native (-march=native),CPU,Q4_0,32,1060.95,3.95,131.97,0.11,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:10:48Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),native (-march=native),CPU,Q8_0,32,947.08,1.27,80.79,0.18,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:11:05Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),native (-march=native),CPU,Q4_K_M,32,894.84,1.09,98.90,1.03,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:11:28Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),native (-march=native),CPU,Q4_0,32,847.53,0.68,112.22,0.14,0,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:10:56Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),native (-march=native),CPU,Q8_0,32,946.98,2.55,80.98,0.12,0,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:11:17Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),native (-march=native),CPU,Q4_K_M,32,938.60,1.19,102.90,0.11,0,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:11:39Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),dispatch (BACKEND_DL+ALL_VARIANTS) -> zen4,CPU,Q4_0,32,1101.57,1.63,128.14,0.28,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:10:17Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),dispatch (BACKEND_DL+ALL_VARIANTS) -> zen4,CPU,Q8_0,32,972.68,1.16,79.38,0.12,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:10:25Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),dispatch (BACKEND_DL+ALL_VARIANTS) -> zen4,CPU,Q4_K_M,32,917.44,1.45,101.79,0.28,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:10:36Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),"CUDA, all layers on one H100 PCIe",CUDA,Q4_0,32,35188.45,3835.68,467.59,3.75,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:14:33Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),"CUDA, all layers on one H100 PCIe",CUDA,Q8_0,32,37408.93,2162.08,384.80,0.39,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:14:35Z
+kr0m-gpu,Ubuntu 24.04.3 (Linux 6.14.0),2 x AMD EPYC 9554 (252 virtual CPUs),"CUDA, all layers on one H100 PCIe",CUDA,Q4_K_M,32,32659.73,1868.23,448.54,0.99,1,"61dbf4922 (b12376), GCC 13.3.0",2026-11-23T05:14:37Z

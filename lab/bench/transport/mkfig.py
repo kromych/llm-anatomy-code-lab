@@ -24,7 +24,8 @@ FIG = sys.argv[2] if len(sys.argv) > 2 else None
 MACHINES = {"krom1u": "Apple M1 Ultra, macOS 27.2",
             "xps-8930": "Core i7-8700, Fedora 44",
             "krom2": "Apple M2, Fedora Asahi 44",
-            "kromyrzen": "Ryzen 7 3700X, Windows 11"}
+            "kromyrzen": "Ryzen 7 3700X, Windows 11",
+            "kr0m-gpu": "8 x NVIDIA H100 PCIe, Ubuntu 24.04"}
 
 # (group, label, where, tests, estimate (log10 s) or None, note)
 ROWS = [
@@ -62,13 +63,13 @@ ROWS = [
     ("To and between accelerators", None, None, None, None, None),
     (None, "PCIe DMA",
      "CPU to discrete GPU: upload weights, offload layers, or KV cache; "
-     "\\qty{64}{GB/s} each way for PCIe 5.0 x16", None, (-6, -4.7), None),
+     "\\qty{64}{GB/s} each way for PCIe 5.0 x16", ["pcie-4k"], None, None),
     (None, "Unified memory",
      "Apple silicon, AMD Ryzen AI Max, NVIDIA GB10: CPU and GPU share one "
      "memory", None, None, "no copy at all"),
     (None, "NVLink, Infinity Fabric,\\\\RDMA",
      "tensor-parallel all-reduce across GPUs and nodes; NVLink "
-     "\\qty{1.8}{TB/s} per GPU", None, (-6, -4.5), None),
+     "\\qty{1.8}{TB/s} per GPU", ["allreduce-pair"], None, None),
 ]
 
 
@@ -77,8 +78,9 @@ def load():
     m = {}
     for f in sorted(glob.glob(os.path.join(RES, "*.csv"))):
         host = os.path.basename(f).split("-")[0]
-        if os.path.basename(f).startswith("xps-8930"):
-            host = "xps-8930"
+        for dashed in ("xps-8930", "kr0m-gpu"):
+            if os.path.basename(f).startswith(dashed):
+                host = dashed
         kind = "mmap" if f.endswith("-mmap.csv") else "rtt"
         for r in csv.reader(l for l in open(f) if not l.startswith("#")):
             if not r or r[0] in ("test", "case"):

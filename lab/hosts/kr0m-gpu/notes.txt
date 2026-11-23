@@ -1,0 +1,70 @@
+kr0m-gpu: a rented machine with eight NVIDIA H100 PCIe (S5-CloudGPU in the book)
+================================================================================
+
+Rented on 2026-11-23 (UTC) as a spot virtual machine, flavor
+"H100-80G-PCIe-NVLink-spot" with 8 GPUs: 252 virtual processors of two AMD
+EPYC 9554, 1440 GB of memory, a root disk of 100 GB and a local disk of
+6.5 TB mounted at /ephemeral, image "Ubuntu 24.04 with CUDA 12 and Docker".
+system.txt is the inventory (bin/system.sh of lab/bench/gpu). All work was
+done as the account of the image over SSH; the engines listened on
+127.0.0.1. In the records the working directory /ephemeral/lab is written
+/tmp/scratch and the account labuser.
+
+What the image had: Ubuntu 24.04.3 (glibc 2.39, kernel 6.14), NVIDIA driver
+570.195.03 (CUDA 12.8), the CUDA toolkit 12.8 in /usr/local/cuda (nvcc not
+in PATH), Docker 29.1.3 with the NVIDIA Container Toolkit 1.18.1 registered
+as the runtime "nvidia", Python 3.12.3, gcc, git, tmux. Unattended upgrades
+ran in the first minutes and held the dpkg lock for a while; their
+blacklist names linux-image, nvidia, libnv and cuda, so the driver stays.
+
+The cards: 8 x H100 PCIe, 81,559 MiB each, PCIe generation 5, 16 lanes.
+`nvidia-smi topo -m` joins GPUs 0-1, 2-3, 4-5 and 6-7 by 12 bonded NVLinks
+(NV12; `nvidia-smi nvlink -s`: 26.562 GB/s per link) and every other pair
+through a PCIe host bridge (PHB).
+
+Installed by us: cmake, build-essential, libcurl4-openssl-dev, pkg-config,
+numactl, pciutils, jq, bc (apt); uv 0.13.9 (its installer, into ~/.local).
+
+llama.cpp at commit 61dbf4922 (build 12376):
+  cmake -B build-cuda -DGGML_CUDA=ON -DCMAKE_BUILD_TYPE=Release
+  cmake --build build-cuda --config Release -j 96      (2 min 30 s, 273 MB)
+with /usr/local/cuda/bin in PATH.
+
+vLLM 0.32.0:
+- `uv pip install vllm==0.32.0 --torch-backend=auto` installed torch
+  2.13.0+cu129 and the default wheel of vLLM, whose extension is linked
+  against CUDA 13: `vllm serve` ended with "ImportError: libcudart.so.13:
+  cannot open shared object file" (results/vllm/install-default.txt).
+- The wheel vllm-0.32.0+cu129-cp38-abi3-manylinux_2_28_x86_64.whl of the
+  release v0.32.0, installed with --torch-backend=cu129, imports and runs
+  (install-cu129.txt). The environment takes 12 GB.
+- The server then failed in its kernel warm-up with "FileNotFoundError:
+  [Errno 2] No such file or directory: 'ninja'" (start-without-ninja*.log);
+  `uv pip install ninja` and the environment's bin directory in PATH cured
+  it. The first start took 109 s (FlashInfer autotune), later ones 47-50 s.
+- Tensor parallelism: on a pair joined by NVLink the server uses
+  FlashInfer's all-reduce fused with the normalization ("Enabled custom
+  fusions: allreduce_rms", backend trtllm after "mnnvl ... unavailable
+  (likely no NVSwitch multicast support)"); the first such start compiled
+  a module for 3 minutes (277 s in all). On GPUs 0 and 2, which only PCIe
+  joins, the same start failed: "Failed to initialize FlashInfer All
+  Reduce workspace: CUDA error code=101 (CUDA_ERROR_INVALID_DEVICE)" and
+  then "AssertionError: Flashinfer allreduce workspace must be initialized
+  when using flashinfer". With four or eight GPUs the server logged the
+  same failure, disabled the fusion ("AllReduce fusion pass is disabled")
+  and ran. --compilation-config '{"pass_config": {"fuse_allreduce_rms":
+  false}}' switches the fusion off by hand.
+
+Models, from Hugging Face without a token: the GGUF files of
+lab/bench/isa (bartowski/google_gemma-3-1b-it-GGUF at 116f762),
+ggml-org/gemma-3-1b-it-GGUF Q4_K_M, ggml-org/Qwen3-8B-GGUF Q8_0,
+ggml-org/Qwen3-1.7B-GGUF Q4_K_M (13 GB in 38 s together); Qwen/Qwen3-8B at
+b968826 (16,381,516,776 bytes of safetensors, 12 s); and
+Qwen/Qwen2.5-72B-Instruct at 495f393 (145,412,519,312 bytes, 88 s; 80
+layers, hidden size 8192, 64 heads, 8 KV heads).
+
+Slips of the session, for whoever repeats it: a script that is running
+must not be replaced (the sweep of results/vllm/bench/q8-512-256 hung at
+its end for that reason and was ended by hand; its nine points are
+complete), and `pkill -f` with a pattern that the own command line
+contains ends the own session.

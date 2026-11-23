@@ -1,0 +1,3 @@
+[dl-t32.completion.log] 0.00.782.142 I system_info: n_threads = 32 (n_threads_batch = 32) / 252 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 |
+[dl-t32.stderr] load_backend: loaded CPU backend from /home/labuser/llama.cpp/build-isa-dl/bin/libggml-cpu-zen4.so
+[dl-t32.stderr] build: 61dbf4922 (12376)

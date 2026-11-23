@@ -1,0 +1,4 @@
+## python3 parallel.py http://127.0.0.1:8000/v1 qwen3-8b
+field absent                 [['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima']]
+parallel_tool_calls: true    [['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima'], ['Oslo', 'Lima']]
+parallel_tool_calls: false   [['Oslo'], ['Oslo'], ['Oslo'], ['Oslo'], ['Oslo']]

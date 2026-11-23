@@ -126,3 +126,30 @@ Weight repacking (`--repack 1` vs `--repack 0`), native (-mcpu=native), source b
   DOTPROD, 8x8 with I8MM) but never Q5_0, so repacking changes this file
   little on Arm (4 % on the M2, 15 % on the M1 Ultra). Source: llama.cpp
   61dbf4922, `ggml/src/ggml-cpu/repack.cpp` and `arch/x86/quants.c`.
+
+## kr0m-gpu: 2 x AMD EPYC 9554 (252 virtual CPUs), Ubuntu 24.04.3 (Linux 6.14.0)
+
+### 32 threads
+
+| variant | backend | Q4_0 pp512 | Q4_0 tg128 | Q8_0 pp512 | Q8_0 tg128 | Q4_K_M pp512 | Q4_K_M tg128 |
+|---|---|---:|---:|---:|---:|---:|---:|
+| baseline: x86-64 (SSE2 only) | CPU | 50.1 ± 0.0 (1.00×) | 33.4 ± 0.0 (1.00×) | 130.2 ± 0.2 (1.00×) | 65.2 ± 0.1 (1.00×) | 36.4 ± 0.0 (1.00×) | 25.1 ± 0.0 (1.00×) |
+| SSE4.2 | CPU | 238.0 ± 0.1 (4.75×) | 88.3 ± 0.2 (2.64×) | 151.7 ± 0.0 (1.17×) | 68.3 ± 0.2 (1.05×) | 39.9 ± 0.0 (1.10×) | 29.7 ± 0.0 (1.18×) |
+| SSE4.2+AVX | CPU | 396.4 ± 0.8 (7.92×) | 99.0 ± 0.2 (2.96×) | 429.8 ± 0.5 (3.30×) | 73.6 ± 0.1 (1.13×) | 367.1 ± 0.5 (10.10×) | 47.5 ± 0.6 (1.89×) |
+| AVX2+FMA+F16C+BMI2 | CPU | 805.5 ± 2.0 (16.09×) | 125.2 ± 0.4 (3.75×) | 747.9 ± 1.3 (5.75×) | 79.2 ± 0.2 (1.21×) | 649.5 ± 1.9 (17.86×) | 102.3 ± 0.3 (4.07×) |
+| AVX-512 (F, CD, BW, DQ, VL) | CPU | 910.8 ± 1.0 (18.19×) | 132.0 ± 0.2 (3.95×) | 856.7 ± 1.4 (6.58×) | 79.9 ± 0.1 (1.23×) | 841.9 ± 1.9 (23.15×) | 105.7 ± 0.3 (4.21×) |
+| AVX-512 with VBMI and VNNI | CPU | 1104.6 ± 1.0 (22.06×) | 128.6 ± 0.3 (3.84×) | 969.8 ± 2.5 (7.45×) | 81.5 ± 1.8 (1.25×) | 936.4 ± 3.7 (25.75×) | 107.4 ± 0.1 (4.27×) |
+| AVX-512 with VBMI, VNNI, and BF16 | CPU | 1129.3 ± 1.9 (22.55×) | 131.9 ± 0.1 (3.94×) | 980.8 ± 1.2 (7.54×) | 80.4 ± 0.0 (1.23×) | 942.0 ± 0.9 (25.91×) | 104.6 ± 0.2 (4.16×) |
+| native (-march=native) | CPU | 1060.9 ± 3.9 (21.19×) | 132.0 ± 0.1 (3.95×) | 947.1 ± 1.3 (7.28×) | 80.8 ± 0.2 (1.24×) | 894.8 ± 1.1 (24.61×) | 98.9 ± 1.0 (3.93×) |
+| dispatch (BACKEND_DL+ALL_VARIANTS) -> zen4 | CPU | 1101.6 ± 1.6 (22.00×) | 128.1 ± 0.3 (3.83×) | 972.7 ± 1.2 (7.47×) | 79.4 ± 0.1 (1.22×) | 917.4 ± 1.4 (25.23×) | 101.8 ± 0.3 (4.05×) |
+| CUDA, all layers on one H100 PCIe | CUDA | 35188.4 ± 3835.7 (702.75×) | 467.6 ± 3.8 (13.98×) | 37408.9 ± 2162.1 (287.40×) | 384.8 ± 0.4 (5.91×) | 32659.7 ± 1868.2 (898.26×) | 448.5 ± 1.0 (17.84×) |
+
+Weight repacking (`--repack 1` vs `--repack 0`), native (-march=native), 32 threads:
+
+| quant | pp512 repack on | pp512 off | on/off | tg128 on | tg128 off | on/off |
+|---|---:|---:|---:|---:|---:|---:|
+| Q4_0 | 1060.9 | 847.5 | 1.25× | 132.0 | 112.2 | 1.18× |
+| Q8_0 | 947.1 | 947.0 | 1.00× | 80.8 | 81.0 | 1.00× |
+| Q4_K_M | 894.8 | 938.6 | 0.95× | 98.9 | 102.9 | 0.96× |
+
+The CPU runs on kr0m-gpu used 32 threads on the second socket (`numactl --cpunodebind=1 --membind=1`); the machine is a virtual one with 252 virtual processors, whose pairing into cores the guest does not show.

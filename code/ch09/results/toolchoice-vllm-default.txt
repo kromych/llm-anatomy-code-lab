@@ -1,0 +1,6 @@
+## python3 toolchoice.py http://127.0.0.1:8000/v1 qwen3-8b
+auto, weather                status 400 b'{"error":{"message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set"'
+required, Hello!             status 400 b'{"error":{"message":"tool_choice=\\"required\\" requires --tool-call-parser to be set","type":"BadRequestError",'
+named, Hello!                status 400 b'{"error":{"message":"tool_choice=function \\"get_weather\\" requires --tool-call-parser to be set","type":"BadRe'
+two cities                   status 400 b'{"error":{"message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set"'
+two cities, parallel false   status 400 b'{"error":{"message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set"'

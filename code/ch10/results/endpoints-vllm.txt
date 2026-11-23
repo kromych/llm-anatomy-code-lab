@@ -1,0 +1,18 @@
+## python3 endpoints.py http://127.0.0.1:8000 qwen3-8b
+GET  /v1/models       200 {object=list, data} ids ['qwen3-8b', 'default']
+POST /v1/completions  200 {id, object=text_completion, created, model, choices, service_tier, system_fingerprint, usage, kv_transfer_params, ec_transfer_params, metrics}
+POST /v1/embeddings   404 {detail}
+POST /v1/responses    200 {id, created_at, incomplete_details, instructions, metadata, model, object=response, output, parallel_tool_calls, temperature, tool_choice, tools, top_p, background, max_output_tokens, max_tool_calls, previous_response_id, prompt, reasoning, service_tier, status=incomplete, text, top_logprobs, truncation, usage, user, presence_penalty, frequency_penalty, kv_transfer_params, ec_transfer_params, input_messages, output_messages}
+POST /v1/messages     200 {id, type=message, role, content, model, stop_reason, usage}
+POST /v1/rerank       404 {detail}
+GET  /health          200 ''
+GET  /metrics         200 '# HELP python_gc_objects_collected_total'
+GET  /props           404 {detail}
+GET  /slots           404 {detail}
+POST /tokenize        400 {error}
+POST /detokenize      200 {prompt}
+POST /apply-template  404 {detail}
+GET  /                404 {detail}
+GET  /api/version     404 {detail}
+GET  /api/tags        404 {detail}
+POST /api/embed       404 {detail}

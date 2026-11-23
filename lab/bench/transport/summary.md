@@ -6,6 +6,7 @@ Median of each test, in microseconds; raw files in results/. Machines:
 - xps-8930: Core i7-8700, Fedora 44
 - krom2: Apple M2, Fedora Asahi 44
 - kromyrzen: Ryzen 7 3700X, Windows 11
+- kr0m-gpu: 8 x NVIDIA H100 PCIe, Ubuntu 24.04
 
 | row | test | machine | median |
 |---|---|---|---|
@@ -72,3 +73,5 @@ Median of each test, in microseconds; raw files in results/. Machines:
 | TCP and HTTP in a LAN | lan-tcp | krom2 | 142.709 us |
 | HTTPS over the internet | https | krom1u:https-github.com | 9729.81 us |
 | HTTPS over the internet | https | krom1u:https-huggingface.co | 4750.08 us |
+| PCIe DMA | pcie-4k | kr0m-gpu | 12.459 us |
+| NVLink, Infinity Fabric, RDMA | allreduce-pair | kr0m-gpu | 54.7 us |

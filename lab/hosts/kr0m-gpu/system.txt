@@ -1,0 +1,931 @@
+
+## hostname
+kr0m-gpu
+
+## uname -srm
+Linux 6.14.0-37-generic x86_64
+
+## sh -c . /etc/os-release; echo "$PRETTY_NAME"; ldd --version | head -1
+Ubuntu 24.04.3 LTS
+ldd (Ubuntu GLIBC 2.39-0ubuntu8.6) 2.39
+
+## sh -c lscpu | grep -E "Model name|Socket|Core|Thread|^CPU\(s\)|NUMA|Flags" | cut -c1-2000
+CPU(s):                                  252
+Model name:                              AMD EPYC 9554 64-Core Processor
+Thread(s) per core:                      1
+Core(s) per socket:                      126
+Socket(s):                               2
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm rep_good nopl cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw perfctr_core ssbd ibrs ibpb stibp ibrs_enhanced vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr wbnoinvd arat avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq la57 rdpid fsrm flush_l1d arch_capabilities
+NUMA node(s):                            2
+NUMA node0 CPU(s):                       0-125
+NUMA node1 CPU(s):                       126-251
+
+## numactl -H
+available: 2 nodes (0-1)
+node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125
+node 0 size: 725608 MB
+node 0 free: 640989 MB
+node 1 cpus: 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 241 242 243 244 245 246 247 248 249 250 251
+node 1 size: 725705 MB
+node 1 free: 667379 MB
+node distances:
+node   0   1 
+  0:  10  20 
+  1:  20  10 
+
+## free -g
+               total        used        free      shared  buff/cache   available
+Mem:            1417          53        1277           0          95        1364
+Swap:              0           0           0
+
+## sh -c lsblk -o NAME,SIZE,TYPE,MOUNTPOINT; df -h / /ephemeral
+NAME     SIZE TYPE MOUNTPOINT
+vda      100G disk 
+├─vda1    99G part /
+├─vda14    4M part 
+├─vda15  106M part /boot/efi
+└─vda16  913M part /boot
+vdb      6.3T disk /ephemeral
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1        96G   25G   72G  26% /
+/dev/vdb        6.3T   80G  6.0T   2% /ephemeral
+
+## nvidia-smi
+Mon Nov 23 03:36:32 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 570.195.03             Driver Version: 570.195.03     CUDA Version: 12.8     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 PCIe               On  |   00000000:00:07.0 Off |                    0 |
+| N/A   32C    P0             51W /  350W |       0MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA H100 PCIe               On  |   00000000:00:08.0 Off |                    0 |
+| N/A   37C    P0             50W /  350W |       0MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   2  NVIDIA H100 PCIe               On  |   00000000:00:09.0 Off |                  Off |
+| N/A   30C    P0             48W /  350W |       0MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   3  NVIDIA H100 PCIe               On  |   00000000:00:0A.0 Off |                  Off |
+| N/A   30C    P0             49W /  350W |       0MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   4  NVIDIA H100 PCIe               On  |   00000000:00:0B.0 Off |                  Off |
+| N/A   29C    P0             50W /  350W |       0MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   5  NVIDIA H100 PCIe               On  |   00000000:00:0C.0 Off |                  Off |
+| N/A   28C    P0             48W /  350W |       0MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   6  NVIDIA H100 PCIe               On  |   00000000:00:0D.0 Off |                  Off |
+| N/A   34C    P0             49W /  350W |       0MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   7  NVIDIA H100 PCIe               On  |   00000000:00:0E.0 Off |                  Off |
+| N/A   32C    P0             50W /  350W |       0MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+## nvidia-smi --query-gpu=index,name,memory.total,driver_version,pci.bus_id,pcie.link.gen.current,pcie.link.width.current --format=csv
+index, name, memory.total [MiB], driver_version, pci.bus_id, pcie.link.gen.current, pcie.link.width.current
+0, NVIDIA H100 PCIe, 81559 MiB, 570.195.03, 00000000:00:07.0, 5, 16
+1, NVIDIA H100 PCIe, 81559 MiB, 570.195.03, 00000000:00:08.0, 5, 16
+2, NVIDIA H100 PCIe, 81559 MiB, 570.195.03, 00000000:00:09.0, 5, 16
+3, NVIDIA H100 PCIe, 81559 MiB, 570.195.03, 00000000:00:0A.0, 5, 16
+4, NVIDIA H100 PCIe, 81559 MiB, 570.195.03, 00000000:00:0B.0, 5, 16
+5, NVIDIA H100 PCIe, 81559 MiB, 570.195.03, 00000000:00:0C.0, 5, 16
+6, NVIDIA H100 PCIe, 81559 MiB, 570.195.03, 00000000:00:0D.0, 5, 16
+7, NVIDIA H100 PCIe, 81559 MiB, 570.195.03, 00000000:00:0E.0, 5, 16
+
+## nvidia-smi topo -m
+	[4mGPU0	GPU1	GPU2	GPU3	GPU4	GPU5	GPU6	GPU7	NIC0	CPU Affinity	NUMA Affinity	GPU NUMA ID[0m
+GPU0	 X 	NV12	PHB	PHB	PHB	PHB	PHB	PHB	PHB	0-251	0-1		N/A
+GPU1	NV12	 X 	PHB	PHB	PHB	PHB	PHB	PHB	PHB	0-251	0-1		N/A
+GPU2	PHB	PHB	 X 	NV12	PHB	PHB	PHB	PHB	PHB	0-251	0-1		N/A
+GPU3	PHB	PHB	NV12	 X 	PHB	PHB	PHB	PHB	PHB	0-251	0-1		N/A
+GPU4	PHB	PHB	PHB	PHB	 X 	NV12	PHB	PHB	PHB	0-251	0-1		N/A
+GPU5	PHB	PHB	PHB	PHB	NV12	 X 	PHB	PHB	PHB	0-251	0-1		N/A
+GPU6	PHB	PHB	PHB	PHB	PHB	PHB	 X 	NV12	PHB	0-251	0-1		N/A
+GPU7	PHB	PHB	PHB	PHB	PHB	PHB	NV12	 X 	PHB	0-251	0-1		N/A
+NIC0	PHB	PHB	PHB	PHB	PHB	PHB	PHB	PHB	 X 				
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+
+NIC Legend:
+
+  NIC0: mlx5_0
+
+
+## nvidia-smi nvlink -s
+GPU 0: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+	 Link 2: 26.562 GB/s
+	 Link 3: 26.562 GB/s
+	 Link 4: <inactive>
+	 Link 5: <inactive>
+	 Link 6: 26.562 GB/s
+	 Link 7: 26.562 GB/s
+	 Link 8: 26.562 GB/s
+	 Link 9: 26.562 GB/s
+	 Link 10: <inactive>
+	 Link 11: <inactive>
+	 Link 12: 26.562 GB/s
+	 Link 13: 26.562 GB/s
+	 Link 14: 26.562 GB/s
+	 Link 15: 26.562 GB/s
+	 Link 16: <inactive>
+	 Link 17: <inactive>
+GPU 1: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+	 Link 2: 26.562 GB/s
+	 Link 3: 26.562 GB/s
+	 Link 4: <inactive>
+	 Link 5: <inactive>
+	 Link 6: 26.562 GB/s
+	 Link 7: 26.562 GB/s
+	 Link 8: 26.562 GB/s
+	 Link 9: 26.562 GB/s
+	 Link 10: <inactive>
+	 Link 11: <inactive>
+	 Link 12: 26.562 GB/s
+	 Link 13: 26.562 GB/s
+	 Link 14: 26.562 GB/s
+	 Link 15: 26.562 GB/s
+	 Link 16: <inactive>
+	 Link 17: <inactive>
+GPU 2: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+	 Link 2: 26.562 GB/s
+	 Link 3: 26.562 GB/s
+	 Link 4: <inactive>
+	 Link 5: <inactive>
+	 Link 6: 26.562 GB/s
+	 Link 7: 26.562 GB/s
+	 Link 8: 26.562 GB/s
+	 Link 9: 26.562 GB/s
+	 Link 10: <inactive>
+	 Link 11: <inactive>
+	 Link 12: 26.562 GB/s
+	 Link 13: 26.562 GB/s
+	 Link 14: 26.562 GB/s
+	 Link 15: 26.562 GB/s
+	 Link 16: <inactive>
+	 Link 17: <inactive>
+GPU 3: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+	 Link 2: 26.562 GB/s
+	 Link 3: 26.562 GB/s
+	 Link 4: <inactive>
+	 Link 5: <inactive>
+	 Link 6: 26.562 GB/s
+	 Link 7: 26.562 GB/s
+	 Link 8: 26.562 GB/s
+	 Link 9: 26.562 GB/s
+	 Link 10: <inactive>
+	 Link 11: <inactive>
+	 Link 12: 26.562 GB/s
+	 Link 13: 26.562 GB/s
+	 Link 14: 26.562 GB/s
+	 Link 15: 26.562 GB/s
+	 Link 16: <inactive>
+	 Link 17: <inactive>
+GPU 4: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+	 Link 2: 26.562 GB/s
+	 Link 3: 26.562 GB/s
+	 Link 4: <inactive>
+	 Link 5: <inactive>
+	 Link 6: 26.562 GB/s
+	 Link 7: 26.562 GB/s
+	 Link 8: <inactive>
+	 Link 9: 26.562 GB/s
+	 Link 10: 26.562 GB/s
+	 Link 11: <inactive>
+	 Link 12: 26.562 GB/s
+	 Link 13: 26.562 GB/s
+	 Link 14: 26.562 GB/s
+	 Link 15: 26.562 GB/s
+	 Link 16: <inactive>
+	 Link 17: <inactive>
+GPU 5: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+	 Link 2: 26.562 GB/s
+	 Link 3: 26.562 GB/s
+	 Link 4: <inactive>
+	 Link 5: <inactive>
+	 Link 6: 26.562 GB/s
+	 Link 7: 26.562 GB/s
+	 Link 8: 26.562 GB/s
+	 Link 9: 26.562 GB/s
+	 Link 10: <inactive>
+	 Link 11: 26.562 GB/s
+	 Link 12: 26.562 GB/s
+	 Link 13: 26.562 GB/s
+	 Link 14: 26.562 GB/s
+	 Link 15: <inactive>
+	 Link 16: <inactive>
+GPU 6: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+	 Link 2: 26.562 GB/s
+	 Link 3: 26.562 GB/s
+	 Link 4: <inactive>
+	 Link 5: <inactive>
+	 Link 6: 26.562 GB/s
+	 Link 7: 26.562 GB/s
+	 Link 8: 26.562 GB/s
+	 Link 9: 26.562 GB/s
+	 Link 10: <inactive>
+	 Link 11: <inactive>
+	 Link 12: 26.562 GB/s
+	 Link 13: 26.562 GB/s
+	 Link 14: 26.562 GB/s
+	 Link 15: 26.562 GB/s
+	 Link 16: <inactive>
+	 Link 17: <inactive>
+GPU 7: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+	 Link 2: 26.562 GB/s
+	 Link 3: 26.562 GB/s
+	 Link 4: <inactive>
+	 Link 5: 26.562 GB/s
+	 Link 6: 26.562 GB/s
+	 Link 7: 26.562 GB/s
+	 Link 8: 26.562 GB/s
+	 Link 9: <inactive>
+	 Link 10: <inactive>
+	 Link 11: 26.562 GB/s
+	 Link 12: 26.562 GB/s
+	 Link 13: 26.562 GB/s
+	 Link 14: 26.562 GB/s
+	 Link 15: <inactive>
+	 Link 16: <inactive>
+
+## nvidia-smi nvlink -c
+GPU 0: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0, P2P is supported: true
+	 Link 0, Access to system memory supported: true
+	 Link 0, P2P atomics supported: true
+	 Link 0, System memory atomics supported: true
+	 Link 0, SLI is supported: true
+	 Link 0, Link is supported: true
+	 Link 1, P2P is supported: true
+	 Link 1, Access to system memory supported: true
+	 Link 1, P2P atomics supported: true
+	 Link 1, System memory atomics supported: true
+	 Link 1, SLI is supported: true
+	 Link 1, Link is supported: true
+	 Link 2, P2P is supported: true
+	 Link 2, Access to system memory supported: true
+	 Link 2, P2P atomics supported: true
+	 Link 2, System memory atomics supported: true
+	 Link 2, SLI is supported: true
+	 Link 2, Link is supported: true
+	 Link 3, P2P is supported: true
+	 Link 3, Access to system memory supported: true
+	 Link 3, P2P atomics supported: true
+	 Link 3, System memory atomics supported: true
+	 Link 3, SLI is supported: true
+	 Link 3, Link is supported: true
+	 Link 6, P2P is supported: true
+	 Link 6, Access to system memory supported: true
+	 Link 6, P2P atomics supported: true
+	 Link 6, System memory atomics supported: true
+	 Link 6, SLI is supported: true
+	 Link 6, Link is supported: true
+	 Link 7, P2P is supported: true
+	 Link 7, Access to system memory supported: true
+	 Link 7, P2P atomics supported: true
+	 Link 7, System memory atomics supported: true
+	 Link 7, SLI is supported: true
+	 Link 7, Link is supported: true
+	 Link 8, P2P is supported: true
+	 Link 8, Access to system memory supported: true
+	 Link 8, P2P atomics supported: true
+	 Link 8, System memory atomics supported: true
+	 Link 8, SLI is supported: true
+	 Link 8, Link is supported: true
+	 Link 9, P2P is supported: true
+	 Link 9, Access to system memory supported: true
+	 Link 9, P2P atomics supported: true
+	 Link 9, System memory atomics supported: true
+	 Link 9, SLI is supported: true
+	 Link 9, Link is supported: true
+	 Link 12, P2P is supported: true
+	 Link 12, Access to system memory supported: true
+	 Link 12, P2P atomics supported: true
+	 Link 12, System memory atomics supported: true
+	 Link 12, SLI is supported: true
+	 Link 12, Link is supported: true
+	 Link 13, P2P is supported: true
+	 Link 13, Access to system memory supported: true
+	 Link 13, P2P atomics supported: true
+	 Link 13, System memory atomics supported: true
+	 Link 13, SLI is supported: true
+	 Link 13, Link is supported: true
+	 Link 14, P2P is supported: true
+	 Link 14, Access to system memory supported: true
+	 Link 14, P2P atomics supported: true
+	 Link 14, System memory atomics supported: true
+	 Link 14, SLI is supported: true
+	 Link 14, Link is supported: true
+	 Link 15, P2P is supported: true
+	 Link 15, Access to system memory supported: true
+	 Link 15, P2P atomics supported: true
+	 Link 15, System memory atomics supported: true
+	 Link 15, SLI is supported: true
+	 Link 15, Link is supported: true
+GPU 1: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0, P2P is supported: true
+	 Link 0, Access to system memory supported: true
+	 Link 0, P2P atomics supported: true
+	 Link 0, System memory atomics supported: true
+	 Link 0, SLI is supported: true
+	 Link 0, Link is supported: true
+	 Link 1, P2P is supported: true
+	 Link 1, Access to system memory supported: true
+	 Link 1, P2P atomics supported: true
+	 Link 1, System memory atomics supported: true
+	 Link 1, SLI is supported: true
+	 Link 1, Link is supported: true
+	 Link 2, P2P is supported: true
+	 Link 2, Access to system memory supported: true
+	 Link 2, P2P atomics supported: true
+	 Link 2, System memory atomics supported: true
+	 Link 2, SLI is supported: true
+	 Link 2, Link is supported: true
+	 Link 3, P2P is supported: true
+	 Link 3, Access to system memory supported: true
+	 Link 3, P2P atomics supported: true
+	 Link 3, System memory atomics supported: true
+	 Link 3, SLI is supported: true
+	 Link 3, Link is supported: true
+	 Link 6, P2P is supported: true
+	 Link 6, Access to system memory supported: true
+	 Link 6, P2P atomics supported: true
+	 Link 6, System memory atomics supported: true
+	 Link 6, SLI is supported: true
+	 Link 6, Link is supported: true
+	 Link 7, P2P is supported: true
+	 Link 7, Access to system memory supported: true
+	 Link 7, P2P atomics supported: true
+	 Link 7, System memory atomics supported: true
+	 Link 7, SLI is supported: true
+	 Link 7, Link is supported: true
+	 Link 8, P2P is supported: true
+	 Link 8, Access to system memory supported: true
+	 Link 8, P2P atomics supported: true
+	 Link 8, System memory atomics supported: true
+	 Link 8, SLI is supported: true
+	 Link 8, Link is supported: true
+	 Link 9, P2P is supported: true
+	 Link 9, Access to system memory supported: true
+	 Link 9, P2P atomics supported: true
+	 Link 9, System memory atomics supported: true
+	 Link 9, SLI is supported: true
+	 Link 9, Link is supported: true
+	 Link 12, P2P is supported: true
+	 Link 12, Access to system memory supported: true
+	 Link 12, P2P atomics supported: true
+	 Link 12, System memory atomics supported: true
+	 Link 12, SLI is supported: true
+	 Link 12, Link is supported: true
+	 Link 13, P2P is supported: true
+	 Link 13, Access to system memory supported: true
+	 Link 13, P2P atomics supported: true
+	 Link 13, System memory atomics supported: true
+	 Link 13, SLI is supported: true
+	 Link 13, Link is supported: true
+	 Link 14, P2P is supported: true
+	 Link 14, Access to system memory supported: true
+	 Link 14, P2P atomics supported: true
+	 Link 14, System memory atomics supported: true
+	 Link 14, SLI is supported: true
+	 Link 14, Link is supported: true
+	 Link 15, P2P is supported: true
+	 Link 15, Access to system memory supported: true
+	 Link 15, P2P atomics supported: true
+	 Link 15, System memory atomics supported: true
+	 Link 15, SLI is supported: true
+	 Link 15, Link is supported: true
+GPU 2: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0, P2P is supported: true
+	 Link 0, Access to system memory supported: true
+	 Link 0, P2P atomics supported: true
+	 Link 0, System memory atomics supported: true
+	 Link 0, SLI is supported: true
+	 Link 0, Link is supported: true
+	 Link 1, P2P is supported: true
+	 Link 1, Access to system memory supported: true
+	 Link 1, P2P atomics supported: true
+	 Link 1, System memory atomics supported: true
+	 Link 1, SLI is supported: true
+	 Link 1, Link is supported: true
+	 Link 2, P2P is supported: true
+	 Link 2, Access to system memory supported: true
+	 Link 2, P2P atomics supported: true
+	 Link 2, System memory atomics supported: true
+	 Link 2, SLI is supported: true
+	 Link 2, Link is supported: true
+	 Link 3, P2P is supported: true
+	 Link 3, Access to system memory supported: true
+	 Link 3, P2P atomics supported: true
+	 Link 3, System memory atomics supported: true
+	 Link 3, SLI is supported: true
+	 Link 3, Link is supported: true
+	 Link 6, P2P is supported: true
+	 Link 6, Access to system memory supported: true
+	 Link 6, P2P atomics supported: true
+	 Link 6, System memory atomics supported: true
+	 Link 6, SLI is supported: true
+	 Link 6, Link is supported: true
+	 Link 7, P2P is supported: true
+	 Link 7, Access to system memory supported: true
+	 Link 7, P2P atomics supported: true
+	 Link 7, System memory atomics supported: true
+	 Link 7, SLI is supported: true
+	 Link 7, Link is supported: true
+	 Link 8, P2P is supported: true
+	 Link 8, Access to system memory supported: true
+	 Link 8, P2P atomics supported: true
+	 Link 8, System memory atomics supported: true
+	 Link 8, SLI is supported: true
+	 Link 8, Link is supported: true
+	 Link 9, P2P is supported: true
+	 Link 9, Access to system memory supported: true
+	 Link 9, P2P atomics supported: true
+	 Link 9, System memory atomics supported: true
+	 Link 9, SLI is supported: true
+	 Link 9, Link is supported: true
+	 Link 12, P2P is supported: true
+	 Link 12, Access to system memory supported: true
+	 Link 12, P2P atomics supported: true
+	 Link 12, System memory atomics supported: true
+	 Link 12, SLI is supported: true
+	 Link 12, Link is supported: true
+	 Link 13, P2P is supported: true
+	 Link 13, Access to system memory supported: true
+	 Link 13, P2P atomics supported: true
+	 Link 13, System memory atomics supported: true
+	 Link 13, SLI is supported: true
+	 Link 13, Link is supported: true
+	 Link 14, P2P is supported: true
+	 Link 14, Access to system memory supported: true
+	 Link 14, P2P atomics supported: true
+	 Link 14, System memory atomics supported: true
+	 Link 14, SLI is supported: true
+	 Link 14, Link is supported: true
+	 Link 15, P2P is supported: true
+	 Link 15, Access to system memory supported: true
+	 Link 15, P2P atomics supported: true
+	 Link 15, System memory atomics supported: true
+	 Link 15, SLI is supported: true
+	 Link 15, Link is supported: true
+GPU 3: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0, P2P is supported: true
+	 Link 0, Access to system memory supported: true
+	 Link 0, P2P atomics supported: true
+	 Link 0, System memory atomics supported: true
+	 Link 0, SLI is supported: true
+	 Link 0, Link is supported: true
+	 Link 1, P2P is supported: true
+	 Link 1, Access to system memory supported: true
+	 Link 1, P2P atomics supported: true
+	 Link 1, System memory atomics supported: true
+	 Link 1, SLI is supported: true
+	 Link 1, Link is supported: true
+	 Link 2, P2P is supported: true
+	 Link 2, Access to system memory supported: true
+	 Link 2, P2P atomics supported: true
+	 Link 2, System memory atomics supported: true
+	 Link 2, SLI is supported: true
+	 Link 2, Link is supported: true
+	 Link 3, P2P is supported: true
+	 Link 3, Access to system memory supported: true
+	 Link 3, P2P atomics supported: true
+	 Link 3, System memory atomics supported: true
+	 Link 3, SLI is supported: true
+	 Link 3, Link is supported: true
+	 Link 6, P2P is supported: true
+	 Link 6, Access to system memory supported: true
+	 Link 6, P2P atomics supported: true
+	 Link 6, System memory atomics supported: true
+	 Link 6, SLI is supported: true
+	 Link 6, Link is supported: true
+	 Link 7, P2P is supported: true
+	 Link 7, Access to system memory supported: true
+	 Link 7, P2P atomics supported: true
+	 Link 7, System memory atomics supported: true
+	 Link 7, SLI is supported: true
+	 Link 7, Link is supported: true
+	 Link 8, P2P is supported: true
+	 Link 8, Access to system memory supported: true
+	 Link 8, P2P atomics supported: true
+	 Link 8, System memory atomics supported: true
+	 Link 8, SLI is supported: true
+	 Link 8, Link is supported: true
+	 Link 9, P2P is supported: true
+	 Link 9, Access to system memory supported: true
+	 Link 9, P2P atomics supported: true
+	 Link 9, System memory atomics supported: true
+	 Link 9, SLI is supported: true
+	 Link 9, Link is supported: true
+	 Link 12, P2P is supported: true
+	 Link 12, Access to system memory supported: true
+	 Link 12, P2P atomics supported: true
+	 Link 12, System memory atomics supported: true
+	 Link 12, SLI is supported: true
+	 Link 12, Link is supported: true
+	 Link 13, P2P is supported: true
+	 Link 13, Access to system memory supported: true
+	 Link 13, P2P atomics supported: true
+	 Link 13, System memory atomics supported: true
+	 Link 13, SLI is supported: true
+	 Link 13, Link is supported: true
+	 Link 14, P2P is supported: true
+	 Link 14, Access to system memory supported: true
+	 Link 14, P2P atomics supported: true
+	 Link 14, System memory atomics supported: true
+	 Link 14, SLI is supported: true
+	 Link 14, Link is supported: true
+	 Link 15, P2P is supported: true
+	 Link 15, Access to system memory supported: true
+	 Link 15, P2P atomics supported: true
+	 Link 15, System memory atomics supported: true
+	 Link 15, SLI is supported: true
+	 Link 15, Link is supported: true
+GPU 4: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0, P2P is supported: true
+	 Link 0, Access to system memory supported: true
+	 Link 0, P2P atomics supported: true
+	 Link 0, System memory atomics supported: true
+	 Link 0, SLI is supported: true
+	 Link 0, Link is supported: true
+	 Link 1, P2P is supported: true
+	 Link 1, Access to system memory supported: true
+	 Link 1, P2P atomics supported: true
+	 Link 1, System memory atomics supported: true
+	 Link 1, SLI is supported: true
+	 Link 1, Link is supported: true
+	 Link 2, P2P is supported: true
+	 Link 2, Access to system memory supported: true
+	 Link 2, P2P atomics supported: true
+	 Link 2, System memory atomics supported: true
+	 Link 2, SLI is supported: true
+	 Link 2, Link is supported: true
+	 Link 3, P2P is supported: true
+	 Link 3, Access to system memory supported: true
+	 Link 3, P2P atomics supported: true
+	 Link 3, System memory atomics supported: true
+	 Link 3, SLI is supported: true
+	 Link 3, Link is supported: true
+	 Link 6, P2P is supported: true
+	 Link 6, Access to system memory supported: true
+	 Link 6, P2P atomics supported: true
+	 Link 6, System memory atomics supported: true
+	 Link 6, SLI is supported: true
+	 Link 6, Link is supported: true
+	 Link 7, P2P is supported: true
+	 Link 7, Access to system memory supported: true
+	 Link 7, P2P atomics supported: true
+	 Link 7, System memory atomics supported: true
+	 Link 7, SLI is supported: true
+	 Link 7, Link is supported: true
+	 Link 9, P2P is supported: true
+	 Link 9, Access to system memory supported: true
+	 Link 9, P2P atomics supported: true
+	 Link 9, System memory atomics supported: true
+	 Link 9, SLI is supported: true
+	 Link 9, Link is supported: true
+	 Link 10, P2P is supported: true
+	 Link 10, Access to system memory supported: true
+	 Link 10, P2P atomics supported: true
+	 Link 10, System memory atomics supported: true
+	 Link 10, SLI is supported: true
+	 Link 10, Link is supported: true
+	 Link 12, P2P is supported: true
+	 Link 12, Access to system memory supported: true
+	 Link 12, P2P atomics supported: true
+	 Link 12, System memory atomics supported: true
+	 Link 12, SLI is supported: true
+	 Link 12, Link is supported: true
+	 Link 13, P2P is supported: true
+	 Link 13, Access to system memory supported: true
+	 Link 13, P2P atomics supported: true
+	 Link 13, System memory atomics supported: true
+	 Link 13, SLI is supported: true
+	 Link 13, Link is supported: true
+	 Link 14, P2P is supported: true
+	 Link 14, Access to system memory supported: true
+	 Link 14, P2P atomics supported: true
+	 Link 14, System memory atomics supported: true
+	 Link 14, SLI is supported: true
+	 Link 14, Link is supported: true
+	 Link 15, P2P is supported: true
+	 Link 15, Access to system memory supported: true
+	 Link 15, P2P atomics supported: true
+	 Link 15, System memory atomics supported: true
+	 Link 15, SLI is supported: true
+	 Link 15, Link is supported: true
+GPU 5: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0, P2P is supported: true
+	 Link 0, Access to system memory supported: true
+	 Link 0, P2P atomics supported: true
+	 Link 0, System memory atomics supported: true
+	 Link 0, SLI is supported: true
+	 Link 0, Link is supported: true
+	 Link 1, P2P is supported: true
+	 Link 1, Access to system memory supported: true
+	 Link 1, P2P atomics supported: true
+	 Link 1, System memory atomics supported: true
+	 Link 1, SLI is supported: true
+	 Link 1, Link is supported: true
+	 Link 2, P2P is supported: true
+	 Link 2, Access to system memory supported: true
+	 Link 2, P2P atomics supported: true
+	 Link 2, System memory atomics supported: true
+	 Link 2, SLI is supported: true
+	 Link 2, Link is supported: true
+	 Link 3, P2P is supported: true
+	 Link 3, Access to system memory supported: true
+	 Link 3, P2P atomics supported: true
+	 Link 3, System memory atomics supported: true
+	 Link 3, SLI is supported: true
+	 Link 3, Link is supported: true
+	 Link 6, P2P is supported: true
+	 Link 6, Access to system memory supported: true
+	 Link 6, P2P atomics supported: true
+	 Link 6, System memory atomics supported: true
+	 Link 6, SLI is supported: true
+	 Link 6, Link is supported: true
+	 Link 7, P2P is supported: true
+	 Link 7, Access to system memory supported: true
+	 Link 7, P2P atomics supported: true
+	 Link 7, System memory atomics supported: true
+	 Link 7, SLI is supported: true
+	 Link 7, Link is supported: true
+	 Link 8, P2P is supported: true
+	 Link 8, Access to system memory supported: true
+	 Link 8, P2P atomics supported: true
+	 Link 8, System memory atomics supported: true
+	 Link 8, SLI is supported: true
+	 Link 8, Link is supported: true
+	 Link 9, P2P is supported: true
+	 Link 9, Access to system memory supported: true
+	 Link 9, P2P atomics supported: true
+	 Link 9, System memory atomics supported: true
+	 Link 9, SLI is supported: true
+	 Link 9, Link is supported: true
+	 Link 11, P2P is supported: true
+	 Link 11, Access to system memory supported: true
+	 Link 11, P2P atomics supported: true
+	 Link 11, System memory atomics supported: true
+	 Link 11, SLI is supported: true
+	 Link 11, Link is supported: true
+	 Link 12, P2P is supported: true
+	 Link 12, Access to system memory supported: true
+	 Link 12, P2P atomics supported: true
+	 Link 12, System memory atomics supported: true
+	 Link 12, SLI is supported: true
+	 Link 12, Link is supported: true
+	 Link 13, P2P is supported: true
+	 Link 13, Access to system memory supported: true
+	 Link 13, P2P atomics supported: true
+	 Link 13, System memory atomics supported: true
+	 Link 13, SLI is supported: true
+	 Link 13, Link is supported: true
+	 Link 14, P2P is supported: true
+	 Link 14, Access to system memory supported: true
+	 Link 14, P2P atomics supported: true
+	 Link 14, System memory atomics supported: true
+	 Link 14, SLI is supported: true
+	 Link 14, Link is supported: true
+GPU 6: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0, P2P is supported: true
+	 Link 0, Access to system memory supported: true
+	 Link 0, P2P atomics supported: true
+	 Link 0, System memory atomics supported: true
+	 Link 0, SLI is supported: true
+	 Link 0, Link is supported: true
+	 Link 1, P2P is supported: true
+	 Link 1, Access to system memory supported: true
+	 Link 1, P2P atomics supported: true
+	 Link 1, System memory atomics supported: true
+	 Link 1, SLI is supported: true
+	 Link 1, Link is supported: true
+	 Link 2, P2P is supported: true
+	 Link 2, Access to system memory supported: true
+	 Link 2, P2P atomics supported: true
+	 Link 2, System memory atomics supported: true
+	 Link 2, SLI is supported: true
+	 Link 2, Link is supported: true
+	 Link 3, P2P is supported: true
+	 Link 3, Access to system memory supported: true
+	 Link 3, P2P atomics supported: true
+	 Link 3, System memory atomics supported: true
+	 Link 3, SLI is supported: true
+	 Link 3, Link is supported: true
+	 Link 6, P2P is supported: true
+	 Link 6, Access to system memory supported: true
+	 Link 6, P2P atomics supported: true
+	 Link 6, System memory atomics supported: true
+	 Link 6, SLI is supported: true
+	 Link 6, Link is supported: true
+	 Link 7, P2P is supported: true
+	 Link 7, Access to system memory supported: true
+	 Link 7, P2P atomics supported: true
+	 Link 7, System memory atomics supported: true
+	 Link 7, SLI is supported: true
+	 Link 7, Link is supported: true
+	 Link 8, P2P is supported: true
+	 Link 8, Access to system memory supported: true
+	 Link 8, P2P atomics supported: true
+	 Link 8, System memory atomics supported: true
+	 Link 8, SLI is supported: true
+	 Link 8, Link is supported: true
+	 Link 9, P2P is supported: true
+	 Link 9, Access to system memory supported: true
+	 Link 9, P2P atomics supported: true
+	 Link 9, System memory atomics supported: true
+	 Link 9, SLI is supported: true
+	 Link 9, Link is supported: true
+	 Link 12, P2P is supported: true
+	 Link 12, Access to system memory supported: true
+	 Link 12, P2P atomics supported: true
+	 Link 12, System memory atomics supported: true
+	 Link 12, SLI is supported: true
+	 Link 12, Link is supported: true
+	 Link 13, P2P is supported: true
+	 Link 13, Access to system memory supported: true
+	 Link 13, P2P atomics supported: true
+	 Link 13, System memory atomics supported: true
+	 Link 13, SLI is supported: true
+	 Link 13, Link is supported: true
+	 Link 14, P2P is supported: true
+	 Link 14, Access to system memory supported: true
+	 Link 14, P2P atomics supported: true
+	 Link 14, System memory atomics supported: true
+	 Link 14, SLI is supported: true
+	 Link 14, Link is supported: true
+	 Link 15, P2P is supported: true
+	 Link 15, Access to system memory supported: true
+	 Link 15, P2P atomics supported: true
+	 Link 15, System memory atomics supported: true
+	 Link 15, SLI is supported: true
+	 Link 15, Link is supported: true
+GPU 7: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+	 Link 0, P2P is supported: true
+	 Link 0, Access to system memory supported: true
+	 Link 0, P2P atomics supported: true
+	 Link 0, System memory atomics supported: true
+	 Link 0, SLI is supported: true
+	 Link 0, Link is supported: true
+	 Link 1, P2P is supported: true
+	 Link 1, Access to system memory supported: true
+	 Link 1, P2P atomics supported: true
+	 Link 1, System memory atomics supported: true
+	 Link 1, SLI is supported: true
+	 Link 1, Link is supported: true
+	 Link 2, P2P is supported: true
+	 Link 2, Access to system memory supported: true
+	 Link 2, P2P atomics supported: true
+	 Link 2, System memory atomics supported: true
+	 Link 2, SLI is supported: true
+	 Link 2, Link is supported: true
+	 Link 3, P2P is supported: true
+	 Link 3, Access to system memory supported: true
+	 Link 3, P2P atomics supported: true
+	 Link 3, System memory atomics supported: true
+	 Link 3, SLI is supported: true
+	 Link 3, Link is supported: true
+	 Link 5, P2P is supported: true
+	 Link 5, Access to system memory supported: true
+	 Link 5, P2P atomics supported: true
+	 Link 5, System memory atomics supported: true
+	 Link 5, SLI is supported: true
+	 Link 5, Link is supported: true
+	 Link 6, P2P is supported: true
+	 Link 6, Access to system memory supported: true
+	 Link 6, P2P atomics supported: true
+	 Link 6, System memory atomics supported: true
+	 Link 6, SLI is supported: true
+	 Link 6, Link is supported: true
+	 Link 7, P2P is supported: true
+	 Link 7, Access to system memory supported: true
+	 Link 7, P2P atomics supported: true
+	 Link 7, System memory atomics supported: true
+	 Link 7, SLI is supported: true
+	 Link 7, Link is supported: true
+	 Link 8, P2P is supported: true
+	 Link 8, Access to system memory supported: true
+	 Link 8, P2P atomics supported: true
+	 Link 8, System memory atomics supported: true
+	 Link 8, SLI is supported: true
+	 Link 8, Link is supported: true
+	 Link 11, P2P is supported: true
+	 Link 11, Access to system memory supported: true
+	 Link 11, P2P atomics supported: true
+	 Link 11, System memory atomics supported: true
+	 Link 11, SLI is supported: true
+	 Link 11, Link is supported: true
+	 Link 12, P2P is supported: true
+	 Link 12, Access to system memory supported: true
+	 Link 12, P2P atomics supported: true
+	 Link 12, System memory atomics supported: true
+	 Link 12, SLI is supported: true
+	 Link 12, Link is supported: true
+	 Link 13, P2P is supported: true
+	 Link 13, Access to system memory supported: true
+	 Link 13, P2P atomics supported: true
+	 Link 13, System memory atomics supported: true
+	 Link 13, SLI is supported: true
+	 Link 13, Link is supported: true
+	 Link 14, P2P is supported: true
+	 Link 14, Access to system memory supported: true
+	 Link 14, P2P atomics supported: true
+	 Link 14, System memory atomics supported: true
+	 Link 14, SLI is supported: true
+	 Link 14, Link is supported: true
+
+## sh -c sudo lspci -vv 2>/dev/null | grep -E "^[0-9a-f:.]+ .*NVIDIA|LnkCap:|LnkSta:" | grep -A2 NVIDIA | head -40
+00:07.0 3D controller: NVIDIA Corporation GH100 [H100 PCIe] (rev a1)
+		LnkCap:	Port #0, Speed 32GT/s, Width x16, ASPM L1, Exit Latency L1 <4us
+		LnkSta:	Speed 32GT/s, Width x16
+00:08.0 3D controller: NVIDIA Corporation GH100 [H100 PCIe] (rev a1)
+		LnkCap:	Port #0, Speed 32GT/s, Width x16, ASPM L1, Exit Latency L1 <4us
+		LnkSta:	Speed 32GT/s, Width x16
+00:09.0 3D controller: NVIDIA Corporation GH100 [H100 PCIe] (rev a1)
+		LnkCap:	Port #0, Speed 32GT/s, Width x16, ASPM L1, Exit Latency L1 <4us
+		LnkSta:	Speed 32GT/s, Width x16
+00:0a.0 3D controller: NVIDIA Corporation GH100 [H100 PCIe] (rev a1)
+		LnkCap:	Port #0, Speed 32GT/s, Width x16, ASPM L1, Exit Latency L1 <4us
+		LnkSta:	Speed 32GT/s, Width x16
+00:0b.0 3D controller: NVIDIA Corporation GH100 [H100 PCIe] (rev a1)
+		LnkCap:	Port #0, Speed 32GT/s, Width x16, ASPM L1, Exit Latency L1 <4us
+		LnkSta:	Speed 32GT/s, Width x16
+00:0c.0 3D controller: NVIDIA Corporation GH100 [H100 PCIe] (rev a1)
+		LnkCap:	Port #0, Speed 32GT/s, Width x16, ASPM L1, Exit Latency L1 <4us
+		LnkSta:	Speed 32GT/s, Width x16
+00:0d.0 3D controller: NVIDIA Corporation GH100 [H100 PCIe] (rev a1)
+		LnkCap:	Port #0, Speed 32GT/s, Width x16, ASPM L1, Exit Latency L1 <4us
+		LnkSta:	Speed 32GT/s, Width x16
+00:0e.0 3D controller: NVIDIA Corporation GH100 [H100 PCIe] (rev a1)
+		LnkCap:	Port #0, Speed 32GT/s, Width x16, ASPM L1, Exit Latency L1 <4us
+		LnkSta:	Speed 32GT/s, Width x16
+
+## nvcc --version
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2025 NVIDIA Corporation
+Built on Fri_Feb_21_20:23:50_PST_2025
+Cuda compilation tools, release 12.8, V12.8.93
+Build cuda_12.8.r12.8/compiler.35583870_0
+
+## sh -c cat /proc/driver/nvidia/version
+NVRM version: NVIDIA UNIX Open Kernel Module for x86_64  570.195.03  Release Build  (dvs-builder@U22-I3-H04-03-1)  Sat Sep 20 00:47:16 UTC 2025
+GCC version:  gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) 
+
+## docker --version
+Docker version 29.1.3, build f52814d
+
+## sh -c nvidia-ctk --version; docker info 2>/dev/null | grep -i -A3 runtimes
+NVIDIA Container Toolkit CLI version 1.18.1
+commit: efe99418ef87500dbe059cadc9ab418b2815b9d5
+ Runtimes: io.containerd.runc.v2 nvidia runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: dea7da592f5d1d2b7755e3a161be07f43fad8f75
+
+## sh -c cmake --version | head -1; gcc --version | head -1; python3 --version; ~/.local/bin/uv --version
+cmake version 3.28.3
+gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+Python 3.12.3
+uv 0.13.9 (x86_64-unknown-linux-gnu)

@@ -1,0 +1,17 @@
+## python3 reasoning.py http://127.0.0.1:8000/v1 qwen3-8b
+thinking on
+  message {'content': 5, 'reasoning': 1546} answer '\n\nNo.'
+  usage   {'prompt_tokens': 21, 'total_tokens': 538, 'completion_tokens': 517, 'prompt_tokens_details': {'cached_tokens': 0, 'created_cache_tokens': 16, 'multimodal_tokens': None}, 'completion_tokens_details': {'reasoning_tokens': 511}}
+  stream  511 reasoning, 3 content
+/no_think in the message
+  message {'content': 5, 'reasoning': 2} answer '\n\nNo.'
+  usage   {'prompt_tokens': 25, 'total_tokens': 32, 'completion_tokens': 7, 'prompt_tokens_details': {'cached_tokens': 16, 'created_cache_tokens': 0, 'multimodal_tokens': None}, 'completion_tokens_details': {'reasoning_tokens': 1}}
+  stream  1 reasoning, 3 content
+enable_thinking false
+  message {'content': 3} answer 'No.'
+  usage   {'prompt_tokens': 25, 'total_tokens': 28, 'completion_tokens': 3, 'prompt_tokens_details': {'cached_tokens': 16, 'created_cache_tokens': 0, 'multimodal_tokens': None}, 'completion_tokens_details': {'reasoning_tokens': 0}}
+  stream  2 content
+reasoning_effort none
+  message {'content': 3} answer 'No.'
+  usage   {'prompt_tokens': 25, 'total_tokens': 28, 'completion_tokens': 3, 'prompt_tokens_details': {'cached_tokens': 16, 'created_cache_tokens': 0, 'multimodal_tokens': None}, 'completion_tokens_details': {'reasoning_tokens': 0}}
+  stream  2 content

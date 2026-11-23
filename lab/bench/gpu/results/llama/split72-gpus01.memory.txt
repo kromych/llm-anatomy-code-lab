@@ -1,0 +1,2 @@
+## largest memory in use (MiB, GPU 0 to 7) while llama-bench ran with CUDA_VISIBLE_DEVICES=0,1
+23341 23257 0 0 0 0 0 0 

@@ -1,0 +1,28 @@
+## venv-vllm/bin/python bin/xfer.py 0 1 2
+torch 2.13.0+cu129 cuda 12.9 NVIDIA H100 PCIe
+GB/s, best and median of 9 copies
+     bytes  path                      best  median
+   1048576  pageable -> gpu0         14.73   12.55
+   1048576  pinned -> gpu0           38.04   37.63
+   1048576  gpu0 -> pinned           36.81   36.03
+   1048576  gpu0 -> pageable         13.27   12.67
+   1048576  gpu0 -> gpu1             42.01   40.35
+   1048576  gpu0 -> gpu2             17.66   16.95
+  16777216  pageable -> gpu0         24.34   23.78
+  16777216  pinned -> gpu0           50.10   48.22
+  16777216  gpu0 -> pinned           53.75   53.62
+  16777216  gpu0 -> pageable         19.69   19.52
+  16777216  gpu0 -> gpu1            207.27  205.94
+  16777216  gpu0 -> gpu2             36.72   35.83
+ 268435456  pageable -> gpu0         20.32   20.22
+ 268435456  pinned -> gpu0           57.40   57.36
+ 268435456  gpu0 -> pinned           55.34   55.30
+ 268435456  gpu0 -> pageable         20.52   20.45
+ 268435456  gpu0 -> gpu1            261.85  261.34
+ 268435456  gpu0 -> gpu2             38.57   38.42
+4294967296  pageable -> gpu0         20.05   19.97
+4294967296  pinned -> gpu0           57.55   57.53
+4294967296  gpu0 -> pinned           55.46   55.45
+4294967296  gpu0 -> pageable         20.89   20.54
+4294967296  gpu0 -> gpu1            265.59  265.51
+4294967296  gpu0 -> gpu2             37.92   37.88

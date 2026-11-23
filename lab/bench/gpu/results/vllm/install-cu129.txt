@@ -1,0 +1,11 @@
+## uv pip install https://github.com/vllm-project/vllm/releases/download/v0.32.0/vllm-0.32.0+cu129-cp38-abi3-manylinux_2_28_x86_64.whl --torch-backend=cu129
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 3 packages in 2.04s
+ + nvidia-cuda-cccl-cu12==12.9.27
+ + nvidia-cuda-nvcc-cu12==12.9.86
+ - vllm==0.32.0
+ + vllm==0.32.0+cu129 (from https://github.com/vllm-project/vllm/releases/download/v0.32.0/vllm-0.32.0+cu129-cp38-abi3-manylinux_2_28_x86_64.whl)
+vllm 0.32.0 torch 2.13.0+cu129 cuda 12.9
+0.32.0+cu129

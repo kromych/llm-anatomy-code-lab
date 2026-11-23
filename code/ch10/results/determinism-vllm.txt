@@ -1,0 +1,15 @@
+## python3 determinism.py http://127.0.0.1:8000/v1 qwen3-8b
+no seed
+  repeated           517 tokens, checksum 79674578, 16 prompt tokens cached
+  repeated           517 tokens, checksum 79674578, 16 prompt tokens cached
+  repeated           517 tokens, checksum 79674578, 16 prompt tokens cached
+  after another one  517 tokens, checksum 79674578, 16 prompt tokens cached
+  after another one  517 tokens, checksum 79674578, 16 prompt tokens cached
+  after another one  517 tokens, checksum 79674578, 16 prompt tokens cached
+seed 7
+  repeated           517 tokens, checksum 79674578, 16 prompt tokens cached
+  repeated           517 tokens, checksum 79674578, 16 prompt tokens cached
+  repeated           517 tokens, checksum 79674578, 16 prompt tokens cached
+  after another one  517 tokens, checksum 79674578, 16 prompt tokens cached
+  after another one  517 tokens, checksum 79674578, 16 prompt tokens cached
+  after another one  517 tokens, checksum 79674578, 16 prompt tokens cached

@@ -1,0 +1,27 @@
+## ss -ltnp
+State  Recv-Q Send-Q Local Address:Port  Peer Address:PortProcess                                      
+LISTEN 0      4096      127.0.0.54:53         0.0.0.0:*                                                
+LISTEN 0      4096       127.0.0.1:9100       0.0.0.0:*                                                
+LISTEN 0      2048       127.0.0.1:8000       0.0.0.0:*    users:(("vllm",pid=161528,fd=46))           
+LISTEN 0      4096   127.0.0.53%lo:53         0.0.0.0:*                                                
+LISTEN 0      4096       10.0.0.x:41725      0.0.0.0:*    users:(("VLLM::EngineCor",pid=162074,fd=77))
+LISTEN 0      4096       10.0.0.x:39627      0.0.0.0:*    users:(("VLLM::EngineCor",pid=162074,fd=69))
+LISTEN 0      4096       10.0.0.x:38267      0.0.0.0:*    users:(("VLLM::EngineCor",pid=162074,fd=56))
+LISTEN 0      4096       10.0.0.x:36567      0.0.0.0:*    users:(("VLLM::EngineCor",pid=162074,fd=63))
+LISTEN 0      4096       10.0.0.x:35161      0.0.0.0:*    users:(("VLLM::EngineCor",pid=162074,fd=73))
+LISTEN 0      4096       10.0.0.x:32953      0.0.0.0:*    users:(("VLLM::EngineCor",pid=162074,fd=81))
+## pstree
+vllm,161528 venv-vllm/bin/vllm serve Qwen/Qwen3-8B --served-model-name qwen3-8b default--enable-auto-tool-c
+  |-VLLM::EngineCor,162074
+  `-python,162073 -c from multiprocessing.resource_tracker import main;main(66)
+## du -sh ~/.cache/vllm/* ~/.cache/flashinfer
+4.0K	/home/labuser/.cache/vllm/dummy_cache
+40K	/home/labuser/.cache/vllm/flashinfer_autotune_cache
+12K	/home/labuser/.cache/vllm/modelinfos
+1.5G	/home/labuser/.cache/vllm/torch_compile_cache
+26M	/home/labuser/.cache/flashinfer
+## ls /dev/shm
+sem.mp-dz3kkius
+## nvidia-smi --query-compute-apps
+pid, used_gpu_memory [MiB]
+162074, 74234 MiB

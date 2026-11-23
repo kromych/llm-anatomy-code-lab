@@ -1,0 +1,4 @@
+# kr0m-gpu, 8 x NVIDIA H100 PCIe, Ubuntu 24.04.3, torch 2.13.0+cu129, NCCL 2.29.7, 2026-11-23; pcie-4k: lab/bench/gpu/rtt_gpu.py, 4 KiB from pinned memory to a GPU and back; allreduce-pair: lab/bench/gpu/allreduce.py, 16 KiB between two GPUs joined by NVLink
+test,n,median_us,p10_us,p90_us
+pcie-4k,2000,12.459,12.298,12.740
+allreduce-pair,2000,54.7,30.2,73.8

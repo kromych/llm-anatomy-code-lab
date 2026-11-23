@@ -30,3 +30,30 @@ python3 compare.py replay-0.5.jsonl 40 0.5 1 8.71e9 8.19e9 147456 B F T0 8 32768
 ```
 
 The results are in `lab/bench/validate/`.
+
+## The same fit on an H100
+
+On kr0m-gpu (S5-CloudGPU in the book; one NVIDIA H100 PCIe, llama.cpp
+b12376 built for CUDA) the three runs of `llama-batched-bench` above are in
+`lab/bench/validate/batched-bench-h100.txt`:
+
+```sh
+python3 fit.py batched-bench-h100.txt "an H100 PCIe"
+# fitted on an H100 PCIe: B = 2029 GB/s, F = 139.1 TFLOP/s, T0 = 1.9 ms
+```
+
+`vllmstep.py` sets these constants against vLLM 0.32.0 serving Qwen3-8B in
+16-bit weights (16,381,516,776 bytes) on the same card. It reads the files
+that `vllm bench serve` wrote at each concurrency
+(`lab/bench/gpu/results/vllm/bench/q8-512-256`) and prints, per
+concurrency, the tokens per second, the median time between two tokens of
+a request, one decode step of the model, and their ratio:
+
+```sh
+python3 vllmstep.py q8-512-256 16381516776 8.19e9 147456 2029e9 400e12 1.9e-3 648
+```
+
+The 648 is the mean number of cached tokens of a sequence (prompts of 512
+random tokens and the 8 of the chat template, answers of 256), and 400e12
+the rate at which vLLM processed prompts of 4,096 and 16,384 tokens
+(`q8-4096-16`, `q8-16384-16`).
