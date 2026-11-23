@@ -14,6 +14,7 @@ def penalize(z, recent, theta, presence=0.0, frequency=0.0):   # T1
     return z
 
 def top_k(z, k):                          # T2
+    k = min(k, len(z))
     return z if k <= 0 else np.where(z >= np.sort(z)[-k], z, -np.inf)
 
 def top_p(z, P):                          # T3

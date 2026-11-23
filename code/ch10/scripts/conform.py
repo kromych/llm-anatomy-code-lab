@@ -25,7 +25,11 @@ def post(body, stream=False):
     try:
         resp = urllib.request.urlopen(req, timeout=300)
     except urllib.error.HTTPError as e:
-        return e.code, json.loads(e.read() or b"{}")
+        raw = e.read()
+        try:
+            return e.code, json.loads(raw or b"{}")
+        except ValueError:                   # an error page, not JSON
+            return e.code, {"error": raw.decode("utf-8", "replace")}
     with resp:
         if stream:
             return 200, [d for d in sse_events(resp)]

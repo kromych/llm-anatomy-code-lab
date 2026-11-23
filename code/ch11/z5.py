@@ -13,6 +13,8 @@ def summarize(messages, base, high=2000, low=1200, log=None):
     last_user = max(i for i, m in enumerate(messages)
                     if m["role"] == "user")
     old = messages[1:last_user]
+    if not old:                  # nothing unprotected: the caller decides
+        return n, 0
     lines = []
     for m in old:
         calls = [c["function"]["name"] + c["function"]["arguments"]

@@ -19,8 +19,8 @@ def assemble(chunks):
     calls, finish, usage = {}, None, None
     for chunk in chunks:                                     # A1
         usage = chunk.get("usage") or usage                  # A2
-        for choice in chunk.get("choices", []):
-            delta = choice.get("delta", {})
+        for choice in chunk.get("choices") or []:
+            delta = choice.get("delta") or {}
             msg["role"] = delta.get("role") or msg["role"]   # A3
             msg["content"] += delta.get("content") or ""
             for tc in delta.get("tool_calls") or []:         # A4

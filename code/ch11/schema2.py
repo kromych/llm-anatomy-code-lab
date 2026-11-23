@@ -9,8 +9,9 @@ def schema_of(t):
     if origin is typing.Literal:
         return {"enum": list(args)}
     if origin in (typing.Union, types.UnionType):
-        rest = [a for a in args if a is not type(None)]
-        return {"anyOf": [schema_of(a) for a in rest] + [{"type": "null"}]}
+        return {"anyOf": [schema_of(a) for a in args]}
+    if t is type(None):
+        return {"type": "null"}
     return {"type": TYPES[t]}
 
 def parameters(fn):

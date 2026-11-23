@@ -68,7 +68,8 @@ def handle(msg):
     """Algorithm O: answer one message; None for a notification."""
     global legacy
     method, params = msg.get("method"), msg.get("params") or {}
-    if msg.get("jsonrpc") != "2.0" or not isinstance(method, str):
+    if (msg.get("jsonrpc") != "2.0" or not isinstance(method, str)
+            or msg.get("id", 0) is None):       # MCP: no null id
         raise RpcError(-32600, "Invalid request")
     if "id" not in msg:                                         # O1
         return None

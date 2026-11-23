@@ -20,7 +20,7 @@ class ToolCallParser:
                 try:
                     calls.append(json.loads(body))
                 except json.JSONDecodeError:
-                    text += OPEN + body + CLOSE   # give it back as text
+                    text += OPEN + self.buf[:i] + CLOSE   # back as text
             else:
                 text += self.buf[:i]
             self.buf = self.buf[i + len(tag):]
