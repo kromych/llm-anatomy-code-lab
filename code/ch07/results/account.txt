@@ -1,0 +1,64 @@
+# account.py on S3-macOS (Apple M1 Ultra), llama.cpp build 12359 (b1b770d90),
+# Qwen3-1.7B Q4_K_M (ggml-org/Qwen3-1.7B-GGUF), server started afresh:
+#   llama-server -hf ggml-org/Qwen3-1.7B-GGUF:Q4_K_M --port 8097 --metrics \
+#       -np 2 --log-file server.log
+#   python3 account.py http://127.0.0.1:8097
+# Below: the output of the script; the lines of server.log for the two
+# requests (verbosity 3, the default); and two gauges of /metrics read
+# while loadgen.py kept eight clients on the two slots
+# (python3 loadgen.py http://127.0.0.1:8097/v1 16 8), the output of the load
+# generator, and the gauges after it. That part is from a second start of
+# the same server, after account.py had run once; Qwen3 spent the 128
+# tokens of each answer on thinking, so the chunks that loadgen.py counted
+# were reasoning.
+
+reply: cached 0, prompt 25 in 38 ms, predicted 8 in 56 ms
+reply: cached 21, prompt 25 in 30 ms, predicted 10 in 64 ms
+llamacpp:prompt_tokens_total 50
+llamacpp:prompt_tokens_cached_total 21
+llamacpp:prompt_seconds_total 0.066895
+llamacpp:tokens_predicted_total 18
+llamacpp:tokens_predicted_seconds_total 0.11917
+llamacpp:n_decode_total 18
+llamacpp:n_tokens_max 55
+llamacpp:prompt_tokens_seconds 747.44
+llamacpp:predicted_tokens_seconds 134.262
+llamacpp:requests_processing 0
+llamacpp:requests_deferred 0
+llamacpp:n_busy_slots_per_decode 1
+slot 0: idle, 55 tokens
+slot 1: idle, 0 tokens
+
+# server.log
+0.03.183.997 I slot get_availabl: id  0 | task -1 | selected slot by LRU, n_tokens = 0, t_last = -1
+0.03.277.376 I slot print_timing: id  0 | task 0 | prompt eval time =      37.69 ms /    25 tokens (    1.51 ms per token,   663.25 tokens per second)
+0.03.277.382 I slot print_timing: id  0 | task 0 |        eval time =      55.62 ms /     8 tokens (    7.95 ms per token,   125.84 tokens per second)
+0.03.277.382 I slot print_timing: id  0 | task 0 |       total time =      93.32 ms /    33 tokens
+0.03.277.411 I slot      release: id  0 | task 0 | stop processing: n_tokens = 32, truncated = 0
+0.03.282.118 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 0.457 (> 0.100 thold), f_keep = 0.656
+0.03.375.815 I slot print_timing: id  0 | task 9 | prompt eval time =      30.11 ms /    25 tokens (    1.20 ms per token,   830.32 tokens per second)
+0.03.375.823 I slot print_timing: id  0 | task 9 |        eval time =      63.55 ms /    10 tokens (    7.06 ms per token,   141.63 tokens per second)
+0.03.375.824 I slot print_timing: id  0 | task 9 |       total time =      93.65 ms /    35 tokens
+0.03.375.847 I slot      release: id  0 | task 9 | stop processing: n_tokens = 55, truncated = 0
+
+# /metrics during loadgen.py with 8 clients
+llamacpp:requests_processing 2
+llamacpp:requests_deferred 6
+# output of loadgen.py
+0.95 requests/s, 120.1 chunks/s
+TTFT ms: p50 6264.5  p90 6650.9
+gap  ms: p50 16.5  p99 23.5
+# /metrics after it
+llamacpp:requests_processing 0
+llamacpp:requests_deferred 0
+llamacpp:n_busy_slots_per_decode 1.98273
+
+# The wait for a slot: the same server with -np 1 -lv 4, three clients
+# started 50 ms apart, each with the one message "Count from one to forty
+# in words.", max_tokens 200, thinking off. "wall" is the client's time
+# for the whole reply, "timings" the sum of prompt_ms and predicted_ms in
+# that reply.
+client 0: wall 1272 ms, timings 1257 ms, cached 0 prompt 20 predicted 200
+client 1: wall 2520 ms, timings 1300 ms, cached 19 prompt 1 predicted 200
+client 2: wall 3775 ms, timings 1311 ms, cached 19 prompt 1 predicted 200
+# Neither log (verbosity 3 above, 4 here) contained the text of a prompt.

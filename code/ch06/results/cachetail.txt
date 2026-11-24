@@ -1,0 +1,6 @@
+# cachetail.py on S3-macOS, llama.cpp build 12359 (b1b770d90), Gemma 3 1B Q4_K_M.
+$ llama-server -hf ggml-org/gemma-3-1b-it-GGUF --offline --no-log-timestamps --host 127.0.0.1 --port 8104
+$ python3 cachetail.py http://127.0.0.1:8104
+8633 and 8632 tokens, the first 8621 in common
+12 [' item', ' costs', ' ', '4', '2', ' euros', '?', '<end_of_turn>', '\n', '<start_of_turn>', 'model', '\n']
+11 [' costs', ' ', '1', '3', ' euros', '?', '<end_of_turn>', '\n', '<start_of_turn>', 'model', '\n']

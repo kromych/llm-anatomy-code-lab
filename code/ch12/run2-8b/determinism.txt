@@ -1,0 +1,9 @@
+request of smolagents-r1 with 8 messages and 1660 prompt tokens; logged reply: 40 tokens
+cache False cached     0 output b8c4feb3 tokens  40, logprobs equal to the first run's:  40, first logprob -0.435341805
+cache False cached     0 output b8c4feb3 tokens  40, logprobs equal to the first run's:  40, first logprob -0.435341805
+cache False cached     0 output b8c4feb3 tokens  40, logprobs equal to the first run's:  40, first logprob -0.435341805
+cache False cached     0 output b8c4feb3 tokens  40, logprobs equal to the first run's:  40, first logprob -0.435341805
+cache True  cached  1659 output b8c4feb3 tokens  40, logprobs equal to the first run's:  39, first logprob -0.430740118
+cache True  cached  1659 output b8c4feb3 tokens  40, logprobs equal to the first run's:  39, first logprob -0.430740118
+cache True  cached  1659 output b8c4feb3 tokens  40, logprobs equal to the first run's:  39, first logprob -0.430740118
+cache True  cached  1659 output b8c4feb3 tokens  40, logprobs equal to the first run's:  39, first logprob -0.430740118

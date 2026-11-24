@@ -1,0 +1,12 @@
+call: search_notes {"query": "cancel a generation"}
+Close the connection to cancel a generation; the slot is freed.
+A model file in Q4_K_M takes a little over half a byte per weight.
+A tool that may hang runs in a child process that can be killed.
+
+call: search_notes {"query": "tool that may hang"}
+A tool that may hang runs in a child process that can be killed.
+The tools refuse every path that leads out of the workspace.
+Elide old tool output before the conversation reaches the high mark.
+
+answer: Close the connection.
+texts per embeddings request: 12 1 1

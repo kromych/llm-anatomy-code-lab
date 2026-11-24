@@ -1,0 +1,6 @@
+## python3 cachetest.py   (vLLM 0.32.0, Qwen3-8B, port 8080)
+Traceback (most recent call last):
+  File "/tmp/scratch/supplement/code/ch06/code/cachetest.py", line 14, in <module>
+    t = json.load(resp)["timings"]
+        ~~~~~~~~~~~~~~~^^^^^^^^^^^
+KeyError: 'timings'

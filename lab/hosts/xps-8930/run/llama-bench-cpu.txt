@@ -1,0 +1,10 @@
+# 2026-11-13, xps-8930, llama.cpp b12376 (61dbf4922), CPU build (-march=native, OpenMP). Ollama service idle with no model loaded.
+$ build/bin/llama-bench -m ~/.cache/huggingface/hub/models--ggml-org--gemma-3-1b-it-GGUF/snapshots/f9c28bcd85737ffc5aef028638d3341d49869c27/gemma-3-1b-it-Q4_K_M.gguf -p 512 -n 128 -r 3
+# load average before run: 0.07, 2.27, 4.74
+exit=0 seconds=19
+| model                          |       size |     params | backend    | threads |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | ------: | --------------: | -------------------: |
+| gemma3 1B Q4_K - Medium        | 762.49 MiB |   999.89 M | CPU        |       6 |           pp512 |        238.43 ± 0.97 |
+| gemma3 1B Q4_K - Medium        | 762.49 MiB |   999.89 M | CPU        |       6 |           tg128 |         37.46 ± 0.03 |
+
+build: 61dbf4922 (12376)

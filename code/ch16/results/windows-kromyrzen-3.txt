@@ -1,0 +1,107 @@
+# Third run, all seven probes, with the programs as they are now. Since
+# windows-kromyrzen-2.txt, sbx.cs lets the random identifier of `restricted` into the
+# window station and the desktop (two calls of LetIn), the lowil step of run-windows.ps1
+# labels .git and .git\hooks as medium with a label that is not inherited
+# (variants-windows-kromyrzen-4.txt, part 7, shows what an inherited one does to the
+# AppContainer steps), and Windows went from build 10.0.26300.9974 to 10.0.26300.10075.
+# S4-Windows, Windows 11 Pro N for Workstations, build 26300 (10.0.26300.10075), over SSH
+# (cmd.exe, an elevated session), each command in a new SSH connection; PowerShell
+# 5.1.26100.10068. One run of each command.
+#
+# 1. The default list. Its 63 lines are those of windows-kromyrzen-2.txt.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== none+job
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   BLOCKED  Win32Exception
+hook    ALLOWED
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== none+tree
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== restricted
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== lowil
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+== appcontainer+job
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   BLOCKED  Win32Exception
+hook    ALLOWED
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt no, connections 0
+#
+# 2. lowil by itself, and lowil before the AppContainer: the hook is refused at low
+# integrity both times and written under the AppContainer.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms lowil
+== lowil
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms lowil,appcontainer
+== lowil
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0

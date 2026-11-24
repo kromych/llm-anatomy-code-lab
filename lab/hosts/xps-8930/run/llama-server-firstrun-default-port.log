@@ -1,0 +1,15 @@
+# First start with the brief's exact command (no --port): build/bin/llama-server -hf ggml-org/gemma-3-1b-it-GGUF
+# The model (806 MB) was downloaded during the ~8.5 s between 'common_params_print_info' and 'load_model'; nothing about the download is logged at the default verbosity 3.
+# The server listened on 127.0.0.1:9931 (new default; --help: '--port PORT  port to listen (default: 9931)'), so the brief's URL :8080 needs --port 8080.
+0.00.000.779 I srv  llama_server: initializing ...
+0.00.206.292 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.08.723.600 W srv  server_setup: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.08.726.064 I srv    load_model: loading model 'ggml-org/gemma-3-1b-it-GGUF'
+0.09.093.147 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.09.242.476 I cmn          init: llama threadpool init, n_threads = 6
+0.09.331.413 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 32768, kv_unified = 'true'
+0.09.339.392 I srv  server_run_i: model loaded
+0.09.339.398 I srv  server_on_li: listening on http://127.0.0.1:9931
+
+$ sudo ss -ltnp  (while it ran)
+LISTEN 0      512        127.0.0.1:9931       0.0.0.0:*    users:(("llama-server",pid=2012619,fd=3))

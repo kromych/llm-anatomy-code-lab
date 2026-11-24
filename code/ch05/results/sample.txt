@@ -1,0 +1,5 @@
+llama.cpp    keeps 7 tokens, p(7042) = 0.1546; 1562 of 10000 draws
+vLLM         keeps 5 tokens, p(7042) = 0.1651; 1645 of 10000 draws
+Transformers keeps 6 tokens, p(7042) = 0.1573; 1576 of 10000 draws
+penalty 1.3 on the logits 2, -1, 0: [1.538, -1.3, 0.0]
+T = 0 draws 260

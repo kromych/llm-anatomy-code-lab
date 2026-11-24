@@ -1,0 +1,3 @@
+0 0 of 27648 Q8_0 blocks differ
+15 0 of 27648 Q8_0 blocks differ
+Q4_0 rel err correct layout 0.08948165752735664 interleaved layout 1.3698207722803137

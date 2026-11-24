@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "A GGUF file is a lightweight, quantized version of a Python library that allows for efficient and portable running of large models, especially on limited hardware."
+      }
+    }
+  ],
+  "created": 1794638493,
+  "model": "ggml-org/gemma-3-1b-it-GGUF",
+  "system_fingerprint": "b12376-61dbf4922",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 32,
+    "prompt_tokens": 21,
+    "total_tokens": 53,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "id": "chatcmpl-2ynQiYnTqyHuK0WR5PbxhlMv6tLKp1O8",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 21,
+    "prompt_ms": 138.478,
+    "prompt_per_token_ms": 6.594190476190477,
+    "prompt_per_second": 151.64863732867315,
+    "predicted_n": 32,
+    "predicted_ms": 894.226,
+    "predicted_per_token_ms": 28.846,
+    "predicted_per_second": 34.66685155654163
+  }
+}

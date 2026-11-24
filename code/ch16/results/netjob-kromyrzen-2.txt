@@ -1,0 +1,19 @@
+# Second run of netjob.ps1 (its scratch directory is now %TEMP%\battery-net-...).
+# S4-Windows, Windows 11 Pro N for Workstations, build 26300 (10.0.26300.9974), over SSH;
+# PowerShell 5.1.26100.9818.
+# The child runs in a job whose network rate control caps outgoing bandwidth at
+# RATE bytes per second (JOB_OBJECT_NET_RATE_CONTROL_ENABLE | MAX_BANDWIDTH),
+# as Gemini CLI sets it with RATE = 1.
+# powershell -ExecutionPolicy Bypass -File netjob.ps1
+== rate 0 bytes/s (no job)
+loopback: 1000000 bytes sent in 12 ms
+dns: 4 addresses in 13 ms
+http: 57-byte request, reply 'HTTP/1.1 200 OK' after 28 ms
+== rate 1 bytes/s
+loopback: 1000000 bytes sent in 12 ms
+dns: 4 addresses in 3 ms
+http: no connection after 19997 ms
+== rate 1000 bytes/s
+loopback: 1000000 bytes sent in 11 ms
+dns: 4 addresses in 3 ms
+http: 57-byte request, reply 'HTTP/1.1 200 OK' after 160 ms

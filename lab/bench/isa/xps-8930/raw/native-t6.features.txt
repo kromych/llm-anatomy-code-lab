@@ -1,0 +1,2 @@
+[native-t6.completion.log] 0.00.582.783 I system_info: n_threads = 6 (n_threads_batch = 6) / 12 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 |
+[native-t6.stderr] build: 61dbf4922 (12376)

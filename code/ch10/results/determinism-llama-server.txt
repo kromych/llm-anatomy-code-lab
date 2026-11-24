@@ -1,0 +1,14 @@
+no seed
+  repeated           536 tokens, checksum 3fc1cfcc, 20 prompt tokens cached
+  repeated           536 tokens, checksum 3fc1cfcc, 20 prompt tokens cached
+  repeated           536 tokens, checksum 3fc1cfcc, 20 prompt tokens cached
+  after another one  536 tokens, checksum 3fc1cfcc, 3 prompt tokens cached
+  after another one  536 tokens, checksum 3fc1cfcc, 3 prompt tokens cached
+  after another one  536 tokens, checksum 3fc1cfcc, 3 prompt tokens cached
+seed 7
+  repeated           536 tokens, checksum 3fc1cfcc, 20 prompt tokens cached
+  repeated           536 tokens, checksum 3fc1cfcc, 20 prompt tokens cached
+  repeated           536 tokens, checksum 3fc1cfcc, 20 prompt tokens cached
+  after another one  536 tokens, checksum 3fc1cfcc, 3 prompt tokens cached
+  after another one  536 tokens, checksum 3fc1cfcc, 3 prompt tokens cached
+  after another one  536 tokens, checksum 3fc1cfcc, 3 prompt tokens cached

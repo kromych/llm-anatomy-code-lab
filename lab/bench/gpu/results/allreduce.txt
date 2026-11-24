@@ -1,0 +1,40 @@
+## CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node 2 bin/allreduce.py
+torch 2.13.0+cu129 nccl 2.29.7 gpus 2 visible 0,1
+       bytes    p10 us median us    p90 us      GB/s
+       16384      30.2      54.7      73.8      0.30
+     1048576      38.6      39.4      48.9     26.60
+     8388608      81.3      82.6      94.7    101.52
+    67108864     388.1     394.0     408.1    170.31
+
+## CUDA_VISIBLE_DEVICES=0,2 torchrun --nproc_per_node 2 bin/allreduce.py
+torch 2.13.0+cu129 nccl 2.29.7 gpus 2 visible 0,2
+       bytes    p10 us median us    p90 us      GB/s
+       16384      74.5      77.1      96.9      0.21
+     1048576     106.5     108.0     111.2      9.71
+     8388608     340.5     345.9     351.7     24.25
+    67108864    2262.5    2278.7    2291.7     29.45
+
+## CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node 4 bin/allreduce.py
+torch 2.13.0+cu129 nccl 2.29.7 gpus 4 visible 0,1,2,3
+       bytes    p10 us median us    p90 us      GB/s
+       16384      87.3      90.3     108.4      0.18
+     1048576     155.1     157.2     166.3      6.67
+     8388608     416.4     437.7     457.2     19.17
+    67108864    2956.0    2979.3    3004.4     22.52
+
+## CUDA_VISIBLE_DEVICES=0,2,4,6 torchrun --nproc_per_node 4 bin/allreduce.py
+torch 2.13.0+cu129 nccl 2.29.7 gpus 4 visible 0,2,4,6
+       bytes    p10 us median us    p90 us      GB/s
+       16384      86.2      89.7     108.3      0.18
+     1048576     154.9     157.7     165.8      6.65
+     8388608     534.1     547.1     560.7     15.33
+    67108864    3715.5    3738.9    3756.7     17.95
+
+## CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 torchrun --nproc_per_node 8 bin/allreduce.py
+torch 2.13.0+cu129 nccl 2.29.7 gpus 8 visible 0,1,2,3,4,5,6,7
+       bytes    p10 us median us    p90 us      GB/s
+       16384      50.2      53.5      63.2      0.31
+     1048576     151.8     154.4     162.3      6.79
+     8388608     527.1     544.3     559.6     15.41
+    67108864    4083.7    4129.6    4171.0     16.25
+

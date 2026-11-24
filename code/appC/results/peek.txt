@@ -1,0 +1,36 @@
+## A server on port 8097, its listening socket, one request with curl,
+## peek.py against that server, and the server stopped: the session of
+## two listings of Appendix C, run in the directory of peek.py. A line
+## that begins with "$ " is a command (a line after it may continue the
+## command); the other lines are output.
+## S3-macOS; llama.cpp build 12359 (Homebrew, commit b1b770d90); python3
+## is Python 3.15.2; gemma-3-1b-it-Q4_K_M.gguf was in the Hugging Face
+## hub cache. Run once, by a script that waited for /health to answer
+## with status 200 before the lsof command. The process identifier and
+## the time stamp in the last line differ from run to run.
+$ llama-server -hf ggml-org/gemma-3-1b-it-GGUF --port 8097 \
+      > server.log 2>&1 &
+$ lsof -nP -iTCP:8097 -sTCP:LISTEN | awk '{print $1, $2, $9, $10}'
+COMMAND PID NAME 
+llama-ser 1760 127.0.0.1:8097 (LISTEN)
+$ curl -s 127.0.0.1:8097/v1/chat/completions \
+      -H 'Content-Type: application/json' \
+      -d '{"messages": [{"role": "user",
+                         "content": "Name one prime number."}],
+           "max_tokens": 32}' |
+    python3 -c 'import json, sys
+print(json.load(sys.stdin)["choices"][0]["message"]["content"])'
+2
+
+There are 2 prime numbers: 2 and 3.
+$ G=~/.cache/huggingface/hub/models--ggml-org--gemma-3-1b-it-GGUF
+$ python3 peek.py $G/snapshots/*/gemma-3-1b-it-Q4_K_M.gguf 8097
+{'magic': 'GGUF', 'version': 3, 'tensors': 340, 'metadata': 38}
+2
+
+There is only one prime number: 2. 
+
+A prime number is a number greater than 1 that has only two divisors: 1
+$ kill $(lsof -t -iTCP:8097 -sTCP:LISTEN)
+$ tail -n 1 server.log | cut -c1-72
+0.03.720.664 I srv    operator(): operator(): cleaning up before exit...

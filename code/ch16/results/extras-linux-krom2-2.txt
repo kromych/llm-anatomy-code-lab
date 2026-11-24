@@ -1,0 +1,9 @@
+# Checks beside the battery, in the session of linux-krom2-2.txt (S2-LinuxArm64),
+# after the timed starts.
+== /usr/bin/python3 timeit.py 20 /usr/bin/python3 -c pass   (the interpreter alone)
+   median of 20 starts: 13.8 ms
+== sysctl user.max_user_namespaces
+   user.max_user_namespaces = 15200
+== landlock ABI (landlock_create_ruleset with flag 1)
+   10
+# load averages after: 0.20 0.12 0.15

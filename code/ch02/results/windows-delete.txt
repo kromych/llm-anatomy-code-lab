@@ -1,0 +1,91 @@
+## The commands of the cmd.exe session below, from a batch file with echo on
+## and "prompt $G$S", in a directory with two copies of
+## gemma-3-1b-it-Q4_K_M.gguf (ggml-org/gemma-3-1b-it-GGUF) as model.gguf and
+## other.gguf, and llama-server's directory first on PATH.
+## llama-server 1.0.0-dev (build 12359, commit b1b770d90), the CPU archive, on
+## S4-Windows (Windows 11, build 10.0.26300.10075, NTFS), over SSH. The server
+## runs with its default --load-mode auto, which maps the file. mapped.ps1
+## (lab/hosts/kromyrzen/run/mapped.ps1) lists the data mappings of a process;
+## 14024 is the server's process identifier. Not shown: a wait for /health
+## after the start, and Stop-Process at the end.
+## The session ran three times, the first without the mapped.ps1 lines and
+## the second with a pattern that hid the sections without a name; del and
+## move printed the same in all three, and both requests were answered.
+
+> llama-server --version 
+version: 1.0.0-dev (build 12359, commit b1b770d90)
+built with Clang 20.1.8 for Windows x86_64
+
+> dir /-c *.gguf   | findstr gguf 
+11/13/2026  10:33 PM         806058240 model.gguf
+11/13/2026  10:33 PM         806058240 other.gguf
+
+> fsutil file queryfileid model.gguf 
+File ID is 0x0000000000000000014b000000000ae1
+
+> fsutil file queryfileid other.gguf 
+File ID is 0x00000000000000000084000000045663
+
+> start /b llama-server -m model.gguf --host 127.0.0.1 --port 8080  1>server.log 2>&1 
+
+> curl.exe -s http://127.0.0.1:8080/completion -d "{\"prompt\":\"Hello\",\"n_predict\":8}" 
+{"index":0,"content":",\n\nI'm looking for a","tokens":[],"id_slot":0,"stop":true,"model":"model.gguf","tokens_predicted":8,"tokens_evaluated":2,"generation_settings":{"seed":4294967295,"temperature":0.800000011920929,"dynatemp_range":0.0,"dynatemp_exponent":1.0,"top_k":40,"top_p":0.949999988079071,"min_p":0.05000000074505806,"top_n_sigma":-1.0,"xtc_probability":0.0,"xtc_threshold":0.10000000149011612,"typical_p":1.0,"repeat_last_n":64,"repeat_penalty":1.0,"presence_penalty":0.0,"frequency_penalty":0.0,"dry_multiplier":0.0,"dry_base":1.75,"dry_allowed_length":2,"dry_penalty_last_n":64,"dry_sequence_breakers":["\n",":","\"","*"],"mirostat":0,"mirostat_tau":5.0,"mirostat_eta":0.10000000149011612,"adaptive_target":-1.0,"adaptive_decay":0.8999999761581421,"stop":[],"max_tokens":8,"n_predict":8,"n_keep":0,"n_discard":0,"ignore_eos":false,"stream":false,"logit_bias":[],"n_probs":0,"min_keep":0,"grammar":"","grammar_lazy":false,"grammar_triggers":[],"preserved_tokens":[],"chat_format":"Content-only","reasoning_format":"deepseek","reasoning_in_content":false,"generation_prompt":"","samplers":["penalties","dry","top_n_sigma","top_k","typ_p","top_p","min_p","xtc","temperature"],"speculative.types":"none","timings_per_token":false,"post_sampling_probs":false,"backend_sampling":false,"lora":[]},"prompt":"<bos>Hello","has_new_line":true,"truncated":false,"stop_type":"limit","stopping_word":"","tokens_cached":9,"timings":{"cache_n":0,"prompt_n":2,"prompt_ms":40.857,"prompt_per_token_ms":20.4285,"prompt_per_second":48.95122010916122,"predicted_n":8,"predicted_ms":248.393,"predicted_per_token_ms":35.48471428571428,"predicted_per_second":28.181148422056978}}
+
+> powershell -ExecutionPolicy Bypass -File mapped.ps1 14024 "gguf|no name" 
+        8192 bytes  (no name)
+      237568 bytes  (no name)
+       16384 bytes  (no name)
+        4096 bytes  (no name)
+       81920 bytes  (no name)
+       81920 bytes  (no name)
+       36864 bytes  (no name)
+       57344 bytes  (no name)
+        4096 bytes  (no name)
+        4096 bytes  (no name)
+        4096 bytes  (no name)
+        4096 bytes  (no name)
+        4096 bytes  (no name)
+        4096 bytes  (no name)
+        4096 bytes  (no name)
+        4096 bytes  (no name)
+   806060032 bytes  \Device\HarddiskVolume3\Users\labuser\AppData\Local\Temp\scratch\ch02\model.gguf
+     1048576 bytes  (no name)
+        4096 bytes  (no name)
+
+> del model.gguf 
+
+> dir /-c *.gguf   | findstr gguf 
+11/13/2026  10:33 PM         806058240 other.gguf
+
+> move other.gguf model.gguf 
+        1 file(s) moved.
+
+> dir /-c *.gguf   | findstr gguf 
+11/13/2026  10:33 PM         806058240 model.gguf
+
+> fsutil file queryfileid model.gguf 
+File ID is 0x00000000000000000084000000045663
+
+> powershell -ExecutionPolicy Bypass -File mapped.ps1 14024 "gguf|no name" 
+        8192 bytes  (no name)
+      237568 bytes  (no name)
+       16384 bytes  (no name)
+        4096 bytes  (no name)
+       81920 bytes  (no name)
+       81920 bytes  (no name)
+       36864 bytes  (no name)
+       57344 bytes  (no name)
+        4096 bytes  (no name)
+        4096 bytes  (no name)
+        4096 bytes  (no name)
+        4096 bytes  (no name)
+        4096 bytes  (no name)
+        4096 bytes  (no name)
+        4096 bytes  (no name)
+        4096 bytes  (no name)
+   806060032 bytes  (no name)
+     1048576 bytes  (no name)
+        4096 bytes  (no name)
+
+> curl.exe -s http://127.0.0.1:8080/completion -d "{\"prompt\":\"Hello\",\"n_predict\":8}" 
+{"index":0,"content":",\n\nI'm having trouble with","tokens":[],"id_slot":0,"stop":true,"model":"model.gguf","tokens_predicted":8,"tokens_evaluated":2,"generation_settings":{"seed":4294967295,"temperature":0.800000011920929,"dynatemp_range":0.0,"dynatemp_exponent":1.0,"top_k":40,"top_p":0.949999988079071,"min_p":0.05000000074505806,"top_n_sigma":-1.0,"xtc_probability":0.0,"xtc_threshold":0.10000000149011612,"typical_p":1.0,"repeat_last_n":64,"repeat_penalty":1.0,"presence_penalty":0.0,"frequency_penalty":0.0,"dry_multiplier":0.0,"dry_base":1.75,"dry_allowed_length":2,"dry_penalty_last_n":64,"dry_sequence_breakers":["\n",":","\"","*"],"mirostat":0,"mirostat_tau":5.0,"mirostat_eta":0.10000000149011612,"adaptive_target":-1.0,"adaptive_decay":0.8999999761581421,"stop":[],"max_tokens":8,"n_predict":8,"n_keep":0,"n_discard":0,"ignore_eos":false,"stream":false,"logit_bias":[],"n_probs":0,"min_keep":0,"grammar":"","grammar_lazy":false,"grammar_triggers":[],"preserved_tokens":[],"chat_format":"Content-only","reasoning_format":"deepseek","reasoning_in_content":false,"generation_prompt":"","samplers":["penalties","dry","top_n_sigma","top_k","typ_p","top_p","min_p","xtc","temperature"],"speculative.types":"none","timings_per_token":false,"post_sampling_probs":false,"backend_sampling":false,"lora":[]},"prompt":"<bos>Hello","has_new_line":true,"truncated":false,"stop_type":"limit","stopping_word":"","tokens_cached":9,"timings":{"cache_n":0,"prompt_n":2,"prompt_ms":40.761,"prompt_per_token_ms":20.3805,"prompt_per_second":49.06650965383577,"predicted_n":8,"predicted_ms":244.791,"predicted_per_token_ms":34.970142857142854,"predicted_per_second":28.595822558835902}}

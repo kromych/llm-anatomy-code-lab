@@ -1,0 +1,6 @@
+## python3 to_messages.py
+system: Use the tools to answer.
+{"role": "user", "content": "Weather in Oslo and Lima?"}
+{"role": "assistant", "content": [{"type": "text", "text": "I will look."}, {"type": "tool_use", "id": "c1", "name": "get_weather", "input": {"city": "Oslo"}}, {"type": "tool_use", "id": "c2", "name": "get_weather", "input": {"city": "Lima"}}]}
+{"role": "user", "content": [{"type": "tool_result", "tool_use_id": "c1", "content": "cloudy"}, {"type": "tool_result", "tool_use_id": "c2", "content": "sunny"}]}
+{"role": "assistant", "content": [{"type": "text", "text": "Cloudy and sunny."}]}

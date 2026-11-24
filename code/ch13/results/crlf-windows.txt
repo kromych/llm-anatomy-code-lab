@@ -1,0 +1,9 @@
+## What a client reads from the standard output of a Python child process
+## on Windows: one line of JSON written with print(), read from a pipe.
+## Python 3.13.12 on S4-Windows (Windows 11, build 10.0.26300.10075), in
+## cmd.exe over SSH; the command is one line.
+> python --version
+Python 3.13.12
+
+> python -c "import subprocess, sys; p = subprocess.Popen([sys.executable, '-c', 'print(\'{\"jsonrpc\": \"2.0\", \"id\": 1}\')'], stdout=subprocess.PIPE); print(repr(p.stdout.readline()))"
+b'{"jsonrpc": "2.0", "id": 1}\r\n'

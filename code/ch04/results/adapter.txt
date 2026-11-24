@@ -1,0 +1,84 @@
+## python3 adapter/train_lora.py MODEL_DIR ADAPTER_DIR
+## S3-macOS, on the CPU; Python 3.14, torch 2.15.0, transformers 5.23.0,
+## peft 0.21.3. MODEL_DIR holds the files of HuggingFaceTB/SmolLM2-135M.
+before: 1 of 8 held out are right; France:' the capital of the'
+460800 numbers to train, 134975808 in all
+epoch  1: mean loss 1.181
+epoch  2: mean loss 0.726
+epoch  3: mean loss 0.688
+epoch  4: mean loss 0.674
+epoch  5: mean loss 0.671
+17 s
+after:  8 of 8 held out are right; France:' Paris. Paris is'
+
+## python3 adapter/lora2gguf.py ADAPTER_DIR capitals.gguf
+120 tensors, rank 8, alpha 16: capitals.gguf
+## adapter_model.safetensors 1858776 bytes, capitals.gguf 1851392 bytes
+## python3 ../ch02/scripts/ggufread.py capitals.gguf   (first lines)
+general.architecture                     'llama'
+general.type                             'adapter'
+adapter.type                             'lora'
+adapter.lora.alpha                       '16.0'
+120 tensors; data section starts at byte 8192
+blk.0.attn_q.weight.lora_a [576, 8]        F32         8192
+blk.0.attn_q.weight.lora_b [8, 576]        F32        26624
+blk.0.attn_v.weight.lora_a [576, 8]        F32        45056
+blk.0.attn_v.weight.lora_b [8, 192]        F32        63488
+
+## llama-server -m SmolLM2-135M.Q8_0.gguf --lora capitals.gguf --port 8105
+## (build 12359; the Q8_0 file of QuantFactory/SmolLM2-135M-GGUF)
+## python3 adapter/adapter.py MODEL_DIR ADAPTER_DIR http://127.0.0.1:8105
+60 matrices adapted, scale 2; tokens [504, 3575, 282, 4649, 314]
+  without the adapter  ' the' 0.262  ' Paris' 0.094  ' located' 0.073
+  with the adapter     ' Paris' 0.981  ' France' 0.003  ' Mar' 0.003
+  llama-server, --lora  ' Paris' 0.981  'Paris' 0.004  ' Mar' 0.003
+Q4_0 and the adapter, on all 48 countries:
+  no quantization         divergence 0.0000  right 48  mean p 0.979
+  merged, then quantized  divergence 0.0443  right 48  mean p 0.930
+  quantized, then added   divergence 0.0350  right 48  mean p 0.938
+  quantized, no adapter   divergence 4.4805  right  0  mean p 0.017
+
+## POST /completion with the tokens of the prompt, six tokens, greedy:
+## as started; with "lora": [{"id": 0, "scale": 0.5}]; with scale 0.0
+' Paris. Paris is the largest'
+' Paris.\n\nThe capital'
+' the capital of the country.'
+
+## the scale of the adapter in a request: the probability of the first token
+## and six tokens, greedy, with "lora": [{"id": 0, "scale": S}]
+scale 0.0   0.248 ' the capital of the country.'
+scale 0.125 0.304 ' Paris.\n\nThe capital'
+scale 0.25  0.646 ' Paris.\n\nThe capital'
+scale 0.5   0.940 ' Paris.\n\nThe capital'
+scale 1.0   0.981 ' Paris. Paris is the largest'
+scale 2.0   0.905 ' Paris. Paris is the capital'
+
+## python3 adapter/train_lora.py MODEL_DIR ADAPTER_DIR 1   (rank 1)
+before: 1 of 8 held out are right; France:' the capital of the'
+57600 numbers to train, 134572608 in all
+epoch  1: mean loss 1.861
+epoch  2: mean loss 0.753
+epoch  3: mean loss 0.704
+epoch  4: mean loss 0.685
+epoch  5: mean loss 0.681
+16 s
+after:  8 of 8 held out are right; France:' Paris.\n\n'
+
+## python3 adapter/train_lora.py MODEL_DIR ADAPTER_DIR 32   (rank 32)
+before: 1 of 8 held out are right; France:' the capital of the'
+1843200 numbers to train, 136358208 in all
+epoch  1: mean loss 1.012
+epoch  2: mean loss 0.727
+epoch  3: mean loss 0.688
+epoch  4: mean loss 0.679
+epoch  5: mean loss 0.675
+19 s
+after:  8 of 8 held out are right; France:' Paris.\n\n'
+
+## Without dtype=torch.float32 in train_lora.py, transformers 5.23.0 loads
+## the model in the bfloat16 of its file and computes in that type. The
+## five passes then took 141 s (mean loss 1.168 at first, 0.671 at last),
+## and the line "before" read France:' the city of Paris'. After the
+## prompt and ' the', the logits of ' city' (token 2240) and ' capital'
+## (token 3575) are 10.722 and 10.892 in float32; in bfloat16 both are
+## 10.8125, and argmax returns the lower token.

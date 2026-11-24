@@ -1,0 +1,118 @@
+# ggml-org/stories15M_MOE at commit b6dd737497465570b5f5e962dbc9d9454ed1e0eb, read over HTTP Range
+$ python3 scripts/ggufread.py hf:ggml-org/stories15M_MOE/moe_shakespeare15M.gguf
+general.architecture                     'llama'
+general.type                             'adapter'
+adapter.type                             'lora'
+general.base_model.count                 '1'
+general.base_model.0.name                'content/stories15M_MOE'
+general.base_model.0.repo_url            'https://huggingface.co//content/'
+adapter.lora.alpha                       '128.0'
+llama.block_count                        '6'
+llama.context_length                     '256'
+llama.embedding_length                   '288'
+llama.feed_forward_length                '768'
+llama.attention.head_count               '6'
+llama.attention.head_count_kv            '6'
+llama.rope.freq_base                     '1000000.0'
+llama.attention.layer_norm_rms_epsilon   '9.999999747378752e-06'
+llama.expert_count                       '4'
+llama.expert_used_count                  '2'
+general.file_type                        '1'
+llama.vocab_size                         '32000'
+llama.rope.dimension_count               '48'
+tokenizer.ggml.model                     'llama'
+tokenizer.ggml.pre                       'default'
+tokenizer.ggml.tokens                    "[32000 items] ['<unk>', '<s>', '"
+tokenizer.ggml.scores                    '[32000 items] [-1000.0, -1000.0,'
+tokenizer.ggml.token_type                '[32000 items] [3, 3, 3]'
+tokenizer.ggml.bos_token_id              '1'
+tokenizer.ggml.eos_token_id              '2'
+tokenizer.ggml.unknown_token_id          '0'
+general.quantization_version             '2'
+86 tensors; data section starts at byte 730464
+output.weight.lora_a       [288, 64]       F16       730464
+output.weight.lora_b       [64, 32000]     F16       767328
+blk.0.ffn_gate_exps.weight.lora_a [288, 64, 4]    F16      4863328
+blk.0.ffn_gate_exps.weight.lora_b [64, 768, 4]    F16      5010784
+blk.0.ffn_down_exps.weight.lora_a [768, 64, 4]    F16      5404000
+blk.0.ffn_down_exps.weight.lora_b [64, 288, 4]    F16      5797216
+blk.0.ffn_up_exps.weight.lora_a [288, 64, 4]    F16      5944672
+blk.0.ffn_up_exps.weight.lora_b [64, 768, 4]    F16      6092128
+blk.0.attn_k.weight.lora_a [288, 64]       F16      6485344
+blk.0.attn_k.weight.lora_b [64, 288]       F16      6522208
+blk.0.attn_output.weight.lora_a [288, 64]       F16      6559072
+blk.0.attn_output.weight.lora_b [64, 288]       F16      6595936
+blk.0.attn_q.weight.lora_a [288, 64]       F16      6632800
+blk.0.attn_q.weight.lora_b [64, 288]       F16      6669664
+blk.0.attn_v.weight.lora_a [288, 64]       F16      6706528
+blk.0.attn_v.weight.lora_b [64, 288]       F16      6743392
+blk.1.ffn_gate_exps.weight.lora_a [288, 64, 4]    F16      6780256
+blk.1.ffn_gate_exps.weight.lora_b [64, 768, 4]    F16      6927712
+blk.1.ffn_down_exps.weight.lora_a [768, 64, 4]    F16      7320928
+blk.1.ffn_down_exps.weight.lora_b [64, 288, 4]    F16      7714144
+blk.1.ffn_up_exps.weight.lora_a [288, 64, 4]    F16      7861600
+blk.1.ffn_up_exps.weight.lora_b [64, 768, 4]    F16      8009056
+blk.1.attn_k.weight.lora_a [288, 64]       F16      8402272
+blk.1.attn_k.weight.lora_b [64, 288]       F16      8439136
+blk.1.attn_output.weight.lora_a [288, 64]       F16      8476000
+blk.1.attn_output.weight.lora_b [64, 288]       F16      8512864
+blk.1.attn_q.weight.lora_a [288, 64]       F16      8549728
+blk.1.attn_q.weight.lora_b [64, 288]       F16      8586592
+blk.1.attn_v.weight.lora_a [288, 64]       F16      8623456
+blk.1.attn_v.weight.lora_b [64, 288]       F16      8660320
+blk.2.ffn_gate_exps.weight.lora_a [288, 64, 4]    F16      8697184
+blk.2.ffn_gate_exps.weight.lora_b [64, 768, 4]    F16      8844640
+blk.2.ffn_down_exps.weight.lora_a [768, 64, 4]    F16      9237856
+blk.2.ffn_down_exps.weight.lora_b [64, 288, 4]    F16      9631072
+blk.2.ffn_up_exps.weight.lora_a [288, 64, 4]    F16      9778528
+blk.2.ffn_up_exps.weight.lora_b [64, 768, 4]    F16      9925984
+blk.2.attn_k.weight.lora_a [288, 64]       F16     10319200
+blk.2.attn_k.weight.lora_b [64, 288]       F16     10356064
+blk.2.attn_output.weight.lora_a [288, 64]       F16     10392928
+blk.2.attn_output.weight.lora_b [64, 288]       F16     10429792
+blk.2.attn_q.weight.lora_a [288, 64]       F16     10466656
+blk.2.attn_q.weight.lora_b [64, 288]       F16     10503520
+blk.2.attn_v.weight.lora_a [288, 64]       F16     10540384
+blk.2.attn_v.weight.lora_b [64, 288]       F16     10577248
+blk.3.ffn_gate_exps.weight.lora_a [288, 64, 4]    F16     10614112
+blk.3.ffn_gate_exps.weight.lora_b [64, 768, 4]    F16     10761568
+blk.3.ffn_down_exps.weight.lora_a [768, 64, 4]    F16     11154784
+blk.3.ffn_down_exps.weight.lora_b [64, 288, 4]    F16     11548000
+blk.3.ffn_up_exps.weight.lora_a [288, 64, 4]    F16     11695456
+blk.3.ffn_up_exps.weight.lora_b [64, 768, 4]    F16     11842912
+blk.3.attn_k.weight.lora_a [288, 64]       F16     12236128
+blk.3.attn_k.weight.lora_b [64, 288]       F16     12272992
+blk.3.attn_output.weight.lora_a [288, 64]       F16     12309856
+blk.3.attn_output.weight.lora_b [64, 288]       F16     12346720
+blk.3.attn_q.weight.lora_a [288, 64]       F16     12383584
+blk.3.attn_q.weight.lora_b [64, 288]       F16     12420448
+blk.3.attn_v.weight.lora_a [288, 64]       F16     12457312
+blk.3.attn_v.weight.lora_b [64, 288]       F16     12494176
+blk.4.ffn_gate_exps.weight.lora_a [288, 64, 4]    F16     12531040
+blk.4.ffn_gate_exps.weight.lora_b [64, 768, 4]    F16     12678496
+blk.4.ffn_down_exps.weight.lora_a [768, 64, 4]    F16     13071712
+blk.4.ffn_down_exps.weight.lora_b [64, 288, 4]    F16     13464928
+blk.4.ffn_up_exps.weight.lora_a [288, 64, 4]    F16     13612384
+blk.4.ffn_up_exps.weight.lora_b [64, 768, 4]    F16     13759840
+blk.4.attn_k.weight.lora_a [288, 64]       F16     14153056
+blk.4.attn_k.weight.lora_b [64, 288]       F16     14189920
+blk.4.attn_output.weight.lora_a [288, 64]       F16     14226784
+blk.4.attn_output.weight.lora_b [64, 288]       F16     14263648
+blk.4.attn_q.weight.lora_a [288, 64]       F16     14300512
+blk.4.attn_q.weight.lora_b [64, 288]       F16     14337376
+blk.4.attn_v.weight.lora_a [288, 64]       F16     14374240
+blk.4.attn_v.weight.lora_b [64, 288]       F16     14411104
+blk.5.ffn_gate_exps.weight.lora_a [288, 64, 4]    F16     14447968
+blk.5.ffn_gate_exps.weight.lora_b [64, 768, 4]    F16     14595424
+blk.5.ffn_down_exps.weight.lora_a [768, 64, 4]    F16     14988640
+blk.5.ffn_down_exps.weight.lora_b [64, 288, 4]    F16     15381856
+blk.5.ffn_up_exps.weight.lora_a [288, 64, 4]    F16     15529312
+blk.5.ffn_up_exps.weight.lora_b [64, 768, 4]    F16     15676768
+blk.5.attn_k.weight.lora_a [288, 64]       F16     16069984
+blk.5.attn_k.weight.lora_b [64, 288]       F16     16106848
+blk.5.attn_output.weight.lora_a [288, 64]       F16     16143712
+blk.5.attn_output.weight.lora_b [64, 288]       F16     16180576
+blk.5.attn_q.weight.lora_a [288, 64]       F16     16217440
+blk.5.attn_q.weight.lora_b [64, 288]       F16     16254304
+blk.5.attn_v.weight.lora_a [288, 64]       F16     16291168
+blk.5.attn_v.weight.lora_b [64, 288]       F16     16328032

@@ -1,0 +1,8 @@
+[server]
+host = "127.0.0.1"
+port = 9931
+threads = 8
+
+[model]
+path = "models/qwen3-1.7b-q4_k_m.gguf"
+ctx = 16384

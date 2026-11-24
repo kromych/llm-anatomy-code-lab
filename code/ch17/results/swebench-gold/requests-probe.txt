@@ -1,0 +1,65 @@
++ head -2 /etc/os-release
+PRETTY_NAME="Ubuntu 22.04.5 LTS"
+NAME="Ubuntu"
++ python --version
+Python 3.9.20
++ python -c 'import ssl; print(ssl.OPENSSL_VERSION)'
+OpenSSL 3.0.15 3 Sep 2024
++ python -c 'import requests, requests.certs as c; print(requests.__version__, c.where())'
+2.4.3 /testbed/requests/cacert.pem
++ git log -2 '--format=%h %ad %s' --date=short
+ac2af65 2026-08-15 SWE-bench
+091991b 2014-10-26 Merge pull request #2306 from ssadler/fix-failing-test-test_prepare_unicode_url
++ grep -c 'BEGIN CERTIFICATE' requests/cacert.pem
+149
++ grep -c -i 'ISRG\|Internet Security Research' requests/cacert.pem
+0
++ grep -c 'BEGIN CERTIFICATE' /etc/ssl/certs/ca-certificates.crt
+121
++ ls /usr/share/ca-certificates/mozilla
++ grep -i isrg
+ISRG_Root_X1.crt
+ISRG_Root_X2.crt
++ getent ahosts httpbin.org
++ grep STREAM
+44.209.237.184  STREAM httpbin.org
+3.221.253.123   STREAM 
+54.172.45.38    STREAM 
++ cat /proc/sys/net/ipv4/tcp_syn_retries
+6
++ echo
++ openssl s_client -connect httpbin.org:443 -servername httpbin.org
++ sed -n '/Certificate chain/,/---/p'
++ python -
+Certificate chain
+ 0 s:CN = httpbin.hbin02.postmanlabs.com
+   i:C = US, O = Let's Encrypt, CN = YE2
+   a:PKEY: id-ecPublicKey, 256 (bit); sigalg: ecdsa-with-SHA384
+   v:NotBefore: Nov  5 19:21:40 2026 GMT; NotAfter: Feb  3 19:21:39 2027 GMT
+ 1 s:C = US, O = Let's Encrypt, CN = YE2
+   i:C = US, O = ISRG, CN = Root YE
+   a:PKEY: id-ecPublicKey, 384 (bit); sigalg: ecdsa-with-SHA384
+   v:NotBefore: Sep  3 00:00:00 2025 GMT; NotAfter: Sep  2 23:59:59 2028 GMT
+ 2 s:C = US, O = ISRG, CN = Root YE
+   i:C = US, O = Internet Security Research Group, CN = ISRG Root X2
+   a:PKEY: id-ecPublicKey, 384 (bit); sigalg: ecdsa-with-SHA384
+   v:NotBefore: May 13 00:00:00 2026 GMT; NotAfter: Sep  2 23:59:59 2032 GMT
+ 3 s:C = US, O = Internet Security Research Group, CN = ISRG Root X2
+   i:C = US, O = Internet Security Research Group, CN = ISRG Root X1
+   a:PKEY: id-ecPublicKey, 384 (bit); sigalg: RSA-SHA256
+   v:NotBefore: May 13 00:00:00 2026 GMT; NotAfter: Sep  2 23:59:59 2032 GMT
+---
+verify = True -> SSLError [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1147)
+verify = /etc/ssl/certs/ca-certificates.crt -> 200
+redirect-to: 403 []
+Forbidden redirect URL. Please be careful with this link.
+
+Allowed redirect destinations:
+- example.com
+- example.net
+- example.org
+- httpbin.hbin.postmanlabs.com
+- httpbin.org
+- www.httpbin.org
++ python -
+port 1 of 44.209.237.184 -> TimeoutError [Errno 110] Connection timed out after 135.4 s

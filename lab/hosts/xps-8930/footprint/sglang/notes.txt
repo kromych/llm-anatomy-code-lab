@@ -1,0 +1,22 @@
+SGLang on xps-8930, 2026-11-14.
+
+Route: the CPU page of the SGLang docs recommends its Docker images for
+Intel Xeon processors with AMX (tags ending in -xeon); the newest was
+v0.5.23-xeon (2.1 GB compressed, 5.55 GB on disk; SGLang 0.5.23, torch
+2.14.0+cpu, Python 3.12).
+
+  docker pull lmsysorg/sglang:v0.5.23-xeon                       (57 s)
+  docker run --rm -p 30000:30000 -v <empty dir>:/root/.cache/huggingface \
+    lmsysorg/sglang:v0.5.23-xeon \
+    python3 -m sglang.launch_server --model-path Qwen/Qwen3-0.6B --device cpu
+  -> exit status 132 (SIGILL); with python3 -X faulthandler the fault is in
+     sgl_kernel/load_utils.py, _load_architecture_specific_ops, at import
+     time. The i7-8700 has AVX2 only; the x86 CPU kernels are compiled with
+     -march=x86-64-v4 and AVX-512 BF16/VNNI and AMX flags. On aarch64 the
+     same CMakeLists builds with -march=native and leaves out the x86-only
+     operators; we did not build it on krom2 (8 GB RAM, shared machine).
+  docker image rm lmsysorg/sglang:v0.5.23-xeon -> image list as before.
+
+The mount points at an empty directory rather than ~/.cache/huggingface,
+because the container runs as root and would write root-owned files into
+the user's cache. The run went under the badc load lock (exclusive).

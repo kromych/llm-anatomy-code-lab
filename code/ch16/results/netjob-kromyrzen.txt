@@ -1,0 +1,19 @@
+netjob.ps1 on kromyrzen (Windows 11 Pro N for Workstations, build 26300),
+over SSH, 2026-11-14. The child runs in a job whose network rate control
+caps outgoing bandwidth at RATE bytes per second (JOB_OBJECT_NET_RATE_
+CONTROL_ENABLE | MAX_BANDWIDTH), as Gemini CLI sets it with RATE = 1.
+
+== rate 0 bytes/s (no job)
+loopback: 1000000 bytes sent in 34 ms
+dns: 4 addresses in 40 ms
+http: 57-byte request, reply 'HTTP/1.1 200 OK' after 58 ms
+== rate 1 bytes/s
+loopback: 1000000 bytes sent in 43 ms
+dns: 4 addresses in 9 ms
+http: no connection after 20005 ms
+== rate 1000 bytes/s
+loopback: 1000000 bytes sent in 18 ms
+dns: 4 addresses in 4 ms
+http: 57-byte request, reply 'HTTP/1.1 200 OK' after 171 ms
+
+Nothing remained on the machine afterwards.

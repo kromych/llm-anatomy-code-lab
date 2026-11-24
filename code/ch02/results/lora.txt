@@ -1,0 +1,18 @@
+# llama-server 1.0.0 (build 12359) on S3-macOS with the files of
+# ggml-org/stories15M_MOE, started with
+#   llama-server -m stories15M_MOE-F16.gguf --lora moe_shakespeare15M.gguf \
+#     --port 8102 -np 1
+# (the directory is cut from the adapter's path below)
+
+$ curl -s 127.0.0.1:8102/lora-adapters
+[{"id":0,"path":"moe_shakespeare15M.gguf","scale":1.0,"task_name":"","prompt_prefix":""}]
+
+$ curl -s 127.0.0.1:8102/completion -d '{"prompt": "Look in thy glass",
+    "n_predict": 20, "temperature": 0, "lora": [{"id": 0, "scale": 1.0}]}'
+# the field "content" of the reply:
+" in love of the eye:\nThat's when when the eye see thy on the sun'"
+
+$ curl -s 127.0.0.1:8102/completion -d '{"prompt": "Look in thy glass",
+    "n_predict": 20, "temperature": 0, "lora": [{"id": 0, "scale": 0.0}]}'
+# the field "content" of the reply:
+' was a little girl. She was only three years old and she was three years old. She was'

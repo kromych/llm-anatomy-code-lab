@@ -1,0 +1,5 @@
+# krom1u.local macOS-27.2-arm64-arm-64bit-Mach-O page 16384 B, file 0.75 GiB, 2000 random pages, 2026-11-14T06:27:04-0800
+case,n,median_us,p10_us,p90_us
+cold,2000,109.750,99.250,127.084
+warm,2000,1.250,1.041,1.458
+hot,2000,0.208,0.167,0.292

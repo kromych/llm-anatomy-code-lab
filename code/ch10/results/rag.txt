@@ -1,0 +1,56 @@
+## llama-server -hf Qwen/Qwen3-Embedding-0.6B-GGUF:Q8_0 --embeddings --port 8107
+## llama-server -hf ggml-org/Qwen3-1.7B-GGUF:Q4_K_M --port 8108   (build 12359)
+## python3 rag.py http://127.0.0.1:8107/v1 http://127.0.0.1:8108/v1 \
+##     README.md questions.txt
+## README.md is tools/server/README.md of llama.cpp at commit 61dbf4922.
+139849 characters, 16 questions
+passages of at most  passages  first holds answer  one of 3
+     300 characters       783              10              13
+     600 characters       624              10              15
+    1200 characters       559               9              14
+    2400 characters       533               6              14
+ok   Which HTTP status does the health endpoint r -> The health endpoint re
+ok   Which option sets the number of server slots -> The option that sets t
+ok   On which port does the server listen by defa -> The server listens by 
+ok   Which option enables the reranking endpoint? -> The option that enable
+ok   Which option sets a key for authentication? -> The option `--api-key 
+ok   Which option must be given before a POST to  -> --props
+ok   Which server parameter names the directory w -> The server parameter t
+ok   Which option makes the server sleep after a  -> The option that makes 
+ok   Which option sets a custom Jinja chat templa -> The option that sets a
+ok   What is the default read and write timeout o -> The default read and w
+ok   Which endpoint exports metrics that Promethe -> GET `/metrics`: Promet
+ok   Which endpoint returns the list of all LoRA  -> The endpoint that retu
+MISS Which argument sets a custom value for the i -> The argument that sets
+ok   Which endpoint converts tokens to text? -> The endpoint that conv
+ok   Which flag limits the origins from which a p -> The flag that limits t
+ok   Which option restricts the server to the emb -> The option that restri
+without passages   0 of 16 right, 35 prompt tokens a question
+with 3            15 of 16 right, 252 prompt tokens a question
+
+## The question that was missed: the passage with --alias came tenth among
+## the 624, the first three were about the router, and the model answered
+## "The argument that sets a custom value for the id field of the model is --id."
+## (llama-server --help of build 12359 lists --alias and no option --id.)
+
+## the same command with 1 as its fifth argument (the table and the totals)
+passages of at most  passages  first holds answer  one of 1
+     300 characters       783              10              10
+     600 characters       624              10              10
+    1200 characters       559               9               9
+    2400 characters       533               6               6
+without passages   0 of 16 right, 35 prompt tokens a question
+with 1            11 of 16 right, 120 prompt tokens a question
+
+## and with 10
+passages of at most  passages  first holds answer  one of 10
+     300 characters       783              10              16
+     600 characters       624              10              16
+    1200 characters       559               9              16
+    2400 characters       533               6              16
+without passages   0 of 16 right, 35 prompt tokens a question
+with 10           16 of 16 right, 813 prompt tokens a question
+
+## Without passages the model answers in generalities, for example
+## "The default port for a server to listen on is usually port 80 for HTTP
+## and port 443 for HTTPS."

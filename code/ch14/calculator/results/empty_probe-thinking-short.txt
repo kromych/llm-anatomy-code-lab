@@ -1,0 +1,18 @@
+calculator__calculate stop True 0 1097 False 
+calculator__calculate stop True 0 1343 False 
+calculator__calculate stop False 0 1282 False 
+calculator__calculate stop False 0 1202 False 
+calculator__calculate stop False 0 1522 False 
+calculator__calculate stop False 0 1148 False 
+calculator__calculate stop False 0 1772 False 
+calculator__calculate stop True 0 1467 False 
+== calculator__calculate {'call': 3, 'text': 0, 'empty': 5, 'call in thinking': 0}
+calc__calculate stop True 0 1649 False 
+calc__calculate stop True 0 1138 False 
+calc__calculate stop True 0 1359 False 
+calc__calculate stop True 0 1461 False 
+calc__calculate stop True 0 1625 False 
+calc__calculate stop True 0 1313 False 
+calc__calculate stop True 0 1700 False 
+calc__calculate stop True 0 1418 False 
+== calc__calculate {'call': 8, 'text': 0, 'empty': 0, 'call in thinking': 0}

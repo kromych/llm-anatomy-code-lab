@@ -1,0 +1,458 @@
+# ggml-org/gemma-3-4b-it-GGUF at commit d0976223747697cb51e056d85c532013931fe52e, read over HTTP Range
+$ python3 scripts/ggufread.py hf:ggml-org/gemma-3-4b-it-GGUF/mmproj-model-f16.gguf
+general.architecture                     'clip'
+clip.projector_type                      'gemma3'
+clip.has_text_encoder                    'False'
+clip.has_vision_encoder                  'True'
+clip.has_llava_projector                 'False'
+clip.vision.image_size                   '896'
+clip.vision.patch_size                   '14'
+clip.vision.embedding_length             '1152'
+clip.vision.feed_forward_length          '4304'
+clip.vision.projection_dim               '2560'
+clip.vision.block_count                  '27'
+clip.vision.attention.head_count         '16'
+clip.vision.attention.layer_norm_epsilon '9.999999974752427e-07'
+clip.vision.image_mean                   '[3 items] [0.5, 0.5, 0.5]'
+clip.vision.image_std                    '[3 items] [0.5, 0.5, 0.5]'
+clip.use_gelu                            'True'
+439 tensors; data section starts at byte 25056
+mm.input_projection.weight [2560, 1152]    F16        25056
+mm.soft_emb_norm.weight    [1152]          F32      5923296
+v.patch_embd.bias          [1152]          F32      5927904
+v.patch_embd.weight        [14, 14, 3, 1152] F32      5932512
+v.position_embd.weight     [1152, 4096]    F32      8642016
+v.blk.0.ln1.bias           [1152]          F32     27516384
+v.blk.0.ln1.weight         [1152]          F32     27520992
+v.blk.0.ln2.bias           [1152]          F32     27525600
+v.blk.0.ln2.weight         [1152]          F32     27530208
+v.blk.0.ffn_down.bias      [4304]          F32     27534816
+v.blk.0.ffn_down.weight    [1152, 4304]    F16     27552032
+v.blk.0.ffn_up.bias        [1152]          F32     37468448
+v.blk.0.ffn_up.weight      [4304, 1152]    F16     37473056
+v.blk.0.attn_k.bias        [1152]          F32     47389472
+v.blk.0.attn_k.weight      [1152, 1152]    F16     47394080
+v.blk.0.attn_out.bias      [1152]          F32     50048288
+v.blk.0.attn_out.weight    [1152, 1152]    F16     50052896
+v.blk.0.attn_q.bias        [1152]          F32     52707104
+v.blk.0.attn_q.weight      [1152, 1152]    F16     52711712
+v.blk.0.attn_v.bias        [1152]          F32     55365920
+v.blk.0.attn_v.weight      [1152, 1152]    F16     55370528
+v.blk.1.ln1.bias           [1152]          F32     58024736
+v.blk.1.ln1.weight         [1152]          F32     58029344
+v.blk.1.ln2.bias           [1152]          F32     58033952
+v.blk.1.ln2.weight         [1152]          F32     58038560
+v.blk.1.ffn_down.bias      [4304]          F32     58043168
+v.blk.1.ffn_down.weight    [1152, 4304]    F16     58060384
+v.blk.1.ffn_up.bias        [1152]          F32     67976800
+v.blk.1.ffn_up.weight      [4304, 1152]    F16     67981408
+v.blk.1.attn_k.bias        [1152]          F32     77897824
+v.blk.1.attn_k.weight      [1152, 1152]    F16     77902432
+v.blk.1.attn_out.bias      [1152]          F32     80556640
+v.blk.1.attn_out.weight    [1152, 1152]    F16     80561248
+v.blk.1.attn_q.bias        [1152]          F32     83215456
+v.blk.1.attn_q.weight      [1152, 1152]    F16     83220064
+v.blk.1.attn_v.bias        [1152]          F32     85874272
+v.blk.1.attn_v.weight      [1152, 1152]    F16     85878880
+v.blk.10.ln1.bias          [1152]          F32     88533088
+v.blk.10.ln1.weight        [1152]          F32     88537696
+v.blk.10.ln2.bias          [1152]          F32     88542304
+v.blk.10.ln2.weight        [1152]          F32     88546912
+v.blk.10.ffn_down.bias     [4304]          F32     88551520
+v.blk.10.ffn_down.weight   [1152, 4304]    F16     88568736
+v.blk.10.ffn_up.bias       [1152]          F32     98485152
+v.blk.10.ffn_up.weight     [4304, 1152]    F16     98489760
+v.blk.10.attn_k.bias       [1152]          F32    108406176
+v.blk.10.attn_k.weight     [1152, 1152]    F16    108410784
+v.blk.10.attn_out.bias     [1152]          F32    111064992
+v.blk.10.attn_out.weight   [1152, 1152]    F16    111069600
+v.blk.10.attn_q.bias       [1152]          F32    113723808
+v.blk.10.attn_q.weight     [1152, 1152]    F16    113728416
+v.blk.10.attn_v.bias       [1152]          F32    116382624
+v.blk.10.attn_v.weight     [1152, 1152]    F16    116387232
+v.blk.11.ln1.bias          [1152]          F32    119041440
+v.blk.11.ln1.weight        [1152]          F32    119046048
+v.blk.11.ln2.bias          [1152]          F32    119050656
+v.blk.11.ln2.weight        [1152]          F32    119055264
+v.blk.11.ffn_down.bias     [4304]          F32    119059872
+v.blk.11.ffn_down.weight   [1152, 4304]    F16    119077088
+v.blk.11.ffn_up.bias       [1152]          F32    128993504
+v.blk.11.ffn_up.weight     [4304, 1152]    F16    128998112
+v.blk.11.attn_k.bias       [1152]          F32    138914528
+v.blk.11.attn_k.weight     [1152, 1152]    F16    138919136
+v.blk.11.attn_out.bias     [1152]          F32    141573344
+v.blk.11.attn_out.weight   [1152, 1152]    F16    141577952
+v.blk.11.attn_q.bias       [1152]          F32    144232160
+v.blk.11.attn_q.weight     [1152, 1152]    F16    144236768
+v.blk.11.attn_v.bias       [1152]          F32    146890976
+v.blk.11.attn_v.weight     [1152, 1152]    F16    146895584
+v.blk.12.ln1.bias          [1152]          F32    149549792
+v.blk.12.ln1.weight        [1152]          F32    149554400
+v.blk.12.ln2.bias          [1152]          F32    149559008
+v.blk.12.ln2.weight        [1152]          F32    149563616
+v.blk.12.ffn_down.bias     [4304]          F32    149568224
+v.blk.12.ffn_down.weight   [1152, 4304]    F16    149585440
+v.blk.12.ffn_up.bias       [1152]          F32    159501856
+v.blk.12.ffn_up.weight     [4304, 1152]    F16    159506464
+v.blk.12.attn_k.bias       [1152]          F32    169422880
+v.blk.12.attn_k.weight     [1152, 1152]    F16    169427488
+v.blk.12.attn_out.bias     [1152]          F32    172081696
+v.blk.12.attn_out.weight   [1152, 1152]    F16    172086304
+v.blk.12.attn_q.bias       [1152]          F32    174740512
+v.blk.12.attn_q.weight     [1152, 1152]    F16    174745120
+v.blk.12.attn_v.bias       [1152]          F32    177399328
+v.blk.12.attn_v.weight     [1152, 1152]    F16    177403936
+v.blk.13.ln1.bias          [1152]          F32    180058144
+v.blk.13.ln1.weight        [1152]          F32    180062752
+v.blk.13.ln2.bias          [1152]          F32    180067360
+v.blk.13.ln2.weight        [1152]          F32    180071968
+v.blk.13.ffn_down.bias     [4304]          F32    180076576
+v.blk.13.ffn_down.weight   [1152, 4304]    F16    180093792
+v.blk.13.ffn_up.bias       [1152]          F32    190010208
+v.blk.13.ffn_up.weight     [4304, 1152]    F16    190014816
+v.blk.13.attn_k.bias       [1152]          F32    199931232
+v.blk.13.attn_k.weight     [1152, 1152]    F16    199935840
+v.blk.13.attn_out.bias     [1152]          F32    202590048
+v.blk.13.attn_out.weight   [1152, 1152]    F16    202594656
+v.blk.13.attn_q.bias       [1152]          F32    205248864
+v.blk.13.attn_q.weight     [1152, 1152]    F16    205253472
+v.blk.13.attn_v.bias       [1152]          F32    207907680
+v.blk.13.attn_v.weight     [1152, 1152]    F16    207912288
+v.blk.14.ln1.bias          [1152]          F32    210566496
+v.blk.14.ln1.weight        [1152]          F32    210571104
+v.blk.14.ln2.bias          [1152]          F32    210575712
+v.blk.14.ln2.weight        [1152]          F32    210580320
+v.blk.14.ffn_down.bias     [4304]          F32    210584928
+v.blk.14.ffn_down.weight   [1152, 4304]    F16    210602144
+v.blk.14.ffn_up.bias       [1152]          F32    220518560
+v.blk.14.ffn_up.weight     [4304, 1152]    F16    220523168
+v.blk.14.attn_k.bias       [1152]          F32    230439584
+v.blk.14.attn_k.weight     [1152, 1152]    F16    230444192
+v.blk.14.attn_out.bias     [1152]          F32    233098400
+v.blk.14.attn_out.weight   [1152, 1152]    F16    233103008
+v.blk.14.attn_q.bias       [1152]          F32    235757216
+v.blk.14.attn_q.weight     [1152, 1152]    F16    235761824
+v.blk.14.attn_v.bias       [1152]          F32    238416032
+v.blk.14.attn_v.weight     [1152, 1152]    F16    238420640
+v.blk.15.ln1.bias          [1152]          F32    241074848
+v.blk.15.ln1.weight        [1152]          F32    241079456
+v.blk.15.ln2.bias          [1152]          F32    241084064
+v.blk.15.ln2.weight        [1152]          F32    241088672
+v.blk.15.ffn_down.bias     [4304]          F32    241093280
+v.blk.15.ffn_down.weight   [1152, 4304]    F16    241110496
+v.blk.15.ffn_up.bias       [1152]          F32    251026912
+v.blk.15.ffn_up.weight     [4304, 1152]    F16    251031520
+v.blk.15.attn_k.bias       [1152]          F32    260947936
+v.blk.15.attn_k.weight     [1152, 1152]    F16    260952544
+v.blk.15.attn_out.bias     [1152]          F32    263606752
+v.blk.15.attn_out.weight   [1152, 1152]    F16    263611360
+v.blk.15.attn_q.bias       [1152]          F32    266265568
+v.blk.15.attn_q.weight     [1152, 1152]    F16    266270176
+v.blk.15.attn_v.bias       [1152]          F32    268924384
+v.blk.15.attn_v.weight     [1152, 1152]    F16    268928992
+v.blk.16.ln1.bias          [1152]          F32    271583200
+v.blk.16.ln1.weight        [1152]          F32    271587808
+v.blk.16.ln2.bias          [1152]          F32    271592416
+v.blk.16.ln2.weight        [1152]          F32    271597024
+v.blk.16.ffn_down.bias     [4304]          F32    271601632
+v.blk.16.ffn_down.weight   [1152, 4304]    F16    271618848
+v.blk.16.ffn_up.bias       [1152]          F32    281535264
+v.blk.16.ffn_up.weight     [4304, 1152]    F16    281539872
+v.blk.16.attn_k.bias       [1152]          F32    291456288
+v.blk.16.attn_k.weight     [1152, 1152]    F16    291460896
+v.blk.16.attn_out.bias     [1152]          F32    294115104
+v.blk.16.attn_out.weight   [1152, 1152]    F16    294119712
+v.blk.16.attn_q.bias       [1152]          F32    296773920
+v.blk.16.attn_q.weight     [1152, 1152]    F16    296778528
+v.blk.16.attn_v.bias       [1152]          F32    299432736
+v.blk.16.attn_v.weight     [1152, 1152]    F16    299437344
+v.blk.17.ln1.bias          [1152]          F32    302091552
+v.blk.17.ln1.weight        [1152]          F32    302096160
+v.blk.17.ln2.bias          [1152]          F32    302100768
+v.blk.17.ln2.weight        [1152]          F32    302105376
+v.blk.17.ffn_down.bias     [4304]          F32    302109984
+v.blk.17.ffn_down.weight   [1152, 4304]    F16    302127200
+v.blk.17.ffn_up.bias       [1152]          F32    312043616
+v.blk.17.ffn_up.weight     [4304, 1152]    F16    312048224
+v.blk.17.attn_k.bias       [1152]          F32    321964640
+v.blk.17.attn_k.weight     [1152, 1152]    F16    321969248
+v.blk.17.attn_out.bias     [1152]          F32    324623456
+v.blk.17.attn_out.weight   [1152, 1152]    F16    324628064
+v.blk.17.attn_q.bias       [1152]          F32    327282272
+v.blk.17.attn_q.weight     [1152, 1152]    F16    327286880
+v.blk.17.attn_v.bias       [1152]          F32    329941088
+v.blk.17.attn_v.weight     [1152, 1152]    F16    329945696
+v.blk.18.ln1.bias          [1152]          F32    332599904
+v.blk.18.ln1.weight        [1152]          F32    332604512
+v.blk.18.ln2.bias          [1152]          F32    332609120
+v.blk.18.ln2.weight        [1152]          F32    332613728
+v.blk.18.ffn_down.bias     [4304]          F32    332618336
+v.blk.18.ffn_down.weight   [1152, 4304]    F16    332635552
+v.blk.18.ffn_up.bias       [1152]          F32    342551968
+v.blk.18.ffn_up.weight     [4304, 1152]    F16    342556576
+v.blk.18.attn_k.bias       [1152]          F32    352472992
+v.blk.18.attn_k.weight     [1152, 1152]    F16    352477600
+v.blk.18.attn_out.bias     [1152]          F32    355131808
+v.blk.18.attn_out.weight   [1152, 1152]    F16    355136416
+v.blk.18.attn_q.bias       [1152]          F32    357790624
+v.blk.18.attn_q.weight     [1152, 1152]    F16    357795232
+v.blk.18.attn_v.bias       [1152]          F32    360449440
+v.blk.18.attn_v.weight     [1152, 1152]    F16    360454048
+v.blk.19.ln1.bias          [1152]          F32    363108256
+v.blk.19.ln1.weight        [1152]          F32    363112864
+v.blk.19.ln2.bias          [1152]          F32    363117472
+v.blk.19.ln2.weight        [1152]          F32    363122080
+v.blk.19.ffn_down.bias     [4304]          F32    363126688
+v.blk.19.ffn_down.weight   [1152, 4304]    F16    363143904
+v.blk.19.ffn_up.bias       [1152]          F32    373060320
+v.blk.19.ffn_up.weight     [4304, 1152]    F16    373064928
+v.blk.19.attn_k.bias       [1152]          F32    382981344
+v.blk.19.attn_k.weight     [1152, 1152]    F16    382985952
+v.blk.19.attn_out.bias     [1152]          F32    385640160
+v.blk.19.attn_out.weight   [1152, 1152]    F16    385644768
+v.blk.19.attn_q.bias       [1152]          F32    388298976
+v.blk.19.attn_q.weight     [1152, 1152]    F16    388303584
+v.blk.19.attn_v.bias       [1152]          F32    390957792
+v.blk.19.attn_v.weight     [1152, 1152]    F16    390962400
+v.blk.2.ln1.bias           [1152]          F32    393616608
+v.blk.2.ln1.weight         [1152]          F32    393621216
+v.blk.2.ln2.bias           [1152]          F32    393625824
+v.blk.2.ln2.weight         [1152]          F32    393630432
+v.blk.2.ffn_down.bias      [4304]          F32    393635040
+v.blk.2.ffn_down.weight    [1152, 4304]    F16    393652256
+v.blk.2.ffn_up.bias        [1152]          F32    403568672
+v.blk.2.ffn_up.weight      [4304, 1152]    F16    403573280
+v.blk.2.attn_k.bias        [1152]          F32    413489696
+v.blk.2.attn_k.weight      [1152, 1152]    F16    413494304
+v.blk.2.attn_out.bias      [1152]          F32    416148512
+v.blk.2.attn_out.weight    [1152, 1152]    F16    416153120
+v.blk.2.attn_q.bias        [1152]          F32    418807328
+v.blk.2.attn_q.weight      [1152, 1152]    F16    418811936
+v.blk.2.attn_v.bias        [1152]          F32    421466144
+v.blk.2.attn_v.weight      [1152, 1152]    F16    421470752
+v.blk.20.ln1.bias          [1152]          F32    424124960
+v.blk.20.ln1.weight        [1152]          F32    424129568
+v.blk.20.ln2.bias          [1152]          F32    424134176
+v.blk.20.ln2.weight        [1152]          F32    424138784
+v.blk.20.ffn_down.bias     [4304]          F32    424143392
+v.blk.20.ffn_down.weight   [1152, 4304]    F16    424160608
+v.blk.20.ffn_up.bias       [1152]          F32    434077024
+v.blk.20.ffn_up.weight     [4304, 1152]    F16    434081632
+v.blk.20.attn_k.bias       [1152]          F32    443998048
+v.blk.20.attn_k.weight     [1152, 1152]    F16    444002656
+v.blk.20.attn_out.bias     [1152]          F32    446656864
+v.blk.20.attn_out.weight   [1152, 1152]    F16    446661472
+v.blk.20.attn_q.bias       [1152]          F32    449315680
+v.blk.20.attn_q.weight     [1152, 1152]    F16    449320288
+v.blk.20.attn_v.bias       [1152]          F32    451974496
+v.blk.20.attn_v.weight     [1152, 1152]    F16    451979104
+v.blk.21.ln1.bias          [1152]          F32    454633312
+v.blk.21.ln1.weight        [1152]          F32    454637920
+v.blk.21.ln2.bias          [1152]          F32    454642528
+v.blk.21.ln2.weight        [1152]          F32    454647136
+v.blk.21.ffn_down.bias     [4304]          F32    454651744
+v.blk.21.ffn_down.weight   [1152, 4304]    F16    454668960
+v.blk.21.ffn_up.bias       [1152]          F32    464585376
+v.blk.21.ffn_up.weight     [4304, 1152]    F16    464589984
+v.blk.21.attn_k.bias       [1152]          F32    474506400
+v.blk.21.attn_k.weight     [1152, 1152]    F16    474511008
+v.blk.21.attn_out.bias     [1152]          F32    477165216
+v.blk.21.attn_out.weight   [1152, 1152]    F16    477169824
+v.blk.21.attn_q.bias       [1152]          F32    479824032
+v.blk.21.attn_q.weight     [1152, 1152]    F16    479828640
+v.blk.21.attn_v.bias       [1152]          F32    482482848
+v.blk.21.attn_v.weight     [1152, 1152]    F16    482487456
+v.blk.22.ln1.bias          [1152]          F32    485141664
+v.blk.22.ln1.weight        [1152]          F32    485146272
+v.blk.22.ln2.bias          [1152]          F32    485150880
+v.blk.22.ln2.weight        [1152]          F32    485155488
+v.blk.22.ffn_down.bias     [4304]          F32    485160096
+v.blk.22.ffn_down.weight   [1152, 4304]    F16    485177312
+v.blk.22.ffn_up.bias       [1152]          F32    495093728
+v.blk.22.ffn_up.weight     [4304, 1152]    F16    495098336
+v.blk.22.attn_k.bias       [1152]          F32    505014752
+v.blk.22.attn_k.weight     [1152, 1152]    F16    505019360
+v.blk.22.attn_out.bias     [1152]          F32    507673568
+v.blk.22.attn_out.weight   [1152, 1152]    F16    507678176
+v.blk.22.attn_q.bias       [1152]          F32    510332384
+v.blk.22.attn_q.weight     [1152, 1152]    F16    510336992
+v.blk.22.attn_v.bias       [1152]          F32    512991200
+v.blk.22.attn_v.weight     [1152, 1152]    F16    512995808
+v.blk.23.ln1.bias          [1152]          F32    515650016
+v.blk.23.ln1.weight        [1152]          F32    515654624
+v.blk.23.ln2.bias          [1152]          F32    515659232
+v.blk.23.ln2.weight        [1152]          F32    515663840
+v.blk.23.ffn_down.bias     [4304]          F32    515668448
+v.blk.23.ffn_down.weight   [1152, 4304]    F16    515685664
+v.blk.23.ffn_up.bias       [1152]          F32    525602080
+v.blk.23.ffn_up.weight     [4304, 1152]    F16    525606688
+v.blk.23.attn_k.bias       [1152]          F32    535523104
+v.blk.23.attn_k.weight     [1152, 1152]    F16    535527712
+v.blk.23.attn_out.bias     [1152]          F32    538181920
+v.blk.23.attn_out.weight   [1152, 1152]    F16    538186528
+v.blk.23.attn_q.bias       [1152]          F32    540840736
+v.blk.23.attn_q.weight     [1152, 1152]    F16    540845344
+v.blk.23.attn_v.bias       [1152]          F32    543499552
+v.blk.23.attn_v.weight     [1152, 1152]    F16    543504160
+v.blk.24.ln1.bias          [1152]          F32    546158368
+v.blk.24.ln1.weight        [1152]          F32    546162976
+v.blk.24.ln2.bias          [1152]          F32    546167584
+v.blk.24.ln2.weight        [1152]          F32    546172192
+v.blk.24.ffn_down.bias     [4304]          F32    546176800
+v.blk.24.ffn_down.weight   [1152, 4304]    F16    546194016
+v.blk.24.ffn_up.bias       [1152]          F32    556110432
+v.blk.24.ffn_up.weight     [4304, 1152]    F16    556115040
+v.blk.24.attn_k.bias       [1152]          F32    566031456
+v.blk.24.attn_k.weight     [1152, 1152]    F16    566036064
+v.blk.24.attn_out.bias     [1152]          F32    568690272
+v.blk.24.attn_out.weight   [1152, 1152]    F16    568694880
+v.blk.24.attn_q.bias       [1152]          F32    571349088
+v.blk.24.attn_q.weight     [1152, 1152]    F16    571353696
+v.blk.24.attn_v.bias       [1152]          F32    574007904
+v.blk.24.attn_v.weight     [1152, 1152]    F16    574012512
+v.blk.25.ln1.bias          [1152]          F32    576666720
+v.blk.25.ln1.weight        [1152]          F32    576671328
+v.blk.25.ln2.bias          [1152]          F32    576675936
+v.blk.25.ln2.weight        [1152]          F32    576680544
+v.blk.25.ffn_down.bias     [4304]          F32    576685152
+v.blk.25.ffn_down.weight   [1152, 4304]    F16    576702368
+v.blk.25.ffn_up.bias       [1152]          F32    586618784
+v.blk.25.ffn_up.weight     [4304, 1152]    F16    586623392
+v.blk.25.attn_k.bias       [1152]          F32    596539808
+v.blk.25.attn_k.weight     [1152, 1152]    F16    596544416
+v.blk.25.attn_out.bias     [1152]          F32    599198624
+v.blk.25.attn_out.weight   [1152, 1152]    F16    599203232
+v.blk.25.attn_q.bias       [1152]          F32    601857440
+v.blk.25.attn_q.weight     [1152, 1152]    F16    601862048
+v.blk.25.attn_v.bias       [1152]          F32    604516256
+v.blk.25.attn_v.weight     [1152, 1152]    F16    604520864
+v.blk.26.ln1.bias          [1152]          F32    607175072
+v.blk.26.ln1.weight        [1152]          F32    607179680
+v.blk.26.ln2.bias          [1152]          F32    607184288
+v.blk.26.ln2.weight        [1152]          F32    607188896
+v.blk.26.ffn_down.bias     [4304]          F32    607193504
+v.blk.26.ffn_down.weight   [1152, 4304]    F16    607210720
+v.blk.26.ffn_up.bias       [1152]          F32    617127136
+v.blk.26.ffn_up.weight     [4304, 1152]    F16    617131744
+v.blk.26.attn_k.bias       [1152]          F32    627048160
+v.blk.26.attn_k.weight     [1152, 1152]    F16    627052768
+v.blk.26.attn_out.bias     [1152]          F32    629706976
+v.blk.26.attn_out.weight   [1152, 1152]    F16    629711584
+v.blk.26.attn_q.bias       [1152]          F32    632365792
+v.blk.26.attn_q.weight     [1152, 1152]    F16    632370400
+v.blk.26.attn_v.bias       [1152]          F32    635024608
+v.blk.26.attn_v.weight     [1152, 1152]    F16    635029216
+v.blk.3.ln1.bias           [1152]          F32    637683424
+v.blk.3.ln1.weight         [1152]          F32    637688032
+v.blk.3.ln2.bias           [1152]          F32    637692640
+v.blk.3.ln2.weight         [1152]          F32    637697248
+v.blk.3.ffn_down.bias      [4304]          F32    637701856
+v.blk.3.ffn_down.weight    [1152, 4304]    F16    637719072
+v.blk.3.ffn_up.bias        [1152]          F32    647635488
+v.blk.3.ffn_up.weight      [4304, 1152]    F16    647640096
+v.blk.3.attn_k.bias        [1152]          F32    657556512
+v.blk.3.attn_k.weight      [1152, 1152]    F16    657561120
+v.blk.3.attn_out.bias      [1152]          F32    660215328
+v.blk.3.attn_out.weight    [1152, 1152]    F16    660219936
+v.blk.3.attn_q.bias        [1152]          F32    662874144
+v.blk.3.attn_q.weight      [1152, 1152]    F16    662878752
+v.blk.3.attn_v.bias        [1152]          F32    665532960
+v.blk.3.attn_v.weight      [1152, 1152]    F16    665537568
+v.blk.4.ln1.bias           [1152]          F32    668191776
+v.blk.4.ln1.weight         [1152]          F32    668196384
+v.blk.4.ln2.bias           [1152]          F32    668200992
+v.blk.4.ln2.weight         [1152]          F32    668205600
+v.blk.4.ffn_down.bias      [4304]          F32    668210208
+v.blk.4.ffn_down.weight    [1152, 4304]    F16    668227424
+v.blk.4.ffn_up.bias        [1152]          F32    678143840
+v.blk.4.ffn_up.weight      [4304, 1152]    F16    678148448
+v.blk.4.attn_k.bias        [1152]          F32    688064864
+v.blk.4.attn_k.weight      [1152, 1152]    F16    688069472
+v.blk.4.attn_out.bias      [1152]          F32    690723680
+v.blk.4.attn_out.weight    [1152, 1152]    F16    690728288
+v.blk.4.attn_q.bias        [1152]          F32    693382496
+v.blk.4.attn_q.weight      [1152, 1152]    F16    693387104
+v.blk.4.attn_v.bias        [1152]          F32    696041312
+v.blk.4.attn_v.weight      [1152, 1152]    F16    696045920
+v.blk.5.ln1.bias           [1152]          F32    698700128
+v.blk.5.ln1.weight         [1152]          F32    698704736
+v.blk.5.ln2.bias           [1152]          F32    698709344
+v.blk.5.ln2.weight         [1152]          F32    698713952
+v.blk.5.ffn_down.bias      [4304]          F32    698718560
+v.blk.5.ffn_down.weight    [1152, 4304]    F16    698735776
+v.blk.5.ffn_up.bias        [1152]          F32    708652192
+v.blk.5.ffn_up.weight      [4304, 1152]    F16    708656800
+v.blk.5.attn_k.bias        [1152]          F32    718573216
+v.blk.5.attn_k.weight      [1152, 1152]    F16    718577824
+v.blk.5.attn_out.bias      [1152]          F32    721232032
+v.blk.5.attn_out.weight    [1152, 1152]    F16    721236640
+v.blk.5.attn_q.bias        [1152]          F32    723890848
+v.blk.5.attn_q.weight      [1152, 1152]    F16    723895456
+v.blk.5.attn_v.bias        [1152]          F32    726549664
+v.blk.5.attn_v.weight      [1152, 1152]    F16    726554272
+v.blk.6.ln1.bias           [1152]          F32    729208480
+v.blk.6.ln1.weight         [1152]          F32    729213088
+v.blk.6.ln2.bias           [1152]          F32    729217696
+v.blk.6.ln2.weight         [1152]          F32    729222304
+v.blk.6.ffn_down.bias      [4304]          F32    729226912
+v.blk.6.ffn_down.weight    [1152, 4304]    F16    729244128
+v.blk.6.ffn_up.bias        [1152]          F32    739160544
+v.blk.6.ffn_up.weight      [4304, 1152]    F16    739165152
+v.blk.6.attn_k.bias        [1152]          F32    749081568
+v.blk.6.attn_k.weight      [1152, 1152]    F16    749086176
+v.blk.6.attn_out.bias      [1152]          F32    751740384
+v.blk.6.attn_out.weight    [1152, 1152]    F16    751744992
+v.blk.6.attn_q.bias        [1152]          F32    754399200
+v.blk.6.attn_q.weight      [1152, 1152]    F16    754403808
+v.blk.6.attn_v.bias        [1152]          F32    757058016
+v.blk.6.attn_v.weight      [1152, 1152]    F16    757062624
+v.blk.7.ln1.bias           [1152]          F32    759716832
+v.blk.7.ln1.weight         [1152]          F32    759721440
+v.blk.7.ln2.bias           [1152]          F32    759726048
+v.blk.7.ln2.weight         [1152]          F32    759730656
+v.blk.7.ffn_down.bias      [4304]          F32    759735264
+v.blk.7.ffn_down.weight    [1152, 4304]    F16    759752480
+v.blk.7.ffn_up.bias        [1152]          F32    769668896
+v.blk.7.ffn_up.weight      [4304, 1152]    F16    769673504
+v.blk.7.attn_k.bias        [1152]          F32    779589920
+v.blk.7.attn_k.weight      [1152, 1152]    F16    779594528
+v.blk.7.attn_out.bias      [1152]          F32    782248736
+v.blk.7.attn_out.weight    [1152, 1152]    F16    782253344
+v.blk.7.attn_q.bias        [1152]          F32    784907552
+v.blk.7.attn_q.weight      [1152, 1152]    F16    784912160
+v.blk.7.attn_v.bias        [1152]          F32    787566368
+v.blk.7.attn_v.weight      [1152, 1152]    F16    787570976
+v.blk.8.ln1.bias           [1152]          F32    790225184
+v.blk.8.ln1.weight         [1152]          F32    790229792
+v.blk.8.ln2.bias           [1152]          F32    790234400
+v.blk.8.ln2.weight         [1152]          F32    790239008
+v.blk.8.ffn_down.bias      [4304]          F32    790243616
+v.blk.8.ffn_down.weight    [1152, 4304]    F16    790260832
+v.blk.8.ffn_up.bias        [1152]          F32    800177248
+v.blk.8.ffn_up.weight      [4304, 1152]    F16    800181856
+v.blk.8.attn_k.bias        [1152]          F32    810098272
+v.blk.8.attn_k.weight      [1152, 1152]    F16    810102880
+v.blk.8.attn_out.bias      [1152]          F32    812757088
+v.blk.8.attn_out.weight    [1152, 1152]    F16    812761696
+v.blk.8.attn_q.bias        [1152]          F32    815415904
+v.blk.8.attn_q.weight      [1152, 1152]    F16    815420512
+v.blk.8.attn_v.bias        [1152]          F32    818074720
+v.blk.8.attn_v.weight      [1152, 1152]    F16    818079328
+v.blk.9.ln1.bias           [1152]          F32    820733536
+v.blk.9.ln1.weight         [1152]          F32    820738144
+v.blk.9.ln2.bias           [1152]          F32    820742752
+v.blk.9.ln2.weight         [1152]          F32    820747360
+v.blk.9.ffn_down.bias      [4304]          F32    820751968
+v.blk.9.ffn_down.weight    [1152, 4304]    F16    820769184
+v.blk.9.ffn_up.bias        [1152]          F32    830685600
+v.blk.9.ffn_up.weight      [4304, 1152]    F16    830690208
+v.blk.9.attn_k.bias        [1152]          F32    840606624
+v.blk.9.attn_k.weight      [1152, 1152]    F16    840611232
+v.blk.9.attn_out.bias      [1152]          F32    843265440
+v.blk.9.attn_out.weight    [1152, 1152]    F16    843270048
+v.blk.9.attn_q.bias        [1152]          F32    845924256
+v.blk.9.attn_q.weight      [1152, 1152]    F16    845928864
+v.blk.9.attn_v.bias        [1152]          F32    848583072
+v.blk.9.attn_v.weight      [1152, 1152]    F16    848587680
+v.post_ln.bias             [1152]          F32    851241888
+v.post_ln.weight           [1152]          F32    851246496

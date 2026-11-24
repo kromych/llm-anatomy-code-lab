@@ -1,0 +1,18 @@
+calculator__calculate stop True 0 1361 False 
+calculator__calculate stop True 0 2625 False 
+calculator__calculate stop True 0 1354 False 
+calculator__calculate stop True 0 1445 False 
+calculator__calculate stop False 0 1821 False 
+calculator__calculate stop True 0 1746 False 
+calculator__calculate length True 0 1750 False 
+calculator__calculate stop True 0 1700 False 
+== calculator__calculate {'call': 7, 'text': 0, 'empty': 1, 'call in thinking': 0}
+calc__calculate stop True 0 1875 False 
+calc__calculate stop True 0 2008 False 
+calc__calculate HTTP 500 b'{"error":"prediction aborted, token repeat limit reached"}'
+calc__calculate stop True 0 3282 False 
+calc__calculate HTTP 500 b'{"error":"prediction aborted, token repeat limit reached"}'
+calc__calculate stop True 0 1551 False 
+calc__calculate stop True 0 1713 False 
+calc__calculate stop True 0 1614 False 
+== calc__calculate {'call': 6, 'text': 0, 'empty': 0, 'call in thinking': 0, 'error': 2}

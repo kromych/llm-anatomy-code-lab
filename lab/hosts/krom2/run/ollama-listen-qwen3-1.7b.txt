@@ -1,0 +1,12 @@
+# ss -ltnp (ollama serve with qwen3:1.7b loaded)
+LISTEN 0      128          0.0.0.0:22         0.0.0.0:*                                            
+LISTEN 0      128             [::]:22            [::]:*                                            
+LISTEN 0      4096         0.0.0.0:5355       0.0.0.0:*                                            
+LISTEN 0      4096       127.0.0.1:11434      0.0.0.0:*    users:(("ollama",pid=776388,fd=4))      
+LISTEN 0      4096       127.0.0.1:631        0.0.0.0:*                                            
+LISTEN 0      4096   127.0.0.53%lo:53         0.0.0.0:*                                            
+LISTEN 0      4096      127.0.0.54:53         0.0.0.0:*                                            
+LISTEN 0      4096           [::1]:631           [::]:*                                            
+LISTEN 0      4096            [::]:5355          [::]:*                                            
+LISTEN 0      512        127.0.0.1:39349      0.0.0.0:*    users:(("llama-server",pid=776837,fd=3))
+State  Recv-Q Send-Q Local Address:Port  Peer Address:PortProcess                                  

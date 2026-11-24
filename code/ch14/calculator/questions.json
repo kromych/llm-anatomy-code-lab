@@ -1,0 +1,98 @@
+[
+ {
+  "id": "c01",
+  "expression": "48271 * 69621",
+  "expected": {
+   "value": "3360675291"
+  },
+  "question": "Compute 48271 * 69621 exactly. End your reply with one line 'ANSWER: <value>', giving an integer or a fraction p/q in lowest terms."
+ },
+ {
+  "id": "c02",
+  "expression": "987654321 * 123456789",
+  "expected": {
+   "value": "121932631112635269"
+  },
+  "question": "Compute 987654321 * 123456789 exactly. End your reply with one line 'ANSWER: <value>', giving an integer or a fraction p/q in lowest terms."
+ },
+ {
+  "id": "c03",
+  "expression": "(123 + 456) * (789 - 1011) + 31415",
+  "expected": {
+   "value": "-97123"
+  },
+  "question": "Compute (123 + 456) * (789 - 1011) + 31415 exactly. End your reply with one line 'ANSWER: <value>', giving an integer or a fraction p/q in lowest terms."
+ },
+ {
+  "id": "c04",
+  "expression": "((17 * 23) - (19 * 29)) * ((31 + 37) * 41)",
+  "expected": {
+   "value": "-446080"
+  },
+  "question": "Compute ((17 * 23) - (19 * 29)) * ((31 + 37) * 41) exactly. End your reply with one line 'ANSWER: <value>', giving an integer or a fraction p/q in lowest terms."
+ },
+ {
+  "id": "c05",
+  "expression": "2 ** 64",
+  "expected": {
+   "value": "18446744073709551616"
+  },
+  "question": "Compute 2 ** 64 exactly. End your reply with one line 'ANSWER: <value>', giving an integer or a fraction p/q in lowest terms."
+ },
+ {
+  "id": "c06",
+  "expression": "3 ** 40",
+  "expected": {
+   "value": "12157665459056928801"
+  },
+  "question": "Compute 3 ** 40 exactly. End your reply with one line 'ANSWER: <value>', giving an integer or a fraction p/q in lowest terms."
+ },
+ {
+  "id": "c07",
+  "expression": "999999 * 999999 - 1",
+  "expected": {
+   "value": "999998000000"
+  },
+  "question": "Compute 999999 * 999999 - 1 exactly. End your reply with one line 'ANSWER: <value>', giving an integer or a fraction p/q in lowest terms."
+ },
+ {
+  "id": "c08",
+  "expression": "(2 ** 31 - 1) * (2 ** 31 + 1)",
+  "expected": {
+   "value": "4611686018427387903"
+  },
+  "question": "Compute (2 ** 31 - 1) * (2 ** 31 + 1) exactly. End your reply with one line 'ANSWER: <value>', giving an integer or a fraction p/q in lowest terms."
+ },
+ {
+  "id": "c09",
+  "expression": "123456789 // 4567",
+  "expected": {
+   "value": "27032"
+  },
+  "question": "Compute 123456789 // 4567 exactly. End your reply with one line 'ANSWER: <value>', giving an integer or a fraction p/q in lowest terms."
+ },
+ {
+  "id": "c10",
+  "expression": "1/3 + 2/7 - 5/11",
+  "expected": {
+   "value": "38/231"
+  },
+  "question": "Compute 1/3 + 2/7 - 5/11 exactly. End your reply with one line 'ANSWER: <value>', giving an integer or a fraction p/q in lowest terms."
+ },
+ {
+  "id": "c11",
+  "expression": "(3/4) ** 5 * 1024",
+  "expected": {
+   "value": "243"
+  },
+  "question": "Compute (3/4) ** 5 * 1024 exactly. End your reply with one line 'ANSWER: <value>', giving an integer or a fraction p/q in lowest terms."
+ },
+ {
+  "id": "c12",
+  "expression": "355/113 - 22/7",
+  "expected": {
+   "value": "-1/791"
+  },
+  "question": "Compute 355/113 - 22/7 exactly. End your reply with one line 'ANSWER: <value>', giving an integer or a fraction p/q in lowest terms."
+ }
+]

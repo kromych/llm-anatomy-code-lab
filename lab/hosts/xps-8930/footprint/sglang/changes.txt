@@ -1,0 +1,29 @@
+Footprint of SGLang 0.5.23 (CPU image lmsysorg/sglang:v0.5.23-xeon) on
+xps-8930 (Fedora 44, Core i7-8700: AVX2, no AVX-512, no AMX), 2026-11-14.
+
+== Docker images
+  added by `docker pull lmsysorg/sglang:v0.5.23-xeon` (57 s): 1
+    + lmsysorg/sglang:v0.5.23-xeon   5.55 GB on disk (2.1 GB compressed);
+      Ubuntu 26.04, Python 3.12 venv in /opt/.venv, torch 2.14.0+cpu;
+      ENV SGLANG_USE_CPU_ENGINE=1 and LD_PRELOAD of libtcmalloc, libtbbmalloc
+      and libiomp5; no EXPOSE, no entrypoint (command /bin/bash)
+  gone after `docker image rm`: 1; image list equal to the one before
+
+== containers
+  docker run --rm -p 30000:30000 -v <dir>:/root/.cache/huggingface ...
+    python3 -m sglang.launch_server --model-path Qwen/Qwen3-0.6B --device cpu
+  exited with status 132 (SIGILL) within seconds, before any download: the
+  module sgl_kernel loads its architecture-specific CPU operators at import
+  (sgl_kernel/load_utils.py, _load_architecture_specific_ops), and they are
+  compiled with -march=x86-64-v4 -mavx512bf16 -mavx512vnni -mamx-tile
+  -mamx-bf16 -mamx-int8 (python/sglang/kernels/aot/csrc/cpu/CMakeLists.txt).
+  The mounted cache directory stayed empty; --rm removed the container.
+
+== listening sockets, services, users, files outside Docker's storage
+  none (the server never started)
+
+== not observed
+  the default bind address (127.0.0.1:30000 in the source); inside the
+  container that address is unreachable through -p, which is why the docs
+  pass --host 0.0.0.0; a published port is then open on all interfaces of
+  the host.

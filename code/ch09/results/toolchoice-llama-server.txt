@@ -1,0 +1,5 @@
+auto, weather                calls ['Oslo'], tool_calls after 123 tokens, text ''
+required, Hello!             calls [], length after 600 tokens, text 'Hello! How can I assist you today? 😊'
+named, Hello!                calls [], stop after 90 tokens, text 'Hello! How can I assist you today?'
+two cities                   calls ['Oslo', 'Lima'], tool_calls after 121 tokens, text ''
+two cities, parallel false   calls ['Oslo', 'Lima'], tool_calls after 121 tokens, text ''

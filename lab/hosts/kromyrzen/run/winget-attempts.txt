@@ -1,0 +1,119 @@
+Time: 2026-11-13T22:32:29.7436701-08:00   SSH logon: key authentication, session 0, elevated admin
+PS> winget source list
+Name        Argument                                      Explicit
+------------------------------------------------------------------
+msstore     https://storeedgefd.dsx.mp.microsoft.com/v9.0 false
+winget      https://cdn.winget.microsoft.com/cache        false
+winget-font https://cdn.winget.microsoft.com/fonts        true
+exit code: 0 (0x00000000)
+
+PS> winget search llama.cpp --accept-source-agreements --disable-interactivity
+Failed when searching source; results will not be included: winget
+No package found matching input criteria.
+exit code: -1978335212 (0x8A150014)
+
+PS> winget search llama.cpp --source winget --accept-source-agreements --disable-interactivity
+Failed when opening source(s); try the 'source reset' command if the problem persists.
+An unexpected error occurred while executing the command: 
+0x8a15000f : Data required by the source is missing
+exit code: -1978335217 (0x8A15000F)
+
+PS> winget install llama.cpp --accept-source-agreements --accept-package-agreements --disable-interactivity
+Failed when searching source: winget
+An unexpected error occurred while executing the command: 
+0x8a15000f : Data required by the source is missing
+No packages were found among the working sources.
+exit code: -1978335217 (0x8A15000F)
+
+PS> winget install Ollama.Ollama --accept-source-agreements --accept-package-agreements --disable-interactivity
+Failed when searching source: winget
+An unexpected error occurred while executing the command: 
+0x8a15000f : Data required by the source is missing
+No packages were found among the working sources.
+exit code: -1978335217 (0x8A15000F)
+
+PS> winget source update --name winget --disable-interactivity
+Updating source: winget...
+Done
+exit code: 0 (0x00000000)
+
+--- winget diagnostic log excerpts (DiagOutputDir), errors only, from the runs above ---
+[WinGet-2026-11-13-22-32-29.837.log]
+2026-11-13 22:32:29.839 <I> [CORE] Command line Args: "C:\Users\labuser\AppData\Local\Microsoft\WindowsApps\winget.exe" source list
+[WinGet-2026-11-13-22-32-29.979.log]
+2026-11-13 22:32:29.981 <I> [CORE] Command line Args: "C:\Users\labuser\AppData\Local\Microsoft\WindowsApps\winget.exe" search llama.cpp --accept-source-agreements --disable-interactivity
+2026-11-13 22:32:30.313 <I> [CORE] Starting AddPackage operation #0: file:///C:/Users/labuser/AppData/Local/Temp/WinGet/Microsoft.Winget.Source_8wekyb3d8bbwe.msix Options:  { SkipReputationCheck = 1, ExpectedDigests = {} }
+2026-11-13 22:32:30.354 <E> [CORE] Deployment operation #0: Deployment Add operation with target volume C: on Package Microsoft.Winget.Source_2026.1114.648.55_neutral__8wekyb3d8bbwe from:   failed with error 0x80073D19. See http://go.microsoft.com/fwlink/?LinkId=235160 for help diagnosing app deployment issues.
+2026-11-13 22:32:30.354 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerCommonCore\Deployment.cpp(54)\WindowsPackageManager.dll!00007FFEADBD18E2: (caller: 00007FFEADBCCDC8) Exception(1) tid(1b28) 80073D19 An error occurred because a user was logged off.
+    Msg:[Operation failed: Deployment Add operation with target volume C: on Package Microsoft.Winget.Source_2026.1114.648.55_neutral__8wekyb3d8bbwe from:   failed with error 0x80073D19. See http://go.microsoft.com/fwlink/?LinkId=235160 for help diagnosing app deployment issues.] 
+2026-11-13 22:32:30.355 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\RepositorySource.cpp(96)\WindowsPackageManager.dll!00007FFEADD36595: (caller: 00007FFEADC2D1FF) LogHr(1) tid(1b28) 80073D19 An error occurred because a user was logged off.
+    Msg:[C:\__w\1\s\external\pkg\src\AppInstallerCommonCore\Deployment.cpp(54)\WindowsPackageManager.dll!00007FFEADBD18E2: (caller: 00007FFEADBCCDC8) Exception(1) tid(1b28) 80073D19 An error occurred because a user was logged off.
+    Msg:[Operation failed: Deployment Add operation with target volume C: on Package Microsoft.Winget.Source_2026.1114.648.55_neutral__8wekyb3d8bbwe from:   failed with error 0x80073D19. See http://go.microsoft.com/fwlink/?LinkId=235160 for help diagnosing app deployment issues.] 
+2026-11-13 22:32:38.632 <I> [CORE] Starting AddPackage operation #1: file:///C:/Users/labuser/AppData/Local/Temp/WinGet/Microsoft.Winget.Source_8wekyb3d8bbwe.msix Options:  { SkipReputationCheck = 1, ExpectedDigests = {} }
+2026-11-13 22:32:38.680 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerCommonCore\Settings.cpp(399)\WindowsPackageManager.dll!00007FFEAD9B5DBF: (caller: 00007FFEADC920C5) Exception(2) tid(1b28) 8009000B Key not valid for use in specified state.
+2026-11-13 22:32:38.680 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Rest\RestInformationCache.cpp(69)\WindowsPackageManager.dll!00007FFEADD3D13C: (caller: 00007FFEADC7A878) LogHr(2) tid(1b28) 8009000B Key not valid for use in specified state.
+2026-11-13 22:32:38.790 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerCommonCore\Settings.cpp(413)\WindowsPackageManager.dll!00007FFEAD9B7D36: (caller: 00007FFEADC93CEA) Exception(3) tid(1b28) 80070005 Access is denied.
+2026-11-13 22:32:38.790 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Rest\RestInformationCache.cpp(129)\WindowsPackageManager.dll!00007FFEADD3D0D5: (caller: 00007FFEADC7AB3D) LogHr(3) tid(1b28) 80070005 Access is denied.
+2026-11-13 22:32:38.792 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(526)\WindowsPackageManager.dll!00007FFEADC4D30E: (caller: 00007FFEADC4CA57) Exception(4) tid(1b28) 8A15000F 
+2026-11-13 22:32:38.793 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(592)\WindowsPackageManager.dll!00007FFEADD39387: (caller: 00007FFEADC2D807) LogHr(4) tid(1b28) 8A15000F     Msg:[Optimistic packaged source open failed, retrying under lock for source: winget --  ...
+2026-11-13 22:32:38.793 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(526)\WindowsPackageManager.dll!00007FFEADC4D30E: (caller: 00007FFEADC4CCC9) Exception(5) tid(1b28) 8A15000F 
+2026-11-13 22:32:38.794 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\RepositorySource.cpp(878)\WindowsPackageManager.dll!00007FFEADD37037: (caller: 00007FFEADA1E44D) LogHr(5) tid(1b28) 8A15000F     Msg:[C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(526)\W ...
+2026-11-13 22:32:38.835 <E> [CLI ] Terminating context: 0x8a150014 at C:\__w\1\s\external\pkg\src\AppInstallerCLICore\Workflows\WorkflowBase.cpp:540
+[WinGet-2026-11-13-22-32-38.925.log]
+2026-11-13 22:32:38.927 <I> [CORE] Command line Args: "C:\Users\labuser\AppData\Local\Microsoft\WindowsApps\winget.exe" search llama.cpp --source winget --accept-source-agreements --disable-interactivity
+2026-11-13 22:32:39.337 <I> [CORE] Starting AddPackage operation #0: file:///C:/Users/labuser/AppData/Local/Temp/WinGet/Microsoft.Winget.Source_8wekyb3d8bbwe.msix Options:  { SkipReputationCheck = 1, ExpectedDigests = {} }
+2026-11-13 22:32:39.379 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(526)\WindowsPackageManager.dll!00007FFEADC4D30E: (caller: 00007FFEADC4CA57) Exception(1) tid(7ac) 8A15000F 
+2026-11-13 22:32:39.379 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(592)\WindowsPackageManager.dll!00007FFEADD39387: (caller: 00007FFEADC2DBD2) LogHr(1) tid(7ac) 8A15000F     Msg:[Optimistic packaged source open failed, retrying under lock for source: winget -- C ...
+2026-11-13 22:32:39.380 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(526)\WindowsPackageManager.dll!00007FFEADC4D30E: (caller: 00007FFEADC4CCC9) Exception(2) tid(7ac) 8A15000F 
+2026-11-13 22:32:39.390 <E> [CLI ] Caught wil::ResultException: C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(526)\WindowsPackageManager.dll!00007FFEADC4D30E: (caller: 00007FFEADC4CCC9) Exception(2) tid(7ac) 8A15000F 
+[WinGet-2026-11-13-22-32-39.480.log]
+2026-11-13 22:32:39.482 <I> [CORE] Command line Args: "C:\Users\labuser\AppData\Local\Microsoft\WindowsApps\winget.exe" install llama.cpp --accept-source-agreements --accept-package-agreements --disable-interactivity
+2026-11-13 22:32:39.912 <I> [CORE] Starting AddPackage operation #0: file:///C:/Users/labuser/AppData/Local/Temp/WinGet/Microsoft.Winget.Source_8wekyb3d8bbwe.msix Options:  { SkipReputationCheck = 1, ExpectedDigests = {} }
+2026-11-13 22:32:39.962 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerCommonCore\Settings.cpp(399)\WindowsPackageManager.dll!00007FFEAD9B5DBF: (caller: 00007FFEADC920C5) Exception(1) tid(c78) 8009000B Key not valid for use in specified state.
+2026-11-13 22:32:39.962 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Rest\RestInformationCache.cpp(69)\WindowsPackageManager.dll!00007FFEADD3D13C: (caller: 00007FFEADC7A878) LogHr(1) tid(c78) 8009000B Key not valid for use in specified state.
+2026-11-13 22:32:40.009 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerCommonCore\Settings.cpp(413)\WindowsPackageManager.dll!00007FFEAD9B7D36: (caller: 00007FFEADC93CEA) Exception(2) tid(c78) 80070005 Access is denied.
+2026-11-13 22:32:40.009 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Rest\RestInformationCache.cpp(129)\WindowsPackageManager.dll!00007FFEADD3D0D5: (caller: 00007FFEADC7AB3D) LogHr(2) tid(c78) 80070005 Access is denied.
+2026-11-13 22:32:40.011 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(526)\WindowsPackageManager.dll!00007FFEADC4D30E: (caller: 00007FFEADC4CA57) Exception(3) tid(c78) 8A15000F 
+2026-11-13 22:32:40.011 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(592)\WindowsPackageManager.dll!00007FFEADD39387: (caller: 00007FFEADC2D807) LogHr(3) tid(c78) 8A15000F     Msg:[Optimistic packaged source open failed, retrying under lock for source: winget -- C ...
+2026-11-13 22:32:40.012 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(526)\WindowsPackageManager.dll!00007FFEADC4D30E: (caller: 00007FFEADC4CCC9) Exception(4) tid(c78) 8A15000F 
+2026-11-13 22:32:40.012 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\RepositorySource.cpp(878)\WindowsPackageManager.dll!00007FFEADD37037: (caller: 00007FFEADA1E44D) LogHr(4) tid(c78) 8A15000F     Msg:[C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(526)\Wi ...
+2026-11-13 22:32:40.394 <E> [CLI ] Caught wil::ResultException: C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(526)\WindowsPackageManager.dll!00007FFEADC4D30E: (caller: 00007FFEADC4CCC9) Exception(4) tid(c78) 8A15000F 
+[WinGet-2026-11-13-22-32-40.485.log]
+2026-11-13 22:32:40.487 <I> [CORE] Command line Args: "C:\Users\labuser\AppData\Local\Microsoft\WindowsApps\winget.exe" install Ollama.Ollama --accept-source-agreements --accept-package-agreements --disable-interactivity
+2026-11-13 22:32:40.922 <I> [CORE] Starting AddPackage operation #0: file:///C:/Users/labuser/AppData/Local/Temp/WinGet/Microsoft.Winget.Source_8wekyb3d8bbwe.msix Options:  { SkipReputationCheck = 1, ExpectedDigests = {} }
+2026-11-13 22:32:40.972 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerCommonCore\Settings.cpp(399)\WindowsPackageManager.dll!00007FFEAD9B5DBF: (caller: 00007FFEADC920C5) Exception(1) tid(17f0) 8009000B Key not valid for use in specified state.
+2026-11-13 22:32:40.972 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Rest\RestInformationCache.cpp(69)\WindowsPackageManager.dll!00007FFEADD3D13C: (caller: 00007FFEADC7A878) LogHr(1) tid(17f0) 8009000B Key not valid for use in specified state.
+2026-11-13 22:32:41.012 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerCommonCore\Settings.cpp(413)\WindowsPackageManager.dll!00007FFEAD9B7D36: (caller: 00007FFEADC93CEA) Exception(2) tid(17f0) 80070005 Access is denied.
+2026-11-13 22:32:41.012 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Rest\RestInformationCache.cpp(129)\WindowsPackageManager.dll!00007FFEADD3D0D5: (caller: 00007FFEADC7AB3D) LogHr(2) tid(17f0) 80070005 Access is denied.
+2026-11-13 22:32:41.015 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(526)\WindowsPackageManager.dll!00007FFEADC4D30E: (caller: 00007FFEADC4CA57) Exception(3) tid(17f0) 8A15000F 
+2026-11-13 22:32:41.015 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(592)\WindowsPackageManager.dll!00007FFEADD39387: (caller: 00007FFEADC2D807) LogHr(3) tid(17f0) 8A15000F     Msg:[Optimistic packaged source open failed, retrying under lock for source: winget --  ...
+2026-11-13 22:32:41.016 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(526)\WindowsPackageManager.dll!00007FFEADC4D30E: (caller: 00007FFEADC4CCC9) Exception(4) tid(17f0) 8A15000F 
+2026-11-13 22:32:41.016 <E> [FAIL] C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\RepositorySource.cpp(878)\WindowsPackageManager.dll!00007FFEADD37037: (caller: 00007FFEADA1E44D) LogHr(4) tid(17f0) 8A15000F     Msg:[C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(526)\W ...
+2026-11-13 22:32:41.368 <E> [CLI ] Caught wil::ResultException: C:\__w\1\s\external\pkg\src\AppInstallerRepositoryCore\Microsoft\PreIndexedPackageSourceFactory.cpp(526)\WindowsPackageManager.dll!00007FFEADC4D30E: (caller: 00007FFEADC4CCC9) Exception(4) tid(17f0) 8A15000F 
+[WinGet-2026-11-13-22-32-41.458.log]
+2026-11-13 22:32:41.460 <I> [CORE] Command line Args: "C:\Users\labuser\AppData\Local\Microsoft\WindowsApps\winget.exe" source update --name winget --disable-interactivity
+2026-11-13 22:32:41.899 <I> [CORE] Starting AddPackage operation #0: file:///C:/Users/labuser/AppData/Local/Temp/WinGet/Microsoft.Winget.Source_8wekyb3d8bbwe.msix Options:  { SkipReputationCheck = 1, ExpectedDigests = {} }
+
+--- follow-up (22:32:50) ---
+PS> winget search llama.cpp --source winget --accept-source-agreements --disable-interactivity
+Failed when opening source(s); try the 'source reset' command if the problem persists.
+0x8a15000f : Data required by the source is missing
+exit code: -1978335217 (0x8A15000F)
+The log shows the source2.msix AddPackage "Successfully completed" but then "Package not found Microsoft.Winget.Source_8wekyb3d8bbwe":
+`winget source update` prints "Done" (exit 0) yet the source stays unusable in this logon.
+Get-AppxPackage -AllUsers shows Microsoft.Winget.Source 2026.224.347.55 registered only for another local account (SID ...-1000), not for labuser (SID ...-1003).
+msstore source errors in the same logs: 0x8009000B "Key not valid for use in specified state" (DPAPI) and 0x80070005 when reading cached settings.
+Interpretation: OpenSSH key authentication gives an S4U-style logon in session 0 without the user's password, so MSIX deployment for the user
+fails (0x80073D19 "An error occurred because a user was logged off") and DPAPI-protected winget data cannot be decrypted.
+`winget source reset --force` was NOT tried (it changes winget configuration and would not fix MSIX registration in this logon type).
+
+--- what `winget install llama.cpp` would have installed (manifest ggml.llamacpp b12343, winget-pkgs master on 2026-11-13) ---
+PackageIdentifier ggml.llamacpp, PackageName llama.cpp, Publisher ggml, InstallerType zip -> NestedInstallerType portable
+InstallerUrl (x64): https://github.com/ggml-org/llama.cpp/releases/download/b12343/llama-b12343-bin-win-vulkan-x64.zip  (the Vulkan build, not the CPU build)
+Dependency: Microsoft.VCRedist.2015+.x64 (already present on this host: VC++ v14 Redistributable x64 14.52.37025)
+Portable commands: llama-batched-bench llama-bench llama-cli llama-gguf-split llama-imatrix llama-mtmd-cli llama-perplexity llama-quantize llama-server llama-tokenize llama-tts
+(winget would place them under %LOCALAPPDATA%\Microsoft\WinGet\Packages\ggml.llamacpp_Microsoft.Winget.Source_8wekyb3d8bbwe with links in %LOCALAPPDATA%\Microsoft\WinGet\Links on the user PATH - not observed here)
+
+--- what `winget install Ollama.Ollama` would have run (manifest 0.40.16) ---
+InstallerType inno, Scope user, DefaultInstallLocation %LocalAppData%\Programs\Ollama, ProductCode {44E83376-CE68-45EB-8FC1-393500EB558C}_is1
+InstallerUrl https://github.com/ollama/ollama/releases/download/v0.40.16/OllamaSetup.exe  SHA256 84DB4F756DDC9E091142A85CDC0F7AE5DB68BC9B3E075F114388B326F8ED912D

@@ -1,0 +1,22 @@
+## transformers serve Qwen/Qwen3-0.6B --host 127.0.0.1 --port 8000
+##     (Transformers 5.23.0 with PyTorch 2.15.0, on S3-macOS; the model is
+##     Qwen/Qwen3-0.6B at commit c1899de289a04d12100db370d81485cdf75e47ca)
+## curl -sN http://127.0.0.1:8000/v1/chat/completions -H 'Content-Type: application/json' -d '{"model":"Qwen/Qwen3-0.6B","messages":[{"role":"user","content":"Say hi. /no_think"}],"stream":true,"stream_options":{"include_usage":true},"max_tokens":8}'
+data: {"id":"b1a438b5-02da-4fe2-b4ae-c6b13603553d","choices":[{"delta":{"role":"assistant"},"index":0}],"created":1795556909,"model":"Qwen/Qwen3-0.6B@main","object":"chat.completion.chunk","system_fingerprint":""}
+
+data: {"id":"b1a438b5-02da-4fe2-b4ae-c6b13603553d","choices":[{"delta":{"reasoning_content":"\n\n"},"index":0}],"created":1795556909,"model":"Qwen/Qwen3-0.6B@main","object":"chat.completion.chunk","system_fingerprint":""}
+
+data: {"id":"b1a438b5-02da-4fe2-b4ae-c6b13603553d","choices":[{"delta":{"content":"\n\nHello"},"index":0}],"created":1795556909,"model":"Qwen/Qwen3-0.6B@main","object":"chat.completion.chunk","system_fingerprint":""}
+
+data: {"id":"b1a438b5-02da-4fe2-b4ae-c6b13603553d","choices":[{"delta":{"content":"!"},"index":0}],"created":1795556909,"model":"Qwen/Qwen3-0.6B@main","object":"chat.completion.chunk","system_fingerprint":""}
+
+data: {"id":"b1a438b5-02da-4fe2-b4ae-c6b13603553d","choices":[{"delta":{"content":" How"},"index":0}],"created":1795556909,"model":"Qwen/Qwen3-0.6B@main","object":"chat.completion.chunk","system_fingerprint":""}
+
+data: {"id":"b1a438b5-02da-4fe2-b4ae-c6b13603553d","choices":[{"delta":{"content":" can"},"index":0}],"created":1795556909,"model":"Qwen/Qwen3-0.6B@main","object":"chat.completion.chunk","system_fingerprint":""}
+
+data: {"id":"b1a438b5-02da-4fe2-b4ae-c6b13603553d","choices":[{"delta":{},"index":0,"finish_reason":"length"}],"created":1795556909,"model":"Qwen/Qwen3-0.6B@main","object":"chat.completion.chunk","system_fingerprint":"","usage":{"completion_tokens":8,"prompt_tokens":15,"total_tokens":23}}
+
+## What the server's log says about the request, before the line of the
+## HTTP access log:
+[transformers] Ignoring unsupported fields in the request: {'stream_options'}
+[transformers] [Request received] Model: Qwen/Qwen3-0.6B@main, CB: False

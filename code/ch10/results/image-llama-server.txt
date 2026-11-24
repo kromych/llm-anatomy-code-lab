@@ -1,0 +1,3 @@
+PNG of 178 bytes, data URL of 262 characters
+with the image  'Red.', 152 prompt tokens
+text alone      'Blue.', 17 prompt tokens

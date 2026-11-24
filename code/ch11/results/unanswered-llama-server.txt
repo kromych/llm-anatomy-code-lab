@@ -1,0 +1,4 @@
+## python3 unanswered.py http://127.0.0.1:8107/v1 default
+both answered  200 'The file `a.txt` was read and its content is: `alpha`. The file `b.txt` was read and its content is: `beta`.' no calls
+one answered   200 'The file `a.txt` has been read. \n\nThe file `b.txt` has been read. \n\nI can now proceed with the next steps.' no calls
+none answered  200 'I will continue with the task of reading the files. Let me read the next file.' no calls

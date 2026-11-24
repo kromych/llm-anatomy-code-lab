@@ -1,0 +1,5 @@
+## python3 origin.py http://127.0.0.1:8000
+/v1/models  no key, no origin  status 200, Access-Control-Allow-Origin=None
+/v1/models  foreign origin     status 200, Access-Control-Allow-Origin=None
+/health     no key, no origin  status 200, Access-Control-Allow-Origin=None
+/health     foreign origin     status 200, Access-Control-Allow-Origin=None

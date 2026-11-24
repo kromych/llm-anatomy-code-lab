@@ -1,0 +1,11 @@
+layer 0: 884736 weights; bf16 vs f16-gguf differ in 32
+  Q8_0 re-encode (bf16 src, f64 math): 652/27648 blocks differ
+  Q8_0 re-encode (bf16 src, f32 math): 0/27648 blocks differ
+  Q8_0 re-encode (f16 src,  f32 math): 0/27648 blocks differ
+  Q8_0 decode: max |error| = 0.537 d
+layer 15: 884736 weights; bf16 vs f16-gguf differ in 24
+  Q8_0 re-encode (bf16 src, f64 math): 610/27648 blocks differ
+  Q8_0 re-encode (bf16 src, f32 math): 0/27648 blocks differ
+  Q8_0 re-encode (f16 src,  f32 math): 0/27648 blocks differ
+  Q8_0 decode: max |error| = 0.537 d
+layer 15 Q4_0: rel. rms error file (imatrix) 0.0895, plain round-to-nearest 0.0923

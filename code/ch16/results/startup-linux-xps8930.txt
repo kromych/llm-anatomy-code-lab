@@ -1,0 +1,12 @@
+== none
+   median of 20 starts: 0.4 ms
+== bwrap
+   median of 20 starts: 3.1 ms
+== landlock
+   median of 20 starts: 13.8 ms
+== seccomp
+   median of 20 starts: 0.6 ms
+== docker
+   median of 20 starts: 337.5 ms
+== runsc
+   median of 20 starts: 17.3 ms

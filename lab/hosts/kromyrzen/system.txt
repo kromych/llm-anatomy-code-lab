@@ -1,0 +1,21 @@
+# kromyrzen.local - CPU-only Windows desktop (book lab host). Collected over SSH on 2026-11-13 before any install.
+Host: KROMYRZEN   User: WORKGROUP\labuser   Profile: C:\Users\labuser
+OS: Microsoft Windows 11 Pro N for Workstations  Version 10.0.26300  Build 26300  UBR 9974  DisplayVersion 26H2  Arch 64-bit
+Last boot: 11/11/2026 16:32:14
+CPU: AMD Ryzen 7 3700X 8-Core Processor  cores=8 threads=16 maxMHz=3600 L2KB=4096 L3KB=32768
+RAM: 31.9 GiB (34279440384 bytes)
+GPU: AMD Radeon HD 5450  driver=15.201.1151.1008  driverDate=11/03/2015 16:00:00  AdapterRAM=2147483648  PNP=PCI\VEN_1002&DEV_68F9&SUBSYS_54501545&REV_00
+Disk C: NTFS  size=499 GB free=274 GB
+Disk R: ReFS  size=432 GB free=138 GB
+Disk W: NTFS  size=931 GB free=926 GB
+PowerShell 5.1: 10.0.26100.9818  pwsh: 7.6.10
+winget: v1.29.380
+python: Python 3.13.12   git: git version 2.50.1.windows.1
+WSL: Default Version: 2 | 
+WSL distros: Windows Subsystem for Linux has no installed distributions. | You can resolve this by installing a distribution with the instructions below: | Use 'wsl.exe --list --online' to list available distributions | and 'wsl.exe --install <Distro>' to install. | 
+CPU features reported by llama.cpp b12359 (ggml system_info): SSE3 SSSE3 AVX AVX2 F16C FMA BMI2; no AVX-512 (Zen 2)
+GPU compute: none usable (Radeon HD 5450, TeraScale 2, 2015 driver); llama-cli --list-devices reports no devices with the CPU build
+Power plan: Balanced (381b4222-f694-41f0-9685-ff5bb260df2e)
+Hyper-V present (vmms listening on 2179; LAN address 192.168.88.7 on "vEthernet (External)", 172.28.48.1 on "vEthernet (Default Switch)"). TCP excluded port ranges: 5357, 49675-49974, 50000-50059 (administered), 50060-50159; 8080, 9931 and 11434 are not excluded.
+Access used for this lab: OpenSSH (sshd service) with key authentication, user labuser (local administrator, elevated token, session 0, no interactive user logged on).
+Absent before the lab: docker, uv, ollama, llama.cpp (llama-server/llama-cli/llama-bench), WSL distributions.

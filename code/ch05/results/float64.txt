@@ -1,0 +1,23 @@
+## python3 float64.py MODEL_DIR .   (three runs on S3-macOS, each alone on
+## the machine; NumPy 2.5.4, Python 3.15.2)
+as printed          float32    31.0 ms
+np.arange alone     float64   186.3 ms   6.0 times, logits moved by 7.4e-05, same tokens: True
+np.sqrt alone       float64   185.4 ms   6.0 times, logits moved by 7.4e-05, same tokens: True
+np.full alone       float64   185.2 ms   6.0 times, logits moved by 7.4e-05, same tokens: True
+all three           float64   185.8 ms   6.0 times, logits moved by 7.4e-05, same tokens: True
+output layer: float32 row 2.68 ms, float64 row 78.30 ms, 29 times
+
+as printed          float32    31.0 ms
+np.arange alone     float64   186.6 ms   6.0 times, logits moved by 7.4e-05, same tokens: True
+np.sqrt alone       float64   187.4 ms   6.1 times, logits moved by 7.4e-05, same tokens: True
+np.full alone       float64   186.5 ms   6.0 times, logits moved by 7.4e-05, same tokens: True
+all three           float64   187.1 ms   6.0 times, logits moved by 7.4e-05, same tokens: True
+output layer: float32 row 2.84 ms, float64 row 80.62 ms, 28 times
+
+as printed          float32    30.9 ms
+np.arange alone     float64   187.9 ms   6.1 times, logits moved by 7.4e-05, same tokens: True
+np.sqrt alone       float64   187.7 ms   6.1 times, logits moved by 7.4e-05, same tokens: True
+np.full alone       float64   186.9 ms   6.1 times, logits moved by 7.4e-05, same tokens: True
+all three           float64   187.2 ms   6.1 times, logits moved by 7.4e-05, same tokens: True
+output layer: float32 row 2.70 ms, float64 row 79.76 ms, 30 times
+

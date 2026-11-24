@@ -1,0 +1,7 @@
+# llama-server -m Qwen3-8B-Q8_0.gguf (8,709,518,656 bytes) -ngl N: seconds to /health 200
+ngl 99  cold (bytes of the file in the page cache before: )  9.043734951 s
+ngl 99  warm (bytes of the file in the page cache before: )  3.740776032 s
+ngl 99  warm (bytes of the file in the page cache before: )  3.114592688 s
+ngl 0  cold (bytes of the file in the page cache before: )  9.437732155 s
+ngl 0  warm (bytes of the file in the page cache before: )  3.686973855 s
+ngl 0  warm (bytes of the file in the page cache before: )  3.706546602 s

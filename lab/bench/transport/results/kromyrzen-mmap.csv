@@ -1,0 +1,4 @@
+# kromyrzen Windows-11-10.0.26300-SP0 page 4096 B, file 0.67 GiB, 2000 random pages, 2026-11-14T05:58:48-0800
+case,n,median_us,p10_us,p90_us
+warm,2000,1.300,1.100,1.800
+hot,2000,0.100,0.100,0.200

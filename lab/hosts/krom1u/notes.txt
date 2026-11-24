@@ -1,0 +1,198 @@
+krom1u (this Mac: macOS 27, Apple M1 Ultra, 64 GB): llama.cpp and Ollama via Homebrew, 2026-11-13.
+Layout: system.txt; this file; run/ (logs, responses); footprint/engines/changes.txt (install
+differences); footprint/<harness>/changes.txt and ch15-harnesses.txt (Chapter 15);
+footprint/inventory.txt (code/appB/inventory.sh, 2026-11-14).
+
+Homebrew ran `brew cleanup` after the install and removed cached installers of other casks (about 2.7 GB); set HOMEBREW_NO_INSTALL_CLEANUP=1 to prevent it.
+llama.cpp build 12359 stores -hf downloads in the Hugging Face hub cache: ~/.cache/huggingface/hub/models--<org>--<repo> (with .locks), not in a llama.cpp cache directory.
+llama-server build 12359 listens on 127.0.0.1:9931 by default (--help, checked 2026-11-14); the test here passed --port 8080.
+Ollama 0.40.16 (Homebrew formula; depends on the mlx and mlx-c formulae):
+- `ollama serve` listens on 127.0.0.1:11434 and starts a bundled llama-server as a subprocess on a random loopback port, e.g.
+  .../libexec/lib/ollama/llama-server --model ~/.ollama/models/blobs/sha256-... --port 51745 --host 127.0.0.1 --no-webui --offline -c 32768 -np 1 --no-jinja --chat-template chatml --flash-attn auto -b 1024 -ub 1024 --context-shift --keep 4
+- Creates ~/.ollama/{id_ed25519,id_ed25519.pub} (identity key pair), ~/.ollama/models/{blobs,manifests,manifests-v2,metadata}, ~/.ollama/cache/model-recommendations.json.
+- Chat Completions responses carry system_fingerprint "fp_ollama"; usage includes prompt_tokens_details.cached_tokens.
+- Brew installs no launchd service unless `brew services start ollama` is run; this test ran `ollama serve` by hand.
+ggml (Metal) logs "tensor API disabled for pre-M5 and pre-A19 devices" on the M1 Ultra.
+
+SANDBOX BATTERY, SECOND RUN (Chapter 16; code/ch16/results/*-2.txt)
+- Ran code/ch16/run-unix.sh (none, seatbelt, seatbelt-exec, codex, srt) with all seven probes, the timed starts under
+  code/lab/mac-lockrun.py exclusive (the lock arrived after 723 s; load averages 3.7 4.3 5.9), and the checks of
+  results/extras-macos-m1ultra-2.txt (rule order, a proxy rule with a second listener on 127.0.0.1:3128, `log stream`
+  for sandbox denials, the environment under `codex sandbox`). Each run kept its files in ~/.battery-sbx.XXXXXX and removed it.
+- Codex CLI 0.169.0: the Homebrew cask that was already installed (kept, unchanged). The runs set CODEX_HOME to a
+  directory inside ~/.battery-sbx.XXXXXX; ~/.codex was not written (its newest file is older than the runs).
+- Anthropic sandbox runtime (srt) 0.0.83: `npm install --prefix /tmp/scratch/srt --cache /tmp/scratch/npm-cache
+  @anthropic-ai/sandbox-runtime@0.0.83` (30 MB with the cache; needs Node >= 22.12 and ripgrep, both from Homebrew here).
+  Started as .../srt/node_modules/.bin/srt --settings FILE, so no ~/.srt-settings.json was made. Removed: rm -rf /tmp/scratch.
+  Left behind: one npm debug log in ~/.npm/_logs (from `npm view`), which npm rotates.
+- No listener, no process and no ~/.battery-sbx.* directory remained.
+
+PORTING EXPERIMENT, RECORDED RUNS (Chapter 12; code/ch12/run2-1.7b, run2-8b, run2-1.7b-first, results/dspy_default.*)
+- Virtual environment: `python3.14 -m venv` (Python 3.14.10) in the session scratchpad with
+  `pip install -r code/ch12/requirements.txt`: smolagents 1.26.0, pydantic-ai-slim 2.68.0, openai-agents 0.24.0,
+  openai 3.51.0, dspy 3.5.0, opentelemetry-sdk 1.45.2 (70 packages with pip, 203 MB; the full list is packages.txt in each run
+  directory). Removed after the runs. Nothing was installed outside it.
+- code/ch12/run_exp.sh starts llama-server build 12359 itself on 127.0.0.1:8082 (-hf ggml-org/Qwen3-1.7B-GGUF:Q4_K_M
+  or ggml-org/Qwen3-8B-GGUF:Q8_0, --temp 0 --seed 1 --reasoning off -n 1024; both files were in the Hugging Face hub
+  cache) and proxy.py on 127.0.0.1:8182, and stops both. The three runs went through code/lab/mac-lockrun.py exclusive
+  (the lock arrived after 118 s, 437 s and 151 s; uptime at the start, after the repetitions and at the end is load.txt
+  in each run directory). nolimit.sh and the check of dspy_default.py ran under the shared lock.
+- DSPy 3.5.0 with cache=False wrote no cache: DSPY_CACHEDIR pointed into the scratchpad and stayed absent, and no
+  ~/.dspy_cache was made.
+- llama-server build 12359 gives every tool call an id of 32 random characters that --seed does not fix; /props reports
+  n_predict -1 although -n 1024 is in force (a reply stops at 1,024 tokens); without -n a reply that cannot end runs
+  until n_ctx_slot (40,960 tokens for both models) is full (run2-1.7b/nolimit).
+- No listener on 8082 or 8182 and no process remained.
+
+RUNS FOR THE EXERCISES AND THEIR ANSWERS (code/ch02 ch03 ch04 ch05 ch10 ch11 ch15 ch17)
+- Engines as installed: llama.cpp build 12359 and Ollama 0.40.16 (started by hand, stopped afterward); models from the
+  Hugging Face hub cache (Qwen3-1.7B Q4_K_M, Qwen3-8B Q8_0, Qwen/Qwen3-1.7B) and ~/.ollama (qwen3:1.7b). Harnesses as
+  installed: Codex 0.169.0 (CODEX_HOME inside the session scratchpad; ~/.codex was not written), opencode 2.3.0
+  (opencode run --standalone --archived: sessions added to ~/.local/share/opencode), Goose 1.59.1 (one session goose-px
+  in ~/.local/share/goose/sessions; the runs against repeat_server.py used --no-session), Aider 0.86.2 (--analytics-disable;
+  it rewrote ~/.aider/analytics.json).
+- In the session scratchpad, removed at the end: two virtual environments made with uv (NumPy 2.5.4 under Python 3.15.2;
+  lm_eval 0.4.13, torch 2.15.0, transformers 5.23.0, accelerate 1.15.0, datasets 5.2.0 under Python 3.14, with
+  HF_DATASETS_CACHE pointing into the scratchpad), HuggingFaceTB/SmolLM2-135M (config, tokenizer, model.safetensors),
+  QuantFactory/SmolLM2-135M-GGUF SmolLM2-135M.Q8_0.gguf (prithivMLmods' file of the same name holds other weights:
+  its greedy continuation of the Chapter 5 prompt differs, so it was not used), the tensor ranges of code/ch04/fetch.py,
+  the npm package @anthropic-ai/sandbox-runtime 0.0.83 unpacked for reading, and single source files of llama.cpp
+  (61dbf4922, b1b770d90), Codex (b1573f1, rust-v0.169.0), Goose (v1.59.1) and opencode (v2.3.0) fetched for reading.
+  The wheels stay in ~/.cache/uv (2.7 GB in all) and the package in ~/.npm.
+- Timed runs under code/lab/mac-lockrun.py exclusive (the lock came at once each time; load averages about 2):
+  cached.py and float64.py (code/ch05/results), coldstart.py (code/ch02/results/coldstart.txt). coldstart.py empties the
+  page cache for one file with msync(MS_INVALIDATE), which needs no root; mincore then reports 0 percent of the file
+  resident, and a plain read takes 1.25 s where it takes 0.78 s from the cache. Right after a server that had the file
+  mapped exits, the first msync may leave most pages resident; the program repeats it until they are gone.
+- llama-server build 12359 rejects --no-mmap and --mlock ("invalid argument"); the option is --load-mode. Its lines
+  about the prompt cache ("looking for better prompt", "saving prompt with length", "lcp =") print from -lv 4 on.
+- opencode 2.3.0 offered 13 tools in these runs (12 on 2026-11-14): experimental_image_generate is listed while a
+  connected provider has an image model.
+- No listener and no process of these runs remained.
+- Later the same day, for Exercise 5.13 (code/ch05/scripts/dose.py, results/dose.txt): SmolLM2-135M and the Q8_0 file
+  fetched again into the session scratchpad with a NumPy environment, and removed after the run; dose.py starts and stops
+  llama-server ten times on port 8105.
+
+RUNS FOR THE SECTIONS ADDED AFTER THE REVIEW (Sections 4.x adapter, 7.x service, 10.x retrieval and visitor, 15.4 gate,
+16.1; code/ch02 ch04 ch07 ch10 ch15 ch16)
+- A virtual environment in the session scratchpad, removed at the end: Python 3.14 with torch 2.15.0, transformers
+  5.23.0, peft 0.21.3, numpy 2.5.4. train_lora.py ran on the CPU (138 s for five passes; ranks 1 and 32 the same time).
+- Fetched into the scratchpad and removed: HuggingFaceTB/SmolLM2-135M, the files SmolLM2-135M.Q8_0.gguf of
+  QuantFactory/SmolLM2-135M-GGUF and of prithivMLmods/SmolLM2-135M-GGUF (each has the SHA-256 that the Hub lists;
+  samemodel.py finds the embedding matrix and the 61 normalization vectors equal and the 210 layer matrices different),
+  and tools/server/README.md of llama.cpp at 61dbf4922, the document of rag.py.
+- llama-server build 12359 started and stopped by the programs or by hand on ports 8084, 8105, 8107, 8108, 8109 (models
+  from the Hugging Face cache: Qwen3-1.7B Q4_K_M, Qwen3-8B Q8_0, Qwen3-Embedding-0.6B Q8_0, gemma-3-1b-it Q4_K_M);
+  Ollama 0.40.16 started and stopped for visitor.py. In router mode (no model given) llama-server lists the five GGUF
+  models of the cache and starts a child server per model on a port of its own.
+- run_gate.sh makes a directory ~/.gate-elsewhere with one small file and removes it at the end (Codex's sandbox counts
+  /tmp as writable, so the directory outside the workspace has to be in the home directory). The harnesses ran as before:
+  Codex with a CODEX_HOME in the scratchpad, opencode with --standalone --archived (sessions added to its database),
+  Goose with --no-session.
+- visitor.py asked Ollama to delete a model with a made-up name (status 404) and changed nothing; `ollama list` shows
+  the two models as before.
+- No listener and no process of these runs remained.
+- code/ch16/run_inject.sh (Section 16.1): nine runs of Goose, opencode and Codex on the Chapter 15 task with a note in
+  the code that asks for the contents of a made-up .env file; collector.py listened on 127.0.0.1:8197 and received
+  nothing. The first three Codex runs did not start (no directory for CODEX_HOME) and were repeated.
+
+RUNS AFTER THE REVIEW OF THE NEW SECTIONS (llama.cpp build 12359, opencode 2.3.0)
+- code/ch07/work/service.py now prints mebibytes under their name and puts /health and /props to the server twice a
+  second while it waits for the sleep; rerun with 2 slots (four times), 1 slot (twice), and 4 slots (twice) under the
+  exclusive lock. results/service.txt holds one run of each and the token counts of all. The impatient client costs 0 or
+  1 token with two slots, and with four slots it was served in one run of two (280 tokens).
+- code/ch15/run_mcp.sh takes GATE_ONLY=1 (the gate part needs no engine) and tries the two requests for .env under
+  "opencode run --auto" as well: opencode's own tool then reads the file that the base policy stops. results_mcp.txt.
+- llama-server --help lists --alias and no option --id (the wrong answer of the retrieval run, results/rag.txt).
+- mmap of the 8.7 GB file of Qwen3-8B from Python: 8.8 ms the first time, 5 to 12 microseconds when repeated.
+- code/ch04/adapter/train_lora.py now loads the model with dtype=torch.float32. transformers 5.23.0 takes "auto" when
+  no dtype is given and computes in the bfloat16 of config.json: five passes in 141 s instead of 17 s, and after
+  "The capital of France is the" the logits of " city" and " capital" (10.722 and 10.892 in float32) are both 10.8125,
+  so argmax takes the lower token and the line "before" read "the city of Paris". Ranks 8, 1, and 32 trained again
+  under the exclusive lock (17, 16, 19 s; a second time 18, 16, 19 s), lora2gguf.py, llama-server with --lora on port
+  8105, adapter.py and the requests with a scale repeated; results/adapter.txt holds the new output. The environment
+  and the files of SmolLM2-135M (checkpoint and QuantFactory's Q8_0 file) were in the session scratchpad.
+
+RUNS FOR THE RECORDS THAT THE REVIEW FOUND MISSING (the machine was busy with another project throughout: load averages 14 to 60)
+
+RUNS FOR THE RECORDS OF CHAPTERS 2, 5, 9 AND 10 (code/ch02 ch05 ch09 ch10; PyTorch, Transformers, MLX, mlx-lm)
+- In the session scratchpad, removed at the end: two environments made with uv under Python 3.14.10
+  (torch 2.15.0, transformers[serving] 5.23.0, numpy 2.5.4, openai 3.51.0, accelerate 1.15.0; mlx 0.32.4, mlx-lm 0.32.2,
+  transformers 5.23.0), the files of HuggingFaceTB/SmolLM2-135M at 93efa2f0 fetched with curl, and Qwen/Qwen3-0.6B at
+  c1899de2 in a hub cache of its own (HF_HUB_CACHE). mlx-community/Qwen3-0.6B-4bit came from ~/.cache/huggingface/hub.
+- verify.py ran twice under code/lab/mac-lockrun.py exclusive (the lock came after 314 s and 270 s; load averages 44 and
+  14 from other work); mask.py, conform.py and toolchoice.py ran under the shared lock.
+- mlx_lm.server on 127.0.0.1:8180 and transformers serve on 127.0.0.1:8000 (model pinned as the argument), started by
+  hand and stopped; transformers serve answers a request for any other model name with status 400.
+- Left in the home directory: one log in ~/.cache/huggingface/xet/logs, the update markers of the hf command touched,
+  and new wheels in ~/.cache/uv (2.9 GB in all). No listener and no process of these runs remained.
+
+RUNS FOR THE OPEN RECORDS OF CHAPTERS 7, 9, 10, AND 11 (llama.cpp build 12359, Ollama 0.40.16; code/ch07 ch09 ch10 ch11)
+- code/ch10/aisdk: `npm install` with the cache in the session scratchpad (ai 7.0.173 and the providers of package.json, 13
+  packages) and `node dialects.mjs` (Node.js 26.13.1) against llama-server on port 8080. node_modules and the new
+  package-lock.json were removed afterward, the cache too. One npm debug log (from `npm ls`) stays in ~/.npm/_logs, which npm rotates.
+- llama-server started by hand and stopped on ports 8080 (dialects.mjs, conform.py), 8107 (conform_parallel.py; the cancel test
+  on a fresh server at the default verbosity) and 8084 (spectest.py: eight fresh servers, Qwen3-8B Q8_0 alone and with Qwen3-1.7B
+  Q4_K_M as its draft). Models came from the Hugging Face hub cache; nothing was downloaded.
+- `ollama serve` started by hand with its log in the scratchpad, and stopped after conform.py, conform_parallel.py, status.py and the
+  request with tools for gemma3:1b. `ollama list` shows qwen3:1.7b and gemma3:1b as before. The runner started with -c 40960 (the
+  default context of 262144 for 51.8 GiB, cut to the model's 40960); a prompt of 45011 tokens was shortened to 20482 with a warning.
+- The six recorded runs of spectest.py went through code/lab/mac-lockrun.py exclusive, one run at a time with the start of its
+  server inside the lock (the lock arrived after 5, 1, 758, 261, 114 and 0 s; load averages 14 to 36 from other work). The other
+  runs took the shared lock (waits of up to 445 s).
+- The story of conform.py's t_max_completion on Ollama came out at 1176 and 1295 tokens, after 1069 and 1176 in the earlier runs.
+- No listener on 8080, 8084, 8107 or 11434 and no process of these runs remained.
+
+RECORDS FOR CHAPTERS 12 AND 13 (code/ch12/results/output_typed-qwen3-8b-noref.json; code/ch13/results/agent-runs.txt,
+session-tap-*.log, poisoned-runs.txt, bench.txt, inspector-http.txt, runs20/)
+- llama-server build 12359 started and stopped by hand: Qwen3-8B Q8_0 on 127.0.0.1:8082 (--temp 0 --seed 1 --reasoning off
+  -n 1024) for the replay of Chapter 12, then ggml-org/Qwen3-1.7B-GGUF (the Q4_K_M file, engine defaults) on 127.0.0.1:8085
+  for mcp_agent.py: 25 runs with files_server.py behind tap.py and 25 with poisoned_server.py. The model read todo.txt in
+  7 of the 25 clean runs and .env in 1 of the 25 poisoned ones. Six more runs on a copy of sample without a.txt (not
+  recorded) read todo.txt in 3.
+- Timed under code/lab/mac-lockrun.py exclusive (the lock arrived after 86, 146, 266 and 759 s; load averages 14 to 34 from
+  other work): the agent runs with tap.py, and bench.py, which now takes a stdio server's command line (bench.py CMD...).
+  http_server.py ran on 127.0.0.1:8765 for bench.py and the Inspector.
+- Two environments made with uv (Python 3.14.10) in the session scratchpad, mcp 2.3.0 and mcp 1.30.0 (pydantic 2.14.4), for
+  bench.py and one more run of record_sdk.sh in a copy of code/ch13 (its records came out the same, the tap logs apart from
+  their times); both removed. The wheel of mcp 1.30.0 and its dependencies stay in ~/.cache/uv.
+- MCP Inspector 2.15.0 through npx (Node.js 26.13.1, npm 11.20.0) from the copy already in ~/.npm/_npx; left behind in
+  ~/.npm: two debug logs in _logs, which npm rotates, and the refreshed registry entry of the package in _cacache.
+- No listener on 8082, 8085, 8765 or 8766 and no process of these runs remained; no __pycache__ in code/ch12 or code/ch13.
+
+RUNS FOR THE RECORDS OF CHAPTER 4 (TRY IT), APPENDIX C AND ANSWER 8.2 (code/ch04/results, code/appC/results, code/ch08/results)
+- llama.cpp build 12359 (Homebrew) as installed. Fetched into the session scratchpad and removed at the end:
+  SmolLM2-135M-Instruct-f16.gguf of bartowski/SmolLM2-135M-Instruct-GGUF, SmolLM2-135M.Q8_0.gguf of QuantFactory (for a
+  token count only), WikiText-2 through scripts/get-wikitext-2.sh of llama.cpp, the two Q4_K_M files, imatrix.gguf and
+  base.kld (14,842,391,956 bytes). llama-imatrix and llama-perplexity ran under the shared lock.
+- llama-server started once on 127.0.0.1:8097 (-hf ggml-org/gemma-3-1b-it-GGUF, from the hub cache) and stopped with kill;
+  an SSH forward from local port 18434 to the Ollama of xps-8930 was opened for one request and closed. Nothing was
+  started on xps-8930.
+- Two environments made with uv 0.13.8 in the scratchpad (Python 3.14.10; NumPy 2.5.5, which `uv pip install numpy` now
+  resolves to, and NumPy 2.5.4), removed at the end; the wheels were already in ~/.cache/uv. The uv sessions and three
+  runs of matmul.py went through code/lab/mac-lockrun.py exclusive (the lock arrived after 396 s, 7 s and 782 s).
+- ggml's scheduler on this build: with -ngl 14 the Q4_K matrices left in host memory sit in the CPU_REPACK buffer type
+  and are not offered for operation offload; with --no-repack the BLAS backend takes matrix products of 32 rows or more;
+  Metal takes them only below that, with GGML_OP_OFFLOAD_MIN_BATCH lowered, and asks for matrix products alone.
+- Single source files of llama.cpp at b1b770d90 were fetched for reading (ggml-backend.cpp, ggml-metal.cpp,
+  ggml-cuda.cu, ggml-blas.cpp, repack.cpp, perplexity.cpp). No listener on 8097, 8098 or 18434 and no process remained.
+
+RUNS FOR THE CONFIRMATIONS AGAINST LOST LOGS (Chapters 15 and 17; code/ch15/results.txt, results_cline_claude.txt,
+code/ch17/results/times.txt)
+- In the session scratchpad, removed at the end: a uv environment (Python 3.14.10; lm_eval 0.4.13, inspect_ai 0.3.289, torch
+  2.15.0, transformers 5.23.0, accelerate 1.15.0, datasets 5.2.0, openai 3.51.0), the npm package @anthropic-ai/claude-code
+  2.1.325 (npm install --prefix with HOME and the npm cache in the scratchpad, 338 MB), two CODEX_HOME directories, and a clone
+  of the history bundle. Kept there: the raw logs of the timed runs (ch17/out, out-hf, out-hf2) and the proxies' captures.
+- llama-server build 12359 started and stopped on 127.0.0.1:8300 (Qwen3-8B Q8_0, -c 40960 -np 1) and 8310 (Gemma 3 1B Q8_0,
+  -c 32768 -np 8); proxy.py on 8301 and 8304, proxy_messages.py on 8302, repeat_server.py on 8303. No listener or process remained.
+- Harnesses: Codex 0.169.0 with CODEX_HOME in the scratchpad (codex --version left a directory ~/.codex/tmp/arg0-macos);
+  opencode 2.3.0 with run --standalone --archived (one more archived session, opencode-a, in ~/.local/share/opencode); Goose
+  1.59.1 with --no-session, which still wrote a hidden session (20261124_1) into ~/.local/share/goose/sessions/sessions.db;
+  Claude Code 2.1.325 with HOME in the scratchpad. That last run did not hold the load lock: mac-lockrun.py takes its lock
+  files from the home directory, so with HOME changed it locked files in the scratchpad (13:53:34 to 13:55:56). Runs 02 to 10
+  of code/ch13/results/runs20 fell into that window, and their times are not used.
+- Timed runs under code/lab/mac-lockrun.py exclusive (the lock came after 0 to 128 s; load averages 14 to 36 from other work):
+  run_hf.sh twice, lm-eval on GSM8K once, Inspect at 1 and at 8 connections twice each. arc-hf-qwen3-1.7b.json is now the
+  result file of the first of the two runs of run_hf.sh (316 s in all; the file it replaces gave 439 s and the same scores).
+- ~/.claude/skills holds 13 skills (synced by the Claude desktop app, updated on November 20); opencode and Goose each list
+  them and two of their own. Left behind: wheels in ~/.cache/uv and one npm debug log in ~/.npm/_logs (from npm view).

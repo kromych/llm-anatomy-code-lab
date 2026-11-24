@@ -1,0 +1,14 @@
+## python3 samemodel.py a/SmolLM2-135M.Q8_0.gguf b/SmolLM2-135M.Q8_0.gguf
+## a: from QuantFactory/SmolLM2-135M-GGUF, b: from prithivMLmods/SmolLM2-135M-GGUF;
+## each digest is the one that the Hub lists for the file.
+b761d9ccdfce6772...  'Models', 272 tensors  a/SmolLM2-135M.Q8_0.gguf
+89bfee7d74067bc5...  'SmolLM2 135M', 272 tensors  b/SmolLM2-135M.Q8_0.gguf
+272 tensors have the same name in both files, 62 of them the same bytes
+the same: blk.0.attn_norm.weight blk.0.ffn_norm.weight blk.1.attn_norm.weight
+different: blk.0.attn_k.weight blk.0.attn_output.weight blk.0.attn_q.weight
+
+## llama-server (build 12359) with each file: eight tokens, greedy, after the
+## tokens 504 3575 282 4649 314 ("The capital of France is"); forward.py
+## continues with ' the capital of the country.' and two newlines.
+a: ' the capital of the country.\n\n'
+b: ' the French language, which is the official'

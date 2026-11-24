@@ -1,0 +1,5 @@
+vllm,205588 venv-vllm/bin/vllm serve Qwen/Qwen2.5-72B-Instruct --served-model-name qwen72b--tensor-parallel
+  |-VLLM::EngineCor,205886
+  |   |-VLLM::Worker_TP,206267
+  |   `-VLLM::Worker_TP,206268
+  `-python,205885 -c from multiprocessing.resource_tracker import main;main(66)

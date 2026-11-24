@@ -1,0 +1,119 @@
+Engine installs (llama.cpp and Ollama) on xps-8930, 2026-11-13: differences
+between snapshots before and after, one section per snapshot kind.
+Only added (+) and removed (-) lines are kept; the full snapshots were
+discarded. Narrative and commands: ../../notes.txt.
+
+== dirs
+# top-level entries of ~, ~/.cache, ~/.local/share, ~/.config, /usr/local/{bin,lib,share}, /usr/share, /etc/systemd/system, /etc/profile.d, /etc/ld.so.conf.d, /etc/yum.repos.d, /etc/sysusers.d, /etc/udev/rules.d, /opt
+# + only after the installs, - only before. Snapshots: before 2026-11-13 22:29, after 2026-11-13 22:45 (PST).
++ /etc/systemd/system/default.target.wants     Ollama installer (systemctl enable ollama; WantedBy=default.target)
++ /etc/systemd/system/ollama.service           Ollama installer (unit file written with tee)
++ /home/labuser/.cache/huggingface                llama.cpp: llama-server -hf download cache (HF hub layout)
++ /usr/local/bin/ollama                        Ollama installer (from ollama-linux-amd64.tar.zst, 43 MB)
++ /usr/local/lib/ollama                        Ollama installer (2.4 GB: cuda_v12 1.3G, cuda_v13 1.1G, vulkan 39M, ggml CPU variants, llama-server stub)
++ /usr/share/et                                dnf: libcom_err-devel (dependency of libcurl-devel via krb5-devel)
++ /usr/share/ollama                            Ollama installer: home of system user ollama (useradd -r -m), mode 0700
+
+# New paths below the top-level listings (checked after the installs):
++ ~/src/llama.cpp                                git clone (~/src existed before); 1.3 GB incl. .git 485M, build 161M, build-vulkan 450M
++ ~/.cache/huggingface/hub/models--ggml-org--gemma-3-1b-it-GGUF/{blobs,refs,snapshots}  769 MB
++ ~/.cache/huggingface/hub/.locks/models--ggml-org--gemma-3-1b-it-GGUF/
++ /usr/share/ollama/{.bash_logout,.bash_profile,.bashrc,.zprofile,.zshrc,.config/mozilla/...}   copied from /etc/skel by useradd -m
++ /usr/share/ollama/.ollama/{id_ed25519,id_ed25519.pub}                  identity key pair, generated at first 'ollama serve' (not copied)
++ /usr/share/ollama/.ollama/cache/model-recommendations.json             written by the server at start (22:35:35; one key, "recommendations")
++ /usr/share/ollama/.ollama/models/{blobs,manifests,manifests-v2,metadata}  model store, 2.1 GB (gemma3:1b + qwen3:1.7b)
++ /usr/share/ollama/.cache/mesa_shader_cache/                            created at service start (22:35:35) by Ollama's Vulkan GPU discovery
+
+# Pre-existing directories that grew:
+  ~/.cache/ccache            321 MB -> 363 MB (llama.cpp CMake uses ccache automatically when found)
+  ~/.cache/mesa_shader_cache pre-existing (Mesa's per-user shader cache); 86 new entries: 14 from vulkaninfo (22:31), 59 from the Vulkan llama-server run (22:42), 13 from Vulkan llama-bench (22:44); 6.1 MB after
+
+# Checked absent after the installs: ~/.ollama, ~/.cache/llama.cpp, ~/.local/share/ollama, ~/.config/ollama, /var/lib/ollama, /etc/ollama
+
+== enabled-units
+# systemctl list-unit-files --state=enabled  (system)
+# + only after the installs, - only before. Snapshots: before 2026-11-13 22:29, after 2026-11-13 22:45 (PST).
++ ollama.service enabled
+
+== etc-systemd-system
+# find /etc/systemd/system -maxdepth 2
+# + only after the installs, - only before. Snapshots: before 2026-11-13 22:29, after 2026-11-13 22:45 (PST).
++ ./default.target.wants
++ ./default.target.wants/ollama.service
++ ./ollama.service
+
+== groups
+# getent group  (full lines, so membership changes show as -old/+new)
+# + only after the installs, - only before. Snapshots: before 2026-11-13 22:29, after 2026-11-13 22:45 (PST).
++ ollama:x:384:labuser
++ render:x:105:ollama
++ video:x:39:ollama
+- render:x:105:
+- video:x:39:
+
+== listening
+# sudo ss -ltnpH  (local address and process; idle state, no model loaded; llama-server not running)
+# + only after the installs, - only before. Snapshots: before 2026-11-13 22:29, after 2026-11-13 22:45 (PST).
++ 127.0.0.1:11434 ollama
+
+== path
+# PATH and shell start-up files
+## path.txt
+(no change)
+## rcfiles-sha256.txt
+(no change)
+## /etc/profile.d entries
+(no change)
+
+== processes
+# ps -eo user=,comm= | sort -u  (idle state, no model loaded; kernel worker threads filtered out)
+# + only after the installs, - only before. Snapshots: before 2026-11-13 22:29, after 2026-11-13 22:45 (PST).
++ ollama   ollama
+
+== rpm
+# rpm -qa | sort  (new, upgraded and removed packages)
+# + only after the installs, - only before. Snapshots: before 2026-11-13 22:29, after 2026-11-13 22:45 (PST).
++ brotli-1.2.1-1.fc44.x86_64                         dnf #45, dependency of libcurl-devel
++ brotli-devel-1.2.1-1.fc44.x86_64                   dnf #45, dependency of libcurl-devel
++ cmake-4.3.0-1.fc44.x86_64                          dnf #45, requested: sudo dnf install -y cmake libcurl-devel
++ cmake-data-4.3.0-1.fc44.noarch                     dnf #45, dependency of cmake
++ cmake-rpm-macros-4.3.0-1.fc44.noarch               dnf #45, dependency of cmake
++ glslc-2026.1-1.fc44.x86_64                         dnf #46, requested: sudo dnf install -y vulkan-headers vulkan-loader-devel glslc vulkan-tools mesa-vulkan-drivers (mesa-vulkan-drivers already installed)
++ jsoncpp-1.9.6-3.fc44.x86_64                        dnf #45, dependency of cmake
++ keyutils-libs-devel-1.6.3-7.fc44.x86_64            dnf #45, dependency of libcurl-devel
++ krb5-devel-1.22.2-4.fc44.x86_64                    dnf #45, dependency of libcurl-devel
++ libbrotli-1.2.1-1.fc44.x86_64                      dnf #45 upgrade 1.2.0-3 -> 1.2.1-1, pulled in by brotli-devel (dependency of libcurl-devel)
++ libcom_err-devel-1.47.3-4.fc44.x86_64              dnf #45, dependency of libcurl-devel
++ libcurl-devel-8.18.0-14.fc44.x86_64                dnf #45, requested: sudo dnf install -y cmake libcurl-devel
++ libidn2-devel-2.3.8-3.fc44.x86_64                  dnf #45, dependency of libcurl-devel
++ libkadm5-1.22.2-4.fc44.x86_64                      dnf #45, dependency of libcurl-devel
++ libnghttp2-devel-1.68.0-5.fc44.x86_64              dnf #45, dependency of libcurl-devel
++ libnghttp3-1.18.0-1.fc44.x86_64                    dnf #45, dependency of libcurl-devel
++ libnghttp3-devel-1.18.0-1.fc44.x86_64              dnf #45, dependency of libcurl-devel
++ libpsl-devel-0.21.5-7.fc44.x86_64                  dnf #45, dependency of libcurl-devel
++ libssh-devel-0.12.2-1.fc44.x86_64                  dnf #45, dependency of libcurl-devel
++ libverto-devel-0.3.2-12.fc44.x86_64                dnf #45, dependency of libcurl-devel
++ ngtcp2-crypto-ossl-devel-1.22.1-1.fc44.x86_64      dnf #45, dependency of libcurl-devel
++ ngtcp2-devel-1.22.1-1.fc44.x86_64                  dnf #45, dependency of libcurl-devel
++ publicsuffix-list-20260116-1.fc44.noarch           dnf #45, dependency of libcurl-devel
++ rhash-1.4.5-4.fc44.x86_64                          dnf #45, dependency of cmake
++ spirv-headers-devel-1.5.5-45.fc44.noarch           dnf #47, requested after the Vulkan configure failed: sudo dnf install -y spirv-headers-devel
++ vulkan-headers-1.4.341.0-1.fc44.noarch             dnf #46, requested: sudo dnf install -y vulkan-headers vulkan-loader-devel glslc vulkan-tools mesa-vulkan-drivers (mesa-vulkan-drivers already installed)
++ vulkan-loader-devel-1.4.341.0-1.fc44.x86_64        dnf #46, requested: sudo dnf install -y vulkan-headers vulkan-loader-devel glslc vulkan-tools mesa-vulkan-drivers (mesa-vulkan-drivers already installed)
++ vulkan-tools-1.4.341.0-1.fc44.x86_64               dnf #46, requested: sudo dnf install -y vulkan-headers vulkan-loader-devel glslc vulkan-tools mesa-vulkan-drivers (mesa-vulkan-drivers already installed)
+- libbrotli-1.2.0-3.fc44.x86_64                      dnf #45 upgrade 1.2.0-3 -> 1.2.1-1, pulled in by brotli-devel (dependency of libcurl-devel)
+# Totals: 27 packages installed (7 requested, 20 dependencies) and 1 upgraded (libbrotli; 28 '+' lines incl. the upgrade). Ollama's installer installs no RPMs on a machine without NVIDIA/AMD GPUs.
+
+== running-services
+# systemctl list-units --type=service --state=running
+# + only after the installs, - only before. Snapshots: before 2026-11-13 22:29, after 2026-11-13 22:45 (PST).
++ ollama.service
+
+== user-units
+# systemctl --user list-unit-files  (user labuser)
+# + only after the installs, - only before. Snapshots: before 2026-11-13 22:29, after 2026-11-13 22:45 (PST).
+
+== users
+# getent passwd  (full lines; the name list is in before/users.txt and after/users.txt)
+# + only after the installs, - only before. Snapshots: before 2026-11-13 22:29, after 2026-11-13 22:45 (PST).
++ ollama:x:386:384::/usr/share/ollama:/bin/false

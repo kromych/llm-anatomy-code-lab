@@ -1,0 +1,17 @@
+## lm_eval --model hf --model_args pretrained=Qwen/Qwen3-1.7B \
+##     --device mps --include_path . --tasks quiz
+## (in quiz/, with the versions of requirements.txt, on S3-macOS)
+hf ({'pretrained': 'Qwen/Qwen3-1.7B'}), gen_kwargs: ({}), limit: None, num_fewshot: None, batch_size: 1
+|Tasks|Version|Filter|n-shot| Metric |   |Value|   |Stderr|
+|-----|-------|------|-----:|--------|---|----:|---|-----:|
+|quiz |Yaml   |none  |     0|acc     |↑  | 0.25|±  |  0.25|
+|     |       |none  |     0|acc_norm|↑  | 0.75|±  |  0.25|
+
+
+## the same command with --limit 2
+hf ({'pretrained': 'Qwen/Qwen3-1.7B'}), gen_kwargs: ({}), limit: 2.0, num_fewshot: None, batch_size: 1
+|Tasks|Version|Filter|n-shot| Metric |   |Value|   |Stderr|
+|-----|-------|------|-----:|--------|---|----:|---|-----:|
+|quiz |Yaml   |none  |     0|acc     |↑  |  0.0|±  |   0.0|
+|     |       |none  |     0|acc_norm|↑  |  0.5|±  |   0.5|
+

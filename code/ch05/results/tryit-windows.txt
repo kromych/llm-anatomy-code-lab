@@ -1,0 +1,207 @@
+## The Try it box of Section 5.8 in Windows PowerShell 5.1.26100.10068, in
+## code\ch05\scripts on S4-Windows (Windows 11, build 10.0.26300.10075), over
+## SSH. Python 3.13.12 and NumPy 2.5.5, the release that `pip install numpy`
+## chose; pip 25.3, curl 8.23.0. The lines after "PS>" ran one by one in one
+## session per part; psx.ps1 (lab/hosts/kromyrzen/run/psx.ps1) prints each
+## line and then runs it, and prints a line that begins with "#" as it is.
+## The scratch directory is C:\Users\labuser\AppData\Local\Temp\scratch. A
+## line of curl's progress meter stands as a terminal leaves it, in its
+## last state. One run of each part.
+# 1. The lines of the box that the text gives no PowerShell form for, as printed
+PS> mkdir smollm2 && cd smollm2
+At line:1 char:15
++ mkdir smollm2 && cd smollm2
++               ~~
+The token '&&' is not a valid statement separator in this version.
+PS> u=https://huggingface.co/HuggingFaceTB/SmolLM2-135M/resolve/main
+u=https://huggingface.co/HuggingFaceTB/SmolLM2-135M/resolve/main : The term 
+'u=https://huggingface.co/HuggingFaceTB/SmolLM2-135M/resolve/main' is not recognized as the name of a cmdlet, 
+function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the 
+path is correct and try again.
+At line:1 char:1
++ u=https://huggingface.co/HuggingFaceTB/SmolLM2-135M/resolve/main
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (u=https://huggi...5M/resolve/main:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+PS> cd .. && python3 -m venv venv && venv\Scripts\pip install numpy
+At line:1 char:7
++ cd .. && python3 -m venv venv && venv\Scripts\pip install numpy
++       ~~
+The token '&&' is not a valid statement separator in this version.
+
+At line:1 char:31
++ cd .. && python3 -m venv venv && venv\Scripts\pip install numpy
++                               ~~
+The token '&&' is not a valid statement separator in this version.
+PS> python3 --version
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+
+# 2. The box in a form that Windows PowerShell 5.1 accepts
+PS> $PSVersionTable.PSVersion.ToString()
+5.1.26100.10068
+PS> python --version
+Python 3.13.12
+PS> mkdir smollm2; cd smollm2
+
+
+    Directory: C:\Users\labuser\AppData\Local\Temp\scratch\code\ch05\scripts
+
+
+Mode                 LastWriteTime         Length Name                                                                 
+----                 -------------         ------ ----                                                                 
+d-----        11/24/2026   1:52 PM                smollm2                                                              
+
+
+PS> $u = 'https://huggingface.co/HuggingFaceTB/SmolLM2-135M/resolve/main'
+PS> curl.exe -LO $u/config.json
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+100    256 100    256   0      0   1591      0                              0
+100    704 100    704   0      0   4223      0                              0
+PS> curl.exe -LO $u/model.safetensors
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+100   1040 100   1040   0      0   9186      0                              0
+100 256.5M 100 256.5M   0      0 36.60M      0   00:07   00:07         34.74M
+PS> curl.exe -LO $u/tokenizer.json
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+100    262 100    262   0      0   2548      0                              0
+100  2.00M 100  2.00M   0      0 15.30M      0                              0
+PS> Get-ChildItem | Format-Table Length, Name
+
+   Length Name             
+   ------ ----             
+      704 config.json      
+269060552 model.safetensors
+  2104556 tokenizer.json   
+
+
+PS> cd ..; python -m venv venv; venv\Scripts\pip install numpy
+Collecting numpy
+  Downloading numpy-2.5.5-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+Downloading numpy-2.5.5-cp313-cp313-win_amd64.whl (12.6 MB)
+   ---------------------------------------- 12.6/12.6 MB 63.4 MB/s  0:00:00
+Installing collected packages: numpy
+Successfully installed numpy-2.5.5
+
+[notice] A new release of pip is available: 25.3 -> 26.3
+[notice] To update, run: C:\Users\labuser\AppData\Local\Temp\scratch\code\ch05\scripts\venv\Scripts\python.exe -m pip install --upgrade pip
+PS> python ../../ch03/scripts/bpe.py smollm2/tokenizer.json "The capital of France is"
+[504, 3575, 282, 4649, 314]
+PS> venv\Scripts\python forward.py smollm2 504 3575 282 4649 314
+[504, 3575, 282, 4649, 314, 260, 3575, 282, 260, 1798, 30, 198, 198]
+PS> venv\Scripts\python dist.py smollm2 logits.npy 504 3575 282 4649 314
+ids [504, 3575, 282, 4649, 314] -> logits.npy float32 (49152,)
+top logits [(260, ' the', 14.023), (7042, ' Paris', 12.997), (3807, ' located', 12.747), (1217, ' called', 12.237), (253, ' a', 12.125), (13010, ' situated', 12.036), (281, ' in', 11.243), (216, ' ', 10.928), (1343, ' known', 10.781), (441, ' not', 10.696), (3365, ' named', 10.681), (4649, ' France', 10.517)]
+T=0.5 [0.7718, 0.0993, 0.0602, 0.0217, 0.0173, 0.0145, 0.003, 0.0016, 0.0012, 0.001, 0.001, 0.0007] sum12 0.9932 entropy 0.93
+T=1.0 [0.2617, 0.0938, 0.0731, 0.0439, 0.0392, 0.0359, 0.0162, 0.0118, 0.0102, 0.0094, 0.0093, 0.0079] sum12 0.6124 entropy 4.412
+T=1.5 [0.0496, 0.0251, 0.0212, 0.0151, 0.014, 0.0132, 0.0078, 0.0063, 0.0057, 0.0054, 0.0054, 0.0048] sum12 0.1736 entropy 7.805
+top-p 0.9 keeps (T=1) 406
+top-p 0.95 keeps (T=1) 1063
+min-p 0.05 keeps (T=1) 7
+top-p 0.95 after T=0.6 keeps 6
+min-p 0.05 keeps (T=0.6) 4
+vocab 49152
+PS> venv\Scripts\python sample.py logits.npy 7042
+llama.cpp    keeps 7 tokens, p(7042) = 0.1546; 1561 of 10000 draws
+vLLM         keeps 5 tokens, p(7042) = 0.1651; 1645 of 10000 draws
+Transformers keeps 6 tokens, p(7042) = 0.1573; 1576 of 10000 draws
+penalty 1.3 on the logits 2, -1, 0: [1.538, -1.3, 0.0]
+T = 0 draws 260
+
+# 3. sample.py on the logits of the run on S3-macOS, which the supplement keeps in results\logits.npy, and the two vectors of logits compared
+PS> venv\Scripts\python sample.py ..\results\logits.npy 7042
+llama.cpp    keeps 7 tokens, p(7042) = 0.1546; 1562 of 10000 draws
+vLLM         keeps 5 tokens, p(7042) = 0.1651; 1645 of 10000 draws
+Transformers keeps 6 tokens, p(7042) = 0.1573; 1576 of 10000 draws
+penalty 1.3 on the logits 2, -1, 0: [1.538, -1.3, 0.0]
+T = 0 draws 260
+PS> venv\Scripts\python -c "import numpy as np; a, b = np.load('logits.npy'), np.load('../results/logits.npy'); print('largest difference', abs(a - b).max(), 'largest logit', abs(a).max())"
+largest difference 7.43866e-05 largest logit 21.352703
+PS> venv\Scripts\python -c "import numpy; print(numpy.__version__)"
+2.5.5
+PS> venv\Scripts\pip --version
+pip 25.3 from C:\Users\labuser\AppData\Local\Temp\scratch\code\ch05\scripts\venv\Lib\site-packages\pip (python 3.13)
+
+## The same box in Git Bash (GNU bash 5.2.37 of Git for Windows 2.50.1) on
+## S4-Windows, in a fresh copy of code/ch05/scripts: bash -v box.sh, where
+## bash prints a command before it runs it. Part 1 holds the eleven lines
+## of the box as printed, part 2 the lines that failed with python for
+## python3 and venv/Scripts for venv/bin. One run.
+# 1. The box as printed
+mkdir smollm2 && cd smollm2
+u=https://huggingface.co/HuggingFaceTB/SmolLM2-135M/resolve/main
+for f in config.json model.safetensors tokenizer.json; do
+  curl -LO $u/$f
+done
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   256  100   256    0     0   2413      0 --:--:-- --:--:-- --:--:--  2461
+100   704  100   704    0     0   6313      0 --:--:-- --:--:-- --:--:--  6313
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1040  100  1040    0     0  11108      0 --:--:-- --:--:-- --:--:-- 11304
+100  256M  100  256M    0     0  7220k      0  0:00:36  0:00:36 --:--:-- 8728k
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   262  100   262    0     0   2943      0 --:--:-- --:--:-- --:--:--  3011
+100 2055k  100 2055k    0     0  17.1M      0 --:--:-- --:--:-- --:--:-- 17.1M
+cd .. && python3 -m venv venv && venv/bin/pip install numpy
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+python3 ../../ch03/scripts/bpe.py smollm2/tokenizer.json \
+  "The capital of France is"
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+venv/bin/python forward.py smollm2 504 3575 282 4649 314
+C:\Users\labuser\AppData\Local\Temp\scratch\gb-ch05.sh: line 10: venv/bin/python: No such file or directory
+venv/bin/python dist.py smollm2 logits.npy 504 3575 282 4649 314
+C:\Users\labuser\AppData\Local\Temp\scratch\gb-ch05.sh: line 11: venv/bin/python: No such file or directory
+venv/bin/python sample.py logits.npy 7042
+C:\Users\labuser\AppData\Local\Temp\scratch\gb-ch05.sh: line 12: venv/bin/python: No such file or directory
+# 2. With python for python3 and venv/Scripts for venv/bin
+pwd -W | sed 's/.*\///'; ls
+scripts
+cached.py
+dist.py
+dose.py
+float64.py
+forward.py
+mlxcheck.py
+order.py
+sample.py
+smollm2
+steer.py
+verify.py
+python -m venv venv && venv/Scripts/pip install numpy
+Collecting numpy
+  Using cached numpy-2.5.5-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+Using cached numpy-2.5.5-cp313-cp313-win_amd64.whl (12.6 MB)
+Installing collected packages: numpy
+Successfully installed numpy-2.5.5
+
+[notice] A new release of pip is available: 25.3 -> 26.3
+[notice] To update, run: C:\Users\labuser\AppData\Local\Temp\scratch\gb\code\ch05\scripts\venv\Scripts\python.exe -m pip install --upgrade pip
+python ../../ch03/scripts/bpe.py smollm2/tokenizer.json \
+  "The capital of France is"
+[504, 3575, 282, 4649, 314]
+venv/Scripts/python forward.py smollm2 504 3575 282 4649 314
+[504, 3575, 282, 4649, 314, 260, 3575, 282, 260, 1798, 30, 198, 198]
+venv/Scripts/python dist.py smollm2 logits.npy 504 3575 282 4649 314
+ids [504, 3575, 282, 4649, 314] -> logits.npy float32 (49152,)
+top logits [(260, ' the', 14.023), (7042, ' Paris', 12.997), (3807, ' located', 12.747), (1217, ' called', 12.237), (253, ' a', 12.125), (13010, ' situated', 12.036), (281, ' in', 11.243), (216, ' ', 10.928), (1343, ' known', 10.781), (441, ' not', 10.696), (3365, ' named', 10.681), (4649, ' France', 10.517)]
+T=0.5 [0.7718, 0.0993, 0.0602, 0.0217, 0.0173, 0.0145, 0.003, 0.0016, 0.0012, 0.001, 0.001, 0.0007] sum12 0.9932 entropy 0.93
+T=1.0 [0.2617, 0.0938, 0.0731, 0.0439, 0.0392, 0.0359, 0.0162, 0.0118, 0.0102, 0.0094, 0.0093, 0.0079] sum12 0.6124 entropy 4.412
+T=1.5 [0.0496, 0.0251, 0.0212, 0.0151, 0.014, 0.0132, 0.0078, 0.0063, 0.0057, 0.0054, 0.0054, 0.0048] sum12 0.1736 entropy 7.805
+top-p 0.9 keeps (T=1) 406
+top-p 0.95 keeps (T=1) 1063
+min-p 0.05 keeps (T=1) 7
+top-p 0.95 after T=0.6 keeps 6
+min-p 0.05 keeps (T=0.6) 4
+vocab 49152
+venv/Scripts/python sample.py logits.npy 7042
+llama.cpp    keeps 7 tokens, p(7042) = 0.1546; 1561 of 10000 draws
+vLLM         keeps 5 tokens, p(7042) = 0.1651; 1645 of 10000 draws
+Transformers keeps 6 tokens, p(7042) = 0.1573; 1576 of 10000 draws
+penalty 1.3 on the logits 2, -1, 0: [1.538, -1.3, 0.0]
+T = 0 draws 260

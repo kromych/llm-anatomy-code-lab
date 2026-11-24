@@ -1,0 +1,10 @@
+# python3 splits.py Qwen3-1.7B-Q4_K_M.gguf -ngl 14
+split 1: CPU, 348 nodes, embd .. ffn_out-14
+split 2: CUDA0, 305 nodes, l_out-14 .. result_output
+    copy in: ffn_out-14 (8K)
+    copy in: ffn_inp-14 (8K)
+    copy in: inp_pos (<1K)
+    copy in: attn_inp_k_idxs (<1K)
+    copy in: attn_inp_v_idxs (<1K)
+    copy in: attn_inp_kq_mask (<1K)
+    copy in: out_ids (<1K)

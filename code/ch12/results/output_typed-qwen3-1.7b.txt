@@ -1,0 +1,2 @@
+pydanticai City(city='Oslo', population=700000)
+openai_agents City(city='Oslo', population=585000)

@@ -1,0 +1,2 @@
+[avx-t32.completion.log] 0.00.523.964 I system_info: n_threads = 32 (n_threads_batch = 32) / 252 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 |
+[avx-t32.stderr] build: 61dbf4922 (12376)

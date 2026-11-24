@@ -1,0 +1,10 @@
+model 15336.2 ms  [{'type': 'function', 'function': {'name': 'web__web_search', 'arguments': '{"query": "llama.cpp 1.0.0 release date", "max_results": 5}'}, 'id': 'f9SuAItXYhCGZBmryVffee0iyg6CmaNZ'}]
+mcp     731.6 ms  ('web_search', {'query': 'llama.cpp 1.0.0 release date', 'max_results': 5}, "Search results for 'llama.cpp 1.0.0 release date' (engines: ")
+model 41630.0 ms  final answer
+The release date of **llama.cpp version 1.0.0** is **November 13, 2026**. This information is cited from multiple sources, including:
+
+1. [Firmwarely](https://www.firmwarely.com/devices/llama-cpp/)  
+2. [Dev.to](https://dev.to/shakeelahmed/llamacpp-just-hit-10-local-ai-apps-finally-have-a-stable-foundation-2043)  
+3. [Superpower Daily](https://superpowerdaily.com/posts/hugging-face-releases-llama-cpp-1-0-with-clearer-rules-for-breaking-changes)  
+
+For the most authoritative confirmation, the [GitHub releases page](https://github.com/ggml-org/llama.cpp/releases) also notes the 1.0.0 release, though the exact date is explicitly stated in the third-party sources above.

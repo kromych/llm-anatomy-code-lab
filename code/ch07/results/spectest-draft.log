@@ -1,0 +1,66 @@
+I srv  server_on_li: listening on http://127.0.0.1:8104
+I srv  update_slots: all slots are idle
+I srv  server_strea: conv_id= (empty=1)
+I slot get_availabl: id  0 | task -1 |  - skipping, slot is empty
+I slot get_availabl: id  0 | task -1 | selected slot by LRU, n_tokens = 0, t_last = -1
+I srv  get_availabl: updating prompt cache
+I srv          load:  - looking for better prompt, base f_keep = -1.000, f_sim = 0.000
+I srv        update:  - cache state: 0 prompts, 0.000 MiB (limits: 8192.000 MiB, 8192 tokens, 8589934592 est)
+I srv  get_availabl: prompt cache update took 0.01 ms
+I slot launch_slot_: id  0 | task -1 | sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> min-p -> ?xtc -> temp-ext -> greedy 
+I slot launch_slot_: id  0 | task -1 | sampler params: 
+	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = 64
+	top_k = 20, top_p = 0.950, min_p = 0.050, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+I slot launch_slot_: id  0 | task 0 | processing task, is_child = 0
+I slot   operator(): id  0 | task 0 | new prompt, n_ctx_slot = 8192, n_keep = 0, task.n_tokens = 103
+I slot   operator(): id  0 | task 0 | cached n_tokens = 0, memory_seq_rm [0, end)
+I slot init_sampler: id  0 | task 0 | init sampler, took 0.01 ms, tokens: text = 103, total = 103
+I slot print_timing: id  0 | task 0 | prompt eval time =     264.38 ms /   103 tokens (    2.57 ms per token,   389.59 tokens per second)
+I slot print_timing: id  0 | task 0 |        eval time =    1423.14 ms /    70 tokens (   20.63 ms per token,    48.48 tokens per second)
+I slot print_timing: id  0 | task 0 |       total time =    1687.51 ms /   173 tokens
+I slot print_timing: id  0 | task 0 |    graphs reused =         15
+I slot print_timing: id  0 | task 0 |   graph reallocs =          0    /     0        (same size) / (changed size)
+I slot print_timing: id  0 | task 0 | draft acceptance = 0.90000 (   54 accepted /    60 generated), mean len =  4.60
+I slot print_timing: id  0 | task 0 |      acc per pos = (1.000, 0.867, 0.867, 0.867)
+I spec common_specu: statistics     draft-simple: #calls(b,g,a) =    1     15     15, #gen drafts =     15, #acc drafts =    15, #gen tokens =     60, #acc tokens =    54, #mean acc len = 4.60, #acc rate/pos = (1.000, 0.867, 0.867, 0.867), dur(b,g,a) = 0.007, 822.856, 0.006 ms
+I slot      release: id  0 | task 0 | stop processing: n_tokens = 172, truncated = 0
+I srv  update_slots: all slots are idle
+I srv  server_strea: conv_id= (empty=1)
+I slot get_availabl: id  0 | task -1 |  - checking sim = 0.111 (3/27) > 0.100
+I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 0.111 (> 0.100 thold), f_keep = 0.017
+I srv  get_availabl: updating prompt cache
+I srv   prompt_save:  - saving prompt with length 172, total state size = 43.005 MiB (draft: 18.815 MiB)
+I srv          load:  - looking for better prompt, base f_keep = 0.017, f_sim = 0.111
+I srv          load:    - prompt with length     172, lcp =       3, f_keep = 0.017, f_sim = 0.111
+I srv        update:  - cache state: 1 prompts, 43.005 MiB (limits: 8192.000 MiB, 8192 tokens, 32763 est)
+I srv        update:    - prompt 0x75792301f0:     172 tokens, checkpoints:  0,    43.005 MiB
+I srv  get_availabl: prompt cache update took 19.69 ms
+I slot launch_slot_: id  0 | task -1 | sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> min-p -> ?xtc -> temp-ext -> greedy 
+I slot launch_slot_: id  0 | task -1 | sampler params: 
+	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = 64
+	top_k = 20, top_p = 0.950, min_p = 0.050, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+I slot launch_slot_: id  0 | task 17 | processing task, is_child = 0
+I slot   operator(): id  0 | task 17 | new prompt, n_ctx_slot = 8192, n_keep = 0, task.n_tokens = 27
+I slot   operator(): id  0 | task 17 | cached n_tokens = 3, memory_seq_rm [3, end)
+I slot init_sampler: id  0 | task 17 | init sampler, took 0.00 ms, tokens: text = 27, total = 27
+I slot print_timing: id  0 | task 17 | n_gen =    100, tg =  25.05 t/s, tg_3s =  25.30 t/s
+I slot print_timing: id  0 | task 17 | prompt eval time =     108.98 ms /    24 tokens (    4.54 ms per token,   220.22 tokens per second)
+I slot print_timing: id  0 | task 17 |        eval time =    6657.75 ms /   187 tokens (   35.79 ms per token,    27.94 tokens per second)
+I slot print_timing: id  0 | task 17 |       total time =    6766.74 ms /   211 tokens
+I slot print_timing: id  0 | task 17 |    graphs reused =         82
+I slot print_timing: id  0 | task 17 |   graph reallocs =          0    /     0        (same size) / (changed size)
+I slot print_timing: id  0 | task 17 | draft acceptance = 0.43750 (  119 accepted /   272 generated), mean len =  2.75
+I slot print_timing: id  0 | task 17 |      acc per pos = (0.735, 0.500, 0.309, 0.206)
+I spec common_specu: statistics     draft-simple: #calls(b,g,a) =    2     83     83, #gen drafts =     83, #acc drafts =    65, #gen tokens =    332, #acc tokens =   173, #mean acc len = 3.08, #acc rate/pos = (0.783, 0.566, 0.410, 0.325), dur(b,g,a) = 0.014, 4636.087, 0.027 ms
+I slot      release: id  0 | task 17 | stop processing: n_tokens = 214, truncated = 0
+I srv  update_slots: all slots are idle
+I srv    operator(): operator(): cleaning up before exit...
+I common_memory_breakdown_print: | memory breakdown [MiB]    | total    free    self   model   context   compute    unaccounted |
+I common_memory_breakdown_print: |   - MTL0 (Apple M1 Ultra) | 53084 = 42132 + (8933 =  7669 +    1152 +     112) +        2017 |
+I common_memory_breakdown_print: |   - Host                  |                   670 =   630 +       0 +      40                |
+I ggml_metal_free: deallocating
+I ggml_metal_free: deallocating

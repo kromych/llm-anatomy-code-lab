@@ -1,0 +1,8 @@
+{"question": "Which file mentions GGUF? Give its path.", "ok": true, "answer": "docs/formats.md", "seconds": 0.65, "prompt": 497, "cached": 419, "completion": 23, "turns": 2}
+{"question": "Which port does the server configuration set?", "ok": false, "answer": "The server configuration does not contain the specified text.", "seconds": 0.65, "prompt": 466, "cached": 418, "completion": 27, "turns": 2}
+{"question": "What is the total of the gigabytes column of data/sizes.csv?", "ok": false, "answer": "100", "seconds": 1.54, "prompt": 1503, "cached": 1310, "completion": 62, "turns": 5}
+{"question": "How many files are in the docs directory?", "ok": false, "answer": "There are 2 files in the docs directory.", "seconds": 0.79, "prompt": 480, "cached": 418, "completion": 29, "turns": 2}
+{"question": "What is the title on the first line of README.md?", "ok": true, "answer": "Lab notebook", "seconds": 0.62, "prompt": 487, "cached": 421, "completion": 22, "turns": 2}
+{"question": "How many lines of log/server.log contain ERROR?", "ok": true, "answer": "3", "seconds": 0.73, "prompt": 591, "cached": 419, "completion": 20, "turns": 2}
+{"question": "Which file defines the function quantize? Give its path.", "ok": true, "answer": "src/quant.py", "seconds": 0.55, "prompt": 476, "cached": 421, "completion": 23, "turns": 2}
+{"question": "What is 12 percent of the total of the gigabytes column of data/sizes.csv?", "ok": false, "answer": "2.16", "seconds": 2.03, "prompt": 1658, "cached": 1435, "completion": 76, "turns": 5}

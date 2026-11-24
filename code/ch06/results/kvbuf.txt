@@ -1,0 +1,15 @@
+# kvbuf.py on S3-macOS (Apple M1 Ultra), llama.cpp build 12359 (b1b770d90).
+# Each command line is followed by the output of the script.
+# O="--host 127.0.0.1 --port 8104 --offline"
+$ python3 kvbuf.py ggml-org/Qwen3-1.7B-GGUF:Q4_K_M $O
+28 layers x  4096 positions  K f16   V f16     448.00 MiB
+$ python3 kvbuf.py ggml-org/Qwen3-1.7B-GGUF:Q4_K_M -ctk q8_0 -ctv q8_0 $O
+28 layers x  4096 positions  K q8_0  V q8_0    238.00 MiB
+$ python3 kvbuf.py ggml-org/gemma-3-1b-it-GGUF $O
+ 4 layers x  4096 positions  K f16   V f16      16.00 MiB
+22 layers x  1024 positions  K f16   V f16      22.00 MiB
+$ python3 kvbuf.py ggml-org/gemma-3-1b-it-GGUF --swa-full $O
+ 4 layers x  4096 positions  K f16   V f16      16.00 MiB
+22 layers x  4096 positions  K f16   V f16      88.00 MiB
+$ python3 kvbuf.py ggml-org/Qwen3-8B-GGUF -c 32768 $O
+36 layers x 32768 positions  K f16   V f16    4608.00 MiB

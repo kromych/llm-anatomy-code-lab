@@ -1,0 +1,27 @@
+{%- if tools %}
+    {#- omitted: a system turn that describes the tools #}
+{%- else %}
+    {%- if messages[0].role == 'system' %}
+        {{- '<|im_start|>system\n' + messages[0].content + '<|im_end|>\n' }}
+    {%- endif %}
+{%- endif %}
+{#- omitted: a pass over messages[::-1] that finds the last user query #}
+{%- for message in messages %}
+    {%- if message.content is string %}
+        {%- set content = message.content %}
+    {%- else %}
+        {%- set content = '' %}
+    {%- endif %}
+    {%- if (message.role == "user")
+           or (message.role == "system" and not loop.first) %}
+        {{- '<|im_start|>' + message.role + '\n' + content
+            + '<|im_end|>' + '\n' }}
+    {#- omitted: the branches for assistant and tool messages #}
+    {%- endif %}
+{%- endfor %}
+{%- if add_generation_prompt %}
+    {{- '<|im_start|>assistant\n' }}
+    {%- if enable_thinking is defined and enable_thinking is false %}
+        {{- '<think>\n\n</think>\n\n' }}
+    {%- endif %}
+{%- endif %}

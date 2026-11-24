@@ -1,0 +1,13 @@
+## An earlier conform.py, with eleven checks, printed these lines; the
+## program has sixteen today, and conform16-ollama.txt is its record.
+PASS  t_basic
+PASS  t_stream
+PASS  t_stop
+PASS  t_length
+FAIL  t_n -- AssertionError n ignored
+PASS  t_logprobs
+PASS  t_tool_auto
+FAIL  t_tool_required -- AssertionError no tool call: "Hello! How can I assist you today? Could you please tell me the name of the city you'd like me to check t
+PASS  t_tool_stream
+PASS  t_schema
+PASS  t_error

@@ -1,0 +1,8 @@
+## transformers serve Qwen/Qwen3-0.6B --host 127.0.0.1 --port 8000
+##     (Transformers 5.23.0 with PyTorch 2.15.0, on S3-macOS)
+## python3 toolchoice.py http://127.0.0.1:8000/v1 Qwen/Qwen3-0.6B
+auto, weather                calls ['Oslo'], tool_calls after 113 tokens, text ''
+required, Hello!             calls [], stop after 97 tokens, text 'Hello! How can I assist you today? 😊'
+named, Hello!                calls [], stop after 97 tokens, text 'Hello! How can I assist you today? 😊'
+two cities                   calls ['Oslo', 'Lima'], tool_calls after 159 tokens, text ''
+two cities, parallel false   calls ['Oslo', 'Lima'], tool_calls after 159 tokens, text ''

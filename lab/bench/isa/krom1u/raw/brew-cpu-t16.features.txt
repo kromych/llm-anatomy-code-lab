@@ -1,0 +1,7 @@
+[brew-cpu-t16.completion.log] 0.00.967.003 I system_info: n_threads = 16 (n_threads_batch = 16) / 20 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | DOTPROD = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 |
+[brew-cpu-t16.stderr] load_backend: loaded BLAS backend from /opt/homebrew/Cellar/ggml/1.0.0/libexec/libggml-blas.so
+[brew-cpu-t16.stderr] ggml_metal_device_init: GPU name:   MTL0 (Apple M1 Ultra)
+[brew-cpu-t16.stderr] ggml_metal_device_init: GPU family: MTLGPUFamilyApple7  (1007)
+[brew-cpu-t16.stderr] load_backend: loaded MTL backend from /opt/homebrew/Cellar/ggml/1.0.0/libexec/libggml-metal.so
+[brew-cpu-t16.stderr] load_backend: loaded CPU backend from /opt/homebrew/Cellar/ggml/1.0.0/libexec/libggml-cpu-apple_m1.so
+[brew-cpu-t16.stderr] build: b1b770d90 (12359)

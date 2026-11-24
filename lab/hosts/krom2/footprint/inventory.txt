@@ -1,0 +1,31 @@
+# code/appB/inventory.sh on krom2, 2026-11-14. Tool-owned paths, processes,
+# listeners and services only; no file contents.
+== llama.cpp
+  dir   1.2G   ~/src/llama.cpp
+== ollama
+  dir   2.1G   ~/.ollama
+  cred  600    ~/.ollama/id_ed25519 (present; contents not read)
+  dir   2.2G   ~/.local/ollama
+== huggingface
+  dir   769M   ~/.cache/huggingface/hub
+== torch
+== shaders
+  dir   8.1M   ~/.cache/mesa_shader_cache
+  dir   1.9M   ~/.cache/mesa_shader_cache_db
+== docker
+  sys   root   /var/lib/containerd
+  svc   system: 3 more unit files, not enabled
+== podman
+  dir   104M   ~/.local/share/containers
+  svc   system: 7 more unit files, not enabled
+  svc   user: 8 more unit files, not enabled
+== codex
+== opencode
+== goose
+== aider
+== openhands
+== claude
+== cline
+== inspect
+== python
+  dir   92M    ~/.cache/pip

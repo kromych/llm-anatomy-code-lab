@@ -1,0 +1,24 @@
+;; A minimal Seatbelt profile for the battery of probes.
+;; sandbox-exec -f battery.sb -D WORK=dir -D GIT=dir -D SECRET=dir cmd ...
+(version 1)
+(deny default)                          ; start from nothing
+
+;; Reading: everything except the secret directory.  The deny
+;; carries a filter and wins over the broad allow wherever it stands.
+(allow file-read*)
+(deny file-read* (subpath (param "SECRET")))
+
+;; Writing: the workspace and /dev/null only, and in the workspace
+;; not the git directory.  Both rules carry a filter, so the deny
+;; must come last.
+(allow file-write* (subpath (param "WORK")) (literal "/dev/null"))
+(deny file-write* (subpath (param "GIT")))
+
+;; Processes: fork and exec are allowed; children inherit the profile.
+(allow process-fork process-exec)
+(allow signal (target same-sandbox))
+(allow process-info* (target same-sandbox))
+(allow sysctl-read)
+(allow mach-lookup (global-name "com.apple.system.opendirectoryd.libinfo"))
+
+;; Network: nothing is allowed, so all socket operations are denied.

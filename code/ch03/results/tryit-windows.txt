@@ -1,0 +1,253 @@
+# The Try it box "render a real template" of Chapter 3 in Windows PowerShell
+# 5.1.26100.10068 and in PowerShell 7.6.10, in code\ch03\scripts on S4-Windows
+# (Windows 11, build 10.0.26300.10075), over SSH. Python 3.13.12, Jinja2 3.1.6,
+# curl 8.23.0; llama-server 1.0.0-dev (build 12359), the CPU archive, with its
+# directory put first on PATH for the session, and LLAMA_CACHE pointing into
+# the scratch directory (written as C:\Users\labuser\AppData\Local\Temp\scratch),
+# where -hf stored Qwen3-1.7B-Q4_K_M.gguf.
+# The lines after "PS>" ran one by one in one session per shell; psx.ps1
+# (lab/hosts/kromyrzen/run/psx.ps1) prints each line and then runs it, and
+# prints a line that begins with "#" as it is. Where a reply has no newline
+# at its end, the next line follows it at once, as at a prompt. A line of
+# curl's progress meter stands in its last state. One run per shell.
+#
+# Windows PowerShell 5.1
+# powershell -ExecutionPolicy Bypass -File psx.ps1 box.txt
+PS> $PSVersionTable.PSVersion.ToString()
+5.1.26100.10068
+# 1. Rendering Qwen3's template: the lines of the box as printed, each on one line
+PS> python3 -m venv venv
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+PS> venv/bin/pip install jinja2
+venv/bin/pip : The term 'venv/bin/pip' is not recognized as the name of a cmdlet, function, script file, or operable 
+program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ venv/bin/pip install jinja2
++ ~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (venv/bin/pip:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+PS> mkdir qwen3
+
+
+    Directory: C:\Users\labuser\AppData\Local\Temp\scratch\code\ch03\scripts
+
+
+Mode                 LastWriteTime         Length Name                                                                 
+----                 -------------         ------ ----                                                                 
+d-----        11/24/2026   1:54 PM                qwen3                                                                
+
+
+PS> curl -L -o qwen3/tokenizer_config.json https://huggingface.co/Qwen/Qwen3-8B/resolve/main/tokenizer_config.json
+Invoke-WebRequest : A parameter cannot be found that matches parameter name 'L'.
+At line:1 char:6
++ curl -L -o qwen3/tokenizer_config.json https://huggingface.co/Qwen/Qw ...
++      ~~
+    + CategoryInfo          : InvalidArgument: (:) [Invoke-WebRequest], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
+ 
+PS> venv/bin/python render.py qwen3/tokenizer_config.json
+venv/bin/python : The term 'venv/bin/python' is not recognized as the name of a cmdlet, function, script file, or 
+operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try 
+again.
+At line:1 char:1
++ venv/bin/python render.py qwen3/tokenizer_config.json
++ ~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (venv/bin/python:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+# 2. The same as the platform note directs, with python for python3
+PS> python -m venv venv
+PS> venv\Scripts\pip install jinja2
+Collecting jinja2
+  Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting MarkupSafe>=2.0 (from jinja2)
+  Downloading markupsafe-3.0.4-cp313-cp313-win_amd64.whl.metadata (2.8 kB)
+Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+Downloading markupsafe-3.0.4-cp313-cp313-win_amd64.whl (14 kB)
+Installing collected packages: MarkupSafe, jinja2
+
+Successfully installed MarkupSafe-3.0.4 jinja2-3.1.6
+
+[notice] A new release of pip is available: 25.3 -> 26.3
+[notice] To update, run: C:\Users\labuser\AppData\Local\Temp\scratch\code\ch03\scripts\venv\Scripts\python.exe -m pip install --upgrade pip
+PS> curl.exe -L -o qwen3/tokenizer_config.json https://huggingface.co/Qwen/Qwen3-8B/resolve/main/tokenizer_config.json
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+100    250 100    250   0      0   2460      0                              0
+100   9732 100   9732   0      0  89972      0                              0
+PS> venv\Scripts\python render.py qwen3/tokenizer_config.json
+<|im_start|>user
+List the Python files in src/<|im_end|>
+<|im_start|>assistant
+# 3. Rendering and tokenizing with llama-server: the server in the background, then the requests as printed, each on one line
+PS> $p = Start-Process llama-server -ArgumentList '-hf ggml-org/Qwen3-1.7B-GGUF --port 8080' -RedirectStandardError server.log -NoNewWindow -PassThru
+PS> for ($i = 0; $i -lt 600 -and (curl.exe -s -o NUL -w '%{http_code}' 127.0.0.1:8080/health) -ne '200'; $i++) { Start-Sleep 1 }
+PS> curl -s 127.0.0.1:8080/apply-template -d '{"messages": [{"role": "user", "content": "List the Python files in src/"}]}'
+curl : Cannot find drive. A drive with the name '127.0.0.1' does not exist.
+At line:1 char:1
++ curl -s 127.0.0.1:8080/apply-template -d '{"messages": [{"role": "use ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (127.0.0.1:String) [Invoke-WebRequest], DriveNotFoundException
+    + FullyQualifiedErrorId : DriveNotFound,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
+ 
+PS> curl -s 127.0.0.1:8080/tokenize -d '{"content": "Hello world", "with_pieces": true}'
+curl : Cannot find drive. A drive with the name '127.0.0.1' does not exist.
+At line:1 char:1
++ curl -s 127.0.0.1:8080/tokenize -d '{"content": "Hello world", "with_ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (127.0.0.1:String) [Invoke-WebRequest], DriveNotFoundException
+    + FullyQualifiedErrorId : DriveNotFound,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
+ 
+PS> curl -s 127.0.0.1:8080/detokenize -d '{"tokens": [9707, 1879]}'
+curl : Cannot find drive. A drive with the name '127.0.0.1' does not exist.
+At line:1 char:1
++ curl -s 127.0.0.1:8080/detokenize -d '{"tokens": [9707, 1879]}'
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (127.0.0.1:String) [Invoke-WebRequest], DriveNotFoundException
+    + FullyQualifiedErrorId : DriveNotFound,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
+ 
+# 4. The requests with curl.exe called by that name and the body as printed
+PS> curl.exe -s 127.0.0.1:8080/apply-template -d '{"messages": [{"role": "user", "content": "List the Python files in src/"}]}'
+{"error":{"code":400,"message":"[json.exception.parse_error.101] parse error at line 1, column 2: syntax error while parsing object key - invalid literal; last read: '{m'; expected string literal","type":"invalid_request_error"}}PS> curl.exe -s 127.0.0.1:8080/tokenize -d '{"content": "Hello world", "with_pieces": true}'
+{"error":{"code":400,"message":"[json.exception.parse_error.101] parse error at line 1, column 2: syntax error while parsing object key - invalid literal; last read: '{c'; expected string literal","type":"invalid_request_error"}}PS> curl.exe -s 127.0.0.1:8080/detokenize -d '{"tokens": [9707, 1879]}'
+{"error":{"code":400,"message":"[json.exception.parse_error.101] parse error at line 1, column 3: syntax error while parsing object key - invalid literal; last read: '{to'; expected string literal","type":"invalid_request_error"}}# 5. The requests as the platform note directs, with the body in a file
+PS> Set-Content body.json '{"messages": [{"role": "user", "content": "List the Python files in src/"}]}'
+PS> curl.exe -s 127.0.0.1:8080/apply-template -d '@body.json'
+{"prompt":"<|im_start|>user\nList the Python files in src/<|im_end|>\n<|im_start|>assistant\n"}PS> Set-Content body.json '{"content": "Hello world", "with_pieces": true}'
+PS> curl.exe -s 127.0.0.1:8080/tokenize -d '@body.json'
+{"tokens":[{"id":9707,"piece":"Hello"},{"id":1879,"piece":" world"}]}PS> Set-Content body.json '{"tokens": [9707, 1879]}'
+PS> curl.exe -s 127.0.0.1:8080/detokenize -d '@body.json'
+{"content":"Hello world"}# 6. A body written with the redirection operator
+PS> '{"tokens": [9707, 1879]}' > body.json
+PS> (Get-Item body.json).Length
+54
+PS> curl.exe -s 127.0.0.1:8080/detokenize -d '@body.json'
+{"error":{"code":400,"message":"[json.exception.parse_error.101] parse error at line 1, column 1: syntax error while parsing value - invalid literal; last read: '�'","type":"invalid_request_error"}}PS> Stop-Process -Id $p.Id
+
+#
+# PowerShell 7
+# pwsh -ExecutionPolicy Bypass -File psx.ps1 box.txt
+PS> $PSVersionTable.PSVersion.ToString()
+7.6.10
+# 1. Rendering Qwen3's template: the lines of the box as printed, each on one line
+PS> python3 -m venv venv
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+PS> venv/bin/pip install jinja2
+venv/bin/pip: The term 'venv/bin/pip' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+PS> mkdir qwen3
+
+    Directory: C:\Users\labuser\AppData\Local\Temp\scratch\code\ch03\scripts
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          11/24/2026  1:56 PM                qwen3
+
+PS> curl -L -o qwen3/tokenizer_config.json https://huggingface.co/Qwen/Qwen3-8B/resolve/main/tokenizer_config.json
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+100    250 100    250   0      0   2450      0                              0
+100   9732 100   9732   0      0  89684      0                              0
+PS> venv/bin/python render.py qwen3/tokenizer_config.json
+venv/bin/python: The term 'venv/bin/python' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+# 2. The same as the platform note directs, with python for python3
+PS> python -m venv venv
+PS> venv\Scripts\pip install jinja2
+Collecting jinja2
+  Using cached jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting MarkupSafe>=2.0 (from jinja2)
+  Using cached markupsafe-3.0.4-cp313-cp313-win_amd64.whl.metadata (2.8 kB)
+Using cached jinja2-3.1.6-py3-none-any.whl (134 kB)
+Using cached markupsafe-3.0.4-cp313-cp313-win_amd64.whl (14 kB)
+Installing collected packages: MarkupSafe, jinja2
+
+Successfully installed MarkupSafe-3.0.4 jinja2-3.1.6
+
+[notice] A new release of pip is available: 25.3 -> 26.3
+[notice] To update, run: C:\Users\labuser\AppData\Local\Temp\scratch\code\ch03\scripts\venv\Scripts\python.exe -m pip install --upgrade pip
+PS> curl.exe -L -o qwen3/tokenizer_config.json https://huggingface.co/Qwen/Qwen3-8B/resolve/main/tokenizer_config.json
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+100    250 100    250   0      0   2561      0                              0
+100   9732 100   9732   0      0  93834      0                              0
+PS> venv\Scripts\python render.py qwen3/tokenizer_config.json
+<|im_start|>user
+List the Python files in src/<|im_end|>
+<|im_start|>assistant
+# 3. Rendering and tokenizing with llama-server: the server in the background, then the requests as printed, each on one line
+PS> $p = Start-Process llama-server -ArgumentList '-hf ggml-org/Qwen3-1.7B-GGUF --port 8080' -RedirectStandardError server.log -NoNewWindow -PassThru
+PS> for ($i = 0; $i -lt 600 -and (curl.exe -s -o NUL -w '%{http_code}' 127.0.0.1:8080/health) -ne '200'; $i++) { Start-Sleep 1 }
+PS> curl -s 127.0.0.1:8080/apply-template -d '{"messages": [{"role": "user", "content": "List the Python files in src/"}]}'
+{"prompt":"<|im_start|>user\nList the Python files in src/<|im_end|>\n<|im_start|>assistant\n"}PS> curl -s 127.0.0.1:8080/tokenize -d '{"content": "Hello world", "with_pieces": true}'
+{"tokens":[{"id":9707,"piece":"Hello"},{"id":1879,"piece":" world"}]}PS> curl -s 127.0.0.1:8080/detokenize -d '{"tokens": [9707, 1879]}'
+{"content":"Hello world"}# 4. The requests with curl.exe called by that name and the body as printed
+PS> curl.exe -s 127.0.0.1:8080/apply-template -d '{"messages": [{"role": "user", "content": "List the Python files in src/"}]}'
+{"prompt":"<|im_start|>user\nList the Python files in src/<|im_end|>\n<|im_start|>assistant\n"}PS> curl.exe -s 127.0.0.1:8080/tokenize -d '{"content": "Hello world", "with_pieces": true}'
+{"tokens":[{"id":9707,"piece":"Hello"},{"id":1879,"piece":" world"}]}PS> curl.exe -s 127.0.0.1:8080/detokenize -d '{"tokens": [9707, 1879]}'
+{"content":"Hello world"}# 5. The requests as the platform note directs, with the body in a file
+PS> Set-Content body.json '{"messages": [{"role": "user", "content": "List the Python files in src/"}]}'
+PS> curl.exe -s 127.0.0.1:8080/apply-template -d '@body.json'
+{"prompt":"<|im_start|>user\nList the Python files in src/<|im_end|>\n<|im_start|>assistant\n"}PS> Set-Content body.json '{"content": "Hello world", "with_pieces": true}'
+PS> curl.exe -s 127.0.0.1:8080/tokenize -d '@body.json'
+{"tokens":[{"id":9707,"piece":"Hello"},{"id":1879,"piece":" world"}]}PS> Set-Content body.json '{"tokens": [9707, 1879]}'
+PS> curl.exe -s 127.0.0.1:8080/detokenize -d '@body.json'
+{"content":"Hello world"}# 6. A body written with the redirection operator
+PS> '{"tokens": [9707, 1879]}' > body.json
+PS> (Get-Item body.json).Length
+26
+PS> curl.exe -s 127.0.0.1:8080/detokenize -d '@body.json'
+{"content":"Hello world"}PS> Stop-Process -Id $p.Id
+
+#
+# Git Bash (GNU bash 5.2.37 of Git for Windows 2.50.1), in a fresh copy of
+# code/ch03/scripts: bash -v box.sh, where bash prints a command before it
+# runs it. The lines are those of the box as printed, with the server put
+# in the background and a wait for /health; part 2 repeats the lines that
+# failed with python for python3 and venv/Scripts for venv/bin. The last
+# line did not end the server (the script ran without job control); it was
+# stopped with Stop-Process afterwards. One run.
+# 1. Rendering Qwen3's template, as printed
+python3 -m venv venv
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+venv/bin/pip install jinja2
+C:\Users\labuser\AppData\Local\Temp\scratch\gb-ch03.sh: line 3: venv/bin/pip: No such file or directory
+mkdir qwen3
+curl -L -o qwen3/tokenizer_config.json \
+  https://huggingface.co/Qwen/Qwen3-8B/resolve/main/tokenizer_config.json
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   250  100   250    0     0   2280      0 --:--:-- --:--:-- --:--:--  2314
+100  9732  100  9732    0     0  83770      0 --:--:-- --:--:-- --:--:-- 83770
+venv/bin/python render.py qwen3/tokenizer_config.json
+C:\Users\labuser\AppData\Local\Temp\scratch\gb-ch03.sh: line 7: venv/bin/python: No such file or directory
+# 2. With python for python3 and venv/Scripts for venv/bin
+python -m venv venv
+venv/Scripts/pip install jinja2
+Collecting jinja2
+  Using cached jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting MarkupSafe>=2.0 (from jinja2)
+  Using cached markupsafe-3.0.4-cp313-cp313-win_amd64.whl.metadata (2.8 kB)
+Using cached jinja2-3.1.6-py3-none-any.whl (134 kB)
+Using cached markupsafe-3.0.4-cp313-cp313-win_amd64.whl (14 kB)
+Installing collected packages: MarkupSafe, jinja2
+
+Successfully installed MarkupSafe-3.0.4 jinja2-3.1.6
+
+[notice] A new release of pip is available: 25.3 -> 26.3
+[notice] To update, run: C:\Users\labuser\AppData\Local\Temp\scratch\gb\code\ch03\scripts\venv\Scripts\python.exe -m pip install --upgrade pip
+venv/Scripts/python render.py qwen3/tokenizer_config.json
+<|im_start|>user
+List the Python files in src/<|im_end|>
+<|im_start|>assistant
+# 3. Rendering and tokenizing with llama-server, as printed (the server in the background)
+llama-server -hf ggml-org/Qwen3-1.7B-GGUF --port 8080 > server.log 2>&1 &
+until [ "$(curl -s -o /dev/null -w '%{http_code}' 127.0.0.1:8080/health)" = 200 ]; do sleep 1; done
+curl -s 127.0.0.1:8080/apply-template -d '{"messages":
+  [{"role": "user", "content": "List the Python files in src/"}]}'
+{"prompt":"<|im_start|>user\nList the Python files in src/<|im_end|>\n<|im_start|>assistant\n"}curl -s 127.0.0.1:8080/tokenize \
+  -d '{"content": "Hello world", "with_pieces": true}'
+{"tokens":[{"id":9707,"piece":"Hello"},{"id":1879,"piece":" world"}]}curl -s 127.0.0.1:8080/detokenize -d '{"tokens": [9707, 1879]}'
+{"content":"Hello world"}kill %1
+

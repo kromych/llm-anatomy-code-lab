@@ -1,0 +1,78 @@
+# llama-server build 12359 (b1b770d90) from Homebrew on S3-macOS (macOS 27.2),
+#   llama-server -hf ggml-org/gemma-3-1b-it-GGUF --host 127.0.0.1 --port 8101
+# Python 3.15.2; working directory code/ch10/ws; NO_COLOR=1 in the environment.
+# A terminal session, recorded with expect(1); the lines after the prompts
+# are the keys typed.
+$ python3 ../../ch01/agent_loop.py http://127.0.0.1:8101/v1
+> List the Python files in src/
+Okay, let's break down how to determine the Python files in the `src/` directory.  There are a few ways to do this, depending on your operating system and how you're accessing the files.
+
+**1. Using Command Line (Most Common & Reliable)**
+
+   The easiest and most reliable way is to use the command line:
+
+   ```bash
+   ls -l src/ | grep "py"
+   ```
+
+   * **`ls -l src/`**: This lists the contents of the `src/` directory in long format.  The output will show the file names, permissions, size, etc.
+   * **`|`**: This pipes the output of the `ls` command to the next command.
+   * **`grep "py"`**: This filters the output of `ls` to show only lines that contain "py" (which indicates Python files).
+
+   The output will be a list of the Python files, like this:
+
+   ```
+   0  src/main.py
+   1  src/utils/helper.py
+   2  src/tests/test_example.py
+   ...
+   ```
+
+**2. Using `find` Command (Alternative)**
+
+   The `find` command can also be used:
+
+   ```bash
+   find src/ -type f -name "*.py"
+   ```
+
+   * **`find src/`**: This starts the search in the `src/` directory.
+   * **`-type f`**: This tells `find` to only look for files (not directories).
+   * **`-name "*.py"`**: This filters the files to only show files that end with the `.py` extension (Python files).
+
+   The output will be a list of the Python files:
+
+   ```
+   src/main.py
+   src/utils/helper.py
+   src/tests/test_example.py
+   ...
+   ```
+
+**3. Using a File Explorer (Graphical Interface)**
+
+   If you have a file explorer (like Windows Explorer, macOS Finder, or Linux File Manager) open, you can navigate to the `src/` directory and view the files.  The file names will be displayed, and you can easily see the list of Python files.
+
+**4.  (Less Direct, but potentially useful for scripting)**
+
+   If you're scripting, you can use the `os` module in Python.  This is more complex but can be useful for automation:
+
+   ```python
+   import os
+
+   for filename in os.listdir(os.path.join(os.getcwd(), "src")):
+       if filename.endswith(".py"):
+           print(filename)
+   ```
+
+   This code will print the names of all Python files in the `src/` directory, relative to the current working directory.
+
+**Important Considerations:**
+
+* **Case Sensitivity:**  `ls` is typically case-sensitive.  So `src/main.py` is different from `Main.py`.  If you need a case-insensitive search, use the `-i` option with `ls` (e.g., `ls -li src/`).
+* **Hidden Files:**  By default, `ls` doesn't show hidden files (files starting with a `.`).  If you want to include hidden Python files, you might need to use the `-a` option with `ls`.  (e.g., `ls -la src/` or `ls -la .src/`)
+
+**Which Method to Use?**
+
+For most cases, the command line `ls -l src/ | grep "py"` is the simplest and most direct way to get the list of Python files.  If you're scripting, the `find` command is a good alternative.  The file explorer is convenient for a quick look.
+

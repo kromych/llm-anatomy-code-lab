@@ -1,0 +1,78 @@
+## llama-server -hf ggml-org/Qwen3-1.7B-GGUF:Q4_K_M --host 127.0.0.1 --port 8107 \
+##     > server.log 2>&1
+## llama-server 1.0.0 (build 12359) on S3-macOS, started afresh, with the
+## default verbosity (-lv 3). The client below asks for a long answer as a
+## stream and closes the connection after the fifth chunk. It ran four
+## times: twice with the argument nothink (thinking off, as agent.py and
+## show.py send their requests), then twice with the argument think
+## (thinking left on).
+##
+## python3 -c '
+## import json, sys, urllib.request
+## body = {"model": "default", "temperature": 0, "seed": 1, "stream": True,
+##         "messages": [{"role": "user",
+##                       "content": "Explain prefix caching in detail."}]}
+## if sys.argv[1:] == ["nothink"]:      # as agent.py and show.py send it
+##     body["chat_template_kwargs"] = {"enable_thinking": False}
+## r = urllib.request.urlopen(urllib.request.Request(
+##     "http://127.0.0.1:8107/v1/chat/completions",
+##     json.dumps(body).encode(), {"Content-Type": "application/json"}))
+## for i in range(10):                  # five events and their blank lines
+##     line = r.readline().decode().strip()
+##     if line:
+##         print(json.loads(line[6:])["choices"][0]["delta"])
+## r.close()                            # the client goes away
+## ' nothink
+##
+## What the four runs printed, the five deltas of each:
+## nothink
+{'role': 'assistant', 'content': None}
+{'content': '**'}
+{'content': 'Prefix'}
+{'content': ' C'}
+{'content': 'aching'}
+## nothink
+{'role': 'assistant', 'content': None}
+{'content': '**'}
+{'content': 'Prefix'}
+{'content': ' C'}
+{'content': 'aching'}
+## think
+{'role': 'assistant', 'content': None}
+{'reasoning_content': 'Okay'}
+{'reasoning_content': ','}
+{'reasoning_content': ' so'}
+{'reasoning_content': ' I'}
+## think
+{'role': 'assistant', 'content': None}
+{'reasoning_content': 'Okay'}
+{'reasoning_content': ','}
+{'reasoning_content': ' so'}
+{'reasoning_content': ' I'}
+## server.log from "listening on" to the end. The count n_tokens in a line
+## "release" is that of the slot and includes the prompt, whose length the
+## repeated requests show as task.n_tokens().
+0.03.689.945 I srv  server_on_li: listening on http://127.0.0.1:8107
+0.05.016.391 I slot get_availabl: id  0 | task -1 | selected slot by LRU, n_tokens = 0, t_last = -1
+0.05.016.419 I slot launch_slot_: id  0 | task 0 | processing task, is_child = 0
+0.05.115.500 W srv          stop: cancel task, id_task = 0
+0.05.122.676 I slot      release: id  0 | task 0 | stop processing: n_tokens = 24, truncated = 0
+0.07.203.839 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 0.792
+0.07.203.869 I slot launch_slot_: id  0 | task 8 | processing task, is_child = 0
+0.07.203.960 W slot   operator(): id  0 | task 8 | need to evaluate at least 1 token for each active slot (n_past = 19, task.n_tokens() = 19)
+0.07.203.963 W slot   operator(): id  0 | task 8 | n_past was set to 18
+0.07.273.657 W srv          stop: cancel task, id_task = 8
+0.07.280.712 I slot      release: id  0 | task 8 | stop processing: n_tokens = 24, truncated = 0
+0.09.440.460 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 0.625
+0.09.440.590 I slot launch_slot_: id  0 | task 16 | processing task, is_child = 0
+0.09.440.704 W slot   operator(): id  0 | task 16 | need to evaluate at least 1 token for each active slot (n_past = 15, task.n_tokens() = 15)
+0.09.440.708 W slot   operator(): id  0 | task 16 | n_past was set to 14
+0.09.551.816 W srv          stop: cancel task, id_task = 16
+0.09.558.173 I slot      release: id  0 | task 16 | stop processing: n_tokens = 22, truncated = 0
+0.11.670.547 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 0.682
+0.11.670.602 I slot launch_slot_: id  0 | task 26 | processing task, is_child = 0
+0.11.670.696 W slot   operator(): id  0 | task 26 | need to evaluate at least 1 token for each active slot (n_past = 15, task.n_tokens() = 15)
+0.11.670.696 W slot   operator(): id  0 | task 26 | n_past was set to 14
+0.11.761.999 W srv          stop: cancel task, id_task = 26
+0.11.772.204 I slot      release: id  0 | task 26 | stop processing: n_tokens = 22, truncated = 0
+0.31.604.729 I srv    operator(): operator(): cleaning up before exit...

@@ -1,0 +1,49 @@
+# code/appB/inventory.sh on xps-8930, 2026-11-14. Tool-owned paths, processes,
+# listeners and services only; no file contents.
+== llama.cpp
+  dir   1.3G   ~/src/llama.cpp
+== ollama
+  sys   2.4G   /usr/local/lib/ollama
+  sys   43M    /usr/local/bin/ollama
+  sys   root   /usr/share/ollama
+  sys   4.0K   /etc/systemd/system/ollama.service
+  proc  2007836 ollama
+  port  127.0.0.1:11434
+  svc   system ollama.service enabled
+  svc   system ollama.service active
+  user  ollama (uid 386, home /usr/share/ollama)
+== huggingface
+  dir   772M   ~/.cache/huggingface/hub
+  dir   4.0K   ~/.cache/huggingface/datasets
+  dir   64K    ~/.cache/huggingface/xet
+== torch
+== shaders
+  dir   6.1M   ~/.cache/mesa_shader_cache
+== docker
+  dir   44K    ~/.docker
+  sys   root   /var/lib/docker
+  sys   root   /var/lib/containerd
+  proc  1063   containerd
+  proc  1134   dockerd
+  svc   system docker.service enabled
+  svc   system: 2 more unit files, not enabled
+  svc   system sys-devices-virtual-net-docker0.device active
+  svc   system sys-subsystem-net-devices-docker0.device active
+  svc   system containerd.service active
+  svc   system docker.service active
+  svc   system docker.socket active
+  svc   user sys-devices-virtual-net-docker0.device active
+  svc   user sys-subsystem-net-devices-docker0.device active
+== podman
+  dir   12K    ~/.local/share/containers
+== codex
+  dir   28K    ~/.codex
+== opencode
+== goose
+== aider
+== openhands
+== claude
+== cline
+== inspect
+== python
+  dir   160M   ~/.cache/pip

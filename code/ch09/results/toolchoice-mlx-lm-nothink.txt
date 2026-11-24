@@ -1,0 +1,22 @@
+## mlx_lm.server --model mlx-community/Qwen3-0.6B-4bit --host 127.0.0.1 --port 8180
+##     (mlx-lm 0.32.2 with MLX 0.32.4, on S3-macOS; the server's own
+##     default port is 8080)
+## python3 toolchoice.py http://127.0.0.1:8180/v1 mlx-community/Qwen3-0.6B-4bit 600 - " /no_think"
+auto, weather                calls [], stop after 22 tokens, text '\n\nThe weather in Oslo is currently c'
+required, Hello!             calls [], stop after 14 tokens, text '\n\nHello! How can I assist you today?'
+named, Hello!                calls [], stop after 14 tokens, text '\n\nHello! How can I assist you today?'
+two cities                   calls [], stop after 79 tokens, text '\n\nThe weather in Oslo and Lima canno'
+two cities, parallel false   calls [], stop after 79 tokens, text '\n\nThe weather in Oslo and Lima canno'
+
+## The first question once more, with the tool and the marker and without
+## the system message of toolchoice.py (sent before the run above). The
+## file body.json holds
+##   {"model": "mlx-community/Qwen3-0.6B-4bit", "temperature": 0, "max_tokens": 200,
+##    "tools": [{"type": "function", "function": {"name": "get_weather",
+##      "description": "Current weather in a city",
+##      "parameters": {"type": "object", "required": ["city"],
+##                     "properties": {"city": {"type": "string"}}}}}],
+##    "messages": [{"role": "user",
+##                  "content": "What is the weather in Oslo? /no_think"}]}
+## curl -s http://127.0.0.1:8180/v1/chat/completions -H 'Content-Type: application/json' -d @body.json
+{"id": "chatcmpl-581abb29-186c-4a0d-9379-927775db930d", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795557284, "choices": [{"index": 0, "finish_reason": "stop", "message": {"role": "assistant", "content": "\n\nThe weather in Oslo is currently cloudy with a temperature of 12 degrees Celsius.", "reasoning": "\n\n"}}], "usage": {"prompt_tokens": 156, "completion_tokens": 22, "total_tokens": 178, "prompt_tokens_details": {"cached_tokens": 3}}}

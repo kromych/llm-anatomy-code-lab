@@ -1,0 +1,120 @@
+# python3 code/ch08/splits.py Qwen3-1.7B-Q4_K_M.gguf -ngl 14
+# krom1u (Apple M1 Ultra, macOS), llama.cpp build 12359 (Homebrew), Metal;
+# model from ggml-org/Qwen3-1.7B-GGUF at revision daeb8e2 (28 layers).
+# The weights of layers 0 to 14 lie in host memory.
+split 1: CPU, 348 nodes, embd .. ffn_out-14
+split 2: MTL0, 305 nodes, l_out-14 .. result_output
+    copy in: ffn_out-14 (8K)
+    copy in: ffn_inp-14 (8K)
+    copy in: inp_pos (<1K)
+    copy in: attn_inp_k_idxs (<1K)
+    copy in: attn_inp_v_idxs (<1K)
+    copy in: attn_inp_kq_mask (<1K)
+    copy in: out_ids (<1K)
+
+# GGML_OP_OFFLOAD_MIN_BATCH=1 python3 code/ch08/splits.py \
+#     Qwen3-1.7B-Q4_K_M.gguf -ngl 14 --no-repack
+# The same graph, a decoding step of one token, with operation offload
+# made to act on it: the threshold of 32 rows lowered to 1, and the
+# weights in host memory left in the plain buffer of the CPU (by default
+# this build repacks them into a buffer type of the CPU backend, which
+# the scheduler does not offer for offload). The Metal backend asks for
+# matrix products only. The run printed 195 splits in 455 lines.
+split 1: CPU, 6 nodes, embd .. attn_norm-0
+split 2: MTL0, 1 node, Qcur-0
+    copy in: blk.0.attn_q.weight (2M)
+    copy in: attn_norm-0 (8K)
+split 3: CPU, 2 nodes, norm-0 .. Qcur_normed-0
+    copy in: Qcur-0 (8K)
+split 4: MTL0, 1 node, Qcur-0
+    copy in: Qcur_normed-0 (8K)
+    copy in: inp_pos (<1K)
+split 5: MTL0, 1 node, Vcur-0
+    copy in: blk.0.attn_v.weight (1M)
+split 6: MTL0, 1 node, Kcur-0
+    copy in: blk.0.attn_k.weight (1M)
+split 7: CPU, 5 nodes, norm-0 .. cache_v_l0 (view)
+    copy in: Kcur-0 (4K)
+    copy in: Vcur-0 (view) (4K)
+split 8: MTL0, 5 nodes, v_cont-0 .. kqv_out-0
+    copy in: cache_v_l0 (view) (permuted) (transposed) (512K)
+    copy in: cache_k_l0 (view) (permuted) (512K)
+    copy in: attn_inp_kq_mask (1K)
+split 9: MTL0, 2 nodes, node_35 .. ffn_inp-0
+    copy in: blk.0.attn_output.weight (2M)
+    copy in: embd (8K)
+split 10: CPU, 2 nodes, norm-0 .. ffn_norm-0
+    copy in: ffn_inp-0 (8K)
+split 11: MTL0, 1 node, ffn_gate-0
+    copy in: blk.0.ffn_gate.weight (6M)
+    copy in: ffn_norm-0 (8K)
+split 12: MTL0, 2 nodes, ffn_up-0 .. ffn_swiglu-0
+    copy in: blk.0.ffn_up.weight (6M)
+split 13: MTL0, 2 nodes, ffn_out-0 .. l_out-0
+    copy in: blk.0.ffn_down.weight (9M)
+split 14: CPU, 2 nodes, norm-1 .. attn_norm-1
+    copy in: l_out-0 (8K)
+split 15: MTL0, 1 node, Qcur-1
+    copy in: blk.1.attn_q.weight (2M)
+    copy in: attn_norm-1 (8K)
+split 16: CPU, 2 nodes, norm-1 .. Qcur_normed-1
+    copy in: Qcur-1 (8K)
+split 17: MTL0, 1 node, Qcur-1
+    copy in: Qcur_normed-1 (8K)
+split 18: MTL0, 1 node, Vcur-1
+    copy in: blk.1.attn_v.weight (1M)
+split 19: MTL0, 1 node, Kcur-1
+    copy in: blk.1.attn_k.weight (1M)
+split 20: CPU, 5 nodes, norm-1 .. cache_v_l1 (view)
+    copy in: Kcur-1 (4K)
+    copy in: Vcur-1 (view) (4K)
+split 21: MTL0, 5 nodes, v_cont-1 .. kqv_out-1
+    copy in: cache_v_l1 (view) (permuted) (transposed) (512K)
+    copy in: cache_k_l1 (view) (permuted) (512K)
+split 22: MTL0, 2 nodes, node_75 .. ffn_inp-1
+    copy in: blk.1.attn_output.weight (2M)
+split 23: CPU, 2 nodes, norm-1 .. ffn_norm-1
+    copy in: ffn_inp-1 (8K)
+split 24: MTL0, 1 node, ffn_gate-1
+    copy in: blk.1.ffn_gate.weight (6M)
+    copy in: ffn_norm-1 (8K)
+split 25: MTL0, 2 nodes, ffn_up-1 .. ffn_swiglu-1
+    copy in: blk.1.ffn_up.weight (6M)
+split 26: MTL0, 2 nodes, ffn_out-1 .. l_out-1
+    copy in: blk.1.ffn_down.weight (9M)
+split 27: CPU, 2 nodes, norm-2 .. attn_norm-2
+    copy in: l_out-1 (8K)
+# ... splits 28 to 182 (layers 2 to 13) cut ...
+split 183: CPU, 2 nodes, norm-14 .. attn_norm-14
+    copy in: l_out-13 (8K)
+split 184: MTL0, 1 node, Qcur-14
+    copy in: blk.14.attn_q.weight (2M)
+    copy in: attn_norm-14 (8K)
+split 185: CPU, 2 nodes, norm-14 .. Qcur_normed-14
+    copy in: Qcur-14 (8K)
+split 186: MTL0, 1 node, Qcur-14
+    copy in: Qcur_normed-14 (8K)
+split 187: MTL0, 1 node, Vcur-14
+    copy in: blk.14.attn_v.weight (1M)
+split 188: MTL0, 1 node, Kcur-14
+    copy in: blk.14.attn_k.weight (1M)
+split 189: CPU, 5 nodes, norm-14 .. cache_v_l14 (view)
+    copy in: Kcur-14 (4K)
+    copy in: Vcur-14 (view) (4K)
+split 190: MTL0, 5 nodes, v_cont-14 .. kqv_out-14
+    copy in: cache_v_l14 (view) (permuted) (transposed) (512K)
+    copy in: cache_k_l14 (view) (permuted) (512K)
+split 191: MTL0, 2 nodes, node_595 .. ffn_inp-14
+    copy in: blk.14.attn_output.weight (2M)
+split 192: CPU, 2 nodes, norm-14 .. ffn_norm-14
+    copy in: ffn_inp-14 (8K)
+split 193: MTL0, 1 node, ffn_gate-14
+    copy in: blk.14.ffn_gate.weight (6M)
+    copy in: ffn_norm-14 (8K)
+split 194: MTL0, 2 nodes, ffn_up-14 .. ffn_swiglu-14
+    copy in: blk.14.ffn_up.weight (6M)
+split 195: MTL0, 358 nodes, ffn_out-14 .. result_output
+    copy in: blk.14.ffn_down.weight (9M)
+    copy in: attn_inp_k_idxs (<1K)
+    copy in: attn_inp_v_idxs (<1K)
+    copy in: out_ids (<1K)

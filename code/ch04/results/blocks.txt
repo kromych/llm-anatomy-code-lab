@@ -1,0 +1,7 @@
+## python3 blocks.py DATADIR   (DATADIR as written by fetch.py)
+blocks of 32, power of two scale: relative error 0.1196, 19% of its square from elements beyond 6 times the scale
+blocks of 32, E4M3         scale: relative error 0.1017, 1% of its square from elements beyond 6 times the scale
+blocks of 16, power of two scale: relative error 0.1193, 25% of its square from elements beyond 6 times the scale
+blocks of 16, E4M3         scale: relative error 0.0942, 2% of its square from elements beyond 6 times the scale
+blocks of 32 with the E4M3 scale close 70% of the gap between MXFP4 (0.1196) and NVFP4 (0.0942)
+blocks of 16 with the power of two scale close 1% of the gap between MXFP4 (0.1196) and NVFP4 (0.0942)

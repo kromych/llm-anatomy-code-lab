@@ -1,0 +1,95 @@
+MCP Inspector 2.15.0 on krom1u, 2026-11-14 (review item R9-19).
+
+Version and source: npm package @modelcontextprotocol/inspector 2.15.0
+(unpacked 6,625,288 bytes in 44 files by the registry's record); repository
+modelcontextprotocol/inspector, tag 2.15.0 (commit 488c30d9d16e). Node.js
+26.13.0 and npm 11.20.0 from Homebrew. The package ships built bundles of a
+launcher and four clients (web, cli, tui, mcpdo); its documentation is in
+the repository only (docs/environment-variables.md, docs/secret-storage.md,
+clients/web/README.md at the tag).
+
+This is the v2 line. It has no separate proxy process: the web mode is one
+Node.js process whose server holds the page and the API. The documentation
+calls SERVER_PORT "v1's proxy port"; version 2 reads it only as a fallback
+for the sandbox port.
+
+What ran (in a scratch directory with one README.md as the project):
+  sh code/appB/snapshot.sh <snap-0>
+  npx -y @modelcontextprotocol/inspector@2.15.0 --help
+  npx -y @modelcontextprotocol/inspector@2.15.0 --cli --help
+  npx -y @modelcontextprotocol/inspector@2.15.0 --cli \
+      python3 code/ch13/files_server.py <project> --method tools/list
+  npx -y @modelcontextprotocol/inspector@2.15.0 --cli \
+      python3 code/ch13/files_server.py <project> --method tools/call \
+      --tool-name read_file --tool-arg path=README.md
+      (the two commands of the Try it box; both exit 0; the second prints
+      the text of README.md with "isError": false; sockets and processes
+      sampled with lsof and ps every 0.2 s)
+  sh code/appB/snapshot.sh <snap-1>
+  MCP_AUTO_OPEN_ENABLED=false npx -y @modelcontextprotocol/inspector@2.15.0 \
+      python3 code/ch13/files_server.py <project>
+      (web mode. MCP_AUTO_OPEN_ENABLED=false keeps it from opening the
+      default browser, which by its documentation it does otherwise. Banner:
+        MCP Inspector Web is up and running at:
+           http://127.0.0.1:6274?MCP_INSPECTOR_API_TOKEN=<64 hex digits>
+           Sandbox (MCP Apps): http://127.0.0.1:6275/sandbox
+           Auth token: <64 hex digits>
+           Secrets: OS keychain )
+  lsof, ps, curl against 127.0.0.1:6274, :6275, :6278 (changes.txt)
+  sh code/appB/snapshot.sh <snap-2>
+  kill <pid of the node process>      (npm exec ended with it)
+  sh code/appB/snapshot.sh <snap-3>
+  npm_config_cache=<scratch>/npm-cache npx -y ...@2.15.0 --help
+      (first download into an empty cache; real HOME)
+  HOME=<scratch>/home npm_config_cache=<scratch>/npm-cache npx -y ... \
+      --help; then the two --cli commands; then the web mode as above
+      (empty home directory. Here the web mode printed on stderr
+        [mcp-inspector] The OS keychain is not available, so secrets will
+        be kept in: File (unencrypted) at <home>/.mcp-inspector/secrets.json
+        - fell back from the OS keychain.
+        [mcp-inspector] Keychain error: Platform failure: A default keychain
+        could not be found.
+      and "Secrets are stored unencrypted (file mode 0600). Set
+      MCP_INSPECTOR_SECRET_KEY or MCP_INSPECTOR_SECRET_KEY_FILE to encrypt
+      them." No file was written: no secret was saved.)
+  code/appB/inventory.sh mcp-inspector node, once while the web mode ran
+      and once after it was stopped
+
+The token: 64 hexadecimal digits, made at each start (the three starts had
+three different ones), printed twice in the banner and embedded in the page
+that GET / returns. Without it /api/* answers 401; /healthz answers without it.
+MCP_INSPECTOR_API_TOKEN sets a token of one's own; DANGEROUSLY_OMIT_AUTH
+turns the check off (documentation, not tried). The token is not recorded
+here.
+
+From the documentation at the tag, not observed:
+  - ~/.mcp-inspector/mcp.json, the catalog of servers (MCP_CATALOG_PATH);
+    ~/.mcp-inspector/storage with oauth.json and client.json
+    (MCP_STORAGE_DIR); ~/.mcp-inspector/secrets.json beside it, mode 0600,
+    where no keychain is available (MCP_INSPECTOR_SECRET_FILE)
+  - secrets (OAuth tokens and client secrets, the env values of stdio
+    servers) in Keychain, Credential Manager or the Secret Service under
+    the service name "mcp-inspector"
+  - HOST (default 127.0.0.1; an all-interfaces address is refused unless
+    DANGEROUSLY_BIND_ALL_INTERFACES is set), CLIENT_PORT (6274),
+    MCP_SANDBOX_PORT (6275), MCP_APP_ORIGIN_PORT (6278)
+  - the command-line and terminal clients use
+    http://127.0.0.1:6276/oauth/callback as the redirect address of an
+    OAuth flow (MCP_OAUTH_CALLBACK_URL)
+  - mcpdo, the second program of the package, starts a daemon of its own;
+    its socket mcpdod.sock, a lock and a token file mcpdod.token are in
+    ~/.mcp-inspector (MCP_INSPECTOR_DAEMON_DIR)
+  - on Windows the home directory is %USERPROFILE% (the program reads HOME,
+    then USERPROFILE), and npm's cache is %LocalAppData%\npm-cache
+
+Not observed: the page in a browser, and with it whatever the page writes
+into ~/.mcp-inspector/storage (the directory, empty, was there before these
+runs: created 2026-11-13 23:16, two minutes after npx had unpacked the
+package); a connection from the page to a server, for which the backend
+starts the server as its child; an OAuth flow and a saved secret; the
+terminal client (--tui); mcpdo and its daemon; Linux and Windows.
+
+State at the end: nothing of the Inspector runs; ports 6274, 6275 and 6278
+are free; ~/.mcp-inspector and ~/.npm are as they were before the runs,
+apart from npm's logs. The scratch cache and the scratch home were outside
+the home directory and are not part of the machine's footprint.

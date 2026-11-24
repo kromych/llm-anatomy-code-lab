@@ -1,0 +1,10 @@
+$ MCP_MODEL=qwen3:1.7b MCP_SERVER=calc python3 ../ch13/mcp_agent.py \
+    http://127.0.0.1:11434/v1 "What is 987654321 * 123456789?" python3 calculator/calc_server.py
+model  7416.1 ms  [{'id': 'call_za832um5', 'index': 0, 'type': 'function', 'function': {'name': 'calc__calculate', 'arguments': '{"expression":"987654321 * 123456789"}'}}]
+mcp       0.3 ms  ('calculate', {'expression': '987654321 * 123456789'}, '987654321 * 123456789 = 121932631112635269')
+model  3405.0 ms  final answer
+The result of $987654321 \times 123456789$ is:
+
+**121932631112635269**
+
+This is an exact integer, as expected by the calculation tool.

@@ -1,0 +1,5 @@
+   1 failure  IndexError: list index out of range
+              first: RequestsTestCase.test_auth_is_stripped_on_redirect_off_host
+   1 failure  TypeError: 'requests.post(url, data=\'[{"some": "data"}]\', files={\'some\': f})' object (type: <class 'str'>) must be callable
+              first: RequestsTestCase.test_conflicting_post_params
+   2 blocks

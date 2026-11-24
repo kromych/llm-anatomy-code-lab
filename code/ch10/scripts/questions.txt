@@ -1,0 +1,16 @@
+Which HTTP status does the health endpoint return while the model is still loading?	503
+Which option sets the number of server slots?	--parallel
+On which port does the server listen by default?	9931
+Which option enables the reranking endpoint?	--rerank
+Which option sets a key for authentication?	--api-key
+Which option must be given before a POST to /props may change global properties?	--props
+Which server parameter names the directory where the prompt cache of a slot is saved?	--slot-save-path
+Which option makes the server sleep after a period of idleness?	--sleep-idle-seconds
+Which option sets a custom Jinja chat template file?	--chat-template-file
+What is the default read and write timeout of the server, in seconds?	3600
+Which endpoint exports metrics that Prometheus can read?	/metrics
+Which endpoint returns the list of all LoRA adapters?	/lora-adapters
+Which argument sets a custom value for the id field of the model?	--alias
+Which endpoint converts tokens to text?	/detokenize
+Which flag limits the origins from which a page in a browser may reach the server?	--cors-origins
+Which option restricts the server to the embedding use case?	--embedding

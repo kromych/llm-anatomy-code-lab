@@ -1,0 +1,5 @@
+## python3 child_env.py
+kept: ['HOME', 'PATH', 'TERM']
+with a proxy: ['ALL_PROXY', 'HOME', 'HTTPS_PROXY', 'HTTP_PROXY', 'PATH', 'TERM', 'all_proxy', 'http_proxy', 'https_proxy']
+a filter on KEY|SECRET|TOKEN misses ['DATABASE_URL', 'KUBECONFIG', 'GOOGLE_APPLICATION_CREDENTIALS', 'SSH_AUTH_SOCK']
+a filter on KEY|SECRET|TOKEN|PASS|CRED|AUTH|COOKIE misses ['DATABASE_URL', 'KUBECONFIG']

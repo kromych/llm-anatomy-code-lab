@@ -1,0 +1,29 @@
+Time: 2026-11-13T22:49:16.7686994-08:00 (new SSH session after the install/test session closed at 22:47:46)
+--- ollama/llama processes now ---
+(none: ollama serve and both llama-server runners ended with the SSH session)
+port 11434 listening: False
+--- shortcuts created by the installer ---
+C:\Users\labuser\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Ollama.lnk -> target=C:\Users\labuser\AppData\Local\Programs\Ollama\ollama app.exe args= workdir=C:\Users\labuser\AppData\Local\Programs\Ollama icon=C:\Users\labuser\AppData\Local\Programs\Ollama\app.ico,0
+C:\Users\labuser\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Ollama\Ollama.lnk -> target=C:\Users\labuser\AppData\Local\Programs\Ollama\ollama app.exe args= workdir=C:\Users\labuser\AppData\Local\Programs\Ollama icon=C:\Users\labuser\AppData\Local\Programs\Ollama\app.ico,0
+C:\Users\labuser\AppData\Local\Programs\Ollama\lib\Ollama.lnk -> target=C:\Users\labuser\AppData\Local\Programs\Ollama\ollama app.exe args= workdir=C:\Users\labuser\AppData\Local\Programs\Ollama icon=C:\Users\labuser\AppData\Local\Programs\Ollama\app.ico,0
+C:\Users\labuser\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\Ollama.lnk (absent)
+--- HKCU\Software\Classes\ollama (URL protocol handler) ---
+[HKCU:\Software\Classes\ollama] '' = URL:Ollama Protocol
+[HKCU:\Software\Classes\ollama] 'URL Protocol' = 
+[HKCU:\Software\Classes\ollama\shell\open\command] '' = "C:\Users\labuser\AppData\Local\Programs\Ollama\ollama app.exe" "%1"
+--- HKCU\Environment Path (raw, registry value kind) ---
+kind=ExpandString value=C:\Users\labuser\.cargo\bin;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;%USERPROFILE%\.dotnet\tools;;C:\Users\labuser\AppData\Local\Programs\Ollama
+--- new process sees ollama on PATH? (cmd /c where ollama, environment rebuilt from registry by a new SSH logon) ---
+C:\Users\labuser\AppData\Local\Programs\Ollama\ollama.exe
+--- %LOCALAPPDATA%\Ollama ---
+app.log  606  11/13/2026 10:45:14 PM
+db.sqlite  4,096  11/13/2026 10:45:14 PM
+db.sqlite-shm  32,768  11/13/2026 10:45:14 PM
+db.sqlite-wal  103,032  11/13/2026 10:45:14 PM
+server.log  0  11/13/2026 10:45:14 PM
+--- app.log ---
+time=2026-11-13T22:45:14.446-08:00 level=INFO source=app_windows.go:281 msg="starting Ollama" app=C:\Users\labuser\AppData\Local\Programs\Ollama version=0.40.16 OS=Windows/10.0.26300
+time=2026-11-13T22:45:14.448-08:00 level=INFO source=app.go:238 msg="initialized tools registry" tool_count=0
+time=2026-11-13T22:45:14.448-08:00 level=INFO source=app.go:253 msg="starting ollama server"
+time=2026-11-13T22:45:14.448-08:00 level=INFO source=app.go:285 msg="starting ui server" port=62314
+time=2026-11-13T22:45:14.475-08:00 level=INFO source=.:0 msg="Failed to start: Unable to init instance: Unspecified error"

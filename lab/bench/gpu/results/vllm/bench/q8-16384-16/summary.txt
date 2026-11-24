@@ -1,0 +1,1 @@
+C=1    done    8  out     19.3 tok/s  ttft p50   665.8 ms  tpot p50  10.94 ms  itl p50  11.37 p99   12.28 ms     6.6 s

@@ -1,0 +1,96 @@
+Footprint of codex on krom1u (macOS 27, Apple M1 Ultra), 2026-11-14.
+Differences between snapshots taken by code/ch15/footprint.sh before the
+install, right after it, and after the measurement runs. Only the
+differences are kept; unrelated processes that came and went between
+snapshots (e.g. a llama-server of another chapter) can appear.
+
+== Homebrew formulae and casks
+  added by the install: 1
+    + codex 0.169.0
+  added by the runs: 12
+    + aider 0.86.2
+    + block-goose-cli 1.59.1
+    + certifi 2026.10.23
+    + gcc 16.2.0
+    + isl 0.28
+    + libmpc 1.4.1
+    + mpfr 4.2.2
+    + openblas 0.3.34
+    + opencode 2.3.0
+    + python@3.12 3.12.16
+    + ripgrep 15.2.0
+    + uv 0.13.8
+
+== entries in ~, ~/.config, ~/.local/*, ~/.cache, ~/Library/...
+  added by the install: 1
+    + ~/.codex
+  added by the runs: 14
+    + ~/.aider
+    + ~/.bash_history
+    + ~/.cache/opencode
+    + ~/.cache/uv
+    + ~/.config/goose
+    + ~/.config/opencode
+    + ~/.local/share/goose
+    + ~/.local/share/opencode
+    + ~/.local/share/uv
+    + ~/.local/state/goose
+    + ~/.local/state/opencode
+    + ~/.openhands
+    + ~/Library/Application Support/inspect_ai
+    + ~/Library/Caches/inspect_ai
+
+== launchd jobs (numeric instance suffixes removed)
+  added by the install: 0 (+2 Spotlight workers and opened apps omitted)
+  added by the runs: 0 (+12 Spotlight workers and opened apps omitted)
+
+== listening TCP sockets (command, address)
+  added by the install: 0
+  added by the runs: 0
+
+== data files after the runs (size in bytes, path; names only, never contents)
+  992 ~/.codex
+  3 ~/.codex/.sandbox_migration
+  0 ~/.codex/.sqlite-maintenance.lock
+  160 ~/.codex/.tmp
+  224 ~/.codex/.tmp/plugins
+  41 ~/.codex/.tmp/plugins.sha
+  0 ~/.codex/.tmp/plugins.sync.lock
+  128 ~/.codex/.tmp/plugins/.agents
+  416 ~/.codex/.tmp/plugins/.git
+  75 ~/.codex/.tmp/plugins/.gitignore
+  2048 ~/.codex/.tmp/plugins/plugins
+  1283 ~/.codex/.tmp/plugins/README.md
+  32768 ~/.codex/goals_1.sqlite
+  32768 ~/.codex/goals_1.sqlite-shm
+  0 ~/.codex/goals_1.sqlite-wal
+  36 ~/.codex/installation_id
+  49152 ~/.codex/logs_2.sqlite
+  32768 ~/.codex/logs_2.sqlite-shm
+  0 ~/.codex/logs_2.sqlite-wal
+  45056 ~/.codex/memories_1.sqlite
+  32768 ~/.codex/memories_1.sqlite-shm
+  0 ~/.codex/memories_1.sqlite-wal
+  40960 ~/.codex/queue_1.sqlite
+  32768 ~/.codex/queue_1.sqlite-shm
+  0 ~/.codex/queue_1.sqlite-wal
+  121 ~/.codex/session_index.jsonl
+  0 ~/.codex/session_index.jsonl.lock
+  96 ~/.codex/sessions
+  96 ~/.codex/sessions/2026
+  96 ~/.codex/sessions/2026/11
+  96 ~/.codex/shell_snapshots
+  201678 ~/.codex/shell_snapshots/01a1d9b4-5de1-77f0-8cd3-e01bc6da5518.1794653838867871000.sh
+  96 ~/.codex/skills
+  256 ~/.codex/skills/.system
+  319488 ~/.codex/state_5.sqlite
+  32768 ~/.codex/state_5.sqlite-shm
+  4120032 ~/.codex/state_5.sqlite-wal
+  274432 ~/.codex/thread_history_1.sqlite
+  32768 ~/.codex/thread_history_1.sqlite-shm
+  4136512 ~/.codex/thread_history_1.sqlite-wal
+  128 ~/.codex/thread-writer-locks
+  0 ~/.codex/thread-writer-locks/.coordination.lock
+  0 ~/.codex/thread-writer-locks/01a1d9b4-5de1-77f0-8cd3-e01bc6da5518.lock
+  96 ~/.codex/tmp
+  64 ~/.codex/tmp/arg0-macos

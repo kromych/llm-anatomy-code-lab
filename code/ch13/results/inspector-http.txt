@@ -1,0 +1,5 @@
+## python3 http_server.py sample 8765     (from code/ch13, in another shell)
+## npx -y @modelcontextprotocol/inspector@2.15.0 --cli http://127.0.0.1:8765/mcp --method tools/list
+## MCP Inspector 2.15.0 with Node.js 26.13.1 and npm 11.20.0, the server on
+## Python 3.15.2, on S3-macOS. The Inspector ended with exit status 1.
+{"error":{"code":"error","message":"Error POSTing to endpoint: {\"jsonrpc\": \"2.0\", \"id\": 0, \"error\": {\"code\": -32022, \"message\": \"Unsupported protocol version\", \"data\": {\"supported\": [\"2026-07-28\"], \"requested\": \"2025-11-25\"}}}","status":400}}

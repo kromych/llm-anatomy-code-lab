@@ -1,0 +1,6 @@
+request: {"model": "default", "prompt": "The capital of France is Paris", "max_tokens": 1, "temperature": 0, "echo": true, "logprobs": 1}
+text: "."
+prompt echoed in text: False
+prompt_tokens: 7
+tokens with a log-probability: 1
+  "." -0.0104

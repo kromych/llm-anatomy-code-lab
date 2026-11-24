@@ -1,0 +1,71 @@
+Footprint of goose on krom1u (macOS 27, Apple M1 Ultra), 2026-11-14.
+Differences between snapshots taken by code/ch15/footprint.sh before the
+install, right after it, and after the measurement runs. Only the
+differences are kept; unrelated processes that came and went between
+snapshots (e.g. a llama-server of another chapter) can appear.
+
+== Homebrew formulae and casks
+  added by the install: 1
+    + block-goose-cli 1.59.1
+  added by the runs: 9
+    + aider 0.86.2
+    + certifi 2026.10.23
+    + gcc 16.2.0
+    + isl 0.28
+    + libmpc 1.4.1
+    + mpfr 4.2.2
+    + openblas 0.3.34
+    + python@3.12 3.12.16
+    + uv 0.13.8
+
+== entries in ~, ~/.config, ~/.local/*, ~/.cache, ~/Library/...
+  added by the install: 0
+  added by the runs: 14
+    + ~/.aider
+    + ~/.bash_history
+    + ~/.cache/opencode
+    + ~/.cache/uv
+    + ~/.config/goose
+    + ~/.config/opencode
+    + ~/.local/share/goose
+    + ~/.local/share/opencode
+    + ~/.local/share/uv
+    + ~/.local/state/goose
+    + ~/.local/state/opencode
+    + ~/.openhands
+    + ~/Library/Application Support/inspect_ai
+    + ~/Library/Caches/inspect_ai
+
+== launchd jobs (numeric instance suffixes removed)
+  added by the install: 0 (+2 Spotlight workers and opened apps omitted)
+  added by the runs: 0 (+11 Spotlight workers and opened apps omitted)
+
+== listening TCP sockets (command, address)
+  added by the install: 0
+  added by the runs: 0
+
+== data files after the runs (size in bytes, path; names only, never contents)
+  64 ~/.config/goose
+  160 ~/.local/share/goose
+  96 ~/.local/share/goose/apps
+  6732 ~/.local/share/goose/apps/clock.html
+  128 ~/.local/share/goose/model_catalog
+  36 ~/.local/share/goose/model_catalog/models_dev_api.etag
+  6125012 ~/.local/share/goose/model_catalog/models_dev_api.json
+  160 ~/.local/share/goose/sessions
+  110592 ~/.local/share/goose/sessions/sessions.db
+  32768 ~/.local/share/goose/sessions/sessions.db-shm
+  626272 ~/.local/share/goose/sessions/sessions.db-wal
+  96 ~/.local/state/goose
+  384 ~/.local/state/goose/logs
+  96 ~/.local/state/goose/logs/cli
+  288 ~/.local/state/goose/logs/cli/2026-11-14
+  58097 ~/.local/state/goose/logs/llm_request.0.jsonl
+  143995 ~/.local/state/goose/logs/llm_request.1.jsonl
+  978458 ~/.local/state/goose/logs/llm_request.2.jsonl
+  135508 ~/.local/state/goose/logs/llm_request.3.jsonl
+  179566 ~/.local/state/goose/logs/llm_request.4.jsonl
+  43179 ~/.local/state/goose/logs/llm_request.5.jsonl
+  28463 ~/.local/state/goose/logs/llm_request.6.jsonl
+  28127 ~/.local/state/goose/logs/llm_request.7.jsonl
+  27797 ~/.local/state/goose/logs/llm_request.8.jsonl

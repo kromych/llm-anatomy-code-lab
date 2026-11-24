@@ -1,0 +1,36 @@
+## The listing "An environment for this appendix" of Appendix C, typed
+## in an empty directory: first as printed, then in a second empty
+## directory with the version of NumPy given. A line that begins with
+## "$ " is a command; the other lines are output.
+## S3-macOS; uv 0.13.8 and Python 3.14.10 from Homebrew. Each session
+## ran once, one after the other under the exclusive load lock; load
+## averages 13.7 15.6 19.4 from other work on the machine. The wheels of
+## NumPy 2.5.4 and 2.5.5 for this Python were in the cache of uv
+## (~/.cache/uv), so neither session downloaded one.
+
+## as printed; without a version uv takes the newest release of NumPy,
+## which was 2.5.5 at the time of the run
+$ uv venv venv --python 3.14
+Using CPython 3.14.10 interpreter at: /opt/homebrew/opt/python@3.14/bin/python3.14
+Creating virtual environment at: venv
+Activate with: source venv/bin/activate
+$ uv pip install --python venv/bin/python numpy
+Using Python 3.14.10 environment at: venv
+Resolved 1 package in 10ms
+Installed 1 package in 18ms
+ + numpy==2.5.5
+$ venv/bin/python -c 'import numpy; print(numpy.__version__)'
+2.5.5
+
+## with numpy==2.5.4, the version that the book names
+$ uv venv venv --python 3.14
+Using CPython 3.14.10 interpreter at: /opt/homebrew/opt/python@3.14/bin/python3.14
+Creating virtual environment at: venv
+Activate with: source venv/bin/activate
+$ uv pip install --python venv/bin/python numpy==2.5.4
+Using Python 3.14.10 environment at: venv
+Resolved 1 package in 1ms
+Installed 1 package in 13ms
+ + numpy==2.5.4
+$ venv/bin/python -c 'import numpy; print(numpy.__version__)'
+2.5.4

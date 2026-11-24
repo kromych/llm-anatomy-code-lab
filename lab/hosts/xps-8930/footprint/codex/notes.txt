@@ -1,0 +1,10 @@
+2026-11-14 (Chapter 15): downloaded the Codex CLI 0.169.0 Linux build for a
+possible container run; it was not used for measurements.
+  ~/opt/codex-0.169.0/codex-x86_64-unknown-linux-musl (294 MB, static-pie)
+  ~/opt/codex-0.169.0/codex-x86_64-unknown-linux-musl.tar.gz (118 MB)
+  ~/.codex/ created by `codex --version`
+Remove with: rm -r ~/opt/codex-0.169.0 ~/.codex
+
+2026-11-14: removed as above (~/opt/codex-0.169.0 and
+~/.codex); the empty ~/opt directory was left in place. Nothing of Codex
+remains on xps-8930.

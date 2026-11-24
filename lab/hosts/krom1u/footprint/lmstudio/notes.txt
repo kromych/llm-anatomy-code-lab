@@ -1,0 +1,32 @@
+LM Studio on krom1u, 2026-11-14. Closed source: observed at its
+files, processes and sockets only.
+
+Versions: desktop app 0.4.28 build 2 (Homebrew cask lm-studio 0.4.28,2;
+bundled lms CLI commit 43d4b26); headless daemon llmster 0.0.27-1 (installer
+https://lmstudio.ai/install.sh); llama.cpp backend 2.66.0, MLX backend 1.13.1.
+
+What ran:
+  brew install --cask lm-studio                      (HOMEBREW_NO_INSTALL_CLEANUP=1)
+  "/Applications/LM Studio.app/Contents/Resources/app/.webpack/lms" daemon up
+      -> "No running LM Studio or Bionic app, and no valid installation was
+          found." The desktop app was not opened: its first start shows
+          Gatekeeper's dialog for a downloaded app, which needs a click, and
+          we did not remove the quarantine attribute to avoid it.
+  curl -fsSL https://lmstudio.ai/install.sh | bash   (read first; 90 s)
+  lms daemon up; lms server start                    (127.0.0.1:1234)
+  lms get qwen/qwen3-0.6b --gguf -y                  (aborted at 19 KB/s)
+  lms import -l -y --user-repo ggml-org/Qwen3-1.7B-GGUF <HF-cache GGUF>
+      (without -l or -c, import moves the file out of the Hugging Face cache)
+  lms load qwen3-1.7b -y                             (8.3 s)
+  one chat request to http://127.0.0.1:1234/v1/chat/completions -> "Jupiter"
+  lms unload --all; lms server stop; lms daemon down
+  brew uninstall --zap --cask lm-studio              (failed, see changes.txt)
+  brew uninstall --cask --force lm-studio
+  rm -r ~/.lmstudio ~/.lmstudio-home-pointer; the three appended lines
+  removed from ~/.profile and ~/.zshrc (files then equal to their backups)
+
+Not observed: the desktop application's own first run, its files under
+~/Library (the cask's zap list names Application Support/LM Studio,
+Caches/ai.elementlabs.lmstudio and .ShipIt, HTTPStorages, Logs/LM Studio,
+Preferences/ai.elementlabs.lmstudio.plist, Saved Application State), its
+login item and its self-update.

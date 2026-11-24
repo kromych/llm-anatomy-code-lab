@@ -1,0 +1,7 @@
+09:00 INFO server started
+09:02 ERROR disk quota exceeded
+09:05 INFO request served
+09:07 WARN slow response
+09:09 ERROR timeout talking to upstream
+09:12 INFO request served
+09:15 ERROR connection reset

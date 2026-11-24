@@ -1,0 +1,8 @@
+## python3 mlxcheck.py MODEL_DIR .   (one run on S3-macOS; Python 3.14.10,
+## MLX 0.32.4, mlx-lm 0.32.2, NumPy 2.5.4; MODEL_DIR holds config.json,
+## model.safetensors and the tokenizer files of HuggingFaceTB/SmolLM2-135M,
+## commit 93efa2f097d58c2a74874c7e644dbc9b0cee75a2)
+ids [504, 3575, 282, 4649, 314]
+type before eval <class 'mlx.core.array'> (1, 5, 49152) mlx.core.bfloat16
+max |diff| 0.2616558074951172
+top5 ours [ 260 7042 3807 1217  253] mlx [ 260 7042 3807 1217  253]

@@ -1,0 +1,17 @@
+GET  /v1/models       200 {object=list, data} ids ['qwen3:1.7b', 'gemma3:1b']
+POST /v1/completions  200 {id, object=text_completion, created, model, system_fingerprint, choices, usage}
+POST /v1/embeddings   501 {error}
+POST /v1/responses    200 {id, object=response, created_at, completed_at, status=completed, incomplete_details, model, previous_response_id, instructions, output, error, tools, tool_choice, truncation, parallel_tool_calls, text, top_p, presence_penalty, frequency_penalty, top_logprobs, temperature, reasoning, usage, max_output_tokens, max_tool_calls, store, background, service_tier, metadata, safety_identifier, prompt_cache_key}
+POST /v1/messages     200 {id, type=message, role, model, content, stop_reason, usage}
+POST /v1/rerank       404 '404 page not found'
+GET  /health          404 '404 page not found'
+GET  /metrics         404 '404 page not found'
+GET  /props           404 '404 page not found'
+GET  /slots           404 '404 page not found'
+POST /tokenize        404 '404 page not found'
+POST /detokenize      404 '404 page not found'
+POST /apply-template  404 '404 page not found'
+GET  /                200 'Ollama is running'
+GET  /api/version     200 {version=0.40.16}
+GET  /api/tags        200 {models}
+POST /api/embed       501 {error}

@@ -1,0 +1,2 @@
+[x64-t32.completion.log] 0.00.555.512 I system_info: n_threads = 32 (n_threads_batch = 32) / 252 | CPU : LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 |
+[x64-t32.stderr] build: 61dbf4922 (12376)

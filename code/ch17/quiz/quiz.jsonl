@@ -1,0 +1,4 @@
+{"question": "Which file format stores tensors with a JSON header and raw data?", "choices": ["safetensors", "pickle", "CSV", "PNG"], "answer": 0}
+{"question": "How many bits does one weight take in the Q8_0 format, including the scale?", "choices": ["4.5", "8.5", "16", "32"], "answer": 1}
+{"question": "Which HTTP method sends a chat completion request?", "choices": ["GET", "PUT", "POST", "DELETE"], "answer": 2}
+{"question": "What does a tokenizer turn text into?", "choices": ["pixels", "integers", "sound", "weights"], "answer": 1}

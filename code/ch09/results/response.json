@@ -1,0 +1,46 @@
+{
+ "choices": [
+  {
+   "finish_reason": "tool_calls",
+   "index": 0,
+   "message": {
+    "role": "assistant",
+    "content": "The weather in Oslo is currently cloudy. \n\n",
+    "tool_calls": [
+     {
+      "type": "function",
+      "function": {
+       "name": "get_weather",
+       "arguments": "{\"city\": \"Oslo\"}"
+      },
+      "id": "1hZ1baJdo6u2AZSQP3qpYRJnK2b6h6sE"
+     }
+    ]
+   }
+  }
+ ],
+ "created": 1794638126,
+ "model": "ggml-org/Qwen3-1.7B-GGUF:Q4_K_M",
+ "system_fingerprint": "b12359-b1b770d90",
+ "object": "chat.completion",
+ "usage": {
+  "completion_tokens": 30,
+  "prompt_tokens": 165,
+  "total_tokens": 195,
+  "prompt_tokens_details": {
+   "cached_tokens": 164
+  }
+ },
+ "id": "chatcmpl-5jq3AkZV3cmoQP09zZCGNKDw8ivqLtZW",
+ "timings": {
+  "cache_n": 164,
+  "prompt_n": 1,
+  "prompt_ms": 70.98,
+  "prompt_per_token_ms": 70.98,
+  "prompt_per_second": 14.088475626937164,
+  "predicted_n": 30,
+  "predicted_ms": 353.895,
+  "predicted_per_token_ms": 12.203275862068965,
+  "predicted_per_second": 81.94520973735148
+ }
+}

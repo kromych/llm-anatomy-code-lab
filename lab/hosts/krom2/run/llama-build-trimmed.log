@@ -1,0 +1,241 @@
+start 2026-11-13T22:30:39-08:00
+[  2%] Built target llama-common-base
+[  2%] Provisioning UI assets
+-- UI: downloading from b12376: https://huggingface.co/buckets/ggml-org/llama-ui/resolve/b12376/dist.tar.gz
+-- UI: download dist.tar.gz.sha256 from b12376 failed: "HTTP response code said error"
+-- UI: downloading from latest: https://huggingface.co/buckets/ggml-org/llama-ui/resolve/latest/dist.tar.gz
+-- UI: archive verified and extracted
+-- UI: HF download succeeded, stamp updated (ggml-org/llama-ui|b12376, resolved: latest)
+-- UI: gzip compression applied (/home/labuser/src/llama.cpp/build/tools/ui/ui-gzip/_gzip)
+[  3%] Built target vendor-hash
+[  4%] Built target llama-llava-cli
+[  6%] Built target llama-gemma3-cli
+[  7%] Built target llama-minicpmv-cli
+[  8%] Built target llama-qwen2vl-cli
+-- UI: embedded 70 assets
+[  8%] Built target llama-ui-assets
+[ 10%] Built target llama-ui
+[ 10%] Built target ggml-base
+[ 14%] Built target cpp-httplib
+[ 14%] Built target ggml-cpu
+[ 15%] Built target ggml
+[ 15%] Built target test-backend-tensor
+[ 15%] Built target test-opt
+[ 16%] Built target test-tiled-mulmat
+[ 16%] Built target test-barrier
+[ 16%] Built target test-quantize-fns
+[ 17%] Built target test-quantize-perf
+[ 17%] Built target test-rope
+[ 18%] Built target test-conv-1d
+[ 18%] Built target test-col2im-1d
+[ 19%] Built target test-gelu-quick
+[ 20%] Built target test-alloc
+[ 21%] Built target test-gguf
+[ 22%] Built target llama-gguf
+[ 22%] Built target llama-gguf-hash
+/home/labuser/src/llama.cpp/tests/test-backend-ops.cpp: In function ‘std::string var_to_str(ggml_scale_mode)’:
+/home/labuser/src/llama.cpp/tests/test-backend-ops.cpp:468:14: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+  468 |     if (mode & GGML_SCALE_FLAG_ALIGN_CORNERS) {
+      |         ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tests/test-backend-ops.cpp:471:14: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+  471 |     if (mode & GGML_SCALE_FLAG_ANTIALIAS) {
+      |         ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tests/test-backend-ops.cpp: In function ‘std::vector<std::unique_ptr<test_case> > make_test_cases_eval()’:
+/home/labuser/src/llama.cpp/tests/test-backend-ops.cpp:12759:151: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+12759 |     for (ggml_scale_mode mode : {GGML_SCALE_MODE_NEAREST, GGML_SCALE_MODE_BILINEAR, GGML_SCALE_MODE_BICUBIC, ggml_scale_mode(GGML_SCALE_MODE_BILINEAR | GGML_SCALE_FLAG_ANTIALIAS)}) {
+      |                                                                                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tests/test-backend-ops.cpp:12766:123: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+12766 |         test_cases.emplace_back(new test_interpolate(GGML_TYPE_F32, {2, 5, 7, 11}, {5, 7, 11, 13}, (ggml_scale_mode)(mode | GGML_SCALE_FLAG_ALIGN_CORNERS)));
+      |                                                                                                                      ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tests/test-backend-ops.cpp:12767:120: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+12767 |         test_cases.emplace_back(new test_interpolate(GGML_TYPE_F32, {1, 4, 3, 2}, {2, 8, 3, 2}, (ggml_scale_mode)(mode | GGML_SCALE_FLAG_ALIGN_CORNERS)));
+      |                                                                                                                   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tests/test-backend-ops.cpp:12768:120: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+12768 |         test_cases.emplace_back(new test_interpolate(GGML_TYPE_F32, {4, 1, 3, 2}, {1, 1, 3, 2}, (ggml_scale_mode)(mode | GGML_SCALE_FLAG_ALIGN_CORNERS)));
+      |                                                                                                                   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tests/test-backend-ops.cpp:12769:128: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+12769 |         test_cases.emplace_back(new test_interpolate(GGML_TYPE_F32, {64, 48, 48, 1}, {156, 104, 64, 1}, (ggml_scale_mode)(mode | GGML_SCALE_FLAG_ALIGN_CORNERS), {2, 0, 1, 3}));
+      |                                                                                                                           ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ 30%] Built target test-backend-ops
+[ 32%] Built target llama
+[ 33%] Built target test-unicode
+[ 34%] Built target test-grammar-parser
+[ 34%] Built target test-sampling
+[ 34%] Built target test-llama-grammar
+[ 34%] Built target test-gbnf-validator
+[ 35%] Built target test-c
+In file included from /home/labuser/src/llama.cpp/tools/mtmd/models/models.h:3,
+                 from /home/labuser/src/llama.cpp/tools/mtmd/models/step3vl.cpp:1,
+                 from /home/labuser/src/llama.cpp/build/tools/mtmd/CMakeFiles/mtmd.dir/Unity/unity_3_cxx.cxx:4:
+/home/labuser/src/llama.cpp/tools/mtmd/models/../mtmd-graph.h:12:62: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+   12 | #define DEFAULT_INTERPOLATION_MODE (GGML_SCALE_MODE_BILINEAR | GGML_SCALE_FLAG_ANTIALIAS)
+      |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tools/mtmd/models/../mtmd-graph.h:84:76: note: in expansion of macro ‘DEFAULT_INTERPOLATION_MODE’
+   84 |     ggml_tensor * resize_position_embeddings(uint32_t interpolation_mode = DEFAULT_INTERPOLATION_MODE);
+      |                                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+[ 36%] Built target llama-simple
+[ 36%] Built target llama-simple-chat
+In file included from /home/labuser/src/llama.cpp/tools/mtmd/models/models.h:3,
+                 from /home/labuser/src/llama.cpp/tools/mtmd/models/qwen3vl.cpp:1,
+                 from /home/labuser/src/llama.cpp/build/tools/mtmd/CMakeFiles/mtmd.dir/Unity/unity_2_cxx.cxx:4:
+/home/labuser/src/llama.cpp/tools/mtmd/models/../mtmd-graph.h:12:62: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+   12 | #define DEFAULT_INTERPOLATION_MODE (GGML_SCALE_MODE_BILINEAR | GGML_SCALE_FLAG_ANTIALIAS)
+      |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tools/mtmd/models/../mtmd-graph.h:84:76: note: in expansion of macro ‘DEFAULT_INTERPOLATION_MODE’
+   84 |     ggml_tensor * resize_position_embeddings(uint32_t interpolation_mode = DEFAULT_INTERPOLATION_MODE);
+      |                                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tools/mtmd/models/qwen3vl.cpp: In member function ‘virtual ggml_cgraph* mtmd_graph_qwen3vl::build()’:
+/home/labuser/src/llama.cpp/tools/mtmd/models/qwen3vl.cpp:40:90: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+   40 |     ggml_tensor * learned_pos_embd = resize_position_embeddings(GGML_SCALE_MODE_BILINEAR | GGML_SCALE_FLAG_ALIGN_CORNERS);
+      |                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/labuser/src/llama.cpp/build/tools/mtmd/CMakeFiles/mtmd.dir/Unity/unity_2_cxx.cxx:19:
+/home/labuser/src/llama.cpp/tools/mtmd/models/ling3vl.cpp: In member function ‘virtual ggml_cgraph* mtmd_graph_ling3vl::build()’:
+/home/labuser/src/llama.cpp/tools/mtmd/models/ling3vl.cpp:41:90: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+   41 |     ggml_tensor * learned_pos_embd = resize_position_embeddings(GGML_SCALE_MODE_BILINEAR | GGML_SCALE_FLAG_ALIGN_CORNERS);
+      |                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/labuser/src/llama.cpp/build/tools/mtmd/CMakeFiles/mtmd.dir/Unity/unity_2_cxx.cxx:49:
+/home/labuser/src/llama.cpp/tools/mtmd/models/soprano.cpp: In member function ‘virtual ggml_cgraph* mtmd_graph_soprano::build()’:
+/home/labuser/src/llama.cpp/tools/mtmd/models/soprano.cpp:14:83: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+   14 |     cur = ggml_interpolate(ctx0, cur, n_up, n_inp, 1, 1, GGML_SCALE_MODE_BILINEAR | GGML_SCALE_FLAG_ALIGN_CORNERS);
+      |                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ 37%] Built target test-batch-alloc
+In file included from /home/labuser/src/llama.cpp/tools/mtmd/models/models.h:3,
+                 from /home/labuser/src/llama.cpp/tools/mtmd/models/internvl.cpp:1,
+                 from /home/labuser/src/llama.cpp/build/tools/mtmd/CMakeFiles/mtmd.dir/Unity/unity_1_cxx.cxx:4:
+/home/labuser/src/llama.cpp/tools/mtmd/models/../mtmd-graph.h:12:62: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+   12 | #define DEFAULT_INTERPOLATION_MODE (GGML_SCALE_MODE_BILINEAR | GGML_SCALE_FLAG_ANTIALIAS)
+      |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tools/mtmd/models/../mtmd-graph.h:84:76: note: in expansion of macro ‘DEFAULT_INTERPOLATION_MODE’
+   84 |     ggml_tensor * resize_position_embeddings(uint32_t interpolation_mode = DEFAULT_INTERPOLATION_MODE);
+      |                                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/labuser/src/llama.cpp/tools/mtmd/models/models.h:3,
+                 from /home/labuser/src/llama.cpp/tools/mtmd/models/chatterbox-gen.cpp:1,
+                 from /home/labuser/src/llama.cpp/build/tools/mtmd/CMakeFiles/mtmd.dir/Unity/unity_0_cxx.cxx:4:
+/home/labuser/src/llama.cpp/tools/mtmd/models/../mtmd-graph.h:12:62: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+   12 | #define DEFAULT_INTERPOLATION_MODE (GGML_SCALE_MODE_BILINEAR | GGML_SCALE_FLAG_ANTIALIAS)
+      |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tools/mtmd/models/../mtmd-graph.h:84:76: note: in expansion of macro ‘DEFAULT_INTERPOLATION_MODE’
+   84 |     ggml_tensor * resize_position_embeddings(uint32_t interpolation_mode = DEFAULT_INTERPOLATION_MODE);
+      |                                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/labuser/src/llama.cpp/tools/mtmd/models/models.h:3,
+                 from /home/labuser/src/llama.cpp/tools/mtmd/mtmd.cpp:2:
+/home/labuser/src/llama.cpp/tools/mtmd/models/../mtmd-graph.h:12:62: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+   12 | #define DEFAULT_INTERPOLATION_MODE (GGML_SCALE_MODE_BILINEAR | GGML_SCALE_FLAG_ANTIALIAS)
+      |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tools/mtmd/models/../mtmd-graph.h:84:76: note: in expansion of macro ‘DEFAULT_INTERPOLATION_MODE’
+   84 |     ggml_tensor * resize_position_embeddings(uint32_t interpolation_mode = DEFAULT_INTERPOLATION_MODE);
+      |                                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/labuser/src/llama.cpp/tools/mtmd/models/models.h:3,
+                 from /home/labuser/src/llama.cpp/tools/mtmd/mtmd-model.cpp:3:
+/home/labuser/src/llama.cpp/tools/mtmd/models/../mtmd-graph.h:12:62: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+   12 | #define DEFAULT_INTERPOLATION_MODE (GGML_SCALE_MODE_BILINEAR | GGML_SCALE_FLAG_ANTIALIAS)
+      |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tools/mtmd/models/../mtmd-graph.h:84:76: note: in expansion of macro ‘DEFAULT_INTERPOLATION_MODE’
+   84 |     ggml_tensor * resize_position_embeddings(uint32_t interpolation_mode = DEFAULT_INTERPOLATION_MODE);
+      |                                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/labuser/src/llama.cpp/tools/mtmd/mtmd-subcontext.cpp:2:
+/home/labuser/src/llama.cpp/tools/mtmd/mtmd-graph.h:12:62: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+   12 | #define DEFAULT_INTERPOLATION_MODE (GGML_SCALE_MODE_BILINEAR | GGML_SCALE_FLAG_ANTIALIAS)
+      |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tools/mtmd/mtmd-graph.h:84:76: note: in expansion of macro ‘DEFAULT_INTERPOLATION_MODE’
+   84 |     ggml_tensor * resize_position_embeddings(uint32_t interpolation_mode = DEFAULT_INTERPOLATION_MODE);
+      |                                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/labuser/src/llama.cpp/tools/mtmd/mtmd-graph.cpp:1:
+/home/labuser/src/llama.cpp/tools/mtmd/mtmd-graph.h:12:62: warning: bitwise operation between different enumeration types ‘ggml_scale_mode’ and ‘ggml_scale_flag’ is deprecated [-Wdeprecated-enum-enum-conversion]
+   12 | #define DEFAULT_INTERPOLATION_MODE (GGML_SCALE_MODE_BILINEAR | GGML_SCALE_FLAG_ANTIALIAS)
+      |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/labuser/src/llama.cpp/tools/mtmd/mtmd-graph.h:84:76: note: in expansion of macro ‘DEFAULT_INTERPOLATION_MODE’
+   84 |     ggml_tensor * resize_position_embeddings(uint32_t interpolation_mode = DEFAULT_INTERPOLATION_MODE);
+      |                                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+[ 51%] Built target mtmd
+[ 52%] Built target test-mtmd-c-api
+[ 53%] Built target llama-common
+[ 55%] Built target test-tokenizer-0
+[ 55%] Built target test-reasoning-budget
+[ 55%] Built target test-mtmd-impl
+[ 56%] Built target test-kv-cache
+[ 57%] Built target test-grammar-integration
+[ 57%] Built target test-json-schema-to-grammar
+[ 57%] Built target test-quantize-stats
+[ 57%] Built target test-tokenizer-1-bpe
+[ 58%] Built target test-tokenizer-1-spm
+[ 59%] Built target test-fp8
+[ 59%] Built target test-llama-context
+[ 60%] Built target test-llama-archs
+[ 60%] Built target test-speculative-rejection-sampling
+[ 60%] Built target test-fusion
+[ 62%] Built target test-json-schema
+[ 63%] Built target test-chat-peg-parser
+[ 63%] Built target test-chat-template
+[ 63%] Built target test-jinja
+[ 64%] Built target test-log
+[ 65%] Built target test-chat-analysis
+[ 66%] Built target test-chat-auto-parser
+[ 66%] Built target test-thread-safety
+[ 68%] Built target test-arg-parser
+[ 69%] Built target test-model-resolution
+[ 69%] Built target test-model-load-cancel
+[ 70%] Built target test-llama-mmap
+[ 71%] Built target test-autorelease
+[ 72%] Built target test-backend-sampler
+[ 72%] Built target llama-batched
+[ 72%] Built target gguf-model-data
+[ 73%] Built target llama-embedding
+[ 73%] Built target llama-eval-callback
+[ 73%] Built target llama-debug
+[ 75%] Built target llama-idle
+[ 76%] Built target llama-lookahead
+[ 76%] Built target llama-lookup
+[ 77%] Built target llama-lookup-create
+[ 77%] Built target llama-lookup-merge
+[ 77%] Built target llama-lookup-stats
+[ 77%] Built target llama-parallel
+[ 78%] Built target llama-passkey
+[ 80%] Built target llama-retrieval
+[ 80%] Built target test-peg-parser
+[ 80%] Built target llama-speculative
+[ 80%] Built target llama-speculative-simple
+[ 81%] Built target llama-finetune
+[ 81%] Built target llama-gen-docs
+[ 81%] Built target llama-diffusion
+[ 82%] Built target llama-vdot
+[ 82%] Built target llama-q8dot
+[ 82%] Built target llama-convert-llama2c-to-ggml
+[ 83%] Built target llama-gguf-split
+[ 84%] Built target llama-batched-bench-impl
+[ 85%] Built target llama-completion-impl
+[ 85%] Built target llama-imatrix
+[ 85%] Built target llama-quantize-impl
+[ 86%] Built target server-context
+/home/labuser/src/llama.cpp/tools/perplexity/perplexity.cpp: In lambda function:
+/home/labuser/src/llama.cpp/tools/perplexity/perplexity.cpp:1752:41: note: parameter passing for argument of type ‘std::pair<double, double>’ when C++17 is enabled changed to match C++14 in GCC 10.1
+ 1752 |             return std::make_pair(0., 0.);
+      |                                         ^
+[ 87%] Built target llama-perplexity-impl
+[ 87%] Built target llama-tokenize
+[ 88%] Built target llama-bench-impl
+[ 89%] Built target llama-tts
+[ 89%] Built target llama-mtmd-debug
+[ 89%] Built target llama-mtmd-cli
+[ 89%] Built target llama-fit-params-impl
+[ 90%] Built target llama-export-lora
+[ 91%] Built target llama-cvector-generator
+[ 92%] Built target test-gguf-model-data
+[ 92%] Built target llama-results
+[ 94%] Built target test-quant-type-selection
+[ 94%] Built target test-export-graph-ops
+[ 95%] Built target llama-batched-bench
+[ 95%] Built target llama-bench
+[ 95%] Built target llama-completion
+[ 95%] Built target llama-perplexity
+[ 96%] Built target llama-quantize
+[ 96%] Built target llama-diffusion-cli
+[ 97%] Built target llama-fit-params
+[ 98%] Built target test-server-component
+[ 98%] Built target llama-server-impl
+[ 99%] Built target llama-server
+[ 99%] Built target llama-cli-impl
+[ 99%] Built target llama-cli
+[100%] Built target llama-app
+[100%] Built target test-chat
+exit=0 end 2026-11-13T22:33:37-08:00

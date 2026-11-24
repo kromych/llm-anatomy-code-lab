@@ -1,0 +1,31 @@
+#!/usr/bin/expect -f
+# drive.exp LOG QUESTION MODE -- records one terminal session of
+# agent_loop.py. MODE "safe" approves ls/find commands that contain no
+# shell operators and declines the rest; MODE "decline" declines three
+# proposals and then interrupts the program with Ctrl-C.
+set log [lindex $argv 0]
+set question [lindex $argv 1]
+set mode [lindex $argv 2]
+set timeout 300
+set declined 0
+log_user 0
+spawn python3 ../../ch01/agent_loop.py http://127.0.0.1:8101/v1
+log_file -a -noappend $log
+send_log "\$ python3 ../../ch01/agent_loop.py http://127.0.0.1:8101/v1\n"
+expect "> "
+send -- "$question\r"
+expect {
+  -re {run (['"])([^\r\n]*)['"]\? \[y/N\] } {
+    set cmd $expect_out(2,string)
+    if {$mode eq "safe" && [regexp {^(ls|find) } $cmd] && ![regexp {[;|>&`$]} $cmd]} {
+      send -- "y\r"
+    } elseif {$mode eq "decline" && $declined >= 3} {
+      send -- "\003"
+    } else {
+      incr declined
+      send -- "n\r"
+    }
+    exp_continue
+  }
+  eof {}
+}

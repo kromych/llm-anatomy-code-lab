@@ -1,0 +1,37 @@
+# Third run, Landlock only, after landlock.py changed the rights of a rule for a file from
+# 0b111 | 1 << 14 | 1 << 15 to 0b111 | 7 << 14 (bit 16, resolving Unix sockets by path name).
+# S1-LinuxX64, Linux 7.3.3-300.fc45.x86_64 (the second run was made on Linux 7.2.11); Python 3.15.2; strace 7.3.
+== Landlock with a rule for /dev/null
+# sed 's|--rw "$root/work" --|--rw "$root/work" --rw /dev/null --|' run-unix.sh > run-devnull.sh; sh run-devnull.sh landlock
+66c66
+<       --rw "$root/work" -- $battery ;;
+---
+>       --rw "$root/work" --rw /dev/null -- $battery ;;
+== landlock
+control ALLOWED
+write   BLOCKED  PermissionError EACCES
+read    BLOCKED  PermissionError EACCES
+net     BLOCKED  PermissionError EACCES
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+== Landlock as the chapter prints it
+# sh run-unix.sh landlock
+== landlock
+control ALLOWED
+write   BLOCKED  PermissionError EACCES
+read    BLOCKED  PermissionError EACCES
+net     BLOCKED  PermissionError EACCES
+spawn   ALLOWED
+hook    ALLOWED
+orphan  BLOCKED  PermissionError EACCES
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt no, connections 0
+== landlock ABI (landlock_create_ruleset with flag 1)
+   11
+== the rules as the kernel received them; the last one is the rule for the file
+# strace -e trace=landlock_add_rule python3 landlock.py --ro /usr --ro /etc --rw /dev/null -- /usr/bin/true
+landlock_add_rule(4, LANDLOCK_RULE_PATH_BENEATH, {allowed_access=LANDLOCK_ACCESS_FS_EXECUTE|LANDLOCK_ACCESS_FS_READ_FILE|LANDLOCK_ACCESS_FS_READ_DIR, parent_fd=5}, 0) = 0
+landlock_add_rule(4, LANDLOCK_RULE_PATH_BENEATH, {allowed_access=LANDLOCK_ACCESS_FS_EXECUTE|LANDLOCK_ACCESS_FS_READ_FILE|LANDLOCK_ACCESS_FS_READ_DIR, parent_fd=5}, 0) = 0
+landlock_add_rule(4, LANDLOCK_RULE_PATH_BENEATH, {allowed_access=LANDLOCK_ACCESS_FS_EXECUTE|LANDLOCK_ACCESS_FS_WRITE_FILE|LANDLOCK_ACCESS_FS_READ_FILE|LANDLOCK_ACCESS_FS_TRUNCATE|LANDLOCK_ACCESS_FS_IOCTL_DEV|LANDLOCK_ACCESS_FS_RESOLVE_UNIX, parent_fd=5}, 0) = 0
++++ exited with 0 +++

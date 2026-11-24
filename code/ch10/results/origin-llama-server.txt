@@ -1,0 +1,4 @@
+/v1/models  no key, no origin  status 200, Access-Control-Allow-Origin=
+/v1/models  foreign origin     status 200, Access-Control-Allow-Origin=http://example.com
+/health     no key, no origin  status 200, Access-Control-Allow-Origin=
+/health     foreign origin     status 200, Access-Control-Allow-Origin=http://example.com

@@ -1,0 +1,91 @@
+# spectest.py on S3-macOS (Apple M1 Ultra), llama.cpp build 12359 (b1b770d90):
+# three runs of Qwen3-8B Q8_0 (ggml-org/Qwen3-8B-GGUF) alone and three with
+# Qwen3-1.7B Q4_K_M (ggml-org/Qwen3-1.7B-GGUF) as its draft, in turn, with
+# the commands of spectest.txt on port 8084. Every run started a fresh
+# server, waited for /health, ran the script once, and stopped the server,
+# all of it under code/lab/mac-lockrun.py exclusive; the lock arrived after
+# 5, 1, 758, 261, 114, and 0 s. The machine was busy with other work, so
+# the load averages (uptime) are printed before and after each run of the
+# script. One trial of each server came before these runs, under the shared
+# lock, and is not shown.
+# A line "rc 0" is the exit status of a run.
+# The replies are in spectest-runs-plain.jsonl and spectest-runs-draft.jsonl,
+# two lines per run, and the twelve answers are the same, character for
+# character, as those of spectest-plain.jsonl. The two blocks at the end
+# print predicted_n, predicted_ms, and predicted_per_second of the replies'
+# "timings" with
+#   python3 -c '
+#   import json, sys
+#   for line in open(sys.argv[1]):
+#       r = json.loads(line)
+#       t = r["reply"]["timings"]
+#       print("%-5s %4d tokens in %8.1f ms  %5.1f tokens/s" % (
+#           r["request"], t["predicted_n"], t["predicted_ms"],
+#           t["predicted_per_second"]))
+#   ' FILE
+
+run 1, plain
+$ llama-server -hf ggml-org/Qwen3-8B-GGUF --offline -np 1 -c 8192 -lv 4 --no-log-timestamps --host 127.0.0.1 --port 8084
+load averages before: 14.50 15.67 19.37
+$ python3 spectest.py http://127.0.0.1:8084/v1 spectest-runs-plain.jsonl
+edit  generated   70   drafted    0   accepted    0
+prose generated  187   drafted    0   accepted    0
+load averages after: 14.54 15.66 19.35
+rc 0
+run 1, draft
+$ llama-server -hf ggml-org/Qwen3-8B-GGUF -hfd ggml-org/Qwen3-1.7B-GGUF:Q4_K_M --spec-type draft-simple --spec-draft-n-max 4 --offline -np 1 -c 8192 -lv 4 --no-log-timestamps --host 127.0.0.1 --port 8084
+load averages before: 14.54 15.66 19.35
+$ python3 spectest.py http://127.0.0.1:8084/v1 spectest-runs-draft.jsonl
+edit  generated   70   drafted   60   accepted   54   (90%)
+prose generated  187   drafted  272   accepted  119   (44%)
+load averages after: 14.65 15.67 19.33
+rc 0
+run 2, plain
+$ llama-server -hf ggml-org/Qwen3-8B-GGUF --offline -np 1 -c 8192 -lv 4 --no-log-timestamps --host 127.0.0.1 --port 8084
+load averages before: 35.96 30.06 24.46
+$ python3 spectest.py http://127.0.0.1:8084/v1 spectest-runs-plain.jsonl
+edit  generated   70   drafted    0   accepted    0
+prose generated  187   drafted    0   accepted    0
+load averages after: 34.28 29.81 24.40
+rc 0
+run 2, draft
+$ llama-server -hf ggml-org/Qwen3-8B-GGUF -hfd ggml-org/Qwen3-1.7B-GGUF:Q4_K_M --spec-type draft-simple --spec-draft-n-max 4 --offline -np 1 -c 8192 -lv 4 --no-log-timestamps --host 127.0.0.1 --port 8084
+load averages before: 20.67 24.18 23.29
+$ python3 spectest.py http://127.0.0.1:8084/v1 spectest-runs-draft.jsonl
+edit  generated   70   drafted   60   accepted   54   (90%)
+prose generated  187   drafted  272   accepted  119   (44%)
+load averages after: 20.38 24.06 23.25
+rc 0
+run 3, plain
+$ llama-server -hf ggml-org/Qwen3-8B-GGUF --offline -np 1 -c 8192 -lv 4 --no-log-timestamps --host 127.0.0.1 --port 8084
+load averages before: 21.81 23.48 23.11
+$ python3 spectest.py http://127.0.0.1:8084/v1 spectest-runs-plain.jsonl
+edit  generated   70   drafted    0   accepted    0
+prose generated  187   drafted    0   accepted    0
+load averages after: 21.23 23.29 23.05
+rc 0
+run 3, draft
+$ llama-server -hf ggml-org/Qwen3-8B-GGUF -hfd ggml-org/Qwen3-1.7B-GGUF:Q4_K_M --spec-type draft-simple --spec-draft-n-max 4 --offline -np 1 -c 8192 -lv 4 --no-log-timestamps --host 127.0.0.1 --port 8084
+load averages before: 21.23 23.29 23.05
+$ python3 spectest.py http://127.0.0.1:8084/v1 spectest-runs-draft.jsonl
+edit  generated   70   drafted   60   accepted   54   (90%)
+prose generated  187   drafted  272   accepted  119   (44%)
+load averages after: 25.38 24.12 23.34
+rc 0
+series done
+
+$ python3 -c '...' spectest-runs-plain.jsonl
+edit    70 tokens in   1112.4 ms   62.0 tokens/s
+prose  187 tokens in   2981.1 ms   62.4 tokens/s
+edit    70 tokens in   1345.5 ms   51.3 tokens/s
+prose  187 tokens in   3754.7 ms   49.5 tokens/s
+edit    70 tokens in   1381.5 ms   49.9 tokens/s
+prose  187 tokens in   3610.0 ms   51.5 tokens/s
+
+$ python3 -c '...' spectest-runs-draft.jsonl
+edit    70 tokens in    871.5 ms   79.2 tokens/s
+prose  187 tokens in   3724.7 ms   49.9 tokens/s
+edit    70 tokens in    875.3 ms   78.8 tokens/s
+prose  187 tokens in   3799.0 ms   49.0 tokens/s
+edit    70 tokens in   1125.3 ms   61.3 tokens/s
+prose  187 tokens in   5503.0 ms   33.8 tokens/s

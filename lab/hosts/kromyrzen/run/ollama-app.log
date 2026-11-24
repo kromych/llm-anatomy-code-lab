@@ -1,0 +1,5 @@
+time=2026-11-13T22:45:14.446-08:00 level=INFO source=app_windows.go:281 msg="starting Ollama" app=C:\Users\labuser\AppData\Local\Programs\Ollama version=0.40.16 OS=Windows/10.0.26300
+time=2026-11-13T22:45:14.448-08:00 level=INFO source=app.go:238 msg="initialized tools registry" tool_count=0
+time=2026-11-13T22:45:14.448-08:00 level=INFO source=app.go:253 msg="starting ollama server"
+time=2026-11-13T22:45:14.448-08:00 level=INFO source=app.go:285 msg="starting ui server" port=62314
+time=2026-11-13T22:45:14.475-08:00 level=INFO source=.:0 msg="Failed to start: Unable to init instance: Unspecified error"

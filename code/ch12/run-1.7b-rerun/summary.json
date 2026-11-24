@@ -1,0 +1,62 @@
+[
+ {
+  "port": "baseline",
+  "tasks": 18,
+  "correct": 6,
+  "errors": 0,
+  "requests_per_task": 2.17,
+  "prompt_tokens_per_task": 753,
+  "completion_tokens_per_task": 92,
+  "secs_per_task": 0.94,
+  "secs_median": 0.62,
+  "first_prompt_tokens": 287,
+  "first_request_bytes": 888,
+  "capped": 0,
+  "loc": 37
+ },
+ {
+  "port": "smolagents",
+  "tasks": 18,
+  "correct": 8,
+  "errors": 0,
+  "requests_per_task": 3.89,
+  "prompt_tokens_per_task": 10214,
+  "completion_tokens_per_task": 989,
+  "secs_per_task": 16.52,
+  "secs_median": 1.98,
+  "first_prompt_tokens": 1372,
+  "first_request_bytes": 5333,
+  "capped": 15,
+  "loc": 11
+ },
+ {
+  "port": "pydanticai",
+  "tasks": 18,
+  "correct": 6,
+  "errors": 0,
+  "requests_per_task": 3.17,
+  "prompt_tokens_per_task": 1455,
+  "completion_tokens_per_task": 116,
+  "secs_per_task": 1.28,
+  "secs_median": 0.81,
+  "first_prompt_tokens": 352,
+  "first_request_bytes": 1148,
+  "capped": 0,
+  "loc": 11
+ },
+ {
+  "port": "openai_agents",
+  "tasks": 18,
+  "correct": 6,
+  "errors": 0,
+  "requests_per_task": 2.67,
+  "prompt_tokens_per_task": 1256,
+  "completion_tokens_per_task": 97,
+  "secs_per_task": 1.12,
+  "secs_median": 1.08,
+  "first_prompt_tokens": 392,
+  "first_request_bytes": 1252,
+  "capped": 0,
+  "loc": 13
+ }
+]

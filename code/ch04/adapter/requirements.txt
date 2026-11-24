@@ -1,0 +1,7 @@
+# Versions used for the adapter of Chapter 4 (Python 3.14, macOS arm64).
+# train_lora.py needs torch, transformers and peft; adapter.py needs
+# numpy alone; lora2gguf.py needs nothing.
+torch==2.15.0
+transformers==5.23.0
+peft==0.21.3
+numpy==2.5.4

@@ -1,0 +1,67 @@
+# Second run, all seven probes, under the wrappers as the chapter prints them.
+# S1-LinuxX64, Linux 7.2.11-200.fc44.x86_64; bubblewrap 0.12.0; Docker version 29.9.2, build a82e528;
+# codex-cli 0.169.0; sandbox-runtime 0.0.83; Python 3.14.8; socat version 1.8.1.3.
+# SRT=.../srt ./run-unix.sh none bwrap landlock seccomp docker codex srt
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== bwrap
+control ALLOWED
+write   BLOCKED  OSError EROFS
+read    BLOCKED  FileNotFoundError ENOENT
+net     BLOCKED  ConnectionRefusedError ECONNREFUSED
+spawn   ALLOWED
+hook    BLOCKED  OSError EROFS
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt no, connections 0
+== landlock
+control ALLOWED
+write   BLOCKED  PermissionError EACCES
+read    BLOCKED  PermissionError EACCES
+net     BLOCKED  PermissionError EACCES
+spawn   ALLOWED
+hook    ALLOWED
+orphan  BLOCKED  PermissionError EACCES
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt no, connections 0
+== seccomp
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     BLOCKED  PermissionError EPERM
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 0
+== docker
+control ALLOWED
+write   BLOCKED  FileNotFoundError ENOENT
+read    BLOCKED  FileNotFoundError ENOENT
+net     BLOCKED  ConnectionRefusedError ECONNREFUSED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt no, connections 0
+== codex
+control ALLOWED
+write   BLOCKED  OSError EROFS
+read    ALLOWED
+net     BLOCKED  PermissionError EPERM
+spawn   ALLOWED
+hook    BLOCKED  OSError EROFS
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt no, connections 0
+== srt
+control ALLOWED
+write   BLOCKED  OSError EROFS
+read    BLOCKED  FileNotFoundError ENOENT
+net     BLOCKED  ConnectionRefusedError ECONNREFUSED
+spawn   ALLOWED
+hook    BLOCKED  OSError EROFS
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt no, connections 0

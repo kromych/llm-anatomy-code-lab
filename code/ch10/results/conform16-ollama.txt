@@ -1,0 +1,39 @@
+## ollama serve   (Ollama 0.40.16 with qwen3:1.7b, on S3-macOS)
+## python3 conform.py http://127.0.0.1:11434/v1 qwen3:1.7b
+## Two runs. They differ only in the length of the story that
+## t_max_completion reports, which varies from run to run.
+## The first run, made before t_stream, t_tool_auto, and t_tool_stream
+## checked the status of the reply:
+PASS  t_models
+PASS  t_basic
+PASS  t_stream
+PASS  t_stop
+PASS  t_length
+FAIL  t_max_completion -- AssertionError field ignored: 1069 tokens
+FAIL  t_n -- AssertionError n ignored
+PASS  t_seed
+PASS  t_logprobs
+PASS  t_cached
+PASS  t_reasoning
+PASS  t_tool_auto
+FAIL  t_tool_required -- AssertionError no tool call: "Hello! How can I assist you today? Could you please tell me the name of the city you'd like me to check t
+PASS  t_tool_stream
+PASS  t_schema
+PASS  t_error
+## The second run, with conform.py as it is now:
+PASS  t_models
+PASS  t_basic
+PASS  t_stream
+PASS  t_stop
+PASS  t_length
+FAIL  t_max_completion -- AssertionError field ignored: 1176 tokens
+FAIL  t_n -- AssertionError n ignored
+PASS  t_seed
+PASS  t_logprobs
+PASS  t_cached
+PASS  t_reasoning
+PASS  t_tool_auto
+FAIL  t_tool_required -- AssertionError no tool call: "Hello! How can I assist you today? Could you please tell me the name of the city you'd like me to check t
+PASS  t_tool_stream
+PASS  t_schema
+PASS  t_error

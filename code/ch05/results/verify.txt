@@ -1,0 +1,28 @@
+## python3 verify.py MODEL_DIR   (two runs on S3-macOS, each under the
+## exclusive load lock, while other work kept the machine busy. Python
+## 3.14.10, PyTorch 2.15.0, Transformers 5.23.0, NumPy 2.5.4; MODEL_DIR
+## holds config.json, model.safetensors and the tokenizer files of
+## HuggingFaceTB/SmolLM2-135M, commit
+## 93efa2f097d58c2a74874c7e644dbc9b0cee75a2)
+## The first run; load averages 44.32 29.99 25.77 before it and 38.89
+## 29.30 25.58 after it:
+ids [504, 3575, 282, 4649, 314] ['The', ' capital', ' of', ' France', ' is']
+numpy forward 0.088 s, float32
+attn impl sdpa
+max |diff| 5.53131103515625e-05 max |ref| 21.35270881652832
+top5 ours [ 260 7042 3807 1217  253] ref [ 260 7042 3807 1217  253]
+ours [504, 3575, 282, 4649, 314, 260, 3575, 282, 260, 1798, 30, 198, 198]
+hf   [504, 3575, 282, 4649, 314, 260, 3575, 282, 260, 1798, 30, 198, 198]
+text 'The capital of France is the capital of the country.\n\n'
+parameters 134515008
+## The second run; load averages 14.02 15.63 19.40 before it and 14.02
+## 15.60 19.37 after it:
+ids [504, 3575, 282, 4649, 314] ['The', ' capital', ' of', ' France', ' is']
+numpy forward 0.06 s, float32
+attn impl sdpa
+max |diff| 5.53131103515625e-05 max |ref| 21.35270881652832
+top5 ours [ 260 7042 3807 1217  253] ref [ 260 7042 3807 1217  253]
+ours [504, 3575, 282, 4649, 314, 260, 3575, 282, 260, 1798, 30, 198, 198]
+hf   [504, 3575, 282, 4649, 314, 260, 3575, 282, 260, 1798, 30, 198, 198]
+text 'The capital of France is the capital of the country.\n\n'
+parameters 134515008

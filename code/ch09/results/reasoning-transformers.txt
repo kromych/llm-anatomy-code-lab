@@ -1,0 +1,16 @@
+thinking on
+  message {'reasoning_content': 5280} answer ''
+  usage   {'completion_tokens': 1500, 'prompt_tokens': 21, 'total_tokens': 1521}
+  stream  1499 reasoning_content
+/no_think in the message
+  message {'content': 5} answer 'Prime'
+  usage   {'completion_tokens': 6, 'prompt_tokens': 25, 'total_tokens': 31}
+  stream  1 reasoning_content, 1 content
+enable_thinking false
+  message {'content': 4} answer 'Yes.'
+  usage   {'completion_tokens': 3, 'prompt_tokens': 25, 'total_tokens': 28}
+  stream  1 reasoning_content, 2 content
+reasoning_effort none
+  message {'reasoning_content': 5280} answer ''
+  usage   {'completion_tokens': 1500, 'prompt_tokens': 21, 'total_tokens': 1521}
+  stream  1499 reasoning_content

@@ -1,0 +1,69 @@
+Footprint of the Cline CLI 3.0.74 on krom1u (macOS 27, Apple M1 Ultra),
+2026-11-14.  Differences between snapshots taken by code/ch15/footprint.sh
+(plus `npm ls -g`) before the install, after `npm install -g cline@3.0.74`
+and the first `cline config` and `cline auth`, and after eight measurement
+runs (code/ch15/run_cline.sh, act and yolo modes).  Only the differences
+that belong to Cline are kept; other programs that changed during the same
+interval (siblings' model servers and installs, a Spotlight worker, an
+editor) are left out.  Sizes are in bytes.
+
+== npm global packages
+  added by the install: 1
+    + cline@3.0.74   /opt/homebrew/lib/node_modules/cline, 376 MB:
+                     bin/cline (Node.js wrapper), bin/ca-certs.cjs,
+                     bin/.cline (link to the platform executable, made at
+                     the first start because npm 11.20 did not run the
+                     package's postinstall script),
+                     node_modules/@cline/cli-darwin-arm64/bin/cline
+                     (Bun executable, 119 787 762 bytes), 320 packages
+                     in all (@cline/* 168 MB, @opentelemetry 55 MB)
+    + /opt/homebrew/bin/cline -> ../lib/node_modules/cline/bin/cline
+
+== entries in ~, ~/.config, ~/.local/*, ~/.cache, ~/Library/...
+  added by the install and first start: 1
+    + ~/.cline
+  added by the runs: 0
+
+== launchd jobs
+  added by the install: 0
+  added by the runs: 0
+
+== listening TCP sockets (command, address)
+  added by the first start: 1
+    + .cline 127.0.0.1:25463   the hub daemon
+                               (.cline --cline-hub-daemon --host 127.0.0.1
+                               --port 25463 --pathname /hub); it outlives
+                               every command and stays until
+                               `cline hub stop`; one hub served all runs
+
+== data files after the runs (size in bytes, path; names only, never contents)
+  13978 ~/.cline/cli-node-extra-ca-certs.pem      9 root certificates of
+                                                  the system store, 0600
+  287 ~/.cline/data/cache/feature-flags.json
+  ~/.cline/data/db/*.db (+ -shm, -wal)           SQLite: connectors, cron,
+                                                  hub-events (4.5 MB),
+                                                  hub-runs, session-search,
+                                                  sessions, tasks, teams
+  1116 ~/.cline/data/locks/hub/production.json    hub discovery record
+  ~/.cline/data/locks/hub/production.json.instance.lock(-journal)
+  5427 ~/.cline/data/logs/cline.log
+  162061 ~/.cline/data/logs/hooks.jsonl
+  222690 ~/.cline/data/logs/hub-daemon.log
+  ~/.cline/data/sessions/<id>/<id>.json, <id>.messages.json
+                                                  one pair per run: the
+                                                  session and its whole
+                                                  message history, 13-53 KB
+  60 ~/.cline/data/settings/global-settings.json  0644; written by us:
+                                                  telemetryOptOut true,
+                                                  autoUpdateEnabled false
+  394 ~/.cline/data/settings/providers.json       0600; provider, base URL,
+                                                  model and API key in
+                                                  plain text (a dummy here)
+  total 7.5 MB after eight runs
+
+== removal
+  cline hub stop; npm uninstall -g cline       removed 320 packages, the
+                                               command and the executable;
+                                               no process left
+  remains: ~/.cline (6.7 MB), npm's download cache in ~/.npm/_cacache;
+  we deleted ~/.cline.

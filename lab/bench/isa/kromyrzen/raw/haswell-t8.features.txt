@@ -1,0 +1,4 @@
+[haswell-t8.completion.log] 0.00.838.919 I system_info: n_threads = 8 (n_threads_batch = 8) / 16 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 |
+[haswell-t8.stderr] load_backend: loaded RPC backend from C:\Users\labuser\AppData\Local\isa-bench\llama-haswell\ggml-rpc.dll
+[haswell-t8.stderr] load_backend: loaded CPU backend from C:\Users\labuser\AppData\Local\isa-bench\llama-haswell\ggml-cpu-haswell.dll
+[haswell-t8.stderr] build: b1b770d90 (12359)

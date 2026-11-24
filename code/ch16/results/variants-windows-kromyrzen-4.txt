@@ -1,0 +1,1315 @@
+# The default list of run-windows.ps1 at the desktop, twice in one logon, with sbx.cs as
+# it is now: for `restricted` the launcher lets the random identifier into the window
+# station and the desktop (two calls of LetIn), as it does for an AppContainer.
+# S4-Windows, Windows 11 Pro N for Workstations, build 26300 (10.0.26300.10075);
+# PowerShell 5.1.26100.10068.
+# The desktop runs were started in the session of a Remote Desktop logon (session 2,
+# WinSta0) by a scheduled task without a trigger (interactive logon, run level limited,
+# started once on demand over SSH and deleted afterwards), at medium integrity.
+# desk.ps1 (lab/hosts/kromyrzen/run/desk.ps1, copied next to run-windows.ps1) runs the
+# script twice. Before the first run and after each it counts the entries in the access
+# lists of the window station and of the desktop, names those that were not there at the
+# start (the AppContainer's identifier and one random identifier per run), and starts
+# whoami at low integrity with sbx.exe alone. At the end it removes the entries that the
+# runs added (SetEntriesInAcl with REVOKE_ACCESS), so that the logon is left as it was.
+# Parts 1 to 6 were made with a runner whose lowil step labeled .git with
+# '(OI)(CI)Medium'. Part 7 finds what that label does to the AppContainer steps, and
+# part 8 repeats the desktop runs with the runner as it is now, where the label is not
+# inherited.
+#
+# 1. The lines of desk.ps1: low-integrity programs that load user32 start before the
+# first run, fail after it (0xC0000142), and start again once the entries are removed.
+# powershell -NoProfile -ExecutionPolicy Bypass -File desk.ps1
+session 2, window station WinSta0, desktop Default, Medium Mandatory Level
+PowerShell 5.1.26100.10068, Windows 10.0.26300
+before the first run: 17 entries on the window station, 9 on the desktop
+before the first run: sbx lowil -- whoami: exit code 0 (0x00000000) kromyrzen\<user>
+after run 1: 19 entries on the window station, 11 on the desktop
+   not there at the start, window station: S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638 S-1-5-21-1840654691-381258181-242641110-832343724
+   not there at the start, desktop: S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638 S-1-5-21-1840654691-381258181-242641110-832343724
+after run 1: sbx lowil -- whoami: exit code -1073741502 (0xC0000142) 
+after run 2: 20 entries on the window station, 12 on the desktop
+   not there at the start, window station: S-1-5-21-340342218-1140138981-474683800-591664099 S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638 S-1-5-21-1840654691-381258181-242641110-832343724
+   not there at the start, desktop: S-1-5-21-340342218-1140138981-474683800-591664099 S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638 S-1-5-21-1840654691-381258181-242641110-832343724
+after run 2: sbx lowil -- whoami: exit code -1073741502 (0xC0000142) 
+removed the entries of S-1-5-21-340342218-1140138981-474683800-591664099: results 0 and 0
+removed the entries of S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638: results 0 and 0
+removed the entries of S-1-5-21-1840654691-381258181-242641110-832343724: results 0 and 0
+after the removal: 17 entries on the window station, 9 on the desktop
+   not there at the start, window station: none
+   not there at the start, desktop: none
+after the removal: sbx lowil -- whoami: exit code 0 (0x00000000) kromyrzen\<user>
+the lists are as at the start: True
+#
+# 2. The first run: all seven mechanisms start the probes, lowil right after restricted
+# among them. The hook under the AppContainer is refused (IOException); lowil has
+# labeled .git as medium before, and parts 5 and 6 show the AppContainer without that.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== none+job
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   BLOCKED  Win32Exception
+hook    ALLOWED
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== none+tree
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== restricted
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== lowil
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    BLOCKED  IOException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 0
+== appcontainer+job
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   BLOCKED  Win32Exception
+hook    BLOCKED  IOException
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt no, connections 0
+#
+# 3. The second run in the same logon: lowil does not start the probes.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== none+job
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   BLOCKED  Win32Exception
+hook    ALLOWED
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== none+tree
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== restricted
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== lowil
+   on the host: ok.txt no, probe.txt no, pre-commit no, orphan.txt no, connections 0
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    BLOCKED  IOException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 0
+== appcontainer+job
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   BLOCKED  Win32Exception
+hook    BLOCKED  IOException
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt no, connections 0
+#
+# 4. For comparison, over SSH (cmd.exe, an elevated session: session 0 with a window
+# station of the SSH logon): desk.ps1 with one run, made before the desktop runs. The
+# lines of desk.ps1, then the run. windows-kromyrzen-2.txt is the same list over SSH
+# under build 10.0.26300.9974, where the hook under the AppContainer was written.
+# powershell -NoProfile -ExecutionPolicy Bypass -File desk.ps1 -Runs 1
+session 0, window station Service-0x0-2865b35c$, desktop Default, High Mandatory Level
+PowerShell 5.1.26100.10068, Windows 10.0.26300
+before the first run: 4 entries on the window station, 2 on the desktop
+before the first run: sbx lowil -- whoami: exit code 0 (0x00000000) kromyrzen\<user>
+after run 1: 6 entries on the window station, 4 on the desktop
+   not there at the start, window station: S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638 S-1-5-21-1717206880-675517004-972128235-1856904187
+   not there at the start, desktop: S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638 S-1-5-21-1717206880-675517004-972128235-1856904187
+after run 1: sbx lowil -- whoami: exit code -1073741502 (0xC0000142) 
+removed the entries of S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638: results 0 and 0
+removed the entries of S-1-5-21-1717206880-675517004-972128235-1856904187: results 0 and 0
+after the removal: 4 entries on the window station, 2 on the desktop
+   not there at the start, window station: none
+   not there at the start, desktop: none
+after the removal: sbx lowil -- whoami: exit code 0 (0x00000000) kromyrzen\<user>
+the lists are as at the start: True
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== none+job
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   BLOCKED  Win32Exception
+hook    ALLOWED
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== none+tree
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== restricted
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== lowil
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    BLOCKED  IOException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 0
+== appcontainer+job
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   BLOCKED  Win32Exception
+hook    BLOCKED  IOException
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt no, connections 0
+#
+# 5. Over SSH, three runs in one session and one directory each: the AppContainer by
+# itself writes the hook; after lowil has labeled .git it is refused; and lowil does
+# not start the probes once an AppContainer has run in the session, which is the case
+# from the second of these runs on.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms appcontainer
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms lowil,appcontainer
+== lowil
+   on the host: ok.txt no, probe.txt no, pre-commit no, orphan.txt no, connections 0
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    BLOCKED  IOException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 0
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms appcontainer,lowil
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+== lowil
+   on the host: ok.txt no, probe.txt no, pre-commit no, orphan.txt no, connections 0
+#
+# 6. Over SSH, in a new session: the AppContainer without and with the job, and no
+# lowil before them. The hook is written both times.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms appcontainer,appcontainer+job
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+== appcontainer+job
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   BLOCKED  Win32Exception
+hook    ALLOWED
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt no, connections 0
+#
+# 7. Why the hook is refused under the AppContainer in the default list. Over SSH (cmd.exe,
+# an elevated session), build 10.0.26300.10075, each command in a new SSH connection, so
+# that every run starts with a fresh window station.
+#
+# 7.1 The programs as they are, with one mechanism before the AppContainer. The hook is
+# written after none and after restricted, and refused after lowil.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms none,appcontainer
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms restricted,appcontainer
+== restricted
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms lowil,appcontainer
+== lowil
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    BLOCKED  IOException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 0
+#
+# 7.2 Copies of battery.cs and run-windows.ps1 for the parts below, in a directory diag
+# with sbx.cs as it is. The probes print the code and the message of an exception and
+# write more files (hooks-x, git-x, git-dir: a new file in .git\hooks, a new file and a
+# new directory in .git; git-old: a file old.txt that exists in .git; work-y: a second
+# file in work). The runner prints, before the low-integrity and the AppContainer steps,
+# the access lists and labels of work, .git, .git\hooks, and .git\old.txt, and the label
+# of a process in the sandbox; after a step it tells which of the files are there. Three
+# options set labels otherwise: -Label for a step without lowil, -SkipGitLabel, and
+# -PlainGitLabel. An option that a command does not name is off.
+# diff battery.cs diag\battery.cs
+56a57,81
+>     static void GitNew()        // diag: a new file in .git itself
+>     {
+>         File.WriteAllText(root + @"\work\.git\x.txt", "escaped");
+>     }
+> 
+>     static void HooksNew()      // diag: another new file in .git\hooks
+>     {
+>         File.WriteAllText(root + @"\work\.git\hooks\x.txt", "escaped");
+>     }
+> 
+>     static void GitOld()        // diag: overwrite a file that exists
+>     {
+>         File.WriteAllText(root + @"\work\.git\old.txt", "escaped");
+>     }
+> 
+>     static void GitDir()        // diag: a new directory in .git
+>     {
+>         Directory.CreateDirectory(root + @"\work\.git\d");
+>     }
+> 
+>     static void WorkNew()       // diag: a second new file in work
+>     {
+>         File.WriteAllText(root + @"\work\y.txt", "ok");
+>     }
+> 
+78c103,105
+<             Console.WriteLine("{0,-8}BLOCKED  {1}", name, e.GetType().Name);
+---
+>             Console.WriteLine("{0,-8}BLOCKED  {1} 0x{2:X8} (Win32 {3}) {4}",
+>                 name, e.GetType().Name, e.HResult, e.HResult & 0xFFFF,
+>                 e.Message.Trim());
+108a136,140
+>         Probe("hooks-x", HooksNew);
+>         Probe("git-x", GitNew);
+>         Probe("git-old", GitOld);
+>         Probe("git-dir", GitDir);
+>         Probe("work-y", WorkNew);
+# diff run-windows.ps1 diag\run-windows.ps1
+11c11,14
+<       [int]$Times = 0, [string]$Base = $env:TEMP)
+---
+>       [int]$Times = 0, [string]$Base = $env:TEMP,
+>       [string]$Label = '',            # diag: labels without lowil
+>       [switch]$SkipGitLabel,          # diag: lowil leaves .git alone
+>       [switch]$PlainGitLabel)         # diag: medium, not inherited
+19a23
+> Set-Content "$git\old.txt" 'old'           # diag: a file that exists
+54c58,60
+<                     "$root\log" -ErrorAction SilentlyContinue
+---
+>                     "$root\log", "$git\x.txt", "$git\hooks\x.txt",
+>                     "$git\d", "$root\work\y.txt" `
+>                     -ErrorAction SilentlyContinue
+93c99,106
+<             icacls $git /setintegritylevel '(OI)(CI)Medium' | Out-Null
+---
+>             if ($PlainGitLabel) {           # on .git and on hooks
+>                 icacls $git /setintegritylevel 'Medium' | Out-Null
+>                 icacls "$git\hooks" /setintegritylevel 'Medium' |
+>                     Out-Null
+>             } elseif (-not $SkipGitLabel) {
+>                 icacls $git /setintegritylevel '(OI)(CI)Medium' |
+>                     Out-Null
+>             }
+111a125,144
+>         Set-Content "$git\old.txt" 'old'   # diag: as at the start
+>         if ($mech -like 'appcontainer*' -or $mech -eq 'lowil') {    # diag
+>             if ($Label -in 'work', 'both') {
+>                 icacls "$root\work" /setintegritylevel '(OI)(CI)Low' |
+>                     Out-Null
+>             }
+>             if ($Label -in 'git', 'both') {
+>                 icacls $git /setintegritylevel '(OI)(CI)Medium' | Out-Null
+>             }
+>             if ($Label -eq 'git-noinherit') {
+>                 icacls $git /setintegritylevel 'Medium' | Out-Null
+>             }
+>             foreach ($p in "$root\work", $git, "$git\hooks",
+>                            "$git\old.txt") {
+>                 icacls $p | Where-Object { $_ -and
+>                     $_ -notlike 'Successfully*' }
+>             }
+>             '   in the sandbox: ' + ((& $exe @opts -- whoami /groups |
+>                 Select-String 'Mandatory Label') -replace '\s+', ' ')
+>         }
+120a154,159
+>         $x = "$git\hooks\x.txt", "$git\x.txt", "$git\d",
+>             "$root\work\y.txt" |
+>             ForEach-Object { if (Test-Path $_) { 'yes' } else { 'no' } }
+>         "   on the host: hooks\x.txt $($x[0]), .git\x.txt $($x[1]), " +
+>             ".git\d $($x[2]), y.txt $($x[3]), old.txt holds '" +
+>             (Get-Content "$git\old.txt") + "'"
+#
+# 7.3 The order that fails. After the lowil step, .git carries the label that the step
+# gave it, Medium Mandatory Level:(OI)(CI)(NW), and hooks and old.txt have inherited it.
+# At low integrity every write under .git is denied (Win32 error 5). In the AppContainer,
+# whose process is at low integrity too, a new file or directory under .git is refused
+# with Win32 error 1314 (HRESULT 0x80070522), the file that exists is overwritten, and
+# the writes into work succeed.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms lowil,appcontainer     (in diag)
+== lowil
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\work NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                             BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                             KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                             Mandatory Label\Low Mandatory Level:(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\work\.git NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                  BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                  KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                  Mandatory Label\Medium Mandatory Level:(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\work\.git\hooks NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                        BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                        KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                        Mandatory Label\Medium Mandatory Level:(I)(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\work\.git\old.txt NT AUTHORITY\SYSTEM:(I)(F)
+                                                                          BUILTIN\Administrators:(I)(F)
+                                                                          KROMYRZEN\labuser:(I)(F)
+                                                                          Mandatory Label\Medium Mandatory Level:(I)(NW)
+   in the sandbox: Mandatory Label\Low Mandatory Level Label S-1-16-4096 
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\outside\probe.txt' is denied.
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\work\.git\hooks\pre-commit' is denied.
+hooks-x BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\work\.git\hooks\x.txt' is denied.
+git-x   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\work\.git\x.txt' is denied.
+git-old BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\work\.git\old.txt' is denied.
+git-dir BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\work\.git\d' is denied.
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+   on the host: hooks\x.txt no, .git\x.txt no, .git\d no, y.txt yes, old.txt holds 'old'
+== appcontainer
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\work S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(M)
+                                                             NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                             BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                             KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                             Mandatory Label\Low Mandatory Level:(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\work\.git S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                  S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                  NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                  BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                  KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                  Mandatory Label\Medium Mandatory Level:(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\work\.git\hooks S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                        S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                        NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                        BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                        KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                        Mandatory Label\Medium Mandatory Level:(I)(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\work\.git\old.txt S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                          S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(M)
+                                                                          NT AUTHORITY\SYSTEM:(I)(F)
+                                                                          BUILTIN\Administrators:(I)(F)
+                                                                          KROMYRZEN\labuser:(I)(F)
+                                                                          Mandatory Label\Medium Mandatory Level:(I)(NW)
+   in the sandbox: Mandatory Label\Low Mandatory Level Label S-1-16-4096 
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\outside\probe.txt' is denied.
+read    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1062848212\secret\token.txt' is denied.
+net     BLOCKED  TimeoutException 0x80131505 (Win32 5381) The operation has timed out.
+spawn   ALLOWED
+hook    BLOCKED  IOException 0x80070522 (Win32 1314) A required privilege is not held by the client.
+hooks-x BLOCKED  IOException 0x80070522 (Win32 1314) A required privilege is not held by the client.
+git-x   BLOCKED  IOException 0x80070522 (Win32 1314) A required privilege is not held by the client.
+git-old ALLOWED
+git-dir BLOCKED  IOException 0x80070522 (Win32 1314) A required privilege is not held by the client.
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 0
+   on the host: hooks\x.txt no, .git\x.txt no, .git\d no, y.txt yes, old.txt holds 'escaped'
+#
+# 7.4 The AppContainer by itself: no label anywhere, and everything under .git is written.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms appcontainer     (in diag)
+== appcontainer
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-641662394\work S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(M)
+                                                            NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                            BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                            KROMYRZEN\labuser:(I)(OI)(CI)(F)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-641662394\work\.git S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                 S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                 NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                 BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                 KROMYRZEN\labuser:(I)(OI)(CI)(F)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-641662394\work\.git\hooks S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                       S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                       NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                       BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                       KROMYRZEN\labuser:(I)(OI)(CI)(F)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-641662394\work\.git\old.txt S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                         S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(M)
+                                                                         NT AUTHORITY\SYSTEM:(I)(F)
+                                                                         BUILTIN\Administrators:(I)(F)
+                                                                         KROMYRZEN\labuser:(I)(F)
+   in the sandbox: Mandatory Label\Low Mandatory Level Label S-1-16-4096 
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-641662394\outside\probe.txt' is denied.
+read    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-641662394\secret\token.txt' is denied.
+net     BLOCKED  TimeoutException 0x80131505 (Win32 5381) The operation has timed out.
+spawn   ALLOWED
+hook    ALLOWED
+hooks-x ALLOWED
+git-x   ALLOWED
+git-old ALLOWED
+git-dir ALLOWED
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+   on the host: hooks\x.txt yes, .git\x.txt yes, .git\d yes, y.txt yes, old.txt holds 'escaped'
+#
+# 7.5 The AppContainer by itself with one label set before it, and no lowil step. The
+# label of lowil on .git (inherited by what is created there) is enough for the refusal;
+# the label on work is not; and a medium label on .git that is not inherited leaves
+# .git open.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms appcontainer -Label git     (in diag)
+== appcontainer
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1473644854\work S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(M)
+                                                             NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                             BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                             KROMYRZEN\labuser:(I)(OI)(CI)(F)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1473644854\work\.git S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                  S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                  NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                  BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                  KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                  Mandatory Label\Medium Mandatory Level:(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1473644854\work\.git\hooks S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                        S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                        NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                        BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                        KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                        Mandatory Label\Medium Mandatory Level:(I)(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1473644854\work\.git\old.txt S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                          S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(M)
+                                                                          NT AUTHORITY\SYSTEM:(I)(F)
+                                                                          BUILTIN\Administrators:(I)(F)
+                                                                          KROMYRZEN\labuser:(I)(F)
+                                                                          Mandatory Label\Medium Mandatory Level:(I)(NW)
+   in the sandbox: Mandatory Label\Low Mandatory Level Label S-1-16-4096 
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1473644854\outside\probe.txt' is denied.
+read    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1473644854\secret\token.txt' is denied.
+net     BLOCKED  TimeoutException 0x80131505 (Win32 5381) The operation has timed out.
+spawn   ALLOWED
+hook    BLOCKED  IOException 0x80070522 (Win32 1314) A required privilege is not held by the client.
+hooks-x BLOCKED  IOException 0x80070522 (Win32 1314) A required privilege is not held by the client.
+git-x   BLOCKED  IOException 0x80070522 (Win32 1314) A required privilege is not held by the client.
+git-old ALLOWED
+git-dir BLOCKED  IOException 0x80070522 (Win32 1314) A required privilege is not held by the client.
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 0
+   on the host: hooks\x.txt no, .git\x.txt no, .git\d no, y.txt yes, old.txt holds 'escaped'
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms appcontainer -Label work     (in diag)
+== appcontainer
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-542584179\work S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(M)
+                                                            NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                            BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                            KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                            Mandatory Label\Low Mandatory Level:(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-542584179\work\.git S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                 S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                 NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                 BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                 KROMYRZEN\labuser:(I)(OI)(CI)(F)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-542584179\work\.git\hooks S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                       S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                       NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                       BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                       KROMYRZEN\labuser:(I)(OI)(CI)(F)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-542584179\work\.git\old.txt S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                         S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(M)
+                                                                         NT AUTHORITY\SYSTEM:(I)(F)
+                                                                         BUILTIN\Administrators:(I)(F)
+                                                                         KROMYRZEN\labuser:(I)(F)
+   in the sandbox: Mandatory Label\Low Mandatory Level Label S-1-16-4096 
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-542584179\outside\probe.txt' is denied.
+read    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-542584179\secret\token.txt' is denied.
+net     BLOCKED  TimeoutException 0x80131505 (Win32 5381) The operation has timed out.
+spawn   ALLOWED
+hook    ALLOWED
+hooks-x ALLOWED
+git-x   ALLOWED
+git-old ALLOWED
+git-dir ALLOWED
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+   on the host: hooks\x.txt yes, .git\x.txt yes, .git\d yes, y.txt yes, old.txt holds 'escaped'
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms appcontainer -Label git-noinherit     (in diag)
+== appcontainer
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-870148985\work S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(M)
+                                                            NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                            BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                            KROMYRZEN\labuser:(I)(OI)(CI)(F)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-870148985\work\.git S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                 S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                 NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                 BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                 KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                 Mandatory Label\Medium Mandatory Level:(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-870148985\work\.git\hooks S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                       S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                       NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                       BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                       KROMYRZEN\labuser:(I)(OI)(CI)(F)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-870148985\work\.git\old.txt S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                         S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(M)
+                                                                         NT AUTHORITY\SYSTEM:(I)(F)
+                                                                         BUILTIN\Administrators:(I)(F)
+                                                                         KROMYRZEN\labuser:(I)(F)
+   in the sandbox: Mandatory Label\Low Mandatory Level Label S-1-16-4096 
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-870148985\outside\probe.txt' is denied.
+read    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-870148985\secret\token.txt' is denied.
+net     BLOCKED  TimeoutException 0x80131505 (Win32 5381) The operation has timed out.
+spawn   ALLOWED
+hook    ALLOWED
+hooks-x ALLOWED
+git-x   ALLOWED
+git-old ALLOWED
+git-dir ALLOWED
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+   on the host: hooks\x.txt yes, .git\x.txt yes, .git\d yes, y.txt yes, old.txt holds 'escaped'
+#
+# 7.6 lowil without its label on .git, as the first step: .git inherits the low label of
+# work, and the low-integrity process writes the hook. The AppContainer writes it too.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms lowil,appcontainer -SkipGitLabel     (in diag)
+== lowil
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-839193566\work NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                            BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                            KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                            Mandatory Label\Low Mandatory Level:(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-839193566\work\.git NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                 BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                 KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                 Mandatory Label\Low Mandatory Level:(I)(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-839193566\work\.git\hooks NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                       BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                       KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                       Mandatory Label\Low Mandatory Level:(I)(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-839193566\work\.git\old.txt NT AUTHORITY\SYSTEM:(I)(F)
+                                                                         BUILTIN\Administrators:(I)(F)
+                                                                         KROMYRZEN\labuser:(I)(F)
+                                                                         Mandatory Label\Low Mandatory Level:(I)(NW)
+   in the sandbox: Mandatory Label\Low Mandatory Level Label S-1-16-4096 
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-839193566\outside\probe.txt' is denied.
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+hooks-x ALLOWED
+git-x   ALLOWED
+git-old ALLOWED
+git-dir ALLOWED
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 1
+   on the host: hooks\x.txt yes, .git\x.txt yes, .git\d yes, y.txt yes, old.txt holds 'escaped'
+== appcontainer
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-839193566\work S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(M)
+                                                            NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                            BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                            KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                            Mandatory Label\Low Mandatory Level:(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-839193566\work\.git S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                 S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                 NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                 BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                 KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                 Mandatory Label\Low Mandatory Level:(I)(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-839193566\work\.git\hooks S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                       S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                       NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                       BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                       KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                       Mandatory Label\Low Mandatory Level:(I)(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-839193566\work\.git\old.txt S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                         S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(M)
+                                                                         NT AUTHORITY\SYSTEM:(I)(F)
+                                                                         BUILTIN\Administrators:(I)(F)
+                                                                         KROMYRZEN\labuser:(I)(F)
+                                                                         Mandatory Label\Low Mandatory Level:(I)(NW)
+   in the sandbox: Mandatory Label\Low Mandatory Level Label S-1-16-4096 
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-839193566\outside\probe.txt' is denied.
+read    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-839193566\secret\token.txt' is denied.
+net     BLOCKED  TimeoutException 0x80131505 (Win32 5381) The operation has timed out.
+spawn   ALLOWED
+hook    ALLOWED
+hooks-x ALLOWED
+git-x   ALLOWED
+git-old ALLOWED
+git-dir ALLOWED
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+   on the host: hooks\x.txt yes, .git\x.txt yes, .git\d yes, y.txt yes, old.txt holds 'escaped'
+#
+# 7.7 The same after restricted, as in the default list: the low label of work does not
+# reach .git, the low-integrity process is denied the hook, and the AppContainer writes it.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms restricted,lowil,appcontainer -SkipGitLabel     (in diag)
+== restricted
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\outside\probe.txt' is denied.
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git\hooks\pre-commit' is denied.
+hooks-x BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git\hooks\x.txt' is denied.
+git-x   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git\x.txt' is denied.
+git-old BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git\old.txt' is denied.
+git-dir BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git\d' is denied.
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+   on the host: hooks\x.txt no, .git\x.txt no, .git\d no, y.txt yes, old.txt holds 'old'
+== lowil
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work S-1-5-21-705797134-1588700150-1128249466-465646697:(OI)(CI)(M)
+                                                            NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                            BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                            KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                            Mandatory Label\Low Mandatory Level:(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git S-1-5-21-705797134-1588700150-1128249466-465646697:(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                 S-1-5-21-705797134-1588700150-1128249466-465646697:(I)(OI)(CI)(M)
+                                                                 NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                 BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                 KROMYRZEN\labuser:(I)(OI)(CI)(F)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git\hooks S-1-5-21-705797134-1588700150-1128249466-465646697:(I)(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                       S-1-5-21-705797134-1588700150-1128249466-465646697:(I)(OI)(CI)(M)
+                                                                       NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                       BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                       KROMYRZEN\labuser:(I)(OI)(CI)(F)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git\old.txt S-1-5-21-705797134-1588700150-1128249466-465646697:(I)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                         S-1-5-21-705797134-1588700150-1128249466-465646697:(I)(M)
+                                                                         NT AUTHORITY\SYSTEM:(I)(F)
+                                                                         BUILTIN\Administrators:(I)(F)
+                                                                         KROMYRZEN\labuser:(I)(F)
+   in the sandbox: Mandatory Label\Low Mandatory Level Label S-1-16-4096 
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\outside\probe.txt' is denied.
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git\hooks\pre-commit' is denied.
+hooks-x BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git\hooks\x.txt' is denied.
+git-x   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git\x.txt' is denied.
+git-old BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git\old.txt' is denied.
+git-dir BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git\d' is denied.
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+   on the host: hooks\x.txt no, .git\x.txt no, .git\d no, y.txt yes, old.txt holds 'old'
+== appcontainer
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work S-1-5-21-705797134-1588700150-1128249466-465646697:(OI)(CI)(M)
+                                                            S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(M)
+                                                            NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                            BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                            KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                            Mandatory Label\Low Mandatory Level:(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git S-1-5-21-705797134-1588700150-1128249466-465646697:(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                 S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                 S-1-5-21-705797134-1588700150-1128249466-465646697:(I)(OI)(CI)(M)
+                                                                 S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                 NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                 BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                 KROMYRZEN\labuser:(I)(OI)(CI)(F)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git\hooks S-1-5-21-705797134-1588700150-1128249466-465646697:(I)(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                       S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                       S-1-5-21-705797134-1588700150-1128249466-465646697:(I)(OI)(CI)(M)
+                                                                       S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                       NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                       BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                       KROMYRZEN\labuser:(I)(OI)(CI)(F)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\work\.git\old.txt S-1-5-21-705797134-1588700150-1128249466-465646697:(I)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                         S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                         S-1-5-21-705797134-1588700150-1128249466-465646697:(I)(M)
+                                                                         S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(M)
+                                                                         NT AUTHORITY\SYSTEM:(I)(F)
+                                                                         BUILTIN\Administrators:(I)(F)
+                                                                         KROMYRZEN\labuser:(I)(F)
+   in the sandbox: Mandatory Label\Low Mandatory Level Label S-1-16-4096 
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\outside\probe.txt' is denied.
+read    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-511992047\secret\token.txt' is denied.
+net     BLOCKED  TimeoutException 0x80131505 (Win32 5381) The operation has timed out.
+spawn   ALLOWED
+hook    ALLOWED
+hooks-x ALLOWED
+git-x   ALLOWED
+git-old ALLOWED
+git-dir ALLOWED
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+   on the host: hooks\x.txt yes, .git\x.txt yes, .git\d yes, y.txt yes, old.txt holds 'escaped'
+#
+# 7.8 Why the label stops there: the runner's Grant (Get-Acl, AddAccessRule, Set-Acl), as
+# the restricted step applies it to .git, leaves .git with a protected SACL. setacl.ps1
+# (lab/hosts/kromyrzen/run/setacl.ps1) makes work\.git\hooks twice, applies Grant to .git
+# with a deny entry for a made-up identifier the second time, and labels work as the
+# lowil step does; it prints AreAuditRulesProtected of Get-Acl -Audit and the label line
+# of icacls.
+# powershell -ExecutionPolicy Bypass -File setacl.ps1
+== no Set-Acl, before the label
+work             SACL protected: False (no label)
+work\.git        SACL protected: False (no label)
+work\.git\hooks  SACL protected: False (no label)
+== no Set-Acl, after icacls work /setintegritylevel (OI)(CI)Low
+work             SACL protected: False Mandatory Label\Low Mandatory Level:(OI)(CI)(NW)
+work\.git        SACL protected: False Mandatory Label\Low Mandatory Level:(I)(OI)(CI)(NW)
+work\.git\hooks  SACL protected: False Mandatory Label\Low Mandatory Level:(I)(OI)(CI)(NW)
+== Set-Acl on .git, before the label
+work             SACL protected: False (no label)
+work\.git        SACL protected: True  (no label)
+work\.git\hooks  SACL protected: False (no label)
+== Set-Acl on .git, after icacls work /setintegritylevel (OI)(CI)Low
+work             SACL protected: False Mandatory Label\Low Mandatory Level:(OI)(CI)(NW)
+work\.git        SACL protected: True  (no label)
+work\.git\hooks  SACL protected: False (no label)
+#
+# 7.9 The default list with battery.cs and sbx.cs as they are and a runner that lacks one
+# line, in a directory nolabel. The 63 lines are those of windows-kromyrzen-2.txt (diff
+# reports no difference): the hook is refused at low integrity and written under the
+# AppContainer, with the job and without it.
+# diff run-windows.ps1 nolabel\run-windows.ps1
+93d92
+<             icacls $git /setintegritylevel '(OI)(CI)Medium' | Out-Null
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1     (in nolabel)
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== none+job
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   BLOCKED  Win32Exception
+hook    ALLOWED
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== none+tree
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== restricted
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== lowil
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+== appcontainer+job
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   BLOCKED  Win32Exception
+hook    ALLOWED
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt no, connections 0
+#
+# 7.10 A medium label that is not inherited, set by the lowil step on .git and on
+# .git\hooks: the low-integrity process is denied every write under .git, after
+# restricted and as the first step, and the AppContainer after it writes the hook.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms restricted,lowil,appcontainer -PlainGitLabel     (in diag)
+== restricted
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\outside\probe.txt' is denied.
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git\hooks\pre-commit' is denied.
+hooks-x BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git\hooks\x.txt' is denied.
+git-x   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git\x.txt' is denied.
+git-old BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git\old.txt' is denied.
+git-dir BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git\d' is denied.
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+   on the host: hooks\x.txt no, .git\x.txt no, .git\d no, y.txt yes, old.txt holds 'old'
+== lowil
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work S-1-5-21-1010414323-565621932-1286431981-334936573:(OI)(CI)(M)
+                                                            NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                            BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                            KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                            Mandatory Label\Low Mandatory Level:(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git S-1-5-21-1010414323-565621932-1286431981-334936573:(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                 S-1-5-21-1010414323-565621932-1286431981-334936573:(I)(OI)(CI)(M)
+                                                                 NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                 BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                 KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                 Mandatory Label\Medium Mandatory Level:(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git\hooks S-1-5-21-1010414323-565621932-1286431981-334936573:(I)(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                       S-1-5-21-1010414323-565621932-1286431981-334936573:(I)(OI)(CI)(M)
+                                                                       NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                       BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                       KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                       Mandatory Label\Medium Mandatory Level:(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git\old.txt S-1-5-21-1010414323-565621932-1286431981-334936573:(I)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                         S-1-5-21-1010414323-565621932-1286431981-334936573:(I)(M)
+                                                                         NT AUTHORITY\SYSTEM:(I)(F)
+                                                                         BUILTIN\Administrators:(I)(F)
+                                                                         KROMYRZEN\labuser:(I)(F)
+   in the sandbox: Mandatory Label\Low Mandatory Level Label S-1-16-4096 
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\outside\probe.txt' is denied.
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git\hooks\pre-commit' is denied.
+hooks-x BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git\hooks\x.txt' is denied.
+git-x   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git\x.txt' is denied.
+git-old BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git\old.txt' is denied.
+git-dir BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git\d' is denied.
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+   on the host: hooks\x.txt no, .git\x.txt no, .git\d no, y.txt yes, old.txt holds 'old'
+== appcontainer
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work S-1-5-21-1010414323-565621932-1286431981-334936573:(OI)(CI)(M)
+                                                            S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(M)
+                                                            NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                            BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                            KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                            Mandatory Label\Low Mandatory Level:(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git S-1-5-21-1010414323-565621932-1286431981-334936573:(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                 S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                 S-1-5-21-1010414323-565621932-1286431981-334936573:(I)(OI)(CI)(M)
+                                                                 S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                 NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                 BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                 KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                 Mandatory Label\Medium Mandatory Level:(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git\hooks S-1-5-21-1010414323-565621932-1286431981-334936573:(I)(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                       S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                       S-1-5-21-1010414323-565621932-1286431981-334936573:(I)(OI)(CI)(M)
+                                                                       S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                       NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                       BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                       KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                       Mandatory Label\Medium Mandatory Level:(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\work\.git\old.txt S-1-5-21-1010414323-565621932-1286431981-334936573:(I)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                         S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                         S-1-5-21-1010414323-565621932-1286431981-334936573:(I)(M)
+                                                                         S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(M)
+                                                                         NT AUTHORITY\SYSTEM:(I)(F)
+                                                                         BUILTIN\Administrators:(I)(F)
+                                                                         KROMYRZEN\labuser:(I)(F)
+   in the sandbox: Mandatory Label\Low Mandatory Level Label S-1-16-4096 
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\outside\probe.txt' is denied.
+read    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-642784975\secret\token.txt' is denied.
+net     BLOCKED  TimeoutException 0x80131505 (Win32 5381) The operation has timed out.
+spawn   ALLOWED
+hook    ALLOWED
+hooks-x ALLOWED
+git-x   ALLOWED
+git-old ALLOWED
+git-dir ALLOWED
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+   on the host: hooks\x.txt yes, .git\x.txt yes, .git\d yes, y.txt yes, old.txt holds 'escaped'
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1 -Mechanisms lowil,appcontainer -PlainGitLabel     (in diag)
+== lowil
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\work NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                             BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                             KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                             Mandatory Label\Low Mandatory Level:(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\work\.git NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                  BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                  KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                  Mandatory Label\Medium Mandatory Level:(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\work\.git\hooks NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                        BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                        KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                        Mandatory Label\Medium Mandatory Level:(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\work\.git\old.txt NT AUTHORITY\SYSTEM:(I)(F)
+                                                                          BUILTIN\Administrators:(I)(F)
+                                                                          KROMYRZEN\labuser:(I)(F)
+   in the sandbox: Mandatory Label\Low Mandatory Level Label S-1-16-4096 
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\outside\probe.txt' is denied.
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\work\.git\hooks\pre-commit' is denied.
+hooks-x BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\work\.git\hooks\x.txt' is denied.
+git-x   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\work\.git\x.txt' is denied.
+git-old BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\work\.git\old.txt' is denied.
+git-dir BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\work\.git\d' is denied.
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+   on the host: hooks\x.txt no, .git\x.txt no, .git\d no, y.txt yes, old.txt holds 'old'
+== appcontainer
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\work S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(M)
+                                                             NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                             BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                             KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                             Mandatory Label\Low Mandatory Level:(OI)(CI)(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\work\.git S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                  S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                  NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                  BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                  KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                  Mandatory Label\Medium Mandatory Level:(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\work\.git\hooks S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                        S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(OI)(CI)(M)
+                                                                        NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+                                                                        BUILTIN\Administrators:(I)(OI)(CI)(F)
+                                                                        KROMYRZEN\labuser:(I)(OI)(CI)(F)
+                                                                        Mandatory Label\Medium Mandatory Level:(NW)
+C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\work\.git\old.txt S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(DENY)(DE,WD,AD,WEA,DC,WA)
+                                                                          S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638:(I)(M)
+                                                                          NT AUTHORITY\SYSTEM:(I)(F)
+                                                                          BUILTIN\Administrators:(I)(F)
+                                                                          KROMYRZEN\labuser:(I)(F)
+   in the sandbox: Mandatory Label\Low Mandatory Level Label S-1-16-4096 
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\outside\probe.txt' is denied.
+read    BLOCKED  UnauthorizedAccessException 0x80070005 (Win32 5) Access to the path 'C:\Users\labuser\AppData\Local\Temp\battery-sbx-1009574057\secret\token.txt' is denied.
+net     BLOCKED  TimeoutException 0x80131505 (Win32 5381) The operation has timed out.
+spawn   ALLOWED
+hook    ALLOWED
+hooks-x ALLOWED
+git-x   ALLOWED
+git-old ALLOWED
+git-dir ALLOWED
+work-y  ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+   on the host: hooks\x.txt yes, .git\x.txt yes, .git\d yes, y.txt yes, old.txt holds 'escaped'
+#
+# 8. The desktop runs of parts 1 to 3 once more, with the runner as it is now: its lowil
+# step labels .git and .git\hooks as medium with a label that is not inherited. Started
+# in the Remote Desktop logon (session 2, WinSta0) by a scheduled task of the same form
+# as before, at medium integrity; the entries that the runs added were removed at the end.
+#
+# 8.1 The lines of desk.ps1.
+# powershell -NoProfile -ExecutionPolicy Bypass -File desk.ps1
+session 2, window station WinSta0, desktop Default, Medium Mandatory Level
+PowerShell 5.1.26100.10068, Windows 10.0.26300
+before the first run: 17 entries on the window station, 9 on the desktop
+before the first run: sbx lowil -- whoami: exit code 0 (0x00000000) kromyrzen\<user>
+after run 1: 19 entries on the window station, 11 on the desktop
+   not there at the start, window station: S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638 S-1-5-21-1926557023-574105610-564931183-450418630
+   not there at the start, desktop: S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638 S-1-5-21-1926557023-574105610-564931183-450418630
+after run 1: sbx lowil -- whoami: exit code -1073741502 (0xC0000142) 
+after run 2: 20 entries on the window station, 12 on the desktop
+   not there at the start, window station: S-1-5-21-1531961684-456509118-1072758968-1945858309 S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638 S-1-5-21-1926557023-574105610-564931183-450418630
+   not there at the start, desktop: S-1-5-21-1531961684-456509118-1072758968-1945858309 S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638 S-1-5-21-1926557023-574105610-564931183-450418630
+after run 2: sbx lowil -- whoami: exit code -1073741502 (0xC0000142) 
+removed the entries of S-1-5-21-1531961684-456509118-1072758968-1945858309: results 0 and 0
+removed the entries of S-1-15-2-964227549-3404908030-3318995974-2770543867-3844496125-2623025544-2628433638: results 0 and 0
+removed the entries of S-1-5-21-1926557023-574105610-564931183-450418630: results 0 and 0
+after the removal: 17 entries on the window station, 9 on the desktop
+   not there at the start, window station: none
+   not there at the start, desktop: none
+after the removal: sbx lowil -- whoami: exit code 0 (0x00000000) kromyrzen\<user>
+the lists are as at the start: True
+#
+# 8.2 The first run: all seven mechanisms start the probes, and the hook is written under
+# the AppContainer, with the job and without it. The 63 lines are those of the run over
+# SSH (windows-kromyrzen-3.txt, part 1).
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== none+job
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   BLOCKED  Win32Exception
+hook    ALLOWED
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== none+tree
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== restricted
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== lowil
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+== appcontainer+job
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   BLOCKED  Win32Exception
+hook    ALLOWED
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt no, connections 0
+#
+# 8.3 The second run in the same logon: lowil does not start the probes; the other six
+# mechanisms print what they printed in the first run.
+# powershell -ExecutionPolicy Bypass -File run-windows.ps1
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== none+job
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   BLOCKED  Win32Exception
+hook    ALLOWED
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== none+tree
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt no, connections 1
+== restricted
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    BLOCKED  UnauthorizedAccessException
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit no, orphan.txt yes, connections 1
+== lowil
+   on the host: ok.txt no, probe.txt no, pre-commit no, orphan.txt no, connections 0
+== appcontainer
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt yes, connections 0
+== appcontainer+job
+control ALLOWED
+write   BLOCKED  UnauthorizedAccessException
+read    BLOCKED  UnauthorizedAccessException
+net     BLOCKED  TimeoutException
+spawn   BLOCKED  Win32Exception
+hook    ALLOWED
+orphan  BLOCKED  Win32Exception
+   on the host: ok.txt yes, probe.txt no, pre-commit yes, orphan.txt no, connections 0

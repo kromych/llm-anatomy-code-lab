@@ -1,0 +1,16 @@
+Exercise 15.7: a model that repeats one tool call twenty times.
+S3-macOS, opencode 2.3.0 and Goose 1.59.1; repeat_server.py in the place of
+the model, so no engine takes part.
+
+$ sh run_repeat.sh OUT
+opencode-same          20 calls; after the last:  Read file stats.py, lines 1-17 1: """Small stat
+opencode-same-auto     20 calls; after the last:  Read file stats.py, lines 1-17 1: """Small stat
+opencode-fail          20 calls; after the last:  {"error":{"type":"tool.execution","message":"Fi
+opencode-fail-auto     20 calls; after the last:  {"error":{"type":"tool.execution","message":"Fi
+goose-same             20 calls; after the last:  """Small statistics helpers."""   def mean(xs):
+goose-same-limit3      20 calls; after the last:  """Small statistics helpers."""   def mean(xs):
+
+-same: a call that succeeds (read or cat of stats.py); -fail: a call that
+fails (a file that does not exist); -auto: opencode run --auto; -limit3:
+goose run --max-tool-repetitions 3.  All six runs carried out all twenty
+calls and ended when the stand-in answered "done".

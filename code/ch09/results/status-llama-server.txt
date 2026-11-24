@@ -1,0 +1,6 @@
+unknown model    200  Retry-After=None
+    usage: {'completion_tokens': 5, 'prompt_tokens': 9, 'total_tokens': 14, 'prompt_tokens_details': {'cached_tokens': 8}}
+prompt too long  400  Retry-After=None
+    error: {"code": 400, "message": "request (45009 tokens) exceeds the available context size (40960 tokens), try increasing it", "type": "exceed_context_size_error", "n_prompt_tokens": 45009, "n_ctx": 40960}
+malformed        400  Retry-After=None
+    error: {"code": 400, "message": "Expected 'messages' to be an array", "type": "invalid_request_error"}

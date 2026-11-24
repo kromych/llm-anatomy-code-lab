@@ -1,0 +1,10 @@
+# llama-server build 12359 (b1b770d90) from Homebrew on S3-macOS (macOS 27.2),
+#   llama-server -hf ggml-org/Qwen3-1.7B-GGUF:Q4_K_M --host 127.0.0.1 --port 8101
+# Python 3.15.2; working directory code/ch10/ws; NO_COLOR=1 in the environment.
+# A terminal session, recorded with expect(1); the lines after the prompts
+# are the keys typed.
+$ python3 ../../ch01/agent_loop.py http://127.0.0.1:8101/v1
+> List the Python files in src/
+run 'ls -1 src/*.py'? [y/N] n
+run 'ls -1 src/*.py'? [y/N] n
+The available tools do not support the requested action. Please provide alternative methods or clarify your requirements.

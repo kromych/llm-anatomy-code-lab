@@ -1,0 +1,5 @@
+vllm,124960 venv-vllm/bin/vllm serve Qwen/Qwen3-8B --served-model-name qwen3-8b --tensor-parallel-size 2--h
+  |-VLLM::EngineCor,125274
+  |   |-VLLM::Worker_TP,125649
+  |   `-VLLM::Worker_TP,125650
+  `-python,125273 -c from multiprocessing.resource_tracker import main;main(79)

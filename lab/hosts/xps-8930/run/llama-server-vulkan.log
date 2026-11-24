@@ -1,0 +1,61 @@
+# cmd: build-vulkan/bin/llama-server -hf ggml-org/gemma-3-1b-it-GGUF --port 8080 -lv 4  (Vulkan build; -lv 4; trimmed; timestamps min.sec.ms.us since start; health after 11s: {"status":"ok"})
+0.00.236.879 I cmn  common_param: device_info:
+0.00.237.544 I cmn  common_param:   - Vulkan0 : Intel(R) UHD Graphics 630 (CFL GT2) (23941 MiB, 21547 MiB free)
+0.00.237.561 I cmn  common_param:   - CPU     : Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz (31922 MiB, 31922 MiB free)
+0.00.237.717 I cmn  common_param: system_info: n_threads = 6 (n_threads_batch = 6) / 12 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.00.237.724 I srv  server_prepa: n_parallel is set to auto, using n_parallel = 4 and kv_unified = true
+0.00.238.405 I srv  init_listene: running without SSL
+0.00.239.623 I srv          init: using 11 threads for HTTP server
+0.00.239.815 W srv  server_setup: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.00.242.557 I srv    load_model: loading model 'ggml-org/gemma-3-1b-it-GGUF'
+0.00.242.567 I srv    load_model: local path '/home/labuser/.cache/huggingface/hub/models--ggml-org--gemma-3-1b-it-GGUF/snapshots/f9c28bcd85737ffc5aef028638d3341d49869c27/gemma-3-1b-it-Q4_K_M.gguf'
+0.00.454.847 I common_memory_breakdown_print: | memory breakdown [MiB]                            | total    free    self   model   context   compute    unaccounted |
+0.00.454.850 I common_memory_breakdown_print: |   - Vulkan0 (Intel(R) UHD Graphics 630 (CFL GT2)) | 23941 = 21546 + (1031 =   762 +     183 +      86) +        1362 |
+0.00.454.851 I common_memory_breakdown_print: |   - Host                                          |                   349 =   306 +       0 +      43                |
+0.00.477.038 I common_params_fit_impl: projected to use 1031 MiB of device memory vs. 21546 MiB of free device memory
+0.00.508.085 I print_info: file type   = Q4_K - Medium
+0.00.508.086 I print_info: file size   = 762.49 MiB (6.40 BPW) 
+0.00.508.240 I llama_prepare_model_devices: using device Vulkan0 (Intel(R) UHD Graphics 630 (CFL GT2)) (0000:00:02.0) - 21547 MiB free
+0.00.623.510 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.00.650.749 I print_info: arch                  = gemma3
+0.00.650.750 I print_info: n_ctx_train           = 32768
+0.00.650.785 I print_info: model type            = 1B
+0.00.650.786 I print_info: model params          = 999.89 M
+0.00.650.786 I print_info: general.name          = Gemma 3 1b It
+0.00.651.031 I load_tensors: loading model tensors, this can take a while... (load_mode = none)
+0.00.653.147 I load_tensors: offloading output layer to GPU
+0.00.653.148 I load_tensors: offloading 25 repeating layers to GPU
+0.00.653.149 I load_tensors: offloaded 27/27 layers to GPU
+0.01.045.773 I llama_context: n_seq_max             = 4
+0.01.045.774 I llama_context: n_ctx                 = 32768
+0.01.045.774 I llama_context: n_batch               = 2048
+0.01.045.774 I llama_context: n_ubatch              = 512
+0.01.045.775 I llama_context: flash_attn            = auto
+0.01.045.775 I llama_context: kv_unified            = true
+0.01.046.731 I llama_context: Vulkan_Host  output buffer size =     4.00 MiB
+0.01.074.677 I llama_kv_cache:    Vulkan0 KV buffer size =   128.00 MiB
+0.01.074.684 I llama_kv_cache: size =  128.00 MiB ( 32768 cells,   4 layers,  4/1 seqs), K (f16):   64.00 MiB, V (f16):   64.00 MiB
+0.01.087.136 I llama_kv_cache:    Vulkan0 KV buffer size =    55.00 MiB
+0.01.087.143 I llama_kv_cache: size =   55.00 MiB (  2560 cells,  22 layers,  4/1 seqs), K (f16):   27.50 MiB, V (f16):   27.50 MiB
+0.01.089.068 I resolve_fused_ops: Flash Attention enabled
+0.01.090.578 W resolve_fused_ops: layer 0 is assigned to device Vulkan0 but Flash Attention over K/V rows is assigned to device CPU (usually due to missing support)
+0.01.101.829 I sched_reserve:    Vulkan0 compute buffer size =    86.27 MiB
+0.01.101.831 I sched_reserve: Vulkan_Host compute buffer size =    43.54 MiB
+0.01.101.832 I sched_reserve: graph: nodes = 1050, splits = 2, input objects = 4, input tensors = 13
+0.01.101.890 I cmn          init: llama threadpool init, n_threads = 6
+0.01.107.890 I cmn  common_init_: warming up the model with an empty run - please wait ... (--no-warmup to disable)
+0.10.639.600 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 32768, kv_unified = 'true'
+0.10.639.665 I srv    load_model: prompt cache is enabled, size limit: 8192 MiB
+0.10.645.990 I srv          init: init: chat template, thinking = 0
+0.10.646.046 I srv  server_run_i: model loaded
+0.10.646.051 I srv  server_on_li: listening on http://127.0.0.1:8080
+0.18.516.086 I slot print_timing: id  0 | task 0 | prompt eval time =    4958.64 ms /    21 tokens (  236.13 ms per token,     4.24 tokens per second)
+0.18.516.090 I slot print_timing: id  0 | task 0 |        eval time =    2428.47 ms /    29 tokens (   86.73 ms per token,    11.53 tokens per second)
+0.18.516.090 I slot print_timing: id  0 | task 0 |       total time =    7387.11 ms /    50 tokens
+0.18.516.093 I slot print_timing: id  0 | task 0 |    graphs reused =         28
+0.18.516.094 I slot print_timing: id  0 | task 0 |   graph reallocs =          0    /     0        (same size) / (changed size)
+0.18.516.914 I srv    operator(): operator(): cleaning up before exit...
+0.18.517.584 I common_memory_breakdown_print: | memory breakdown [MiB]                            | total    free    self   model   context   compute    unaccounted |
+0.18.517.586 I common_memory_breakdown_print: |   - Vulkan0 (Intel(R) UHD Graphics 630 (CFL GT2)) | 23941 = 21547 + (1031 =   762 +     183 +      86) +        1362 |
+0.18.517.586 I common_memory_breakdown_print: |   - Host                                          |                   349 =   306 +       0 +      43                |
+[trimmed] load_tensors model buffers: Vulkan0 1 buffers totalling 762.49 MiB, Vulkan_Host 1 buffers totalling 306.00 MiB

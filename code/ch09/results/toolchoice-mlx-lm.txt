@@ -1,0 +1,9 @@
+## mlx_lm.server --model mlx-community/Qwen3-0.6B-4bit --host 127.0.0.1 --port 8180
+##     (mlx-lm 0.32.2 with MLX 0.32.4, on S3-macOS; the server's own
+##     default port is 8080)
+## python3 toolchoice.py http://127.0.0.1:8180/v1 mlx-community/Qwen3-0.6B-4bit
+auto, weather                calls ['Oslo'], tool_calls after 113 tokens, text '\n\n'
+required, Hello!             calls [], stop after 91 tokens, text '\n\nHello! How can I assist you today?'
+named, Hello!                calls [], stop after 136 tokens, text '\n\nHello! How can I assist you today?'
+two cities                   calls [], stop after 161 tokens, text "\n\nI don't have the capability to ret"
+two cities, parallel false   calls [], stop after 161 tokens, text "\n\nI don't have the capability to ret"

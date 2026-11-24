@@ -1,0 +1,4 @@
+## python3 loadgen.py http://127.0.0.1:8000/v1 256 32
+21.69 requests/s, 2754.5 chunks/s
+TTFT ms: p50 46.3  p90 460.7
+gap  ms: p50 10.8  p99 12.3

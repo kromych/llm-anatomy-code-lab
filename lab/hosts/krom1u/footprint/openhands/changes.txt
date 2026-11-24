@@ -1,0 +1,106 @@
+Footprint of openhands on krom1u (macOS 27, Apple M1 Ultra), 2026-11-14.
+Differences between snapshots taken by code/ch15/footprint.sh before the
+install, right after it, and after the measurement runs. Only the
+differences are kept; unrelated processes that came and went between
+snapshots (e.g. a llama-server of another chapter) can appear.
+
+== Homebrew formulae and casks
+  added by the install and runs: 1
+    + uv 0.13.8
+
+== entries in ~, ~/.config, ~/.local/*, ~/.cache, ~/Library/...
+  added by the install and runs: 7
+    + ~/.aider
+    + ~/.bash_history
+    + ~/.cache/uv
+    + ~/.config/goose
+    + ~/.local/share/goose
+    + ~/.local/share/uv
+    + ~/.openhands
+
+== launchd jobs (numeric instance suffixes removed)
+  added by the install and runs: 0 (+20 Spotlight workers and opened apps omitted)
+
+== listening TCP sockets (command, address)
+  added by the install and runs: 0
+  gone after the install and runs: 3
+    - Python 127.0.0.1:8184
+    - llama-ser 127.0.0.1:8084
+    - opencode 127.0.0.1:52444
+
+== data files after the runs (size in bytes, path; names only, never contents)
+  160 ~/.openhands
+  128 ~/.openhands/cache
+  224 ~/.openhands/cache/jinja
+  16483 ~/.openhands/cache/jinja/__jinja2_00bc68c6db0fa417109bf8bb1ae5f2fd394a3ff1.cache
+  2160 ~/.openhands/cache/jinja/__jinja2_04afeabd1c2f9fdaf5e94c7f6a0a08b2d40686b1.cache
+  6041 ~/.openhands/cache/jinja/__jinja2_36f4a8807ca02e8c6a041acc665020224b3f4160.cache
+  3814 ~/.openhands/cache/jinja/__jinja2_95212130ae47f016fbdb7a642b68c189e3a57f30.cache
+  2581 ~/.openhands/cache/jinja/__jinja2_a8c1aaeace4e554902d40ef5e87044d4014d0cbd.cache
+  128 ~/.openhands/cache/skills
+  992 ~/.openhands/cache/skills/public-skills
+  0 ~/.openhands/cache/skills/public-skills.lock
+  96 ~/.openhands/conversations
+  160 ~/.openhands/conversations/2c5893ec57c443e19d6ade0cfa1e11c1
+  624780 ~/.openhands/conversations/2c5893ec57c443e19d6ade0cfa1e11c1/base_state.json
+  448 ~/.openhands/conversations/2c5893ec57c443e19d6ade0cfa1e11c1/events
+  96 ~/.openhands/conversations/2c5893ec57c443e19d6ade0cfa1e11c1/subagents
+  64 ~/.openhands/profiles
+  1888 ~/.local/share/uv/tools/openhands/bin
+  4247 ~/.local/share/uv/tools/openhands/bin/activate
+  2383 ~/.local/share/uv/tools/openhands/bin/activate_this.py
+  2676 ~/.local/share/uv/tools/openhands/bin/activate.bat
+  2626 ~/.local/share/uv/tools/openhands/bin/activate.csh
+  4337 ~/.local/share/uv/tools/openhands/bin/activate.fish
+  3954 ~/.local/share/uv/tools/openhands/bin/activate.nu
+  2765 ~/.local/share/uv/tools/openhands/bin/activate.ps1
+  3867 ~/.local/share/uv/tools/openhands/bin/activate.xsh
+  351 ~/.local/share/uv/tools/openhands/bin/agent-server
+  334 ~/.local/share/uv/tools/openhands/bin/alembic
+  337 ~/.local/share/uv/tools/openhands/bin/binaryornot
+  339 ~/.local/share/uv/tools/openhands/bin/browser-harness
+  343 ~/.local/share/uv/tools/openhands/bin/browser-harness-mcp
+  335 ~/.local/share/uv/tools/openhands/bin/browser-use
+  367 ~/.local/share/uv/tools/openhands/bin/browser-use-tui
+  335 ~/.local/share/uv/tools/openhands/bin/browseruse
+  336 ~/.local/share/uv/tools/openhands/bin/cffi-gen-src
+  330 ~/.local/share/uv/tools/openhands/bin/cyclopts
+  1730 ~/.local/share/uv/tools/openhands/bin/deactivate.bat
+  333 ~/.local/share/uv/tools/openhands/bin/distro
+  333 ~/.local/share/uv/tools/openhands/bin/dotenv
+  344 ~/.local/share/uv/tools/openhands/bin/email_validator
+  331 ~/.local/share/uv/tools/openhands/bin/fastapi
+  329 ~/.local/share/uv/tools/openhands/bin/fastmcp
+  335 ~/.local/share/uv/tools/openhands/bin/genai-prices
+  342 ~/.local/share/uv/tools/openhands/bin/hf
+  325 ~/.local/share/uv/tools/openhands/bin/httpx
+  332 ~/.local/share/uv/tools/openhands/bin/httpx2
+  354 ~/.local/share/uv/tools/openhands/bin/huggingface-cli
+  328 ~/.local/share/uv/tools/openhands/bin/idna
+  1733 ~/.local/share/uv/tools/openhands/bin/jp.py
+  338 ~/.local/share/uv/tools/openhands/bin/json_repair
+  334 ~/.local/share/uv/tools/openhands/bin/jsonschema
+  334 ~/.local/share/uv/tools/openhands/bin/lite
+  352 ~/.local/share/uv/tools/openhands/bin/litellm
+  362 ~/.local/share/uv/tools/openhands/bin/litellm-proxy
+  326 ~/.local/share/uv/tools/openhands/bin/lmnr
+  334 ~/.local/share/uv/tools/openhands/bin/mako-render
+  341 ~/.local/share/uv/tools/openhands/bin/markdown-it
+  325 ~/.local/share/uv/tools/openhands/bin/mcp
+  354 ~/.local/share/uv/tools/openhands/bin/normalizer
+  344 ~/.local/share/uv/tools/openhands/bin/openhands
+  337 ~/.local/share/uv/tools/openhands/bin/openhands-acp
+  357 ~/.local/share/uv/tools/openhands/bin/opentelemetry-bootstrap
+  368 ~/.local/share/uv/tools/openhands/bin/opentelemetry-instrument
+  344 ~/.local/share/uv/tools/openhands/bin/pai
+  1219 ~/.local/share/uv/tools/openhands/bin/pydoc.bat
+  336 ~/.local/share/uv/tools/openhands/bin/pygmentize
+  44 ~/.local/share/uv/tools/openhands/bin/python
+  6 ~/.local/share/uv/tools/openhands/bin/python3
+  6 ~/.local/share/uv/tools/openhands/bin/python3.12
+  352 ~/.local/share/uv/tools/openhands/bin/tiny-agents
+  328 ~/.local/share/uv/tools/openhands/bin/tqdm
+  329 ~/.local/share/uv/tools/openhands/bin/typer
+  332 ~/.local/share/uv/tools/openhands/bin/uvicorn
+  332 ~/.local/share/uv/tools/openhands/bin/watchfiles
+  334 ~/.local/share/uv/tools/openhands/bin/websockets

@@ -1,0 +1,6 @@
+## python3 test_parallel.py
+system - You answer questions about the files in 
+user - Read README.md and missing.txt.
+assistant - 
+tool call_a # Lab notebook  Notes and small programs
+tool call_b error: FileNotFoundError: [Errno 2] No s

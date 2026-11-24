@@ -1,0 +1,4 @@
+# krom2 Linux-7.2.12-402.asahi.fc44.aarch64+16k-aarch64-with-glibc2.43 aarch64 Python 3.14.10 2026-11-14T06:13:49-0800 load 0.00 1.39 3.43
+test,n,median_us,p10_us,p90_us,note
+lan-tcp,5000,142.709,116.166,150.583,TCP echo on 192.168.88.42
+lan-http,5000,595.459,574.084,614.334,HTTP/1.1 keep-alive to 192.168.88.42

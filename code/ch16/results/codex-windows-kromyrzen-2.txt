@@ -1,0 +1,27 @@
+# Codex CLI 0.169.0 (codex-package-x86_64-pc-windows-msvc.tar.gz, unpacked in a user
+# directory and put first on PATH), unelevated backend, over SSH. TEMP and TMP pointed
+# to a scratch directory for these runs, so that Codex's entries for its writable
+# roots stayed off the real %TEMP%.
+# S4-Windows, Windows 11 Pro N for Workstations, build 26300 (10.0.26300.9974), over SSH;
+# PowerShell 5.1.26100.9818.
+# The .NET probes exit before their first line: -2147023782 is 0x8007045A,
+# ERROR_DLL_INIT_FAILED. cmd.exe runs.
+# run-windows.ps1 -Mechanisms none,codex -Base C:\Users\labuser
+== none
+control ALLOWED
+write   ALLOWED
+read    ALLOWED
+net     ALLOWED
+spawn   ALLOWED
+hook    ALLOWED
+orphan  ALLOWED
+   on the host: ok.txt yes, probe.txt yes, pre-commit yes, orphan.txt yes, connections 1
+== codex
+   on the host: ok.txt no, probe.txt no, pre-commit no, orphan.txt no, connections 0
+# the same with one line added after the launch that prints $LASTEXITCODE and the sandbox log
+== codex
+   exit code -2147023782
+[2026-11-14 14:35:44.930 codex.exe] START: C:\Users\labuser\battery-sbx-1373154792\bin\battery.exe C:\Users\labuser\battery-sbx-1373154792 64157
+   on the host: ok.txt no, probe.txt no, pre-commit no, orphan.txt no, connections 0
+# codex -c windows.sandbox=unelevated sandbox -P :workspace -C cx-work -- cmd /c echo hi
+hi

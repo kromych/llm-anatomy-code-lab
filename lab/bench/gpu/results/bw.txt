@@ -1,0 +1,8 @@
+# gcc -O3 -march=native -pthread bw.c; numactl --cpunodebind=1 --membind=1 ./bw T
+threads  1  44.2 GB/s  (check 0)
+threads  2  47.0 GB/s  (check 0)
+threads  4  91.5 GB/s  (check 0)
+threads  8  170.8 GB/s  (check 0)
+threads 16  151.8 GB/s  (check 0)
+threads 32  187.8 GB/s  (check 0)
+threads 64  306.0 GB/s  (check 0)

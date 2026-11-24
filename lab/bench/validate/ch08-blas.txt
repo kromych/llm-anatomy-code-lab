@@ -1,0 +1,31 @@
+2026-11-14T07:32:27 blas: start (70 retries, busy=22% hogs=[30.6:llama-server 15.6:/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/Resources/Python.app/Contents/MacOS/Python ], load averages: 6.26 7.48 7.57)
+## dotprod
+| model                          |       size |     params | backend    | threads |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | ------: | --------------: | -------------------: |
+| gemma3 1B Q4_0                 | 682.24 MiB |   999.89 M | CPU        |      16 |           pp512 |      1664.61 ± 43.94 |
+| gemma3 1B Q4_0                 | 682.24 MiB |   999.89 M | CPU        |      16 |           tg128 |        148.78 ± 4.81 |
+| gemma3 1B Q8_0                 | 1013.54 MiB |   999.89 M | CPU        |      16 |           pp512 |      1657.69 ± 24.21 |
+| gemma3 1B Q8_0                 | 1013.54 MiB |   999.89 M | CPU        |      16 |           tg128 |        125.53 ± 1.34 |
+| gemma3 1B Q4_K - Medium        | 762.49 MiB |   999.89 M | CPU        |      16 |           pp512 |        566.67 ± 2.82 |
+| gemma3 1B Q4_K - Medium        | 762.49 MiB |   999.89 M | CPU        |      16 |           tg128 |        132.70 ± 2.62 |
+build: 61dbf49 (1)
+## dotprod+blas
+| model                          |       size |     params | backend    | threads |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | ------: | --------------: | -------------------: |
+| gemma3 1B Q4_0                 | 682.24 MiB |   999.89 M | BLAS       |      16 |           pp512 |      1688.28 ± 71.34 |
+| gemma3 1B Q4_0                 | 682.24 MiB |   999.89 M | BLAS       |      16 |           tg128 |        152.54 ± 2.25 |
+| gemma3 1B Q8_0                 | 1013.54 MiB |   999.89 M | BLAS       |      16 |           pp512 |      1633.63 ± 35.10 |
+| gemma3 1B Q8_0                 | 1013.54 MiB |   999.89 M | BLAS       |      16 |           tg128 |        124.99 ± 2.93 |
+| gemma3 1B Q4_K - Medium        | 762.49 MiB |   999.89 M | BLAS       |      16 |           pp512 |       867.26 ± 13.28 |
+| gemma3 1B Q4_K - Medium        | 762.49 MiB |   999.89 M | BLAS       |      16 |           tg128 |        133.12 ± 0.90 |
+build: 61dbf49 (1)
+## homebrew-cpu
+| model                          |       size |     params | backend    | threads | dev          |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | ------: | ------------ | --------------: | -------------------: |
+| gemma3 1B Q4_0                 | 682.24 MiB |   999.89 M | BLAS,MTL   |      16 | none         |           pp512 |      1109.20 ± 48.41 |
+| gemma3 1B Q4_0                 | 682.24 MiB |   999.89 M | BLAS,MTL   |      16 | none         |           tg128 |        140.62 ± 2.61 |
+| gemma3 1B Q8_0                 | 1013.54 MiB |   999.89 M | BLAS,MTL   |      16 | none         |           pp512 |       862.42 ± 11.01 |
+| gemma3 1B Q8_0                 | 1013.54 MiB |   999.89 M | BLAS,MTL   |      16 | none         |           tg128 |        118.14 ± 1.67 |
+| gemma3 1B Q4_K - Medium        | 762.49 MiB |   999.89 M | BLAS,MTL   |      16 | none         |           pp512 |       663.92 ± 25.95 |
+| gemma3 1B Q4_K - Medium        | 762.49 MiB |   999.89 M | BLAS,MTL   |      16 | none         |           tg128 |        123.13 ± 1.34 |
+build: b1b770d90 (12359)

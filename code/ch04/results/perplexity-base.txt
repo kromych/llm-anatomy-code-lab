@@ -1,0 +1,23 @@
+## llama-perplexity -m model-f16.gguf -f wikitext-2-raw/wiki.test.raw \
+##     --kl-divergence-base base.kld
+## S3-macOS; llama.cpp build 12359 (Homebrew, commit b1b770d90), Metal.
+## model-f16.gguf is SmolLM2-135M-Instruct-f16.gguf of
+## bartowski/SmolLM2-135M-Instruct-GGUF (270885952 bytes); the directory
+## wikitext-2-raw comes from scripts/get-wikitext-2.sh of llama.cpp.
+## Standard output and standard error together. Load averages 19.7
+## 26.6 25.5 from other work on the machine.
+0.00.524.694 I cmn          init: llama threadpool init, n_threads = 16
+0.00.749.383 I 
+0.00.749.416 I system_info: n_threads = 16 (n_threads_batch = 16) / 20 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | DOTPROD = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.00.751.810 I perplexity: saving all logits to base.kld
+0.00.751.821 I perplexity: tokenizing the input ..
+0.01.199.012 I perplexity: tokenization took 447.187 ms
+0.01.199.374 I perplexity: calculating perplexity over 592 chunks, n_ctx=512, batch_size=2048, n_seq=4
+0.01.309.564 I perplexity: 0.11 seconds per pass - ETA 0.25 minutes
+[1]10.4276,[2]16.8476,[3]17.6469,[4]17.8613,[5]17.7683,[6]17.7930,[7]18.2871,[8]19.1113,
+## ... chunks 9 to 584 cut (the run printed all 592 values on one line) ...
+[585]18.6194,[586]18.6228,[587]18.6145,[588]18.6445,[589]18.6570,[590]18.6754,[591]18.6684,[592]18.6761,
+0.24.741.302 I Final estimate: PPL = 18.6761 +/- 0.14302
+
+## wc -c base.kld
+ 14842391956 base.kld

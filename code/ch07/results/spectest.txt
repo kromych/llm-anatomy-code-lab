@@ -1,0 +1,29 @@
+# spectest.py on S3-macOS (Apple M1 Ultra), llama.cpp build 12359 (b1b770d90):
+# Qwen3-8B Q8_0 (ggml-org/Qwen3-8B-GGUF) alone, with Qwen3-1.7B Q4_K_M
+# (ggml-org/Qwen3-1.7B-GGUF) as its draft, and with the draft model loaded
+# but no --spec-type. Each server was started afresh. Below: the command
+# lines, the output of the script and, for the second server, the lines of
+# its log (-lv 4) that report the acceptance. The replies of the first two
+# runs are in spectest-plain.jsonl and spectest-draft.jsonl; the answers
+# in the two files are the same, character for character.
+# spectest-draft.log is the log of the second server from "listening on".
+
+$ llama-server -hf ggml-org/Qwen3-8B-GGUF --offline -np 1 -c 8192 -lv 4 --no-log-timestamps --host 127.0.0.1 --port 8104
+$ python3 spectest.py http://127.0.0.1:8104/v1 spectest-plain.jsonl
+edit  generated   70   drafted    0   accepted    0
+prose generated  187   drafted    0   accepted    0
+
+$ llama-server -hf ggml-org/Qwen3-8B-GGUF -hfd ggml-org/Qwen3-1.7B-GGUF:Q4_K_M --spec-type draft-simple --spec-draft-n-max 4 --offline -np 1 -c 8192 -lv 4 --no-log-timestamps --host 127.0.0.1 --port 8104
+$ python3 spectest.py http://127.0.0.1:8104/v1 spectest-draft.jsonl
+edit  generated   70   drafted   60   accepted   54   (90%)
+prose generated  187   drafted  272   accepted  119   (44%)
+$ grep -E 'draft acceptance|acc per pos' spectest-draft.log
+I slot print_timing: id  0 | task 0 | draft acceptance = 0.90000 (   54 accepted /    60 generated), mean len =  4.60
+I slot print_timing: id  0 | task 0 |      acc per pos = (1.000, 0.867, 0.867, 0.867)
+I slot print_timing: id  0 | task 17 | draft acceptance = 0.43750 (  119 accepted /   272 generated), mean len =  2.75
+I slot print_timing: id  0 | task 17 |      acc per pos = (0.735, 0.500, 0.309, 0.206)
+
+$ llama-server -hf ggml-org/Qwen3-8B-GGUF -hfd ggml-org/Qwen3-1.7B-GGUF:Q4_K_M --spec-draft-n-max 4 --offline -np 1 -c 8192 --no-log-timestamps --host 127.0.0.1 --port 8104
+$ python3 spectest.py http://127.0.0.1:8104/v1
+edit  generated   70   drafted    0   accepted    0
+prose generated  187   drafted    0   accepted    0

@@ -1,0 +1,31 @@
+## llama-imatrix -m model-f16.gguf -f calibration.txt -o imatrix.gguf
+## S3-macOS; llama.cpp build 12359 (Homebrew, commit b1b770d90), Metal.
+## model-f16.gguf is SmolLM2-135M-Instruct-f16.gguf of
+## bartowski/SmolLM2-135M-Instruct-GGUF (270885952 bytes); the directory
+## wikitext-2-raw comes from scripts/get-wikitext-2.sh of llama.cpp.
+## calibration.txt is the first 200000 bytes of the training text:
+##     head -c 200000 wikitext-2-raw/wiki.train.raw > calibration.txt
+## Run twice; both runs printed the same 90 values and the same final
+## estimate and wrote the same imatrix.gguf (1269024 bytes). This is
+## the second run, standard output and standard error together. The
+## seconds per pass are not a measurement: load averages 36.1 32.0
+## 27.1 from other work on the machine (the first run printed 4.11
+## seconds per pass).
+0.01.061.655 I cmn          init: llama threadpool init, n_threads = 16
+0.01.061.676 I 
+0.01.061.702 I system_info: n_threads = 16 (n_threads_batch = 16) / 20 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | DOTPROD = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.01.061.703 I compute_imatrix: tokenizing the input ..
+0.01.148.476 I compute_imatrix: tokenization took 86.769 ms
+0.01.148.492 I compute_imatrix: computing over 90 chunks, n_ctx=512, batch_size=2048, n_seq=4
+0.07.103.213 I compute_imatrix: 5.95 seconds per pass - ETA 2.22 minutes
+[1]19.1600,[2]25.1811,[3]24.4497,[4]22.2221,[5]22.5545,[6]22.9016,[7]25.7603,[8]25.5449,
+[9]26.4420,[10]25.4970,[11]25.8979,[12]24.8770,[13]23.8050,[14]23.6096,[15]23.2866,[16]23.0542,
+[17]23.3531,[18]22.5306,[19]22.0221,[20]21.8439,[21]21.7277,[22]22.4353,[23]22.8880,[24]22.8955,[25]22.4703,[26]21.3248,[27]21.3447,[28]20.7879,
+[29]20.7135,[30]20.6112,[31]20.4168,[32]19.9808,[33]20.0535,[34]19.8931,[35]19.7651,[36]19.8111,
+[37]20.0623,[38]20.0366,[39]20.1658,[40]20.2650,[41]20.2451,[42]20.2457,[43]20.3872,[44]20.3279,[45]20.2902,[46]20.3665,[47]20.4135,[48]20.1095,
+[49]19.8622,[50]19.6782,[51]19.7457,[52]19.5992,[53]19.6989,[54]19.7707,[55]19.7134,[56]19.6192,
+[57]19.5230,[58]19.4331,[59]19.5741,[60]19.7384,[61]20.0010,[62]19.9893,[63]20.0979,[64]19.9892,[65]19.9022,[66]19.9874,[67]20.0098,[68]19.9359,
+[69]19.9109,[70]19.7112,[71]19.5406,[72]19.4344,[73]19.5174,[74]19.5448,[75]19.5986,[76]19.5643,
+[77]19.5984,[78]19.6675,[79]19.6835,[80]19.7085,[81]19.6964,[82]19.7998,[83]19.7837,[84]19.7904,[85]19.7144,[86]19.7377,[87]19.7543,[88]19.8416,
+[89]19.8566,[90]19.9017,
+Final estimate: PPL = 19.9017 +/- 0.39421

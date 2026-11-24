@@ -1,0 +1,2 @@
+[sse42-t32.completion.log] 0.00.536.238 I system_info: n_threads = 32 (n_threads_batch = 32) / 252 | CPU : SSE3 = 1 | SSSE3 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 |
+[sse42-t32.stderr] build: 61dbf4922 (12376)

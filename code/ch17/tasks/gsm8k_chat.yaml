@@ -1,0 +1,36 @@
+# gsm8k_chat.yaml -- GSM8K for chat models: zero-shot, with an
+# instruction that asks for the answer in the format the scorer expects.
+task: gsm8k_chat
+dataset_path: openai/gsm8k
+dataset_name: main
+output_type: generate_until
+test_split: test
+doc_to_text: "{{question}}\n\nSolve the problem step by step. End with
+  a last line of the form '#### <number>'."
+doc_to_target: "{{answer.split('#### ')[-1]}}"
+num_fewshot: 0
+generation_kwargs:
+  until: []
+  max_gen_toks: 768
+  temperature: 0.0
+  do_sample: false
+filter_list:
+  - name: strict-match
+    filter:
+      - function: regex
+        regex_pattern: "#### (\\-?[0-9\\.\\,]+)"
+      - function: take_first
+  - name: flexible-extract
+    filter:
+      - function: regex
+        group_select: -1
+        regex_pattern: "(-?[$0-9.,]{2,})|(-?[0-9]+)"
+      - function: take_first
+metric_list:
+  - metric: exact_match
+    aggregation: mean
+    higher_is_better: true
+    ignore_case: true
+    regexes_to_ignore: [",", "\\$", "\\.$"]
+metadata:
+  version: 1.0

@@ -1,0 +1,7 @@
+llama.cpp default chain: kept 7, P(Paris)=0.1546, P(the)=0.5570
+vLLM order, same values: kept 5, P(Paris)=0.1651, P(the)=0.5949
+Transformers order, same values: kept 6, P(Paris)=0.1573, P(the)=0.5667
+T=0.6 first, top-p 0.95: kept 6, P(Paris)=0.1266, P(the)=0.6993
+top-p 0.95, then T=0.6: kept 1063, P(Paris)=0.1206, P(the)=0.6661
+mass outside top 6 when temperature is last: 0.0475
+plain T=1: P(Paris) 0.0938

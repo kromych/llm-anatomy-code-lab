@@ -1,0 +1,15 @@
+## ollama serve   (Ollama 0.40.16 with gemma3:1b, on S3-macOS)
+## A request with the four tools of agent.py for a model without tool
+## calls. agent.py does not catch the HTTPError, so the status and the body
+## are printed here. From code/ch11:
+##
+## AGENT_MODEL=gemma3:1b python3 -c '
+## import urllib.error, agent
+## try:
+##     print(agent.chat([{"role": "user", "content": "Hello"}],
+##                      "http://127.0.0.1:11434/v1"))
+## except urllib.error.HTTPError as e:
+##     print(e.code, e.read().decode())
+## '
+400 {"error":{"message":"registry.ollama.ai/library/gemma3:1b does not support tools","type":"invalid_request_error","param":null,"code":null}}
+

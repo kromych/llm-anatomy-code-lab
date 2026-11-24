@@ -1,0 +1,59 @@
+## mlx_lm.server --model mlx-community/Qwen3-0.6B-4bit --host 127.0.0.1 --port 8180
+##     (mlx-lm 0.32.2 with MLX 0.32.4, on S3-macOS; the model is at commit
+##     73e3e38d981303bc594367cd910ea6eb48349da8, and the server's own
+##     default port is 8080)
+## Two requests, in this order, the first to the newly started server.
+##
+## 1. A long prompt: "word " 4,000 times, then "Say hi. /no_think".
+## python3 -c 'import json,urllib.request; body=json.dumps({"model":"mlx-community/Qwen3-0.6B-4bit","messages":[{"role":"user","content":"word "*4000+"Say hi. /no_think"}],"stream":True,"stream_options":{"include_usage":True},"max_tokens":8}).encode(); req=urllib.request.Request("http://127.0.0.1:8180/v1/chat/completions",body,{"Content-Type":"application/json"}); print(urllib.request.urlopen(req).read().decode())'
+: keepalive 2048/4015
+
+: keepalive 4014/4015
+
+: keepalive 4015/4015
+
+data: {"id": "chatcmpl-a0847fef-d3b2-41ca-83c5-f6e3c80754a5", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556841, "choices": [{"index": 0, "finish_reason": null, "delta": {"role": "assistant", "reasoning": "\n"}}]}
+
+data: {"id": "chatcmpl-a0847fef-d3b2-41ca-83c5-f6e3c80754a5", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556841, "choices": [{"index": 0, "finish_reason": null, "delta": {"role": "assistant", "reasoning": "Okay"}}]}
+
+data: {"id": "chatcmpl-a0847fef-d3b2-41ca-83c5-f6e3c80754a5", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556841, "choices": [{"index": 0, "finish_reason": null, "delta": {"role": "assistant", "reasoning": ","}}]}
+
+data: {"id": "chatcmpl-a0847fef-d3b2-41ca-83c5-f6e3c80754a5", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556841, "choices": [{"index": 0, "finish_reason": null, "delta": {"role": "assistant", "reasoning": " let"}}]}
+
+data: {"id": "chatcmpl-a0847fef-d3b2-41ca-83c5-f6e3c80754a5", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556841, "choices": [{"index": 0, "finish_reason": null, "delta": {"role": "assistant", "reasoning": "'s"}}]}
+
+data: {"id": "chatcmpl-a0847fef-d3b2-41ca-83c5-f6e3c80754a5", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556841, "choices": [{"index": 0, "finish_reason": null, "delta": {"role": "assistant", "reasoning": " see"}}]}
+
+data: {"id": "chatcmpl-a0847fef-d3b2-41ca-83c5-f6e3c80754a5", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556841, "choices": [{"index": 0, "finish_reason": null, "delta": {"role": "assistant", "reasoning": "."}}]}
+
+data: {"id": "chatcmpl-a0847fef-d3b2-41ca-83c5-f6e3c80754a5", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556841, "choices": [{"index": 0, "finish_reason": "length", "delta": {"role": "assistant"}}]}
+
+data: {"id": "chatcmpl-a0847fef-d3b2-41ca-83c5-f6e3c80754a5", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556841, "choices": [], "usage": {"prompt_tokens": 4015, "completion_tokens": 8, "total_tokens": 4023, "prompt_tokens_details": {"cached_tokens": 0}}}
+
+data: [DONE]
+
+
+## 2. The short prompt of stream-transformers.txt.
+## curl -sN http://127.0.0.1:8180/v1/chat/completions -H 'Content-Type: application/json' -d '{"model":"mlx-community/Qwen3-0.6B-4bit","messages":[{"role":"user","content":"Say hi. /no_think"}],"stream":true,"stream_options":{"include_usage":true},"max_tokens":8}'
+: keepalive 11/12
+
+: keepalive 12/12
+
+data: {"id": "chatcmpl-f2a9b02a-9eb7-4dda-81db-284f5d950970", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556880, "choices": [{"index": 0, "finish_reason": null, "delta": {"role": "assistant", "reasoning": "\n\n"}}]}
+
+data: {"id": "chatcmpl-f2a9b02a-9eb7-4dda-81db-284f5d950970", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556880, "choices": [{"index": 0, "finish_reason": null, "delta": {"role": "assistant", "content": "\n\n"}}]}
+
+data: {"id": "chatcmpl-f2a9b02a-9eb7-4dda-81db-284f5d950970", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556880, "choices": [{"index": 0, "finish_reason": null, "delta": {"role": "assistant", "content": "Hello"}}]}
+
+data: {"id": "chatcmpl-f2a9b02a-9eb7-4dda-81db-284f5d950970", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556880, "choices": [{"index": 0, "finish_reason": null, "delta": {"role": "assistant", "content": "!"}}]}
+
+data: {"id": "chatcmpl-f2a9b02a-9eb7-4dda-81db-284f5d950970", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556880, "choices": [{"index": 0, "finish_reason": null, "delta": {"role": "assistant", "content": " How"}}]}
+
+data: {"id": "chatcmpl-f2a9b02a-9eb7-4dda-81db-284f5d950970", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556880, "choices": [{"index": 0, "finish_reason": null, "delta": {"role": "assistant", "content": " can"}}]}
+
+data: {"id": "chatcmpl-f2a9b02a-9eb7-4dda-81db-284f5d950970", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion.chunk", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556880, "choices": [{"index": 0, "finish_reason": "length", "delta": {"role": "assistant"}}]}
+
+data: {"id": "chatcmpl-f2a9b02a-9eb7-4dda-81db-284f5d950970", "system_fingerprint": "0.32.2-0.32.4-macOS-27.2.1-arm64-arm-64bit-Mach-O-applegpu_g13d", "object": "chat.completion", "model": "mlx-community/Qwen3-0.6B-4bit", "created": 1795556880, "choices": [], "usage": {"prompt_tokens": 15, "completion_tokens": 8, "total_tokens": 23, "prompt_tokens_details": {"cached_tokens": 3}}}
+
+data: [DONE]
+

@@ -1,0 +1,57 @@
+Footprint of Claude Code 2.1.325 on xps-8930 (Fedora 44, Core i7-8700),
+2026-11-14.  Differences between snapshots taken by
+code/ch15/footprint_linux.sh before the install, after the native
+installer, and after five measurement runs (code/ch15/run_claude_code.sh,
+with CLAUDE_CONFIG_DIR set to a directory of its own).  Only the
+differences that belong to Claude Code are kept; other programs that
+changed during the same interval (siblings' vLLM and search servers, our
+own proxies, the snapshot script's npm logs) are left out.
+
+== shell profiles (.bashrc, .bash_profile, .profile, .zshrc; md5 and size)
+  changed by the install: 0   (the installer printed a line to add to
+                               ~/.zshrc for ~/.local/bin instead)
+
+== entries in ~, ~/.config, ~/.local/*, ~/.cache
+  added by the install: 6
+    + ~/.local/bin/claude -> ~/.local/share/claude/versions/2.1.325
+    + ~/.local/share/claude          349 MB (versions/2.1.325)
+    + ~/.claude                      downloads/ (emptied), backups/,
+                                     sessions/
+    + ~/.claude.json                 478 bytes, mode 0600: installMethod,
+                                     autoUpdates, firstStartTime,
+                                     machineID, userID (two random
+                                     identifiers) and migration flags
+    + ~/.local/state/claude          locks/
+    + ~/.cache/claude                staging/
+  added by the runs: 0   (everything went into CLAUDE_CONFIG_DIR)
+
+== outside the home directory
+  added by the install: 1
+    + /run/user/1000/cc-socks/<pid>.sock   a Unix socket of the
+                                           `claude install` process,
+                                           left behind after it exited
+  added by the runs: 0   (each session's socket in the same directory
+                          was removed when the session ended)
+
+== systemd user units, crontab
+  added by the install: 0
+  added by the runs: 0
+
+== listening TCP sockets
+  added by the runs: 0   (Claude Code listened on nothing)
+
+== files in CLAUDE_CONFIG_DIR after five runs (names only, never contents)
+  .claude.json, .last-cleanup, backups/.claude.json.backup.<ms>
+  plugins/store/cc-plugin-agents-md_builtin-<hash>.json
+                       a built-in plug-in that reads AGENTS.md
+  projects/-home-...-claude-code-rN/<session>.jsonl   one transcript per
+                       run, the whole conversation in plain JSON lines
+  projects/<path>/memory/   (empty), session-env/<session>/, sessions/,
+  shell-snapshots/
+  total 856 KB
+
+== removal, as documented (rm -f ~/.local/bin/claude;
+   rm -rf ~/.local/share/claude ~/.claude; rm ~/.claude.json)
+  remains: ~/.local/state/claude, ~/.cache/claude,
+           /run/user/1000/cc-socks/<pid>.sock, and CLAUDE_CONFIG_DIR;
+  we deleted all four.  Nothing of Claude Code is left on xps-8930.

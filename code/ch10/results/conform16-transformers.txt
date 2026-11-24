@@ -1,0 +1,29 @@
+## transformers serve Qwen/Qwen3-0.6B --host 127.0.0.1 --port 8000
+##     (Transformers 5.23.0 with PyTorch 2.15.0, on S3-macOS)
+## python3 conform.py http://127.0.0.1:8000/v1 Qwen/Qwen3-0.6B
+PASS  t_models
+PASS  t_basic
+FAIL  t_stream -- AssertionError stream does not end with [DONE]
+FAIL  t_stop -- AssertionError 
+PASS  t_length
+PASS  t_max_completion
+FAIL  t_n -- AssertionError n ignored
+PASS  t_seed
+FAIL  t_logprobs -- AssertionError None
+FAIL  t_cached -- AssertionError usage {'completion_tokens': 5, 'prompt_tokens': 29, 'total_tokens': 34}
+PASS  t_reasoning
+PASS  t_tool_auto
+FAIL  t_tool_required -- AssertionError no tool call: 'Hello! How can I assist you today? 😊'
+PASS  t_tool_stream
+FAIL  t_schema -- AssertionError not JSON: '```json\n{\n  "temperature_unit": "kelvin"'
+FAIL  t_error -- AssertionError status 500
+
+## The request of t_error by hand; the status and the content type follow
+## the body.
+## curl -s -w '\nstatus %{http_code}, content-type %{content_type}\n' http://127.0.0.1:8000/v1/chat/completions -H 'Content-Type: application/json' -d '{"model":"Qwen/Qwen3-0.6B","messages":"not a list"}'
+Internal Server Error
+status 500, content-type text/plain; charset=utf-8
+
+## The request of t_stop by hand.
+## curl -s http://127.0.0.1:8000/v1/chat/completions -H 'Content-Type: application/json' -d '{"model":"Qwen/Qwen3-0.6B","temperature":0,"max_tokens":200,"messages":[{"role":"user","content":"Write the digits 1 to 9, separated by spaces. /no_think"}],"stop":["5"]}'
+{"id":"8c4d001d-75a0-47ea-99f7-fc873e9bdc94","choices":[{"finish_reason":"stop","index":0,"message":{"content":"1 2 3 4 5","role":"assistant"}}],"created":1795557083,"model":"Qwen/Qwen3-0.6B@main","object":"chat.completion","usage":{"completion_tokens":13,"prompt_tokens":25,"total_tokens":38}}

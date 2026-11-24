@@ -1,0 +1,11 @@
+# Ollama's Go template for qwen3:1.7b (dl-ollama_qwen3-1.7b/template),
+# rendered by Go 1.27.3's text/template with a stand-in for Ollama's data
+
+$ go run scripts/gotmpl.go dl-ollama_qwen3-1.7b/template inputs/two.json
+"<|im_start|>system\n\nAnswer briefly.<|im_end|>\n<|im_start|>user\nList the Python files in src/<|im_end|>\n<|im_start|>assistant\n"
+
+$ go run scripts/gotmpl.go dl-ollama_qwen3-1.7b/template inputs/two.json think
+"<|im_start|>system\n\nAnswer briefly.<|im_end|>\n<|im_start|>user\nList the Python files in src/ /think<|im_end|>\n<|im_start|>assistant\n"
+
+$ go run scripts/gotmpl.go dl-ollama_qwen3-1.7b/template inputs/two.json nothink
+"<|im_start|>system\n\nAnswer briefly.<|im_end|>\n<|im_start|>user\nList the Python files in src/ /no_think<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"

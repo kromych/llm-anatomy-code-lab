@@ -1,0 +1,6 @@
+/v1/models  no key, no origin  status 401, Access-Control-Allow-Origin=None
+/v1/models  foreign origin     status 403, Access-Control-Allow-Origin=None
+/v1/models  with the key       status 200, Access-Control-Allow-Origin=None
+/health     no key, no origin  status 200, Access-Control-Allow-Origin=None
+/health     foreign origin     status 403, Access-Control-Allow-Origin=None
+/health     with the key       status 200, Access-Control-Allow-Origin=None

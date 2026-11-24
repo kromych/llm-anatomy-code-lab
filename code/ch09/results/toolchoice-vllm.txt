@@ -1,0 +1,6 @@
+## python3 toolchoice.py http://127.0.0.1:8000/v1 qwen3-8b
+auto, weather                calls ['Oslo'], tool_calls after 93 tokens, text ''
+required, Hello!             calls ['New York'], tool_calls after 131 tokens, text ''
+named, Hello!                calls ['New York'], stop after 131 tokens, text ''
+two cities                   calls ['Oslo', 'Lima'], tool_calls after 150 tokens, text ''
+two cities, parallel false   calls ['Oslo'], tool_calls after 129 tokens, text ''

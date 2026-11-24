@@ -1,0 +1,4 @@
+# NVIDIA H100 PCIe, torch 2.13.0+cu129, cuda 12.9
+test,n,median_us,p10_us,p90_us
+pcie-4k,2000,12.459,12.298,12.740
+pcie-1m,2000,50.145,49.944,51.584

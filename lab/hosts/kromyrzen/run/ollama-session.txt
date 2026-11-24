@@ -1,0 +1,26 @@
+22:43:59.433 session pid 5532, SSH session id 0
+22:44:00.079 running: OllamaSetup.exe /SP- /SILENT /SUPPRESSMSGBOXES /NORESTART /LOG=C:\Users\labuser\AppData\Local\Temp\llmlab\run\ollama-inno-setup.log  (the switches winget uses for an inno installer in its default silent-with-progress mode, plus /LOG)
+22:45:14.413 installer exited=True exitcode=0 after 74 s
+22:46:47.864 port 11434 listening without any manual start: False (waited 93 s)
+22:46:48.008 starting server manually: ollama.exe serve
+22:46:49.115 manual server listening: True
+22:46:51.446 ollama --version: ollama version is 0.40.16
+22:46:51.449 user PATH (registry) now: C:\Users\labuser\.cargo\bin;C:\Users\labuser\AppData\Local\Microsoft\WindowsApps;C:\Users\labuser\.dotnet\tools;;C:\Users\labuser\AppData\Local\Programs\Ollama
+22:46:51.474 GET / -> Ollama is running
+22:46:51.508 GET /api/version -> {"version":"0.40.16"}
+22:47:05.241 ollama pull gemma3:1b -> exit 0 in 14 s; last lines: pulling 76a6b777faea: 100% ▕██████████████████▏  140 B                          | verifying sha256 digest  | writing manifest  | success 
+22:47:25.562 ollama pull qwen3:1.7b -> exit 0 in 20 s; last lines: pulling 517ccaff02fe: 100% ▕██████████████████▏  487 B                          | verifying sha256 digest  | writing manifest  | success 
+22:47:25.563 ollama list:
+22:47:25.699   NAME          ID              SIZE      MODIFIED               
+22:47:25.699   qwen3:1.7b    8f68893c685c    1.4 GB    Less than a second ago    
+22:47:25.700   gemma3:1b     97558784bdc9    806 MB    20 seconds ago            
+22:47:27.825 POST /v1/chat/completions model=gemma3:1b -> curl exit 0, wall 2.06 s, 465 bytes
+22:47:28.035 ollama ps:
+22:47:28.063   NAME         ID              SIZE      PROCESSOR    CONTEXT    RUNNER      UNTIL              
+22:47:28.064   gemma3:1b    97558784bdc9    883 MB    100% CPU     4096       llamacpp    4 minutes from now    
+22:47:45.589 POST /v1/chat/completions model=qwen3:1.7b -> curl exit 0, wall 17.52 s, 1858 bytes
+22:47:45.805 ollama ps:
+22:47:45.830   NAME          ID              SIZE      PROCESSOR    CONTEXT    RUNNER      UNTIL              
+22:47:45.831   qwen3:1.7b    8f68893c685c    1.9 GB    100% CPU     4096       llamacpp    4 minutes from now    
+22:47:45.832   gemma3:1b     97558784bdc9    883 MB    100% CPU     4096       llamacpp    4 minutes from now    
+22:47:46.279 end of session script

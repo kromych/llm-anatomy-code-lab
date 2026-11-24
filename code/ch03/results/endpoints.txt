@@ -1,0 +1,18 @@
+# llama-server 1.0.0 (build 12359) with Qwen3-1.7B-Q4_K_M.gguf on S3-macOS.
+# The run used port 8102; the book prints the commands with port 8080.
+
+$ curl -s 127.0.0.1:8102/apply-template -d '{"messages":
+  [{"role": "user", "content": "List the Python files in src/"}]}'
+{"prompt":"<|im_start|>user\nList the Python files in src/<|im_end|>\n<|im_start|>assistant\n"}
+
+$ curl -s 127.0.0.1:8102/tokenize \
+  -d '{"content": "Hello world", "with_pieces": true}'
+{"tokens":[{"id":9707,"piece":"Hello"},{"id":1879,"piece":" world"}]}
+
+$ curl -s 127.0.0.1:8102/detokenize -d '{"tokens": [9707, 1879]}'
+{"content":"Hello world"}
+
+# the tool description of tojson_stock.py through the server's own Jinja
+# engine (POST /apply-template with a tools array); the line between
+# <tools> and </tools> of the prompt:
+{"type": "function", "function": {"name": "bash", "description": "Run a shell command & return <= 4 KB of output", "parameters": {"type": "object", "properties": {"command": {"type": "string"}}, "required": ["command"]}}}

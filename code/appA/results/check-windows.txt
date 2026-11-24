@@ -1,0 +1,21 @@
+# check.ps1 with versions.csv, in Windows PowerShell 5.1 and in PowerShell 7.
+# S4-Windows, Windows 11 Pro N for Workstations, build 26300
+# (10.0.26300.10075), over SSH.
+# powershell -ExecutionPolicy Bypass -File check.ps1
+tool                                   pinned     found      status
+llama.cpp (Homebrew and release zips)  b12359     12359      ok
+Ollama                                 0.40.16    0.40.16    ok
+Python (virtual environments)          3.14.10    3.13.12    differs
+git                                    2.56.0     2.50.1     differs
+winget                                 1.29.380   1.29.380   ok
+PowerShell 7 (pwsh)                    7.6.10     7.6.10     ok
+Windows PowerShell                     5.1.26100.9818 5.1.26100.10068 differs
+# pwsh -ExecutionPolicy Bypass -File check.ps1
+tool                                   pinned     found      status
+llama.cpp (Homebrew and release zips)  b12359     12359      ok
+Ollama                                 0.40.16    0.40.16    ok
+Python (virtual environments)          3.14.10    3.13.12    differs
+git                                    2.56.0     2.50.1     differs
+winget                                 1.29.380   1.29.380   ok
+PowerShell 7 (pwsh)                    7.6.10     7.6.10     ok
+Windows PowerShell                     5.1.26100.9818 7.6.10     differs

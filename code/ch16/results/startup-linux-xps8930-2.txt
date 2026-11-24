@@ -1,0 +1,20 @@
+# Second run of the start-up times, in the session of the battery.
+# S1-LinuxX64, Linux 7.2.11-200.fc44.x86_64; bubblewrap 0.12.0; Docker version 29.9.2, build a82e528;
+# codex-cli 0.169.0; sandbox-runtime 0.0.83; Python 3.14.8; socat version 1.8.1.3.
+# TIMES=20 SRT=.../srt ./run-unix.sh none bwrap landlock seccomp docker codex srt   (under flock ~/.llm-arch-bench.lock)
+# load averages before: 1.13 1.14 1.09
+== none
+   median of 20 starts: 0.3 ms
+== bwrap
+   median of 20 starts: 3.6 ms
+== landlock
+   median of 20 starts: 14.5 ms
+== seccomp
+   median of 20 starts: 0.6 ms
+== docker
+   median of 20 starts: 190.6 ms
+== codex
+   median of 20 starts: 25.0 ms
+== srt
+   median of 20 starts: 366.7 ms
+# load averages after: 1.49 1.22 1.12

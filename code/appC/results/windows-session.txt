@@ -1,0 +1,299 @@
+# The Windows session of Appendix C and the PowerShell column of its table
+# of shell commands, in Windows PowerShell 5.1 and in PowerShell 7.
+# S4-Windows, Windows 11 Pro N for Workstations, build 26300
+# (10.0.26300.10075), over SSH; llama-server 1.0.0-dev (build 12359), the CPU
+# archive, in %LOCALAPPDATA%\Programs\llama.cpp; curl 8.23.0.
+# The lines after "PS>" ran one by one in one session per part; psx.ps1
+# (lab/hosts/kromyrzen/run/psx.ps1) prints each line and then runs it, and
+# prints a line that begins with "#" as it is. 4048 is the process
+# identifier that the first command had printed. body.json holds the
+# request of the appendix's listing for macOS. Where a reply has no newline
+# at its end, the next line follows it at once, as at a prompt. The
+# session's directory is written as C:\Users\labuser\AppData\Local\Temp\scratch.
+#
+# 1. The listing "Who listens", in Windows PowerShell 5.1
+# powershell -ExecutionPolicy Bypass -File psx.ps1 listen.txt
+PS> $PSVersionTable.PSVersion.ToString()
+5.1.26100.10068
+PS> Get-NetTCPConnection -State Listen -LocalPort 22 |
+>>    Format-Table LocalAddress, LocalPort, OwningProcess  # on S4-Windows
+
+LocalAddress LocalPort OwningProcess
+------------ --------- -------------
+::                  22          4048
+0.0.0.0             22          4048
+
+
+PS> Get-Process -Id 4048 | Format-Table ProcessName, Id
+
+ProcessName   Id
+-----------   --
+sshd        4048
+
+
+PS> Get-Alias curl | Format-Table Name, Definition   # PowerShell 5.1
+
+Name Definition       
+---- ----------       
+curl Invoke-WebRequest
+
+
+PS> (Get-Command curl.exe).Source
+C:\WINDOWS\system32\curl.exe
+PS> curl.exe --version
+curl 8.23.0 (Windows) libcurl/8.23.0 Schannel zlib/1.3.2 WinIDN WinLDAP
+Release-Date: 2026-10-14
+Protocols: dict file ftp ftps gopher gophers http https imap imaps ipfs ipns ldap ldaps mqtt mqtts pop3 pop3s smtp smtps telnet tftp ws wss
+Features: alt-svc AsynchDNS HSTS HTTPS-proxy IDN IPv6 Kerberos Largefile libz SPNEGO SSL SSPI threadsafe Unicode UnixSockets
+#
+# 2. The same in PowerShell 7
+# pwsh -ExecutionPolicy Bypass -File psx.ps1 listen.txt
+PS> $PSVersionTable.PSVersion.ToString()
+7.6.10
+PS> Get-NetTCPConnection -State Listen -LocalPort 22 |
+>>    Format-Table LocalAddress, LocalPort, OwningProcess  # on S4-Windows
+
+LocalAddress LocalPort OwningProcess
+------------ --------- -------------
+::                  22          4048
+0.0.0.0             22          4048
+
+PS> Get-Process -Id 4048 | Format-Table ProcessName, Id
+
+ProcessName   Id
+-----------   --
+sshd        4048
+
+PS> Get-Alias curl | Format-Table Name, Definition   # PowerShell 5.1
+Get-Alias: This command cannot find a matching alias because an alias with the name 'curl' does not exist.
+PS> (Get-Command curl.exe).Source
+C:\WINDOWS\system32\curl.exe
+PS> curl.exe --version
+curl 8.23.0 (Windows) libcurl/8.23.0 Schannel zlib/1.3.2 WinIDN WinLDAP
+Release-Date: 2026-10-14
+Protocols: dict file ftp ftps gopher gophers http https imap imaps ipfs ipns ldap ldaps mqtt mqtts pop3 pop3s smtp smtps telnet tftp ws wss
+Features: alt-svc AsynchDNS HSTS HTTPS-proxy IDN IPv6 Kerberos Largefile libz SPNEGO SSL SSPI threadsafe Unicode UnixSockets
+#
+# 3. The PowerShell column of the table, in Windows PowerShell 5.1
+# powershell -ExecutionPolicy Bypass -File psx.ps1 table-5.1.txt
+PS> $PSVersionTable.PSVersion.ToString()
+5.1.26100.10068
+# find a program
+PS> (Get-Command curl.exe).Source
+C:\WINDOWS\system32\curl.exe
+# set a variable for the session and its programs; use the value
+PS> $env:HF_HOME = 'D:\hf'
+PS> $env:HF_HOME
+D:\hf
+PS> python -c "import os; print(os.environ['HF_HOME'])"
+D:\hf
+PS> Remove-Item Env:HF_HOME
+# run b if a succeeded
+PS> mkdir demo && cd demo
+At line:1 char:12
++ mkdir demo && cd demo
++            ~~
+The token '&&' is not a valid statement separator in this version.
+PS> mkdir demo; if ($?) { cd demo }
+
+
+    Directory: C:\Users\labuser\AppData\Local\Temp\scratch\appC
+
+
+Mode                 LastWriteTime         Length Name                                                                 
+----                 -------------         ------ ----                                                                 
+d-----        11/24/2026   2:12 PM                demo                                                                 
+
+
+PS> (Get-Location).Path | Split-Path -Leaf
+demo
+PS> Get-Item c.txt && echo "found c.txt"
+At line:1 char:16
++ Get-Item c.txt && echo "found c.txt"
++                ~~
+The token '&&' is not a valid statement separator in this version.
+PS> Get-Item c.txt; if ($?) { echo "found c.txt" }
+Get-Item : Cannot find path 'C:\Users\labuser\AppData\Local\Temp\scratch\appC\demo\c.txt' because it does not exist.
+At line:1 char:1
++ Get-Item c.txt; if ($?) { echo "found c.txt" }
++ ~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\labuser\A...appC\demo\c.txt:String) [Get-Item], ItemNotFoundExcep 
+   tion
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetItemCommand
+ 
+PS> cd ..; Remove-Item demo
+# start a server in the background: as printed, with llama-server not on PATH
+PS> $p = Start-Process llama-server -ArgumentList '--port 8097' -RedirectStandardError server.log -NoNewWindow -PassThru
+Start-Process : This command cannot be run due to the error: The system cannot find the file specified.
+At line:1 char:6
++ $p = Start-Process llama-server -ArgumentList '--port 8097' -Redirect ...
++      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (:) [Start-Process], InvalidOperationException
+    + FullyQualifiedErrorId : InvalidOperationException,Microsoft.PowerShell.Commands.StartProcessCommand
+ 
+# the same after the directory of the release archive is put on PATH for this session
+PS> $env:PATH = "$env:LOCALAPPDATA\Programs\llama.cpp;$env:PATH"
+PS> $p = Start-Process llama-server -ArgumentList '--port 8097' -RedirectStandardError server.log -NoNewWindow -PassThru
+PS> $p.Id
+8752
+PS> Start-Sleep 5
+# see who listens on a port
+PS> Get-NetTCPConnection -State Listen -LocalPort 8097
+
+LocalAddress                        LocalPort RemoteAddress                       RemotePort State       AppliedSetting
+------------                        --------- -------------                       ---------- -----       --------------
+127.0.0.1                           8097      0.0.0.0                             0          Listen                    
+
+
+PS> Get-NetTCPConnection -State Listen -LocalPort 8097 | Format-Table LocalAddress, LocalPort, OwningProcess
+
+LocalAddress LocalPort OwningProcess
+------------ --------- -------------
+127.0.0.1         8097          8752
+
+
+# send a JSON body; continue a command on the next line
+PS> Get-Content body.json
+{"messages": [{"role": "user", "content": "Name one prime number."}],
+ "max_tokens": 32}
+PS> curl.exe -s 127.0.0.1:8097/v1/chat/completions `
+>>   -H 'Content-Type: application/json' -d '@body.json'
+{"error":{"code":400,"message":"model name is missing from the request","type":"invalid_request_error"}}# stop the server
+PS> Stop-Process -Id $p.Id
+PS> Start-Sleep 1
+PS> Get-NetTCPConnection -State Listen -LocalPort 8097
+Get-NetTCPConnection : No matching MSFT_NetTCPConnection objects found by CIM query for instances of the 
+ROOT/StandardCimv2/MSFT_NetTCPConnection class on the  CIM server: SELECT * FROM MSFT_NetTCPConnection  WHERE 
+((LocalPort = 8097)) AND ((State = 2)). Verify query parameters and retry.
+At line:1 char:1
++ Get-NetTCPConnection -State Listen -LocalPort 8097
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (MSFT_NetTCPConnection:String) [Get-NetTCPConnection], CimJobException
+    + FullyQualifiedErrorId : CmdletizationQuery_NotFound,Get-NetTCPConnection
+ 
+PS> Select-String 'listening|router|model' server.log | ForEach-Object Line
+0.00.019.013 I srv  server_run_r: starting server in router mode. models will be automatically loaded on-demand
+0.00.060.984 I srv    operator(): Available models (1):
+0.00.061.175 W srv  server_setup: security: router mode enabled - do not expose to untrusted environments
+0.00.075.842 I srv  server_on_li: listening on http://127.0.0.1:8097
+# once more with the model of the listing for macOS
+PS> $p = Start-Process llama-server -ArgumentList '-hf ggml-org/gemma-3-1b-it-GGUF --port 8097' -RedirectStandardError server.log -NoNewWindow -PassThru
+PS> for ($i = 0; $i -lt 120 -and (curl.exe -s -o NUL -w '%{http_code}' 127.0.0.1:8097/health) -ne '200'; $i++) { Start-Sleep 1 }
+PS> Get-NetTCPConnection -State Listen -LocalPort 8097 | Format-Table LocalAddress, LocalPort, OwningProcess
+
+LocalAddress LocalPort OwningProcess
+------------ --------- -------------
+127.0.0.1         8097          9184
+
+
+PS> curl.exe -s 127.0.0.1:8097/v1/chat/completions `
+>>   -H 'Content-Type: application/json' -d '@body.json'
+{"choices":[{"finish_reason":"stop","index":0,"message":{"role":"assistant","content":"2\n\n2 is a prime number because its only divisors are 1 and 2."}}],"created":1795558367,"model":"ggml-org/gemma-3-1b-it-GGUF","system_fingerprint":"b12359-b1b770d90","object":"chat.completion","usage":{"completion_tokens":19,"prompt_tokens":14,"total_tokens":33,"prompt_tokens_details":{"cached_tokens":0}},"id":"chatcmpl-tMGASOLxnxsuayDjLDofTwVMoRl7vvc4","timings":{"cache_n":0,"prompt_n":14,"prompt_ms":122.277,"prompt_per_token_ms":8.73407142857143,"prompt_per_second":114.49414035345978,"predicted_n":19,"predicted_ms":561.183,"predicted_per_token_ms":31.176833333333335,"predicted_per_second":32.07509849728164}}PS> Stop-Process -Id $p.Id
+PS> Start-Sleep 1
+PS> Get-NetTCPConnection -State Listen -LocalPort 8097
+Get-NetTCPConnection : No matching MSFT_NetTCPConnection objects found by CIM query for instances of the 
+ROOT/StandardCimv2/MSFT_NetTCPConnection class on the  CIM server: SELECT * FROM MSFT_NetTCPConnection  WHERE 
+((LocalPort = 8097)) AND ((State = 2)). Verify query parameters and retry.
+At line:1 char:1
++ Get-NetTCPConnection -State Listen -LocalPort 8097
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (MSFT_NetTCPConnection:String) [Get-NetTCPConnection], CimJobException
+    + FullyQualifiedErrorId : CmdletizationQuery_NotFound,Get-NetTCPConnection
+ 
+
+#
+# 4. The same in PowerShell 7
+# pwsh -ExecutionPolicy Bypass -File psx.ps1 table-7.txt
+PS> $PSVersionTable.PSVersion.ToString()
+7.6.10
+# find a program
+PS> (Get-Command curl.exe).Source
+C:\WINDOWS\system32\curl.exe
+# set a variable for the session and its programs; use the value
+PS> $env:HF_HOME = 'D:\hf'
+PS> $env:HF_HOME
+D:\hf
+PS> python -c "import os; print(os.environ['HF_HOME'])"
+D:\hf
+PS> Remove-Item Env:HF_HOME
+# run b if a succeeded
+PS> mkdir demo && cd demo
+
+    Directory: C:\Users\labuser\AppData\Local\Temp\scratch\appC
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          11/24/2026  2:12 PM                demo
+
+PS> (Get-Location).Path | Split-Path -Leaf
+demo
+PS> Get-Item c.txt && echo "found c.txt"
+Get-Item: Cannot find path 'C:\Users\labuser\AppData\Local\Temp\scratch\appC\demo\c.txt' because it does not exist.
+PS> cd .. && Remove-Item demo
+PS> mkdir demo; if ($?) { cd demo }
+
+    Directory: C:\Users\labuser\AppData\Local\Temp\scratch\appC
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          11/24/2026  2:12 PM                demo
+
+PS> (Get-Location).Path | Split-Path -Leaf
+demo
+PS> Get-Item c.txt; if ($?) { echo "found c.txt" }
+Get-Item: Cannot find path 'C:\Users\labuser\AppData\Local\Temp\scratch\appC\demo\c.txt' because it does not exist.
+PS> cd ..; Remove-Item demo
+# start a server in the background: as printed, with llama-server not on PATH
+PS> $p = Start-Process llama-server -ArgumentList '--port 8097' -RedirectStandardError server.log -NoNewWindow -PassThru
+Start-Process: This command cannot be run due to the error: The system cannot find the file specified.
+# the same after the directory of the release archive is put on PATH for this session
+PS> $env:PATH = "$env:LOCALAPPDATA\Programs\llama.cpp;$env:PATH"
+PS> $p = Start-Process llama-server -ArgumentList '--port 8097' -RedirectStandardError server.log -NoNewWindow -PassThru
+PS> $p.Id
+18716
+PS> Start-Sleep 5
+# see who listens on a port
+PS> Get-NetTCPConnection -State Listen -LocalPort 8097
+
+LocalAddress                        LocalPort RemoteAddress                       RemotePort State       AppliedSetting
+------------                        --------- -------------                       ---------- -----       --------------
+127.0.0.1                           8097      0.0.0.0                             0          Listen                    
+
+PS> Get-NetTCPConnection -State Listen -LocalPort 8097 | Format-Table LocalAddress, LocalPort, OwningProcess
+
+LocalAddress LocalPort OwningProcess
+------------ --------- -------------
+127.0.0.1         8097         18716
+
+# send a JSON body; continue a command on the next line
+PS> Get-Content body.json
+{"messages": [{"role": "user", "content": "Name one prime number."}],
+ "max_tokens": 32}
+PS> curl.exe -s 127.0.0.1:8097/v1/chat/completions `
+>>   -H 'Content-Type: application/json' -d '@body.json'
+{"error":{"code":400,"message":"model name is missing from the request","type":"invalid_request_error"}}# stop the server
+PS> Stop-Process -Id $p.Id
+PS> Start-Sleep 1
+PS> Get-NetTCPConnection -State Listen -LocalPort 8097
+Get-NetTCPConnection: No matching MSFT_NetTCPConnection objects found by CIM query for instances of the ROOT/StandardCimv2/MSFT_NetTCPConnection class on the  CIM server: SELECT * FROM MSFT_NetTCPConnection  WHERE ((LocalPort = 8097)) AND ((State = 2)). Verify query parameters and retry.
+PS> Select-String 'listening|router|model' server.log | ForEach-Object Line
+0.00.019.212 I srv  server_run_r: starting server in router mode. models will be automatically loaded on-demand
+0.00.060.943 I srv    operator(): Available models (1):
+0.00.061.132 W srv  server_setup: security: router mode enabled - do not expose to untrusted environments
+0.00.076.543 I srv  server_on_li: listening on http://127.0.0.1:8097
+# once more with the model of the listing for macOS
+PS> $p = Start-Process llama-server -ArgumentList '-hf ggml-org/gemma-3-1b-it-GGUF --port 8097' -RedirectStandardError server.log -NoNewWindow -PassThru
+PS> for ($i = 0; $i -lt 120 -and (curl.exe -s -o NUL -w '%{http_code}' 127.0.0.1:8097/health) -ne '200'; $i++) { Start-Sleep 1 }
+PS> Get-NetTCPConnection -State Listen -LocalPort 8097 | Format-Table LocalAddress, LocalPort, OwningProcess
+
+LocalAddress LocalPort OwningProcess
+------------ --------- -------------
+127.0.0.1         8097          4804
+
+PS> curl.exe -s 127.0.0.1:8097/v1/chat/completions `
+>>   -H 'Content-Type: application/json' -d '@body.json'
+{"choices":[{"finish_reason":"stop","index":0,"message":{"role":"assistant","content":"2\n\n2 is the only even prime number. 😊"}}],"created":1795558378,"model":"ggml-org/gemma-3-1b-it-GGUF","system_fingerprint":"b12359-b1b770d90","object":"chat.completion","usage":{"completion_tokens":12,"prompt_tokens":14,"total_tokens":26,"prompt_tokens_details":{"cached_tokens":0}},"id":"chatcmpl-zmSOWuaOSPm3XLXw6hbhiGSM3VLpiRjq","timings":{"cache_n":0,"prompt_n":14,"prompt_ms":106.0,"prompt_per_token_ms":7.571428571428571,"prompt_per_second":132.0754716981132,"predicted_n":12,"predicted_ms":346.003,"predicted_per_token_ms":31.45481818181818,"predicted_per_second":31.791631864463604}}PS> Stop-Process -Id $p.Id
+PS> Start-Sleep 1
+PS> Get-NetTCPConnection -State Listen -LocalPort 8097
+Get-NetTCPConnection: No matching MSFT_NetTCPConnection objects found by CIM query for instances of the ROOT/StandardCimv2/MSFT_NetTCPConnection class on the  CIM server: SELECT * FROM MSFT_NetTCPConnection  WHERE ((LocalPort = 8097)) AND ((State = 2)). Verify query parameters and retry.
+

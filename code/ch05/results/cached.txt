@@ -1,0 +1,12 @@
+## python3 cached.py MODEL_DIR .   (three runs on S3-macOS, each alone on
+## the machine; NumPy 2.5.4, Python 3.15.2; MODEL_DIR holds config.json and
+## model.safetensors of HuggingFaceTB/SmolLM2-135M)
+same tokens: True
+no cache 2.58 s, cache 1.23 s, speed-up 2.1
+last step: 69 rows 56 ms, one row 19 ms, ratio 2.9
+same tokens: True
+no cache 2.57 s, cache 1.23 s, speed-up 2.1
+last step: 69 rows 56 ms, one row 19 ms, ratio 2.9
+same tokens: True
+no cache 2.57 s, cache 1.24 s, speed-up 2.1
+last step: 69 rows 56 ms, one row 19 ms, ratio 2.9

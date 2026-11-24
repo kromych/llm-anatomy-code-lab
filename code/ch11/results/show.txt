@@ -1,0 +1,5 @@
+I will search for the function "quantize" in the workspace files to find its definition and determine its path.
+
+
+[calling search]
+The function `quantize` is defined in the file `src/quant.py`. Its path is `src/quant.py`.

@@ -1,0 +1,16 @@
+thinking on
+  message {'content': 42, 'reasoning': 1677} answer 'swer: **No**'
+  usage   {'prompt_tokens': 23, 'prompt_tokens_details': {'cached_tokens': 17}, 'completion_tokens': 594, 'total_tokens': 617}
+  stream  575 reasoning, 14 content
+/no_think in the message
+  message {'content': 41, 'reasoning': 1481} answer 'Answer:** No'
+  usage   {'prompt_tokens': 27, 'prompt_tokens_details': {'cached_tokens': 17}, 'completion_tokens': 505, 'total_tokens': 532}
+  stream  488 reasoning, 12 content
+enable_thinking false
+  message {'content': 42, 'reasoning': 1677} answer 'swer: **No**'
+  usage   {'prompt_tokens': 23, 'prompt_tokens_details': {'cached_tokens': 17}, 'completion_tokens': 594, 'total_tokens': 617}
+  stream  575 reasoning, 14 content
+reasoning_effort none
+  message {'content': 4} answer 'Yes.'
+  usage   {'prompt_tokens': 29, 'prompt_tokens_details': {'cached_tokens': 17}, 'completion_tokens': 3, 'total_tokens': 32}
+  stream  2 content

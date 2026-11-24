@@ -1,0 +1,17 @@
+## docker run --rm --gpus all ubuntu:24.04 nvidia-smi -L
+Unable to find image 'ubuntu:24.04' locally
+24.04: Pulling from library/ubuntu
+8e8df94085bf: Pulling fs layer
+0807a1a81786: Download complete
+8e8df94085bf: Download complete
+8e8df94085bf: Pull complete
+Digest: sha256:9c7f200c07e3d4a03e7249d2c16bf66a51120fb876aa2242cf31451412543289
+Status: Downloaded newer image for ubuntu:24.04
+GPU 0: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+GPU 1: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+GPU 2: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+GPU 3: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+GPU 4: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+GPU 5: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+GPU 6: NVIDIA H100 PCIe (UUID: GPU-(uuid))
+GPU 7: NVIDIA H100 PCIe (UUID: GPU-(uuid))

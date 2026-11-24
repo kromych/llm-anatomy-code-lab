@@ -1,0 +1,2 @@
+  31570       1  452 1455972 /tmp/scratch/venv-vllm/bin/python venv-vllm/bin/vllm serve Qwen/Qwen3-8B --served-model-name qwen3-
+  32929   31570    1 12788  \_ /tmp/scratch/venv-vllm/bin/python -c from multiprocessing.resource_tracker import main;main(66)

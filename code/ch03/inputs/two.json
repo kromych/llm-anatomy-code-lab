@@ -1,0 +1,2 @@
+[{"role": "system", "content": "Answer briefly."},
+ {"role": "user", "content": "List the Python files in src/"}]

@@ -1,0 +1,174 @@
+## llama-quantize model-f16.gguf model-q4km.gguf Q4_K_M
+## S3-macOS; llama.cpp build 12359 (Homebrew, commit b1b770d90), Metal.
+## model-f16.gguf is SmolLM2-135M-Instruct-f16.gguf of
+## bartowski/SmolLM2-135M-Instruct-GGUF (270885952 bytes); the directory
+## wikitext-2-raw comes from scripts/get-wikitext-2.sh of llama.cpp.
+## Standard output and standard error together.
+## ... 54 lines about the Metal device and its libraries cut ...
+version: 1.0.0 (build 12359, commit b1b770d90)
+built with AppleClang 21.0.0.21000401 for Darwin arm64
+llama_quantize: quantizing 'model-f16.gguf' to 'model-q4km.gguf' as Q4_K_M
+llama_model_loader: loaded meta data with 33 key-value pairs and 272 tensors from model-f16.gguf (version GGUF V3 (latest))
+llama_model_loader: Dumping metadata keys/values. Note: KV overrides do not apply in this output.
+llama_model_loader: - kv   0:                       general.architecture str              = llama
+llama_model_loader: - kv   1:                               general.type str              = model
+llama_model_loader: - kv   2:                               general.name str              = Smollm2 135M 8k Lc100K Mix1 Ep2
+llama_model_loader: - kv   3:                       general.organization str              = HuggingFaceTB
+llama_model_loader: - kv   4:                           general.finetune str              = 8k-lc100k-mix1-ep2
+llama_model_loader: - kv   5:                           general.basename str              = smollm2
+llama_model_loader: - kv   6:                         general.size_label str              = 135M
+llama_model_loader: - kv   7:                            general.license str              = apache-2.0
+llama_model_loader: - kv   8:                          general.languages arr[str,1]       = ["en"]
+llama_model_loader: - kv   9:                          llama.block_count u32              = 30
+llama_model_loader: - kv  10:                       llama.context_length u32              = 8192
+llama_model_loader: - kv  11:                     llama.embedding_length u32              = 576
+llama_model_loader: - kv  12:                  llama.feed_forward_length u32              = 1536
+llama_model_loader: - kv  13:                 llama.attention.head_count u32              = 9
+llama_model_loader: - kv  14:              llama.attention.head_count_kv u32              = 3
+llama_model_loader: - kv  15:                       llama.rope.freq_base f32              = 100000.000000
+llama_model_loader: - kv  16:     llama.attention.layer_norm_rms_epsilon f32              = 0.000010
+llama_model_loader: - kv  17:                          general.file_type u32              = 1
+llama_model_loader: - kv  18:                           llama.vocab_size u32              = 49152
+llama_model_loader: - kv  19:                 llama.rope.dimension_count u32              = 64
+llama_model_loader: - kv  20:            tokenizer.ggml.add_space_prefix bool             = false
+llama_model_loader: - kv  21:               tokenizer.ggml.add_bos_token bool             = false
+llama_model_loader: - kv  22:                       tokenizer.ggml.model str              = gpt2
+llama_model_loader: - kv  23:                         tokenizer.ggml.pre str              = smollm
+llama_model_loader: - kv  24:                      tokenizer.ggml.tokens arr[str,49152]   = ["<|endoftext|>", "<|im_start|>", "<|...
+llama_model_loader: - kv  25:                  tokenizer.ggml.token_type arr[i32,49152]   = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, ...
+llama_model_loader: - kv  26:                      tokenizer.ggml.merges arr[str,48900]   = ["Ġ t", "Ġ a", "i n", "h e", "Ġ Ġ...
+llama_model_loader: - kv  27:                tokenizer.ggml.bos_token_id u32              = 1
+llama_model_loader: - kv  28:                tokenizer.ggml.eos_token_id u32              = 2
+llama_model_loader: - kv  29:            tokenizer.ggml.unknown_token_id u32              = 0
+llama_model_loader: - kv  30:            tokenizer.ggml.padding_token_id u32              = 2
+llama_model_loader: - kv  31:                    tokenizer.chat_template str              = {% for message in messages %}{% if lo...
+llama_model_loader: - kv  32:               general.quantization_version u32              = 2
+llama_model_loader: - type  f32:   61 tensors
+llama_model_loader: - type  f16:  211 tensors
+warning: blk.0.attn_k.weight                  - ncols    576 not divisible by 256 (required for type    q4_K) -> falling back to    q5_0
+warning: blk.0.attn_output.weight             - ncols    576 not divisible by 256 (required for type    q4_K) -> falling back to    q5_0
+warning: blk.0.attn_q.weight                  - ncols    576 not divisible by 256 (required for type    q4_K) -> falling back to    q5_0
+warning: blk.0.attn_v.weight                  - ncols    576 not divisible by 256 (required for type    q6_K) -> falling back to    q8_0
+warning: blk.0.ffn_gate.weight                - ncols    576 not divisible by 256 (required for type    q4_K) -> falling back to    q5_0
+warning: blk.0.ffn_up.weight                  - ncols    576 not divisible by 256 (required for type    q4_K) -> falling back to    q5_0
+## ... 174 more warnings of this kind cut ...
+[   1/ 272] output_norm.weight                   - [   576,      1,      1,      1], type =    f32, size =    0.002 MiB
+[   2/ 272] token_embd.weight                    - [   576,  49152,      1,      1], type =    f16, converting to q8_0 .. size =    54.00 MiB ->    28.69 MiB
+[   3/ 272] blk.0.attn_k.weight                  - [   576,    192,      1,      1], type =    f16, converting to q5_0 .. size =     0.21 MiB ->     0.07 MiB
+[   4/ 272] blk.0.attn_norm.weight               - [   576,      1,      1,      1], type =    f32, size =    0.002 MiB
+[   5/ 272] blk.0.attn_output.weight             - [   576,    576,      1,      1], type =    f16, converting to q5_0 .. size =     0.63 MiB ->     0.22 MiB
+[   6/ 272] blk.0.attn_q.weight                  - [   576,    576,      1,      1], type =    f16, converting to q5_0 .. size =     0.63 MiB ->     0.22 MiB
+[   7/ 272] blk.0.attn_v.weight                  - [   576,    192,      1,      1], type =    f16, converting to q8_0 .. size =     0.21 MiB ->     0.11 MiB
+[   8/ 272] blk.0.ffn_down.weight                - [  1536,    576,      1,      1], type =    f16, converting to q6_K .. size =     1.69 MiB ->     0.69 MiB
+[   9/ 272] blk.0.ffn_gate.weight                - [   576,   1536,      1,      1], type =    f16, converting to q5_0 .. size =     1.69 MiB ->     0.58 MiB
+[  10/ 272] blk.0.ffn_norm.weight                - [   576,      1,      1,      1], type =    f32, size =    0.002 MiB
+[  11/ 272] blk.0.ffn_up.weight                  - [   576,   1536,      1,      1], type =    f16, converting to q5_0 .. size =     1.69 MiB ->     0.58 MiB
+[  12/ 272] blk.1.attn_k.weight                  - [   576,    192,      1,      1], type =    f16, converting to q5_0 .. size =     0.21 MiB ->     0.07 MiB
+[  13/ 272] blk.1.attn_norm.weight               - [   576,      1,      1,      1], type =    f32, size =    0.002 MiB
+[  14/ 272] blk.1.attn_output.weight             - [   576,    576,      1,      1], type =    f16, converting to q5_0 .. size =     0.63 MiB ->     0.22 MiB
+## ... tensors 15 to 266 cut ...
+[ 267/ 272] blk.29.attn_q.weight                 - [   576,    576,      1,      1], type =    f16, converting to q5_0 .. size =     0.63 MiB ->     0.22 MiB
+[ 268/ 272] blk.29.attn_v.weight                 - [   576,    192,      1,      1], type =    f16, converting to q8_0 .. size =     0.21 MiB ->     0.11 MiB
+[ 269/ 272] blk.29.ffn_down.weight               - [  1536,    576,      1,      1], type =    f16, converting to q6_K .. size =     1.69 MiB ->     0.69 MiB
+[ 270/ 272] blk.29.ffn_gate.weight               - [   576,   1536,      1,      1], type =    f16, converting to q5_0 .. size =     1.69 MiB ->     0.58 MiB
+[ 271/ 272] blk.29.ffn_norm.weight               - [   576,      1,      1,      1], type =    f32, size =    0.002 MiB
+[ 272/ 272] blk.29.ffn_up.weight                 - [   576,   1536,      1,      1], type =    f16, converting to q5_0 .. size =     1.69 MiB ->     0.58 MiB
+llama_model_quantize_impl: model size  =   256.63 MiB (16.00 BPW)
+llama_model_quantize_impl: quant size  =    98.87 MiB (6.17 BPW)
+llama_model_quantize_impl: WARNING: 180 of 272 tensor(s) required fallback quantization
+
+llama_quantize: quantize time =  1155.19 ms
+llama_quantize:    total time =  1155.19 ms
+
+## llama-quantize --imatrix imatrix.gguf \
+##     model-f16.gguf model-q4km-imat.gguf Q4_K_M
+## (imatrix.gguf from the run of imatrix.txt)
+## ... 54 lines about the Metal device and its libraries cut ...
+version: 1.0.0 (build 12359, commit b1b770d90)
+built with AppleClang 21.0.0.21000401 for Darwin arm64
+llama_quantize: quantizing 'model-f16.gguf' to 'model-q4km-imat.gguf' as Q4_K_M
+llama_model_loader: loaded meta data with 33 key-value pairs and 272 tensors from model-f16.gguf (version GGUF V3 (latest))
+llama_model_loader: Dumping metadata keys/values. Note: KV overrides do not apply in this output.
+llama_model_loader: - kv   0:                       general.architecture str              = llama
+llama_model_loader: - kv   1:                               general.type str              = model
+llama_model_loader: - kv   2:                               general.name str              = Smollm2 135M 8k Lc100K Mix1 Ep2
+llama_model_loader: - kv   3:                       general.organization str              = HuggingFaceTB
+llama_model_loader: - kv   4:                           general.finetune str              = 8k-lc100k-mix1-ep2
+llama_model_loader: - kv   5:                           general.basename str              = smollm2
+llama_model_loader: - kv   6:                         general.size_label str              = 135M
+llama_model_loader: - kv   7:                            general.license str              = apache-2.0
+llama_model_loader: - kv   8:                          general.languages arr[str,1]       = ["en"]
+llama_model_loader: - kv   9:                          llama.block_count u32              = 30
+llama_model_loader: - kv  10:                       llama.context_length u32              = 8192
+llama_model_loader: - kv  11:                     llama.embedding_length u32              = 576
+llama_model_loader: - kv  12:                  llama.feed_forward_length u32              = 1536
+llama_model_loader: - kv  13:                 llama.attention.head_count u32              = 9
+llama_model_loader: - kv  14:              llama.attention.head_count_kv u32              = 3
+llama_model_loader: - kv  15:                       llama.rope.freq_base f32              = 100000.000000
+llama_model_loader: - kv  16:     llama.attention.layer_norm_rms_epsilon f32              = 0.000010
+llama_model_loader: - kv  17:                          general.file_type u32              = 1
+llama_model_loader: - kv  18:                           llama.vocab_size u32              = 49152
+llama_model_loader: - kv  19:                 llama.rope.dimension_count u32              = 64
+llama_model_loader: - kv  20:            tokenizer.ggml.add_space_prefix bool             = false
+llama_model_loader: - kv  21:               tokenizer.ggml.add_bos_token bool             = false
+llama_model_loader: - kv  22:                       tokenizer.ggml.model str              = gpt2
+llama_model_loader: - kv  23:                         tokenizer.ggml.pre str              = smollm
+llama_model_loader: - kv  24:                      tokenizer.ggml.tokens arr[str,49152]   = ["<|endoftext|>", "<|im_start|>", "<|...
+llama_model_loader: - kv  25:                  tokenizer.ggml.token_type arr[i32,49152]   = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, ...
+llama_model_loader: - kv  26:                      tokenizer.ggml.merges arr[str,48900]   = ["Ġ t", "Ġ a", "i n", "h e", "Ġ Ġ...
+llama_model_loader: - kv  27:                tokenizer.ggml.bos_token_id u32              = 1
+llama_model_loader: - kv  28:                tokenizer.ggml.eos_token_id u32              = 2
+llama_model_loader: - kv  29:            tokenizer.ggml.unknown_token_id u32              = 0
+llama_model_loader: - kv  30:            tokenizer.ggml.padding_token_id u32              = 2
+llama_model_loader: - kv  31:                    tokenizer.chat_template str              = {% for message in messages %}{% if lo...
+llama_model_loader: - kv  32:               general.quantization_version u32              = 2
+llama_model_loader: - type  f32:   61 tensors
+llama_model_loader: - type  f16:  211 tensors
+
+llama_model_quantize_impl: have importance matrix data with 210 entries
+warning: blk.0.attn_k.weight                  - ncols    576 not divisible by 256 (required for type    q4_K) -> falling back to    q5_0
+warning: blk.0.attn_output.weight             - ncols    576 not divisible by 256 (required for type    q4_K) -> falling back to    q5_0
+warning: blk.0.attn_q.weight                  - ncols    576 not divisible by 256 (required for type    q4_K) -> falling back to    q5_0
+warning: blk.0.attn_v.weight                  - ncols    576 not divisible by 256 (required for type    q6_K) -> falling back to    q8_0
+warning: blk.0.ffn_gate.weight                - ncols    576 not divisible by 256 (required for type    q4_K) -> falling back to    q5_0
+warning: blk.0.ffn_up.weight                  - ncols    576 not divisible by 256 (required for type    q4_K) -> falling back to    q5_0
+## ... 174 more warnings of this kind cut ...
+[   1/ 272] output_norm.weight                   - [   576,      1,      1,      1], type =    f32, size =    0.002 MiB
+[   2/ 272] token_embd.weight                    - [   576,  49152,      1,      1], type =    f16, 
+====== llama_model_quantize_impl: did not find weights for token_embd.weight
+converting to q8_0 .. load_imatrix: imatrix datasets=['calibration.txt']
+load_imatrix: loaded 210 importance matrix entries from imatrix.gguf computed on 90 chunks
+prepare_imatrix: have 210 importance matrix entries
+size =    54.00 MiB ->    28.69 MiB
+[   3/ 272] blk.0.attn_k.weight                  - [   576,    192,      1,      1], type =    f16, converting to q5_0 .. size =     0.21 MiB ->     0.07 MiB
+[   4/ 272] blk.0.attn_norm.weight               - [   576,      1,      1,      1], type =    f32, size =    0.002 MiB
+[   5/ 272] blk.0.attn_output.weight             - [   576,    576,      1,      1], type =    f16, converting to q5_0 .. size =     0.63 MiB ->     0.22 MiB
+[   6/ 272] blk.0.attn_q.weight                  - [   576,    576,      1,      1], type =    f16, converting to q5_0 .. size =     0.63 MiB ->     0.22 MiB
+[   7/ 272] blk.0.attn_v.weight                  - [   576,    192,      1,      1], type =    f16, converting to q8_0 .. size =     0.21 MiB ->     0.11 MiB
+[   8/ 272] blk.0.ffn_down.weight                - [  1536,    576,      1,      1], type =    f16, converting to q6_K .. size =     1.69 MiB ->     0.69 MiB
+[   9/ 272] blk.0.ffn_gate.weight                - [   576,   1536,      1,      1], type =    f16, converting to q5_0 .. size =     1.69 MiB ->     0.58 MiB
+[  10/ 272] blk.0.ffn_norm.weight                - [   576,      1,      1,      1], type =    f32, size =    0.002 MiB
+[  11/ 272] blk.0.ffn_up.weight                  - [   576,   1536,      1,      1], type =    f16, converting to q5_0 .. size =     1.69 MiB ->     0.58 MiB
+[  12/ 272] blk.1.attn_k.weight                  - [   576,    192,      1,      1], type =    f16, converting to q5_0 .. size =     0.21 MiB ->     0.07 MiB
+[  13/ 272] blk.1.attn_norm.weight               - [   576,      1,      1,      1], type =    f32, size =    0.002 MiB
+[  14/ 272] blk.1.attn_output.weight             - [   576,    576,      1,      1], type =    f16, converting to q5_0 .. size =     0.63 MiB ->     0.22 MiB
+## ... tensors 15 to 266 cut ...
+[ 267/ 272] blk.29.attn_q.weight                 - [   576,    576,      1,      1], type =    f16, converting to q5_0 .. size =     0.63 MiB ->     0.22 MiB
+[ 268/ 272] blk.29.attn_v.weight                 - [   576,    192,      1,      1], type =    f16, converting to q8_0 .. size =     0.21 MiB ->     0.11 MiB
+[ 269/ 272] blk.29.ffn_down.weight               - [  1536,    576,      1,      1], type =    f16, converting to q6_K .. size =     1.69 MiB ->     0.69 MiB
+[ 270/ 272] blk.29.ffn_gate.weight               - [   576,   1536,      1,      1], type =    f16, converting to q5_0 .. size =     1.69 MiB ->     0.58 MiB
+[ 271/ 272] blk.29.ffn_norm.weight               - [   576,      1,      1,      1], type =    f32, size =    0.002 MiB
+[ 272/ 272] blk.29.ffn_up.weight                 - [   576,   1536,      1,      1], type =    f16, converting to q5_0 .. size =     1.69 MiB ->     0.58 MiB
+llama_model_quantize_impl: model size  =   256.63 MiB (16.00 BPW)
+llama_model_quantize_impl: quant size  =    98.87 MiB (6.17 BPW)
+llama_model_quantize_impl: WARNING: 180 of 272 tensor(s) required fallback quantization
+
+llama_quantize: quantize time =   673.29 ms
+llama_quantize:    total time =   673.29 ms
+
+## wc -c model-f16.gguf model-q4km.gguf model-q4km-imat.gguf imatrix.gguf
+ 270885952 model-f16.gguf
+ 105454144 model-q4km.gguf
+ 105454368 model-q4km-imat.gguf
+ 1269024 imatrix.gguf
+ 483063488 total

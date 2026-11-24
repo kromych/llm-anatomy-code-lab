@@ -1,0 +1,13 @@
+task: quiz
+dataset_path: json
+dataset_kwargs:
+  data_files:
+    test: quiz.jsonl
+output_type: multiple_choice
+test_split: test
+doc_to_text: "Question: {{question}}\nAnswer:"
+doc_to_choice: "{{choices}}"
+doc_to_target: "{{answer}}"
+metric_list:
+  - metric: acc
+  - metric: acc_norm

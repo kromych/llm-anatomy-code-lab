@@ -1,0 +1,68 @@
+## python3 coldstart.py gemma-3-1b-it-Q4_K_M.gguf 8102 3
+## llama-server 1.0.0-dev (build 12376, CPU build) on S1-LinuxX64, Linux
+## 7.3.3, Python 3.15.2, under flock ~/.llm-arch-bench.lock; the file is
+## ggml-org/gemma-3-1b-it-GGUF:Q4_K_M on an NVMe drive (ext4). Seconds:
+## until the server answers /health (ready), from then to the first token
+## (first), and their sum; cached is the share of the file in the page
+## cache before the start. Two runs, both printed here, both on a busy
+## machine: load averages 14.11 11.02 10.02 before the first and 12.43
+## 11.06 10.08 after it, from other work on the machine.
+gemma-3-1b-it-Q4_K_M.gguf, 0.81 GB
+read with the page cache empty: 0.39 s
+read with the page cache warm: 0.09 s
+page cache  options                       cached  ready  first    sum
+empty       --no-warmup                     0.00   2.03   1.44   3.48
+empty       --no-warmup                     0.00   1.69   0.59   2.29
+empty       --no-warmup                     0.00   1.48   0.73   2.21
+empty       (default)                       0.00   1.74   0.53   2.26
+empty       (default)                       0.00   1.77   0.43   2.20
+empty       (default)                       0.00   1.63   0.43   2.06
+empty       --load-mode none --no-warmup    0.00   1.67   0.40   2.07
+empty       --load-mode none --no-warmup    0.00   1.51   0.61   2.12
+empty       --load-mode none --no-warmup    0.00   1.63   0.46   2.09
+empty       --load-mode none                0.00   1.79   0.36   2.14
+empty       --load-mode none                0.00   1.64   0.34   1.98
+empty       --load-mode none                0.00   1.26   0.14   1.39
+warm        --no-warmup                     1.00   0.57   0.13   0.70
+warm        --no-warmup                     1.00   0.56   0.13   0.69
+warm        --no-warmup                     1.00   0.58   0.13   0.71
+warm        (default)                       1.00   0.60   0.14   0.74
+warm        (default)                       1.00   0.60   0.13   0.73
+warm        (default)                       1.00   0.61   0.13   0.74
+warm        --load-mode none --no-warmup    1.00   0.79   0.13   0.93
+warm        --load-mode none --no-warmup    1.00   0.79   0.13   0.92
+warm        --load-mode none --no-warmup    1.00   0.78   0.14   0.91
+warm        --load-mode none                1.00   0.81   0.13   0.93
+warm        --load-mode none                1.00   0.78   0.12   0.90
+warm        --load-mode none                1.00   0.80   0.12   0.92
+
+## The same command nine minutes later: load averages 11.04 9.78 9.30
+## before and 9.83 9.72 9.31 after.
+gemma-3-1b-it-Q4_K_M.gguf, 0.81 GB
+read with the page cache empty: 0.32 s
+read with the page cache warm: 0.16 s
+page cache  options                       cached  ready  first    sum
+empty       --no-warmup                     0.00   1.60   0.37   1.97
+empty       --no-warmup                     0.00   1.97   0.33   2.30
+empty       --no-warmup                     0.00   1.66   0.40   2.06
+empty       (default)                       0.00   1.84   0.58   2.42
+empty       (default)                       0.00   1.63   0.35   1.99
+empty       (default)                       0.00   1.47   0.18   1.65
+empty       --load-mode none --no-warmup    0.00   1.20   0.15   1.36
+empty       --load-mode none --no-warmup    0.00   1.15   0.13   1.28
+empty       --load-mode none --no-warmup    0.00   1.10   0.14   1.24
+empty       --load-mode none                0.00   1.15   0.14   1.29
+empty       --load-mode none                0.00   1.09   0.12   1.22
+empty       --load-mode none                0.00   1.06   0.12   1.18
+warm        --no-warmup                     1.00   0.55   0.12   0.67
+warm        --no-warmup                     1.00   0.57   0.12   0.69
+warm        --no-warmup                     1.00   0.55   0.12   0.67
+warm        (default)                       1.00   0.57   0.12   0.70
+warm        (default)                       1.00   0.58   0.12   0.70
+warm        (default)                       1.00   0.59   0.12   0.71
+warm        --load-mode none --no-warmup    1.00   0.77   0.12   0.89
+warm        --load-mode none --no-warmup    1.00   0.77   0.13   0.89
+warm        --load-mode none --no-warmup    1.00   0.84   0.13   0.97
+warm        --load-mode none                1.00   0.88   0.13   1.01
+warm        --load-mode none                1.00   0.87   0.13   1.00
+warm        --load-mode none                1.00   0.87   0.13   1.00

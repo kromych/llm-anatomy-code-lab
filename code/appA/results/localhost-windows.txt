@@ -1,0 +1,70 @@
+# Why a request to localhost takes two seconds longer on Windows
+# (Appendix A, troubleshooting): localhost.py, then hello_seam.py of
+# Chapter 1 and curl against llama-server, by name and by address.
+# S4-Windows, Windows 11 Pro N for Workstations, build 26300
+# (10.0.26300.10075), over SSH, in code\appA; Python 3.13.12, curl 8.23.0,
+# llama-server 1.0.0-dev (build 12359), the CPU archive, with its directory
+# put first on PATH for the session; the model is gemma-3-1b-it-Q4_K_M.gguf.
+# The lines after "PS>" ran one by one in one session of Windows PowerShell
+# 5.1; psx.ps1 (lab/hosts/kromyrzen/run/psx.ps1) prints each line and then
+# runs it, and prints a line that begins with "#" as it is. The machine was
+# idle (the first line of the session gives the processor load).
+# localhost.py had run three times before this session, while other work kept
+# the processor at 87 to 100 percent: the refused connection took 2049, 2058,
+# and 2039 ms, urlopen 48, 49, and 33 ms by address and 2043, 2057, and
+# 2014 ms by name.
+# powershell -ExecutionPolicy Bypass -File psx.ps1 localhost.txt
+PS> $PSVersionTable.PSVersion.ToString(); python --version
+5.1.26100.10068
+Python 3.13.12
+PS> "load: $((Get-CimInstance Win32_Processor).LoadPercentage) percent"
+load: 2 percent
+# 1. localhost.py, three times (its server's log on standard error is dropped)
+PS> python localhost.py 2>$null
+getaddrinfo(localhost): ['::1', '127.0.0.1']
+connect [::1]: ConnectionRefusedError after 2029 ms
+urlopen 127.0.0.1: 33 ms
+urlopen localhost: 2082 ms
+PS> python localhost.py 2>$null
+getaddrinfo(localhost): ['::1', '127.0.0.1']
+connect [::1]: ConnectionRefusedError after 2040 ms
+urlopen 127.0.0.1: 20 ms
+urlopen localhost: 2077 ms
+PS> python localhost.py 2>$null
+getaddrinfo(localhost): ['::1', '127.0.0.1']
+connect [::1]: ConnectionRefusedError after 2042 ms
+urlopen 127.0.0.1: 33 ms
+urlopen localhost: 2057 ms
+# 2. hello_seam.py of Chapter 1 against llama-server, by name and by address, three times each
+PS> $p = Start-Process llama-server -ArgumentList '-hf ggml-org/gemma-3-1b-it-GGUF --port 8080' -RedirectStandardError server.log -NoNewWindow -PassThru
+PS> for ($i = 0; $i -lt 120 -and (curl.exe -s -o NUL -w '%{http_code}' 127.0.0.1:8080/health) -ne '200'; $i++) { Start-Sleep 1 }
+PS> (Measure-Command { python ..\ch01\hello_seam.py http://localhost:8080/v1 | Out-Host }).TotalSeconds
+A KV cache is a memory cache used by web servers to speed up requests by storing frequently accessed data, reducing the need to repeatedly fetch it from the database.
+3.2639245
+PS> (Measure-Command { python ..\ch01\hello_seam.py http://127.0.0.1:8080/v1 | Out-Host }).TotalSeconds
+A KV cache is a memory cache used in web servers to speed up requests by storing frequently accessed data, reducing the need to repeatedly fetch it from the database.
+1.1938371
+PS> (Measure-Command { python ..\ch01\hello_seam.py http://localhost:8080/v1 | Out-Host }).TotalSeconds
+A KV cache is a hardware-based memory cache that significantly speeds up the execution of Key-Value data, particularly in applications like Redis, by storing frequently accessed data locally.
+3.312662
+PS> (Measure-Command { python ..\ch01\hello_seam.py http://127.0.0.1:8080/v1 | Out-Host }).TotalSeconds
+A KV cache is a memory cache used by a database to speed up read operations by storing frequently accessed data in a faster memory location.
+1.0329304
+PS> (Measure-Command { python ..\ch01\hello_seam.py http://localhost:8080/v1 | Out-Host }).TotalSeconds
+A KV cache is a memory cache used by web servers to speed up the delivery of frequently requested data, like user profiles or product details, by storing these values locally.
+3.2743494
+PS> (Measure-Command { python ..\ch01\hello_seam.py http://127.0.0.1:8080/v1 | Out-Host }).TotalSeconds
+A KV cache is a memory cache used by caching frameworks like Redis to speed up frequently accessed data, reducing database load and improving application performance.
+1.0508149
+# 3. curl with both names: seconds for one request to /health
+PS> curl.exe -s -o NUL -w '%{time_total}\n' http://localhost:8080/health
+0.001153
+PS> curl.exe -s -o NUL -w '%{time_total}\n' http://127.0.0.1:8080/health
+0.000950
+PS> curl.exe -s -o NUL -w '%{time_total}\n' http://localhost:8080/health
+0.001176
+PS> curl.exe -s -o NUL -w '%{time_total}\n' http://127.0.0.1:8080/health
+0.000810
+PS> Stop-Process -Id $p.Id
+PS> "load: $((Get-CimInstance Win32_Processor).LoadPercentage) percent"
+load:  percent

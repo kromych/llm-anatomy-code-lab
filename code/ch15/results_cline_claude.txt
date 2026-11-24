@@ -1,0 +1,90 @@
+Cline and Claude Code on the Chapter 15 task, 2026-11-14.
+Engine: llama-server 1.0.0 (b12359) on the Apple M1 Ultra, Qwen3-8B Q8_0,
+-c 40960 -np 1, thinking on (temp 0.6, top-p 0.95, top-k 20, min-p 0,
+presence 1.5), as in results.txt.  Cline CLI 3.0.74 ran on the Mac
+(run_cline.sh); Claude Code 2.1.325 ran on xps-8930 (Fedora 44) through an
+SSH tunnel to the same proxy (run_claude_code.sh).  Proxy:
+proxy_messages.py.  Table: analyze_messages.py (prompt = whole prompt,
+cached part included, for both dialects; sys_t and tool_t are the tokens
+of the system text and the tool schemas of the first request).
+Round 4 of both harnesses is void: llama-server failed with a Metal
+out-of-memory error (other model servers shared the GPU) and answered 500.
+
+run               req system tools toolkB  first  sys_t tool_t  prompt  cached    gen
+cline-r1            3   4501    25   18.2   5476    942   4430   21814   15477   3344
+claude-code-r1      7  14620    12   30.4  11238   3345   7652   88979   76211   4371
+cline-r2            3   4501    25   18.2   5476    942   4430   21172   15203   3611
+claude-code-r2      4  14620    12   30.4  11238   3345   7652   48905   37344   1595
+cline-r3            4   4501    25   18.2   5476    942   4430   30356   24074   3600
+claude-code-r3      4  14620    12   30.4  11237   3345   7652   47201   35185   2727
+cline-r4            5   4501    25   18.2   5476    942   4430    5476       3    690
+claude-code-r4     11  14620    12   30.4      0   3345   7652       0       0      0
+cline-r5            3   4501    25   18.2   5476    942   4430   19053   12823   1495
+claude-code-r5      5  14620    12   30.4  11238   3345   7652   63684   51806   2315
+cline-yolo-1       15   4757     4    8.6   3069    995   1931   88225   80314   7408
+cline-yolo-2       11   4757     4    8.6   3069    995   1931   78547   72982   5507
+cline-yolo-3       12   4757     4    8.6   3069    995   1931   83604   77824   4606
+
+Outcomes (tests = python3 -m unittest afterwards; tests_kept = test_stats.py unchanged):
+cline-r1 rc=0 secs=163 tests=pass tests_kept=yes
+cline-r2 rc=0 secs=191 tests=fail tests_kept=yes
+cline-r3 rc=0 secs=265 tests=fail tests_kept=yes
+cline-r4 rc=1 secs=89 tests=fail tests_kept=yes
+cline-r5 rc=0 secs=68 tests=fail tests_kept=yes
+cline-yolo-1 rc=0 secs=227 tests=fail tests_kept=yes
+cline-yolo-2 rc=0 secs=147 tests=fail tests_kept=yes
+cline-yolo-3 rc=0 secs=186 tests=pass tests_kept=yes
+claude-code-r1 rc=0 secs=239 tests=pass tests_kept=yes
+claude-code-r2 rc=0 secs=131 tests=pass tests_kept=yes
+claude-code-r3 rc=0 secs=211 tests=fail tests_kept=yes
+claude-code-r4 rc=1 secs=141 tests=fail tests_kept=yes
+claude-code-r5 rc=0 secs=121 tests=fail tests_kept=yes
+
+What happened, per run:
+cline-r1        read, edit, answer: solved (did not run the tests)
+cline-r2        read, ran the tests, described the right fix in prose and
+                ended without making it
+cline-r3        edit without old_text rejected; re-read; empty answer
+cline-r5        ran the tests, edit rejected; empty answer
+cline-yolo-1    5 rejected edits (the first without old_text, the rest
+                with old_text not found), tests run twice;
+                submit_and_exit with verified=false
+cline-yolo-2    one edit applied, then 5 rejected; submit_and_exit,
+                verified=false
+cline-yolo-3    4 rejected edits, then one applied, tests pass;
+                submit_and_exit, verified=true
+claude-code-r1  read, rewrote the file (empty-list guards, docstring lost),
+                ran the tests, one edit after the failure, tests pass
+claude-code-r2  read, one edit, ran the tests: solved
+claude-code-r3  read both files, described the fix in prose and ended
+claude-code-r5  three edits adding empty-list guards; tests not run
+In claude-code-r1 the reply to request 5 held thinking only; Claude Code
+repeated the request with the note "[Your previous response had no visible
+output. Please continue and produce a user-visible response.]".
+
+Inside the first request of Claude Code: a confirmation run, 2026-11-24. Claude Code
+2.1.325 is no longer installed on xps-8930, so this run used the npm package of that
+version (@anthropic-ai/claude-code@2.1.325, its build for macOS arm64) on S3-macOS, with
+a new directory as HOME, the configuration in it, and no account: run_claude_code.sh
+with a time limit of 300 s in place of 1200, proxy_messages.py on port 8302, and the
+engine as above on port 8300. The paths of the working directory and of the
+configuration are longer than they were on xps-8930, and the lines about the platform
+differ; the tools are those of the runs above.
+
+run               req system tools toolkB  first  sys_t tool_t  prompt  cached    gen
+claude-code-a       4  14899    12   30.4  11431   3490   7652   48873   36589   3050
+
+claude-code-a rc=0 secs=139 tests=fail tests_kept=yes
+
+Parts of the first request in characters (interior.py DUMPDIR claude-code-a):
+claude-code-a, request 1: 12 tools
+  tools: Agent Bash Edit ListAgents Read ReportFindings ScheduleWakeup Skill
+    ToolSearch Workflow DeferredToolPlaceholder Write
+  system field 5897 (74 + 62 + 5761)
+  system 9002: 2907 before the skills, 11 skills in 6066, 29 after
+  in all 14899
+
+The system field has the billing line, the sentence of identity, and the instructions,
+which hold the path of the memory directory once. The message of the system role that
+follows the user's turn has the environment (with the working directory), the deferred
+tools, the kinds of sub-agent, the list of skills, and the date.

@@ -1,0 +1,6 @@
+# llama-server build 12359 (b1b770d90) from Homebrew on S3-macOS (macOS 27.2),
+#   llama-server -hf ggml-org/gemma-3-1b-it-GGUF --host 127.0.0.1 --port 8101
+# Python 3.15.2.
+$ python3 hello_seam.py http://127.0.0.1:8101/v1
+A KV cache is a memory cache used in certain database systems (like PostgreSQL) to speed up queries by storing frequently accessed data in a faster, smaller memory area.
+# exit status 0

@@ -1,0 +1,60 @@
+# Ollama model store and service home after `ollama pull gemma3:1b` and `ollama pull qwen3:1.7b`. Names and sizes only; no file contents copied.
+$ ollama list
+NAME          ID              SIZE      MODIFIED       
+qwen3:1.7b    8f68893c685c    1.4 GB    8 seconds ago     
+gemma3:1b     97558784bdc9    806 MB    27 seconds ago    
+
+$ sudo find /usr/share/ollama/.ollama -printf "%M %u:%g %10s %p\n"
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama/cache
+-rw------- ollama:ollama       2067 /usr/share/ollama/.ollama/cache/model-recommendations.json
+-rw------- ollama:ollama        387 /usr/share/ollama/.ollama/id_ed25519
+-rw-r--r-- ollama:ollama         81 /usr/share/ollama/.ollama/id_ed25519.pub
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama/models
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama/models/blobs
+-rw-r--r-- ollama:ollama  806058400 /usr/share/ollama/.ollama/models/blobs/sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef
+-rw-r--r-- ollama:ollama         77 /usr/share/ollama/.ollama/models/blobs/sha256-3116c52250752e00dd06b16382e952bd33c34fd79fc4fe3a5d2c77cf7de1b14b
+-rw-r--r-- ollama:ollama 1359279776 /usr/share/ollama/.ollama/models/blobs/sha256-3d0b790534fe4b79525fc3692950408dca41171676ed7e21db57af5c65ef6ab6
+-rw-r--r-- ollama:ollama        487 /usr/share/ollama/.ollama/models/blobs/sha256-517ccaff02fe9f99718ab2f478e611aa2813c36263eeed86c2427bc122d14ad8
+-rw-r--r-- ollama:ollama        140 /usr/share/ollama/.ollama/models/blobs/sha256-76a6b777faea7a8fda1d339bfc81ea919ed429c64ed0d7c1b0617bc14afc76b6
+-rw-r--r-- ollama:ollama        859 /usr/share/ollama/.ollama/models/blobs/sha256-8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7
+-rw-r--r-- ollama:ollama       1079 /usr/share/ollama/.ollama/models/blobs/sha256-97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c
+-rw-r--r-- ollama:ollama       1723 /usr/share/ollama/.ollama/models/blobs/sha256-ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4
+-rw-r--r-- ollama:ollama        120 /usr/share/ollama/.ollama/models/blobs/sha256-cff3f395ef3756ab63e58b0ad1b32bb6f802905cae1472e6a12034e4246fbbdb
+-rw-r--r-- ollama:ollama      11338 /usr/share/ollama/.ollama/models/blobs/sha256-d18a5cc71b84bc4af394a31116bd3932b42241de70c77d2b76d69a314ec8aa12
+-rw-r--r-- ollama:ollama       8432 /usr/share/ollama/.ollama/models/blobs/sha256-dd084c7d92a3c1c14cc09ae77153b903fd2024b64a100a0cc8ec9316063d2dbc
+-rw-r--r-- ollama:ollama        358 /usr/share/ollama/.ollama/models/blobs/sha256-e0a42594d802e5d31cdc786deb4823edb8adff66094d49de8fffe976d753e348
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama/models/manifests
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama/models/manifests-v2
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama/models/manifests-v2/ollama.com
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama/models/manifests-v2/ollama.com/library
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama/models/manifests-v2/ollama.com/library/gemma3
+lrwxrwxrwx ollama:ollama         89 /usr/share/ollama/.ollama/models/manifests-v2/ollama.com/library/gemma3/1b
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama/models/manifests-v2/ollama.com/library/qwen3
+lrwxrwxrwx ollama:ollama         89 /usr/share/ollama/.ollama/models/manifests-v2/ollama.com/library/qwen3/1.7b
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama/models/manifests/registry.ollama.ai
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama/models/manifests/registry.ollama.ai/library
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama/models/manifests/registry.ollama.ai/library/gemma3
+-rw-r--r-- ollama:ollama       1243 /usr/share/ollama/.ollama/models/manifests/registry.ollama.ai/library/gemma3/1b
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama/models/manifests/registry.ollama.ai/library/qwen3
+-rw-r--r-- ollama:ollama       1022 /usr/share/ollama/.ollama/models/manifests/registry.ollama.ai/library/qwen3/1.7b
+drwxr-xr-x ollama:ollama       4096 /usr/share/ollama/.ollama/models/metadata
+-rw------- ollama:ollama       3090 /usr/share/ollama/.ollama/models/metadata/sha256-2f8c3d137f2496dcb4019e17a50f2974b89c1be1a742db3c80cc86f91cafeeef.json
+-rw------- ollama:ollama       5540 /usr/share/ollama/.ollama/models/metadata/sha256-3d0b790534fe4b79525fc3692950408dca41171676ed7e21db57af5c65ef6ab6.json
+
+$ sudo du -sh /usr/share/ollama/.ollama/models; sudo du -sh /usr/share/ollama
+2.1G	/usr/share/ollama/.ollama/models
+2.1G	/usr/share/ollama
+
+manifests-v2 entries are symlinks into blobs/ (the docker-style manifest blob):
+  manifests-v2/ollama.com/library/gemma3/1b  -> ../../../../blobs/sha256-97558784bdc9... (= model ID shown by `ollama list`)
+  manifests-v2/ollama.com/library/qwen3/1.7b -> ../../../../blobs/sha256-8f68893c685c...
+
+$ sudo cat /usr/share/ollama/.ollama/models/manifests/registry.ollama.ai/library/gemma3/1b | jq   (manifest: media types and sizes of the layers)
+{"mediaType":"application/vnd.ollama.image.model","size":806058400}
+{"mediaType":"application/vnd.ollama.image.template","size":358}
+{"mediaType":"application/vnd.ollama.image.license","size":8432}
+{"mediaType":"application/vnd.ollama.image.params","size":77}
+{"mediaType":"application/vnd.docker.distribution.manifest.v2+json","size":1079}
+
+Files present by name only (not copied): /usr/share/ollama/.ollama/id_ed25519 (private identity key, 0600) and id_ed25519.pub.

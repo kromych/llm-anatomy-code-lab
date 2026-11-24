@@ -1,0 +1,54 @@
+Footprint of aider on krom1u (macOS 27, Apple M1 Ultra), 2026-11-14.
+Differences between snapshots taken by code/ch15/footprint.sh before the
+install, right after it, and after the measurement runs. Only the
+differences are kept; unrelated processes that came and went between
+snapshots (e.g. a llama-server of another chapter) can appear.
+
+== Homebrew formulae and casks
+  added by the install: 8
+    + aider 0.86.2
+    + certifi 2026.10.23
+    + gcc 16.2.0
+    + isl 0.28
+    + libmpc 1.4.1
+    + mpfr 4.2.2
+    + openblas 0.3.34
+    + python@3.12 3.12.16
+  added by the runs: 1
+    + uv 0.13.8
+
+== entries in ~, ~/.config, ~/.local/*, ~/.cache, ~/Library/...
+  added by the install: 0
+  added by the runs: 14
+    + ~/.aider
+    + ~/.bash_history
+    + ~/.cache/opencode
+    + ~/.cache/uv
+    + ~/.config/goose
+    + ~/.config/opencode
+    + ~/.local/share/goose
+    + ~/.local/share/opencode
+    + ~/.local/share/uv
+    + ~/.local/state/goose
+    + ~/.local/state/opencode
+    + ~/.openhands
+    + ~/Library/Application Support/inspect_ai
+    + ~/Library/Caches/inspect_ai
+
+== launchd jobs (numeric instance suffixes removed)
+  added by the install: 0
+  added by the runs: 0 (+13 Spotlight workers and opened apps omitted)
+
+== listening TCP sockets (command, address)
+  added by the install: 0
+  added by the runs: 0
+
+== data files after the runs (size in bytes, path; names only, never contents)
+  160 ~/.aider
+  113 ~/.aider/analytics.json
+  96 ~/.aider/caches
+  4097439 ~/.aider/caches/model_prices_and_context_window.json
+  82 ~/.aider/installs.json
+  repo: 3889 ./.aider.chat.history.md
+  repo: 236 ./.aider.input.history
+  repo: 96 ./.aider.tags.cache.v4

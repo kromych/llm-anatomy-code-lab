@@ -1,0 +1,23 @@
+blob-t0: correct per run [54], mean 54.0, sd 0.00; identical replies in all runs: 100
+ollama-t0: correct per run [54], mean 54.0, sd 0.00; identical replies in all runs: 100
+t0-parallel: correct per run [56, 56, 56, 56, 56], mean 56.0, sd 0.00; identical replies in all runs: 97
+t0-serial: correct per run [56, 56, 56, 56, 56], mean 56.0, sd 0.00; identical replies in all runs: 99
+t0-serial-nocache: correct per run [56, 56, 56], mean 56.0, sd 0.00; identical replies in all runs: 100
+t07-seed: correct per run [52, 54, 60, 55, 56, 55, 53, 56, 56, 59], mean 55.6, sd 2.46; identical replies in all runs: 0
+t07-seed-1: correct per run [52], mean 52.0, sd 0.00; identical replies in all runs: 100
+seed 1 twice: identical replies 94 of 100
+Miller: E[sigma^2] = 0.0933, Var(x) = 0.1552
+correct samples per question (0..10): [20, 7, 6, 5, 5, 4, 2, 6, 8, 6, 31]
+pass@1 = 0.556, pass^1 = 0.556
+pass@2 = 0.649, pass^2 = 0.463
+pass@3 = 0.696, pass^3 = 0.416
+pass@5 = 0.746, pass^5 = 0.363
+pass@10 = 0.800, pass^10 = 0.310
+majority of 10: 66 of 100
+mean over seeds 0.556, stderr over questions 0.041
+fewshot-Q8_0 strict-match: 172/1319 = 0.130 [0.113, 0.150]
+fewshot-Q8_0 flexible-extract: 563/1319 = 0.427 [0.400, 0.454]
+fewshot-Q8_0 number: 597/1319 = 0.453 [0.426, 0.480]
+chat-Q8_0 strict-match: 401/1319 = 0.304 [0.280, 0.329]
+chat-Q8_0 flexible-extract: 740/1319 = 0.561 [0.534, 0.588]
+chat-Q8_0 number: 749/1319 = 0.568 [0.541, 0.594]

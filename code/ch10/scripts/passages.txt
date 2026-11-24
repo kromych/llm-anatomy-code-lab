@@ -1,0 +1,12 @@
+A GGUF file holds a model's metadata and tensors in one file.
+A tokenizer splits text into tokens and maps each to an integer.
+A chat template turns a list of messages into one string.
+Quantization stores a weight in four bits instead of sixteen.
+The sampler draws the next token from the scaled logits.
+The key-value cache keeps the keys and values of a prefix.
+Continuous batching admits a request between decoding steps.
+Server-sent events deliver an answer one delta at a time.
+A grammar masks the tokens that would break a JSON Schema.
+An agent runs the tools a model calls and returns the results.
+The Model Context Protocol lets a harness call remote tools.
+A sandbox limits the files that an agent's command can reach.

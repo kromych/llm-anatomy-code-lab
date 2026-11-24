@@ -1,0 +1,4 @@
+[piledriver-t8.completion.log] 0.00.724.831 I system_info: n_threads = 8 (n_threads_batch = 8) / 16 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | F16C = 1 | FMA = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 |
+[piledriver-t8.stderr] load_backend: loaded RPC backend from C:\Users\labuser\AppData\Local\isa-bench\llama-piledriver\ggml-rpc.dll
+[piledriver-t8.stderr] load_backend: loaded CPU backend from C:\Users\labuser\AppData\Local\isa-bench\llama-piledriver\ggml-cpu-piledriver.dll
+[piledriver-t8.stderr] build: b1b770d90 (12359)

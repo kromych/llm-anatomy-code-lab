@@ -1,0 +1,51 @@
+# cmd: build/bin/llama-server -hf ggml-org/gemma-3-1b-it-GGUF --port 8080 -lv 4  (CPU build; -lv 4 for device/backend lines; trimmed to relevant lines; timestamps are min.sec.ms.us since start)
+0.00.195.216 I cmn  common_param: device_info:
+0.00.195.244 I cmn  common_param:   - CPU     : Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz (31922 MiB, 31922 MiB free)
+0.00.195.539 I cmn  common_param: system_info: n_threads = 6 (n_threads_batch = 6) / 12 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.00.195.548 I srv  server_prepa: n_parallel is set to auto, using n_parallel = 4 and kv_unified = true
+0.00.196.186 I srv  init_listene: running without SSL
+0.00.197.451 I srv          init: using 11 threads for HTTP server
+0.00.197.645 W srv  server_setup: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.00.200.106 I srv    load_model: loading model 'ggml-org/gemma-3-1b-it-GGUF'
+0.00.200.113 I srv    load_model: local path '/home/labuser/.cache/huggingface/hub/models--ggml-org--gemma-3-1b-it-GGUF/snapshots/f9c28bcd85737ffc5aef028638d3341d49869c27/gemma-3-1b-it-Q4_K_M.gguf'
+0.00.443.644 I common_memory_breakdown_print: | memory breakdown [MiB] | total   free    self   model   context   compute    unaccounted |
+0.00.443.649 I common_memory_breakdown_print: |   - Host               |                  960 =   690 +     183 +      86                |
+0.00.443.649 I common_memory_breakdown_print: |   - CPU_REPACK         |                   71 =    71 +       0 +       0                |
+0.00.459.740 I common_params_fit_impl: projected to use 960 MiB of host memory vs. 31922 MiB of total host memory
+0.00.492.032 I print_info: file type   = Q4_K - Medium
+0.00.492.034 I print_info: file size   = 762.49 MiB (6.40 BPW) 
+0.00.610.968 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.00.637.910 I print_info: arch                  = gemma3
+0.00.637.911 I print_info: n_ctx_train           = 32768
+0.00.637.933 I print_info: model type            = 1B
+0.00.637.934 I print_info: model params          = 999.89 M
+0.00.637.934 I print_info: general.name          = Gemma 3 1b It
+0.00.637.940 I load_tensors: loading model tensors, this can take a while... (load_mode = mmap)
+0.00.700.202 I llama_context: n_seq_max             = 4
+0.00.700.202 I llama_context: n_ctx                 = 32768
+0.00.700.202 I llama_context: n_batch               = 2048
+0.00.700.202 I llama_context: n_ubatch              = 512
+0.00.700.203 I llama_context: flash_attn            = auto
+0.00.700.203 I llama_context: kv_unified            = true
+0.00.737.406 I llama_kv_cache: size =  128.00 MiB ( 32768 cells,   4 layers,  4/1 seqs), K (f16):   64.00 MiB, V (f16):   64.00 MiB
+0.00.753.300 I llama_kv_cache: size =   55.00 MiB (  2560 cells,  22 layers,  4/1 seqs), K (f16):   27.50 MiB, V (f16):   27.50 MiB
+0.00.753.947 I resolve_fused_ops: Flash Attention enabled
+0.00.757.855 I sched_reserve:        CPU compute buffer size =    86.82 MiB
+0.00.757.857 I sched_reserve: graph: nodes = 1050, splits = 1, input objects = 4, input tensors = 13
+0.00.758.149 I cmn          init: llama threadpool init, n_threads = 6
+0.00.758.183 I cmn  common_init_: warming up the model with an empty run - please wait ... (--no-warmup to disable)
+0.00.841.111 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 32768, kv_unified = 'true'
+0.00.841.162 I srv    load_model: prompt cache is enabled, size limit: 8192 MiB
+0.00.845.150 I srv          init: init: chat template, thinking = 0
+0.00.845.191 I srv  server_run_i: model loaded
+0.00.845.195 I srv  server_on_li: listening on http://127.0.0.1:8080
+0.02.154.323 I slot print_timing: id  0 | task 0 | prompt eval time =     138.48 ms /    21 tokens (    6.59 ms per token,   151.65 tokens per second)
+0.02.154.326 I slot print_timing: id  0 | task 0 |        eval time =     894.23 ms /    32 tokens (   28.85 ms per token,    34.67 tokens per second)
+0.02.154.326 I slot print_timing: id  0 | task 0 |       total time =    1032.70 ms /    53 tokens
+0.02.154.329 I slot print_timing: id  0 | task 0 |    graphs reused =         31
+0.02.154.330 I slot print_timing: id  0 | task 0 |   graph reallocs =          0    /     0        (same size) / (changed size)
+0.02.155.115 I srv    operator(): operator(): cleaning up before exit...
+0.02.155.344 I common_memory_breakdown_print: | memory breakdown [MiB] | total   free    self   model   context   compute    unaccounted |
+0.02.155.346 I common_memory_breakdown_print: |   - Host               |                  960 =   690 +     183 +      86                |
+0.02.155.346 I common_memory_breakdown_print: |   - CPU_REPACK         |                   71 =    71 +       0 +       0                |
+[trimmed] load_tensors model buffers: CPU_Mapped 40 buffers totalling 690.54 MiB, CPU_REPACK 1 buffers totalling 71.98 MiB

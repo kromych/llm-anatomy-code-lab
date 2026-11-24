@@ -1,0 +1,13 @@
+# 2026-11-13, xps-8930, llama.cpp b12376 (61dbf4922), Vulkan build (-DGGML_VULKAN=ON), Intel UHD 630 via Mesa ANV 26.2.5. ngl -1 = default (all 27 layers offloaded).
+$ build-vulkan/bin/llama-bench -m ~/.cache/huggingface/hub/models--ggml-org--gemma-3-1b-it-GGUF/snapshots/f9c28bcd85737ffc5aef028638d3341d49869c27/gemma-3-1b-it-Q4_K_M.gguf -p 512 -n 128 -r 3
+# stderr:
+ggml_vulkan: Found 1 Vulkan devices:
+ggml_vulkan: 0 = Intel(R) UHD Graphics 630 (CFL GT2) (Intel open-source Mesa driver) | uma: 1 | rebar: 1 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 49152 | int dot: 0 | matrix cores: none
+# load average before run: 1.39, 2.45, 4.76
+exit=0 seconds=59
+| model                          |       size |     params | backend    | ngl |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | --------------: | -------------------: |
+| gemma3 1B Q4_K - Medium        | 762.49 MiB |   999.89 M | Vulkan     |  -1 |           pp512 |         84.87 ± 0.10 |
+| gemma3 1B Q4_K - Medium        | 762.49 MiB |   999.89 M | Vulkan     |  -1 |           tg128 |         11.77 ± 0.00 |
+
+build: 61dbf4922 (12376)

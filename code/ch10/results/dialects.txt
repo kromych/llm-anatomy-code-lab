@@ -1,0 +1,11 @@
+## llama-server -hf ggml-org/Qwen3-1.7B-GGUF:Q4_K_M --host 127.0.0.1 --port 8080
+##     (llama.cpp build 12359, S3-macOS)
+## cd code/ch10/aisdk && npm install && node dialects.mjs http://127.0.0.1:8080/v1
+## Node.js 26.13.1; ai 7.0.173, @ai-sdk/openai-compatible 3.0.92,
+## @ai-sdk/openai 4.0.118, @ai-sdk/anthropic 4.0.105, zod 4.6.7 (package.json)
+openai-compatible: POST /v1/chat/completions -> 200, POST /v1/chat/completions -> 200
+  calls get_weather({"city":"Oslo"}); answer "The weather in Oslo is cloudy, with a temperature of 4°C."
+openai (Responses): POST /v1/responses -> 200, POST /v1/responses -> 200
+  calls get_weather({"city":"Oslo"}); answer "The weather in Oslo is cloudy, with a temperature of 4°C."
+anthropic (Messages): POST /v1/messages -> 200, POST /v1/messages -> 200
+  calls get_weather({"city":"Oslo"}); answer "The weather in Oslo is cloudy, with a temperature of 4°C."

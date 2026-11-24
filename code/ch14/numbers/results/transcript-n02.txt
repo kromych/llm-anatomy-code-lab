@@ -1,0 +1,9 @@
+[2 turns, 775 tokens, 7.7 s]
+user      Is 8000000 of the form 7*x + 7987789 for some integer x >= 0?
+          If it is, find x. End your reply with one line, either
+          'ANSWER: yes, x = <x>' or 'ANSWER: no'.
+model     (thinks for 1901 characters)
+model     calls numbers__affine_form
+          {"n": 8000000, "a": 7, "b": 7987789}
+server    no: n - b = 12211 = 7*1744 + 3, not a multiple of 7
+model     ANSWER: no

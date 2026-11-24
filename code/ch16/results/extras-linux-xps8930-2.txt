@@ -1,0 +1,9 @@
+# Checks beside the battery, in the session of linux-xps8930-2.txt (S1-LinuxX64),
+# under flock ~/.llm-arch-bench.lock, after the timed starts.
+== /usr/bin/python3 timeit.py 20 /usr/bin/python3 -c pass   (the interpreter alone)
+   median of 20 starts: 11.8 ms
+== sysctl user.max_user_namespaces
+   user.max_user_namespaces = 127475
+== landlock ABI (landlock_create_ruleset with flag 1)
+   10
+# load averages after: 1.49 1.22 1.12

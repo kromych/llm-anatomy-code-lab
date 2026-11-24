@@ -1,0 +1,7 @@
+## python3 status.py http://127.0.0.1:8000/v1 qwen3-8b
+unknown model    404  Retry-After=None
+    error: {"message": "The model `no-such-model` does not exist. Valid aliases: qwen3-8b, default.", "type": "NotFoundError", "param": "model", "code": 404}
+prompt too long  400  Retry-After=None
+    error: {"message": "This model's maximum context length is 40960 tokens. However, your prompt contains at least 40961 input tokens, which exceeds this limit even without any output tokens. Please reduce the 
+malformed        400  Retry-After=None
+    error: {"message": "1 validation error:\n  {'type': 'list_type', 'loc': 'body.messages', 'msg': 'Input should be a valid list', 'input': 'not a list'}", "type": "Bad Request", "param": "body.messages", "code

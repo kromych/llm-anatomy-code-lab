@@ -1,0 +1,64 @@
+## python3 http_server.py sample 8765     (from code/ch13, in another shell)
+## Python 3.15.2 on S3-macOS. PY2 and PY1 are the Pythons (3.14.10) of two
+## virtual environments with mcp 2.3.0 and mcp 1.30.0, as in record_sdk.sh.
+## The server of SDK 1.30.0 logs every request to standard error, hence
+## the 2> /dev/null. The three commands ran one after the other under
+## code/lab/mac-lockrun.py exclusive (the lock arrived after 266 s); load
+## averages 13.67 15.59 19.41 before and 14.02 15.63 19.40 after, from
+## other work on the machine. Each SDK command had been tried once before,
+## outside the lock (401.4 ms and 758 us with PY2, 308.5 ms and 960 us
+## with PY1). The same commands, three times more, are at the end.
+
+## python3 bench.py 8765
+launch + discover 22.0 ms
+stdio                        median     65 us  p90    105 us  p99    130 us
+HTTP, kept-alive connection  median    213 us  p90    347 us  p99    518 us
+HTTP, new connection         median    314 us  p90    458 us  p99    621 us
+
+## python3 bench.py PY2 sdk_server.py sample
+launch + discover 459.2 ms
+stdio                        median    625 us  p90    766 us  p99   1031 us
+
+## python3 bench.py PY1 sdk1_server.py sample 2> /dev/null
+launch + discover 346.1 ms
+stdio                        median    850 us  p90   1049 us  p99   1393 us
+
+## The three commands three times more, in a second section under the
+## exclusive lock (it arrived after 759 s); load averages 34.28 29.81 24.40
+## before and 34.25 30.21 24.71 after, from other work on the machine.
+
+## python3 bench.py 8765
+launch + discover 25.8 ms
+stdio                        median     81 us  p90    148 us  p99    690 us
+HTTP, kept-alive connection  median    225 us  p90    360 us  p99   2684 us
+HTTP, new connection         median    405 us  p90    614 us  p99   6693 us
+## python3 bench.py PY2 sdk_server.py sample
+launch + discover 600.2 ms
+stdio                        median    862 us  p90   1218 us  p99  23869 us
+## python3 bench.py PY1 sdk1_server.py sample 2> /dev/null
+launch + discover 449.7 ms
+stdio                        median   1061 us  p90   1442 us  p99  24532 us
+
+## python3 bench.py 8765
+launch + discover 22.7 ms
+stdio                        median    103 us  p90    153 us  p99    621 us
+HTTP, kept-alive connection  median    249 us  p90    394 us  p99   4894 us
+HTTP, new connection         median    428 us  p90    655 us  p99  10143 us
+## python3 bench.py PY2 sdk_server.py sample
+launch + discover 496.1 ms
+stdio                        median    852 us  p90   1210 us  p99  19197 us
+## python3 bench.py PY1 sdk1_server.py sample 2> /dev/null
+launch + discover 376.5 ms
+stdio                        median   1174 us  p90   1656 us  p99  27985 us
+
+## python3 bench.py 8765
+launch + discover 51.5 ms
+stdio                        median     91 us  p90    172 us  p99    838 us
+HTTP, kept-alive connection  median    223 us  p90    368 us  p99   3754 us
+HTTP, new connection         median    450 us  p90    667 us  p99   6930 us
+## python3 bench.py PY2 sdk_server.py sample
+launch + discover 432.3 ms
+stdio                        median    820 us  p90   1242 us  p99  16619 us
+## python3 bench.py PY1 sdk1_server.py sample 2> /dev/null
+launch + discover 304.4 ms
+stdio                        median    808 us  p90    974 us  p99   1265 us

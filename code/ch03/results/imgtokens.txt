@@ -1,0 +1,22 @@
+# llama-server 1.0.0 (build 12359) on S3-macOS with the files of
+# ggml-org/SmolVLM-256M-Instruct-GGUF, started with
+#   llama-server -m SmolVLM-256M-Instruct-Q8_0.gguf \
+#     --mmproj mmproj-SmolVLM-256M-Instruct-Q8_0.gguf --port 8102 -np 1
+
+$ python3 scripts/imgtokens.py http://127.0.0.1:8102/v1 
+text alone 12, 512x512 image and text 147: the image costs 135 positions
+
+$ python3 scripts/imgtokens.py http://127.0.0.1:8102/v1 64 64
+text alone 12, 64x64 image and text 147: the image costs 135 positions
+
+$ python3 scripts/imgtokens.py http://127.0.0.1:8102/v1 1024 768
+text alone 12, 1024x768 image and text 346: the image costs 334 positions
+
+$ python3 scripts/imgtokens.py http://127.0.0.1:8102/v1 300 900
+text alone 12, 300x900 image and text 214: the image costs 202 positions
+
+# the prompt for a message with an image part and a text part
+# (POST /apply-template; the data URL here is a dummy):
+{"prompt":"<|im_start|>User: <__media_HP1QJH4mU0Uxz9iocv9Yv9Ao6xxBRMIh__>Describe the picture.<end_of_utterance>\nAssistant:"}
+# and for the text part alone:
+{"prompt":"<|im_start|>User: Describe the picture.<end_of_utterance>\nAssistant:"}

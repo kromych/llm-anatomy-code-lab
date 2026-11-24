@@ -1,0 +1,724 @@
+## CUDA_VISIBLE_DEVICES=0,2 vllm serve Qwen/Qwen2.5-72B-Instruct --served-model-name qwen72b --tensor-parallel-size 2 --max-model-len 8192
+(APIServer pid=148507) INFO 11-23 04:38:34 [api_utils.py:347] 
+(APIServer pid=148507) INFO 11-23 04:38:34 [api_utils.py:347]        █     █     █▄   ▄█
+(APIServer pid=148507) INFO 11-23 04:38:34 [api_utils.py:347]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.32.0
+(APIServer pid=148507) INFO 11-23 04:38:34 [api_utils.py:347]   █▄█▀ █     █     █     █  model   Qwen/Qwen2.5-72B-Instruct
+(APIServer pid=148507) INFO 11-23 04:38:34 [api_utils.py:347]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+(APIServer pid=148507) INFO 11-23 04:38:34 [api_utils.py:347] 
+(APIServer pid=148507) INFO 11-23 04:38:34 [api_utils.py:286] non-default args: {'model_tag': 'Qwen/Qwen2.5-72B-Instruct', 'host': '127.0.0.1', 'model': 'Qwen/Qwen2.5-72B-Instruct', 'max_model_len': 8192, 'served_model_name': ['qwen72b'], 'tensor_parallel_size': 2}
+(APIServer pid=148507) INFO 11-23 04:38:34 [model.py:733] Resolved architecture: Qwen2ForCausalLM
+(APIServer pid=148507) INFO 11-23 04:38:34 [model.py:2152] Using max model len 8192
+(APIServer pid=148507) INFO 11-23 04:38:34 [scheduler.py:307] Chunked prefill is enabled with max_num_batched_tokens=8192.
+(APIServer pid=148507) INFO 11-23 04:38:34 [kernel.py:467] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'], gelu_and_mul_sparse=['triton', 'native'])
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.nvrtc module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.nvrtc module instead.
+(APIServer pid=148507) INFO 11-23 04:38:37 [compilation.py:317] Enabled custom fusions: allreduce_rms
+
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]
+Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 1848.04it/s]
+(EngineCore pid=148930) INFO 11-23 04:38:47 [core.py:133] Initializing a V1 LLM engine (v0.32.0) with config: model='Qwen/Qwen2.5-72B-Instruct', speculative_config=None, tokenizer='Qwen/Qwen2.5-72B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=main, tokenizer_revision=main, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=auto, tensor_parallel_size=2, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=None, quantization_config=None, enforce_eager=False, aux_output_config=AuxOutputConfig(enable_return_routed_experts=False, max_bytes=None), kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, per_request_spec_decode_metrics='none', kv_cache_metrics=False, kv_cache_metrics_sample=0.01, custom_histogram_buckets=None, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=0, served_model_name=qwen72b, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'ir_enable_torch_wrap': True, 'splitting_ops': ['vllm::unified_attention_with_output', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::qwen4_exp_ple_short_conv', 'vllm::qwen4_exp_qsa_with_output', 'vllm::qwen4_exp_qsa_prepare_with_output', 'vllm::linear_attention', 'vllm::qwen_gdn_attention_core', 'vllm::qwen_gdn_attention_core_fused_norm_packed', 'vllm::gdn_attention_core_xpu', 'vllm::olmo_hybrid_gdn_full_forward', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::deepseek_v4_attention', 'vllm::hpc_rope_norm_forward', 'vllm::unified_kv_cache_update', 'vllm::unified_mla_kv_cache_update'], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'cudagraph_decoder_replay': True, 'decoder_replay_cudagraph_capture_sizes': [], 'decoder_replay_trim_threshold': 768, 'compile_sizes': [], 'compile_ranges_endpoints': [4096, 8192], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'fuse_allreduce_rms': True, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'], gelu_and_mul_sparse=['triton', 'native']), enable_flashinfer_autotune=True, enable_rocm_segmented_attn_autotune=False, enable_cutedsl_warmup=True, enable_jit_warmup=True, moe_backend='auto', sparse_indexer_topk_backend='auto', linear_backend='auto', linear_backend_per_quant=None)
+(EngineCore pid=148930) INFO 11-23 04:38:47 [multiproc_executor.py:153] DP group leader: node_rank=0, node_rank_within_dp=0, master_addr=127.0.0.1, mq_connect_ip=10.0.0.x (local), world_size=2, local_world_size=2
+(Worker pid=149311) INFO 11-23 04:39:04 [parallel_state.py:1906] world_size=2 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_1f576ea8589f4117b2fa8fbbce15ccb6 backend=nccl
+(Worker pid=149312) INFO 11-23 04:39:04 [parallel_state.py:1906] world_size=2 rank=1 local_rank=1 distributed_init_method=file:///tmp/vllm_dist_1f576ea8589f4117b2fa8fbbce15ccb6 backend=nccl
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.nvrtc module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.nvrtc module instead.
+(Worker pid=149311) INFO 11-23 04:39:05 [pynccl.py:148] vLLM is using nccl==2.29.7
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.nvrtc module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.nvrtc module instead.
+(Worker pid=149311) WARNING 11-23 04:39:10 [symm_mem.py:99] SymmMemCommunicator: symmetric memory initialization failed: CUDA driver error: invalid device ordinal Communicator is not available. To suppress this warning set VLLM_ALLREDUCE_USE_SYMM_MEM=0
+(Worker pid=149312) WARNING 11-23 04:39:10 [custom_all_reduce.py:286] Custom allreduce is disabled because your platform lacks GPU P2P capability or P2P test failed. To silence this warning, specify disable_custom_all_reduce=True explicitly.
+(Worker pid=149311) WARNING 11-23 04:39:10 [custom_all_reduce.py:286] Custom allreduce is disabled because your platform lacks GPU P2P capability or P2P test failed. To silence this warning, specify disable_custom_all_reduce=True explicitly.
+(Worker pid=149311) INFO 11-23 04:39:10 [cuda_communicator.py:353] Using ['FLASHINFER', 'PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential backends: ['FLASHINFER_PCIE_IPC', 'FLASHINFER', 'NCCL_SYMM_MEM', 'QUICK_REDUCE', 'AITER_CUSTOM', 'CUSTOM', 'SYMM_MEM', 'PYNCCL'].
+(Worker pid=149311) INFO 11-23 04:39:10 [parallel_state.py:2350] rank 0 in world size 2 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, ETP rank 0, EP rank N/A, EPLB rank N/A
+(Worker pid=149311) INFO 11-23 04:39:10 [gpu_worker.py:518] Using V2 Model Runner
+(Worker pid=149311) WARNING 11-23 04:39:10 [flashinfer.py:143] FlashInfer's precompiled kernels are missing or do not match flashinfer-python 0.7.0.post1 (flashinfer-cubin not installed, flashinfer-jit-cache not installed). FlashInfer then downloads and compiles kernels at startup, which can take several minutes, or fails to import mismatched ones. Run `vllm download-kernels` in this Python environment to install them.
+(Worker_TP0 pid=149311) INFO 11-23 04:39:11 [model_runner.py:392] Loading model from scratch...
+(Worker_TP0 pid=149311) INFO 11-23 04:39:11 [cuda.py:506] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(Worker_TP0 pid=149311) INFO 11-23 04:39:11 [flash_attn.py:1117] Using FlashAttention version 3
+(Worker_TP0 pid=149311) INFO 11-23 04:39:11 [base_loader.py:82] Initializing model took 0.421469 seconds
+(Worker_TP0 pid=149311) INFO 11-23 04:39:11 [weight_utils.py:1108] Filesystem type for checkpoints: EXT4. Checkpoint size: 135.43 GiB. Available RAM: 1389.92 GiB.
+(Worker_TP0 pid=149311) INFO 11-23 04:39:11 [weight_utils.py:1131] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+
+Loading safetensors checkpoint shards:   0% Completed | 0/37 [00:00<?, ?it/s]
+
+Loading safetensors checkpoint shards:   3% Completed | 1/37 [00:00<00:08,  4.11it/s]
+
+Loading safetensors checkpoint shards:   5% Completed | 2/37 [00:00<00:11,  3.12it/s]
+
+Loading safetensors checkpoint shards:   8% Completed | 3/37 [00:01<00:11,  2.84it/s]
+
+Loading safetensors checkpoint shards:  11% Completed | 4/37 [00:01<00:11,  2.83it/s]
+
+Loading safetensors checkpoint shards:  14% Completed | 5/37 [00:01<00:11,  2.82it/s]
+
+Loading safetensors checkpoint shards:  16% Completed | 6/37 [00:02<00:11,  2.73it/s]
+
+Loading safetensors checkpoint shards:  19% Completed | 7/37 [00:02<00:11,  2.69it/s]
+
+Loading safetensors checkpoint shards:  22% Completed | 8/37 [00:02<00:11,  2.61it/s]
+
+Loading safetensors checkpoint shards:  24% Completed | 9/37 [00:03<00:11,  2.52it/s]
+
+Loading safetensors checkpoint shards:  27% Completed | 10/37 [00:03<00:10,  2.52it/s]
+
+Loading safetensors checkpoint shards:  30% Completed | 11/37 [00:04<00:10,  2.52it/s]
+
+Loading safetensors checkpoint shards:  32% Completed | 12/37 [00:04<00:10,  2.50it/s]
+
+Loading safetensors checkpoint shards:  35% Completed | 13/37 [00:04<00:09,  2.50it/s]
+
+Loading safetensors checkpoint shards:  38% Completed | 14/37 [00:05<00:09,  2.43it/s]
+
+Loading safetensors checkpoint shards:  41% Completed | 15/37 [00:05<00:08,  2.47it/s]
+
+Loading safetensors checkpoint shards:  43% Completed | 16/37 [00:06<00:08,  2.47it/s]
+
+Loading safetensors checkpoint shards:  46% Completed | 17/37 [00:06<00:08,  2.44it/s]
+
+Loading safetensors checkpoint shards:  49% Completed | 18/37 [00:06<00:07,  2.44it/s]
+
+Loading safetensors checkpoint shards:  51% Completed | 19/37 [00:07<00:07,  2.45it/s]
+
+Loading safetensors checkpoint shards:  54% Completed | 20/37 [00:07<00:06,  2.44it/s]
+
+Loading safetensors checkpoint shards:  57% Completed | 21/37 [00:08<00:06,  2.44it/s]
+
+Loading safetensors checkpoint shards:  59% Completed | 22/37 [00:08<00:06,  2.40it/s]
+
+Loading safetensors checkpoint shards:  62% Completed | 23/37 [00:09<00:05,  2.46it/s]
+
+Loading safetensors checkpoint shards:  65% Completed | 24/37 [00:09<00:05,  2.45it/s]
+
+Loading safetensors checkpoint shards:  68% Completed | 25/37 [00:09<00:04,  2.45it/s]
+
+Loading safetensors checkpoint shards:  70% Completed | 26/37 [00:10<00:04,  2.43it/s]
+
+Loading safetensors checkpoint shards:  73% Completed | 27/37 [00:10<00:04,  2.47it/s]
+
+Loading safetensors checkpoint shards:  76% Completed | 28/37 [00:11<00:03,  2.45it/s]
+
+Loading safetensors checkpoint shards:  78% Completed | 29/37 [00:11<00:03,  2.46it/s]
+
+Loading safetensors checkpoint shards:  81% Completed | 30/37 [00:11<00:02,  2.49it/s]
+
+Loading safetensors checkpoint shards:  84% Completed | 31/37 [00:12<00:02,  2.56it/s]
+
+Loading safetensors checkpoint shards:  86% Completed | 32/37 [00:12<00:01,  2.55it/s]
+
+Loading safetensors checkpoint shards:  89% Completed | 33/37 [00:13<00:01,  2.55it/s]
+
+Loading safetensors checkpoint shards:  92% Completed | 34/37 [00:13<00:01,  2.54it/s]
+
+Loading safetensors checkpoint shards:  95% Completed | 35/37 [00:13<00:00,  2.52it/s]
+
+Loading safetensors checkpoint shards:  97% Completed | 36/37 [00:14<00:00,  2.59it/s]
+
+Loading safetensors checkpoint shards: 100% Completed | 37/37 [00:14<00:00,  2.69it/s]
+
+Loading safetensors checkpoint shards: 100% Completed | 37/37 [00:14<00:00,  2.55it/s]
+
+(Worker_TP0 pid=149311) INFO 11-23 04:39:26 [default_loader.py:501] Loading weights took 14.62 seconds
+(Worker_TP0 pid=149311) INFO 11-23 04:39:27 [model_runner.py:424] Model loading took 67.8 GiB memory and 17.030845 seconds
+(Worker_TP0 pid=149311) INFO 11-23 04:39:27 [topk_topp_sampler.py:124] Using FlashInfer for top-p & top-k sampling.
+(Worker_TP0 pid=149311) INFO 11-23 04:39:27 [torch_utils.py:295] Reducing Torch threads from 126 to 1 for serving. Set OMP_NUM_THREADS in the external environment to override.
+(Worker_TP1 pid=149312) INFO 11-23 04:39:28 [model_runner.py:424] Model loading took 67.8 GiB memory and 17.308927 seconds
+(EngineCore pid=148930) INFO 11-23 04:39:28 [torch_utils.py:295] Reducing Torch threads from 126 to 1 for serving. Set OMP_NUM_THREADS in the external environment to override.
+(EngineCore pid=148930) INFO 11-23 04:39:28 [utils.py:347] Using LBNHC KV cache layout.
+(Worker_TP0 pid=149311) INFO 11-23 04:39:29 [caching.py:342] reconstructed serializable fn from standalone compile artifacts. num_artifacts=7 num_submods=81
+(Worker_TP0 pid=149311) INFO 11-23 04:39:29 [decorators.py:319] [backbone] Directly load AOT compilation from path /home/labuser/.cache/vllm/torch_compile_cache/torch_aot_compile/78c9c304a8556e075d8a8e73f19d94e4c47d2ca159230c10810abbd01db96a73/rank_0_0/model
+(Worker_TP0 pid=149311) INFO 11-23 04:39:29 [monitor.py:62] [backbone] torch.compile took 0.64 s in total
+(Worker_TP1 pid=149312) INFO 11-23 04:39:29 [caching.py:342] reconstructed serializable fn from standalone compile artifacts. num_artifacts=7 num_submods=81
+(Worker_TP1 pid=149312) INFO 11-23 04:39:29 [decorators.py:319] [backbone] Directly load AOT compilation from path /home/labuser/.cache/vllm/torch_compile_cache/torch_aot_compile/78c9c304a8556e075d8a8e73f19d94e4c47d2ca159230c10810abbd01db96a73/rank_1_0/model
+(Worker_TP1 pid=149312) INFO 11-23 04:39:29 [monitor.py:62] [backbone] torch.compile took 0.64 s in total
+(Worker_TP1 pid=149312) INFO 11-23 04:39:31 [monitor.py:91] [backbone] Initial profiling/warmup run took 2.22 s
+(Worker_TP0 pid=149311) INFO 11-23 04:39:31 [monitor.py:91] [backbone] Initial profiling/warmup run took 2.24 s
+
+Capturing CUDA graphs (PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s](Worker_TP0 pid=149311) WARNING 11-23 04:39:33 [flashinfer_all_reduce.py:108] Failed to initialize FlashInfer All Reduce workspace: [SymmDeviceMemory] Device does not support multicasting.. This is expected on GPUs without NVSwitch (e.g., NVLink bridge-only or PCIe topologies).
+(Worker_TP0 pid=149311) WARNING 11-23 04:39:33 [flashinfer_all_reduce.py:228] FlashInfer mnnvl allreduce workspace unavailable (likely no NVSwitch multicast support); falling back to trtllm backend for single node.
+(Worker_TP0 pid=149311) WARNING 11-23 04:39:33 [flashinfer_all_reduce.py:115] Failed to initialize FlashInfer All Reduce workspace: CUDA error code=101(b'CUDA_ERROR_INVALID_DEVICE').
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [flashinfer_all_reduce.py:242] Failed to initialize FlashInfer Allreduce norm fusion workspace with backend=trtllm
+
+Capturing CUDA graphs (PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063] WorkerProc hit an exception.
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063] Traceback (most recent call last):
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/executor/multiproc_executor.py", line 1055, in _execute_worker_rpc
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     output = func(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]              ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu_worker.py", line 704, in determine_available_memory
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     cudagraph_memory_estimate = self.model_runner.profile_cudagraph_memory()
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/model_runner.py", line 1040, in profile_cudagraph_memory
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return _profile_cudagraph_memory(self)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 948, in profile_cudagraph_memory
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     measured = int(runner.capture_model(profile_only=True))
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/model_runner.py", line 1083, in capture_model
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     self.cudagraph_manager.capture(
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 768, in capture
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     super().capture(create_forward_fn, progress_bar_desc)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 462, in capture
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     forward_fn(CUDAGraphMode.NONE)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 757, in forward_fn
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     model_output = model(**model_inputs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                    ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self._call_impl(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return forward_call(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/model_executor/models/qwen2.py", line 507, in forward
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     hidden_states = self.model(
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                     ^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/decorators.py", line 542, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.aot_compiled_fn(self, *args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_dynamo/aot_compile.py", line 244, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.fn(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/model_executor/models/qwen2.py", line 402, in forward
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     def forward(
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/caching.py", line 224, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.optimized_call(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "<string>", line 405, in execution_fn
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/cuda_graph.py", line 256, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.runnable(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/piecewise_backend.py", line 379, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return range_entry.runnable(*args)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/piecewise_backend.py", line 197, in compiled_graph_wrapper
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     graph_output = compiled_graph(*args)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                    ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_inductor/standalone_compile.py", line 321, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.inner_fn(*args)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_dynamo/aot_compile_types.py", line 221, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.compiled_fn(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/aot_autograd_result.py", line 742, in forward
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return compiled_fn(list(runtime_args))
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2548, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.compiled_fn(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 1141, in runtime_wrapper
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     result = _codegen_runtime_wrapper(
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]              ^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/subclass_codegen.py:codegen(runtime_wrapper_orchestration)", line 8, in _runtime_wrapper
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_inductor/output_code.py", line 763, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.current_callable(inputs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/home/labuser/.cache/vllm/torch_compile_cache/torch_aot_compile/78c9c304a8556e075d8a8e73f19d94e4c47d2ca159230c10810abbd01db96a73/inductor_cache/67/c67i4vqqhcl7kbgpoty424tcou4ztp2zcczmogyd3u72j2ultxqg.py", line 518, in call
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     torch.ops.vllm.flashinfer_trtllm_fused_allreduce_norm.default(allreduce_in=buf0, residual=buf4, norm_out=buf3, quant_out=None, scale_out=None, rms_gamma=arg3_1, rms_eps=1e-06, pattern_code=1, world_size=2, launch_with_pdl=True, fp32_acc=True, max_token_num=4096)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_ops.py", line 875, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self._op(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_compile.py", line 54, in inner
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return disable_fn(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1446, in _fn
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return fn(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 432, in __torch_dispatch__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     res = func(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]           ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_ops.py", line 875, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self._op(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/passes/fusion/allreduce_rms_fusion.py", line 240, in call_trtllm_fused_allreduce_norm
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     assert workspace is not None, (
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063] AssertionError: Flashinfer allreduce workspace must be initialized when using flashinfer
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063] Traceback (most recent call last):
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/executor/multiproc_executor.py", line 1055, in _execute_worker_rpc
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     output = func(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]              ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu_worker.py", line 704, in determine_available_memory
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     cudagraph_memory_estimate = self.model_runner.profile_cudagraph_memory()
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/model_runner.py", line 1040, in profile_cudagraph_memory
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return _profile_cudagraph_memory(self)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 948, in profile_cudagraph_memory
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     measured = int(runner.capture_model(profile_only=True))
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/model_runner.py", line 1083, in capture_model
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     self.cudagraph_manager.capture(
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 768, in capture
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     super().capture(create_forward_fn, progress_bar_desc)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 462, in capture
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     forward_fn(CUDAGraphMode.NONE)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 757, in forward_fn
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     model_output = model(**model_inputs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                    ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self._call_impl(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return forward_call(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/model_executor/models/qwen2.py", line 507, in forward
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     hidden_states = self.model(
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                     ^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/decorators.py", line 542, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.aot_compiled_fn(self, *args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_dynamo/aot_compile.py", line 244, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.fn(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/model_executor/models/qwen2.py", line 402, in forward
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     def forward(
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/caching.py", line 224, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.optimized_call(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "<string>", line 405, in execution_fn
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/cuda_graph.py", line 256, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.runnable(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/piecewise_backend.py", line 379, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return range_entry.runnable(*args)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/piecewise_backend.py", line 197, in compiled_graph_wrapper
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     graph_output = compiled_graph(*args)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                    ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_inductor/standalone_compile.py", line 321, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.inner_fn(*args)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_dynamo/aot_compile_types.py", line 221, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.compiled_fn(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/aot_autograd_result.py", line 742, in forward
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return compiled_fn(list(runtime_args))
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2548, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.compiled_fn(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 1141, in runtime_wrapper
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     result = _codegen_runtime_wrapper(
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]              ^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/subclass_codegen.py:codegen(runtime_wrapper_orchestration)", line 8, in _runtime_wrapper
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_inductor/output_code.py", line 763, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.current_callable(inputs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/home/labuser/.cache/vllm/torch_compile_cache/torch_aot_compile/78c9c304a8556e075d8a8e73f19d94e4c47d2ca159230c10810abbd01db96a73/inductor_cache/67/c67i4vqqhcl7kbgpoty424tcou4ztp2zcczmogyd3u72j2ultxqg.py", line 518, in call
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     torch.ops.vllm.flashinfer_trtllm_fused_allreduce_norm.default(allreduce_in=buf0, residual=buf4, norm_out=buf3, quant_out=None, scale_out=None, rms_gamma=arg3_1, rms_eps=1e-06, pattern_code=1, world_size=2, launch_with_pdl=True, fp32_acc=True, max_token_num=4096)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_ops.py", line 875, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self._op(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_compile.py", line 54, in inner
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return disable_fn(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1446, in _fn
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return fn(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 432, in __torch_dispatch__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     res = func(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]           ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_ops.py", line 875, in __call__
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self._op(*args, **kwargs)
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/passes/fusion/allreduce_rms_fusion.py", line 240, in call_trtllm_fused_allreduce_norm
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     assert workspace is not None, (
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063] AssertionError: Flashinfer allreduce workspace must be initialized when using flashinfer
+(Worker_TP1 pid=149312) ERROR 11-23 04:39:33 [multiproc_executor.py:1063] 
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063] WorkerProc hit an exception.
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063] Traceback (most recent call last):
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/executor/multiproc_executor.py", line 1055, in _execute_worker_rpc
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     output = func(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]              ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu_worker.py", line 704, in determine_available_memory
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     cudagraph_memory_estimate = self.model_runner.profile_cudagraph_memory()
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/model_runner.py", line 1040, in profile_cudagraph_memory
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return _profile_cudagraph_memory(self)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 948, in profile_cudagraph_memory
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     measured = int(runner.capture_model(profile_only=True))
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/model_runner.py", line 1083, in capture_model
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     self.cudagraph_manager.capture(
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 768, in capture
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     super().capture(create_forward_fn, progress_bar_desc)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 462, in capture
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     forward_fn(CUDAGraphMode.NONE)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 757, in forward_fn
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     model_output = model(**model_inputs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                    ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self._call_impl(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return forward_call(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/model_executor/models/qwen2.py", line 507, in forward
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     hidden_states = self.model(
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                     ^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/decorators.py", line 542, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.aot_compiled_fn(self, *args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_dynamo/aot_compile.py", line 244, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.fn(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/model_executor/models/qwen2.py", line 402, in forward
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     def forward(
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/caching.py", line 224, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.optimized_call(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "<string>", line 405, in execution_fn
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/cuda_graph.py", line 256, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.runnable(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/piecewise_backend.py", line 379, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return range_entry.runnable(*args)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/piecewise_backend.py", line 197, in compiled_graph_wrapper
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     graph_output = compiled_graph(*args)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                    ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_inductor/standalone_compile.py", line 321, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.inner_fn(*args)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_dynamo/aot_compile_types.py", line 221, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.compiled_fn(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/aot_autograd_result.py", line 742, in forward
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return compiled_fn(list(runtime_args))
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2548, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.compiled_fn(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 1141, in runtime_wrapper
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     result = _codegen_runtime_wrapper(
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]              ^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/subclass_codegen.py:codegen(runtime_wrapper_orchestration)", line 8, in _runtime_wrapper
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_inductor/output_code.py", line 763, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.current_callable(inputs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/home/labuser/.cache/vllm/torch_compile_cache/torch_aot_compile/78c9c304a8556e075d8a8e73f19d94e4c47d2ca159230c10810abbd01db96a73/inductor_cache/5w/c5wr56ikbgk5mfkkcf5wjo3lcstghtrluhnkhdtxer2t46mb62yl.py", line 518, in call
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     torch.ops.vllm.flashinfer_trtllm_fused_allreduce_norm.default(allreduce_in=buf0, residual=buf4, norm_out=buf3, quant_out=None, scale_out=None, rms_gamma=arg3_1, rms_eps=1e-06, pattern_code=1, world_size=2, launch_with_pdl=True, fp32_acc=True, max_token_num=4096)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_ops.py", line 875, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self._op(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_compile.py", line 54, in inner
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return disable_fn(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1446, in _fn
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return fn(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 432, in __torch_dispatch__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     res = func(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]           ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_ops.py", line 875, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self._op(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/passes/fusion/allreduce_rms_fusion.py", line 240, in call_trtllm_fused_allreduce_norm
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     assert workspace is not None, (
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063] AssertionError: Flashinfer allreduce workspace must be initialized when using flashinfer
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063] Traceback (most recent call last):
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/executor/multiproc_executor.py", line 1055, in _execute_worker_rpc
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     output = func(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]              ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu_worker.py", line 704, in determine_available_memory
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     cudagraph_memory_estimate = self.model_runner.profile_cudagraph_memory()
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/model_runner.py", line 1040, in profile_cudagraph_memory
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return _profile_cudagraph_memory(self)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 948, in profile_cudagraph_memory
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     measured = int(runner.capture_model(profile_only=True))
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/model_runner.py", line 1083, in capture_model
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     self.cudagraph_manager.capture(
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 768, in capture
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     super().capture(create_forward_fn, progress_bar_desc)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return func(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 462, in capture
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     forward_fn(CUDAGraphMode.NONE)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/worker/gpu/cudagraph_utils.py", line 757, in forward_fn
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     model_output = model(**model_inputs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                    ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self._call_impl(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return forward_call(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/model_executor/models/qwen2.py", line 507, in forward
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     hidden_states = self.model(
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                     ^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/decorators.py", line 542, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.aot_compiled_fn(self, *args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_dynamo/aot_compile.py", line 244, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.fn(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/model_executor/models/qwen2.py", line 402, in forward
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     def forward(
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/caching.py", line 224, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.optimized_call(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "<string>", line 405, in execution_fn
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/cuda_graph.py", line 256, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.runnable(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/piecewise_backend.py", line 379, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return range_entry.runnable(*args)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/piecewise_backend.py", line 197, in compiled_graph_wrapper
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     graph_output = compiled_graph(*args)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]                    ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_inductor/standalone_compile.py", line 321, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.inner_fn(*args)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_dynamo/aot_compile_types.py", line 221, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.compiled_fn(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/aot_autograd_result.py", line 742, in forward
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return compiled_fn(list(runtime_args))
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2548, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.compiled_fn(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 1141, in runtime_wrapper
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     result = _codegen_runtime_wrapper(
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]              ^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/subclass_codegen.py:codegen(runtime_wrapper_orchestration)", line 8, in _runtime_wrapper
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_inductor/output_code.py", line 763, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self.current_callable(inputs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/home/labuser/.cache/vllm/torch_compile_cache/torch_aot_compile/78c9c304a8556e075d8a8e73f19d94e4c47d2ca159230c10810abbd01db96a73/inductor_cache/5w/c5wr56ikbgk5mfkkcf5wjo3lcstghtrluhnkhdtxer2t46mb62yl.py", line 518, in call
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     torch.ops.vllm.flashinfer_trtllm_fused_allreduce_norm.default(allreduce_in=buf0, residual=buf4, norm_out=buf3, quant_out=None, scale_out=None, rms_gamma=arg3_1, rms_eps=1e-06, pattern_code=1, world_size=2, launch_with_pdl=True, fp32_acc=True, max_token_num=4096)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_ops.py", line 875, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self._op(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_compile.py", line 54, in inner
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return disable_fn(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1446, in _fn
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return fn(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 432, in __torch_dispatch__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     res = func(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]           ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/torch/_ops.py", line 875, in __call__
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     return self._op(*args, **kwargs)
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/compilation/passes/fusion/allreduce_rms_fusion.py", line 240, in call_trtllm_fused_allreduce_norm
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]     assert workspace is not None, (
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063]            ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063] AssertionError: Flashinfer allreduce workspace must be initialized when using flashinfer
+(Worker_TP0 pid=149311) ERROR 11-23 04:39:33 [multiproc_executor.py:1063] 
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510] EngineCore failed to start.
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510] Traceback (most recent call last):
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 1482, in run_engine_core
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/tracing/otel.py", line 175, in sync_wrapper
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]     return func(*args, **kwargs)
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 1194, in __init__
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]     super().__init__(
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 157, in __init__
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]     kv_cache_config = self._initialize_kv_caches(vllm_config)
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/tracing/otel.py", line 175, in sync_wrapper
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]     return func(*args, **kwargs)
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 315, in _initialize_kv_caches
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]     available_gpu_memory = self.model_executor.determine_available_memory()
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/executor/abstract.py", line 163, in determine_available_memory
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]     return self.collective_rpc("determine_available_memory")
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/executor/multiproc_executor.py", line 455, in collective_rpc
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]     return future if non_block else future.result()
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]                                     ^^^^^^^^^^^^^^^
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/executor/multiproc_executor.py", line 99, in result
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]     return super().result()
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]            ^^^^^^^^^^^^^^^^
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]   File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]     return self.__get_result()
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]            ^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]   File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]     raise self._exception
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/executor/multiproc_executor.py", line 103, in _wait_for_response
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]     response = self.aggregate(self.get_response())
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]                               ^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]   File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/executor/multiproc_executor.py", line 444, in get_response
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510]     raise RuntimeError(
+(EngineCore pid=148930) ERROR 11-23 04:39:33 [core.py:1510] RuntimeError: Worker failed with error 'Flashinfer allreduce workspace must be initialized when using flashinfer', please check the stack trace above for the root cause
+(EngineCore pid=148930) ERROR 11-23 04:39:36 [multiproc_executor.py:315] Worker proc VllmWorker-0 died unexpectedly (exit code: None), shutting down executor.
+(EngineCore pid=148930) INFO 11-23 04:39:36 [multiproc_executor.py:479] [shutdown] Executor: waiting for worker exit count=2
+Process EngineCore:
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 1514, in run_engine_core
+    raise e
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 1482, in run_engine_core
+    engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/tracing/otel.py", line 175, in sync_wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 1194, in __init__
+    super().__init__(
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 157, in __init__
+    kv_cache_config = self._initialize_kv_caches(vllm_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/tracing/otel.py", line 175, in sync_wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 315, in _initialize_kv_caches
+    available_gpu_memory = self.model_executor.determine_available_memory()
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/executor/abstract.py", line 163, in determine_available_memory
+    return self.collective_rpc("determine_available_memory")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/executor/multiproc_executor.py", line 455, in collective_rpc
+    return future if non_block else future.result()
+                                    ^^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/executor/multiproc_executor.py", line 99, in result
+    return super().result()
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/executor/multiproc_executor.py", line 103, in _wait_for_response
+    response = self.aggregate(self.get_response())
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/executor/multiproc_executor.py", line 444, in get_response
+    raise RuntimeError(
+RuntimeError: Worker failed with error 'Flashinfer allreduce workspace must be initialized when using flashinfer', please check the stack trace above for the root cause
+(APIServer pid=148507) INFO 11-23 04:39:37 [utils.py:628] [shutdown] Process manager: send sigterm to process EngineCore
+Traceback (most recent call last):
+  File "/tmp/scratch/venv-vllm/bin/vllm", line 10, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/entrypoints/cli/main.py", line 120, in main
+    args.dispatch_function(args)
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/entrypoints/cli/serve.py", line 156, in cmd
+    uvloop.run(run_server(args))
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/uvloop/__init__.py", line 96, in run
+    return __asyncio.run(
+           ^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1515, in uvloop.loop.Loop.run_until_complete
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/uvloop/__init__.py", line 48, in wrapper
+    return await main
+           ^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/entrypoints/launchers/api_server/entry.py", line 177, in run_server
+    await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/entrypoints/launchers/api_server/entry.py", line 195, in run_server_worker
+    async with build_async_engine_client(
+  File "/usr/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/entrypoints/launchers/api_server/entry.py", line 61, in build_async_engine_client
+    async with build_async_engine_client_from_engine_args(
+  File "/usr/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/entrypoints/launchers/api_server/entry.py", line 95, in build_async_engine_client_from_engine_args
+    async_llm = AsyncLLM.from_vllm_config(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/async_llm.py", line 255, in from_vllm_config
+    return cls(
+           ^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/async_llm.py", line 184, in __init__
+    self.engine_core = EngineCoreClient.make_async_mp_client(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/tracing/otel.py", line 175, in sync_wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/core_client.py", line 167, in make_async_mp_client
+    return AsyncMPClient(
+           ^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/tracing/otel.py", line 175, in sync_wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/core_client.py", line 1120, in __init__
+    super().__init__(
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/core_client.py", line 682, in __init__
+    with launch_core_engines(
+  File "/usr/lib/python3.12/contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/utils.py", line 1351, in launch_core_engines
+    wait_for_engine_startup(
+  File "/tmp/scratch/venv-vllm/lib/python3.12/site-packages/vllm/v1/engine/utils.py", line 1431, in wait_for_engine_startup
+    raise RuntimeError(
+RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+/usr/lib/python3.12/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 2 leaked shared_memory objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

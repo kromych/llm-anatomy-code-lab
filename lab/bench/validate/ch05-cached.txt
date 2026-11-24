@@ -1,0 +1,11 @@
+# Note added with the rerun: this record is of cached.py as it stood at 07:22 that day, when forward.py
+# still held the float64 expressions of Exercise 5.11. The program as printed is recorded in
+# code/ch05/results/cached.txt (about 2.6 s and 1.2 s, speed-up 2.1), and float64.txt beside it
+# measures the factor between the two programs.
+2026-11-14T07:22:04 cached: start (70 retries, busy=27% hogs=[19.0:llama-server 14.5:/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/Resources/Python.app/Contents/MacOS/Python ], load averages: 6.36 5.90 6.98)
+same tokens: True
+no cache 15.84 s, cache 15.51 s, speed-up 1.0
+same tokens: True
+no cache 15.42 s, cache 13.81 s, speed-up 1.1
+same tokens: True
+no cache 15.45 s, cache 13.62 s, speed-up 1.1

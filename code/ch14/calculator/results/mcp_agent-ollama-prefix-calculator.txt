@@ -1,0 +1,13 @@
+$ MCP_MODEL=qwen3:1.7b MCP_SERVER=calculator python3 ../ch13/mcp_agent.py \
+    http://127.0.0.1:11434/v1 "What is 987654321 * 123456789?" python3 calculator/calc_server.py
+model  4266.4 ms  final answer
+
+--- attempt 2
+model  4592.7 ms  final answer
+
+--- attempt 3
+model  2717.7 ms  final answer
+
+--- attempt 4
+model  2988.5 ms  final answer
+

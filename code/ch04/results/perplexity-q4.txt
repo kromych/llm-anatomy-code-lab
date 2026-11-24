@@ -1,0 +1,74 @@
+## llama-perplexity -m model-q4km.gguf \
+##     --kl-divergence-base base.kld --kl-divergence
+## S3-macOS; llama.cpp build 12359 (Homebrew, commit b1b770d90), Metal.
+## model-f16.gguf is SmolLM2-135M-Instruct-f16.gguf of
+## bartowski/SmolLM2-135M-Instruct-GGUF (270885952 bytes); the directory
+## wikitext-2-raw comes from scripts/get-wikitext-2.sh of llama.cpp.
+## model-q4km.gguf from the first command of quantize.txt.
+## base.kld from the run of perplexity-base.txt. Standard output
+## and standard error together. Load averages 25.1 26.3 25.5
+## from other work on the machine.
+0.00.278.394 I cmn          init: llama threadpool init, n_threads = 16
+0.00.393.294 I 
+0.00.393.333 I system_info: n_threads = 16 (n_threads_batch = 16) / 20 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | DOTPROD = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.00.397.338 I kl_divergence: computing over 592 chunks, n_ctx=512, batch_size=2048, n_seq=4
+0.00.686.235 I kl_divergence: 0.29 seconds per pass - ETA 0.70 minutes
+
+chunk             PPL               ln(PPL(Q)/PPL(base))          KL Divergence              Δp RMS            Same top p
+   1      10.9725 ±    2.0292       0.05094 ±    0.02984       0.06267 ±    0.01745     6.893 ±  1.474 %    89.804 ±  1.899 %
+   2      17.2733 ±    2.4271       0.02927 ±    0.01778       0.05254 ±    0.00886     5.620 ±  0.917 %    87.843 ±  1.448 %
+   3      18.5046 ±    2.0973       0.05034 ±    0.01438       0.05280 ±    0.00600     5.840 ±  0.635 %    87.582 ±  1.193 %
+   4      18.6158 ±    1.7717       0.04353 ±    0.01207       0.05165 ±    0.00459     5.574 ±  0.505 %    86.765 ±  1.062 %
+   5      18.6574 ±    1.5624       0.05055 ±    0.01046       0.05083 ±    0.00372     5.426 ±  0.420 %    86.353 ±  0.962 %
+   6      18.6500 ±    1.4023       0.04848 ±    0.00921       0.04968 ±    0.00312     5.244 ±  0.365 %    85.817 ±  0.892 %
+   7      19.2026 ±    1.3282       0.05008 ±    0.00845       0.04819 ±    0.00269     5.071 ±  0.326 %    86.331 ±  0.813 %
+   8      20.0343 ±    1.2938       0.04877 ±    0.00790       0.04837 ±    0.00238     5.038 ±  0.300 %    85.784 ±  0.773 %
+## ... chunks 9 to 584 cut ...
+ 585      19.4633 ±    0.1477       0.04532 ±    0.00090       0.04926 ±    0.00016     5.488 ±  0.030 %    87.723 ±  0.085 %
+ 586      19.4681 ±    0.1476       0.04539 ±    0.00090       0.04925 ±    0.00016     5.487 ±  0.030 %    87.720 ±  0.085 %
+ 587      19.4596 ±    0.1474       0.04539 ±    0.00090       0.04924 ±    0.00016     5.486 ±  0.030 %    87.716 ±  0.085 %
+ 588      19.4893 ±    0.1475       0.04531 ±    0.00090       0.04926 ±    0.00016     5.483 ±  0.030 %    87.715 ±  0.085 %
+ 589      19.5016 ±    0.1475       0.04527 ±    0.00090       0.04925 ±    0.00016     5.481 ±  0.030 %    87.715 ±  0.085 %
+ 590      19.5228 ±    0.1476       0.04537 ±    0.00089       0.04926 ±    0.00016     5.481 ±  0.030 %    87.712 ±  0.085 %
+ 591      19.5161 ±    0.1474       0.04540 ±    0.00089       0.04926 ±    0.00016     5.482 ±  0.030 %    87.715 ±  0.085 %
+ 592      19.5244 ±    0.1474       0.04541 ±    0.00089       0.04927 ±    0.00016     5.481 ±  0.030 %    87.713 ±  0.084 %
+
+====== Perplexity statistics ======
+Mean PPL(Q)                   :  19.524359 ±   0.147354
+Mean PPL(base)                :  18.657669 ±   0.142647
+Cor(ln(PPL(Q)), ln(PPL(base))):  99.32%
+Mean ln(PPL(Q)/PPL(base))     :   0.045406 ±   0.000893
+Mean PPL(Q)/PPL(base)         :   1.046452 ±   0.000935
+Mean PPL(Q)-PPL(base)         :   0.866690 ±   0.017590
+
+====== KL divergence statistics ======
+Mean    KLD:   0.049268 ±   0.000162
+Maximum KLD:   4.454910
+99.9%   KLD:   0.691245
+99.0%   KLD:   0.272128
+95.0%   KLD:   0.131759
+90.0%   KLD:   0.096192
+Median  KLD:   0.037001
+10.0%   KLD:   0.005023
+ 5.0%   KLD:   0.001650
+ 1.0%   KLD:   0.000177
+ 0.1%   KLD:   0.000020
+Minimum KLD:  -0.000004
+
+====== Token probability statistics ======
+Mean    Δp: -1.494 ± 0.014 %
+Maximum Δp: 53.268%
+99.9%   Δp: 24.719%
+99.0%   Δp: 11.322%
+95.0%   Δp:  4.268%
+90.0%   Δp:  1.913%
+75.0%   Δp:  0.113%
+Median  Δp: -0.123%
+25.0%   Δp: -2.470%
+10.0%   Δp: -7.231%
+ 5.0%   Δp: -10.738%
+ 1.0%   Δp: -19.921%
+ 0.1%   Δp: -39.728%
+Minimum Δp: -81.625%
+RMS Δp    :  5.481 ± 0.030 %
+Same top p: 87.713 ± 0.084 %

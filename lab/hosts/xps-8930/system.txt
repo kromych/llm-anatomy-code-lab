@@ -1,0 +1,25 @@
+Host        xps-8930.local (Dell XPS 8930, BIOS 1.1.23); snapshot taken 2026-11-13 before any install
+OS          Fedora Linux 44 (Workstation Edition), x86_64
+Kernel      7.2.11-200.fc44.x86_64 (running); glibc 2.43; gcc/g++ 16.2.1; git 2.56.0
+SELinux     Enforcing; firewalld active; power profile "balanced", cpufreq governor powersave (intel_pstate)
+CPU         Intel Core i7-8700 @ 3.20 GHz (Coffee Lake), 6 cores / 12 threads, max 4.6 GHz
+            L1d 192 KiB (6x), L2 1.5 MiB (6x), L3 12 MiB
+            avx yes, avx2 yes, fma yes, f16c yes, avx512* none, avx_vnni no
+RAM         31 GiB (MemTotal 32688244 kB); swap 8 GiB zram
+Page size   4096 bytes (getconf PAGESIZE); THP madvise
+GPU         Intel UHD Graphics 630 (CoffeeLake-S GT2, PCI 00:02.0), integrated, shares system RAM
+            /dev/dri/card0 (root:video), /dev/dri/renderD128 (root:render, mode 0666)
+            No discrete GPU (no NVIDIA, no AMD).
+Vulkan      vulkan-loader 1.4.341, mesa-vulkan-drivers 26.2.5 (both preinstalled)
+            GPU0 Intel(R) UHD Graphics 630 (CFL GT2), Mesa ANV ("Intel open-source Mesa driver"), apiVersion 1.4.354
+            GPU1 llvmpipe (LLVM 22.1.8, 256 bits), Mesa software rasterizer on the CPU
+Storage     /home on Samsung SSD 960 EVO 1TB (NVMe), 806 GB free; / on Samsung SSD 860 PRO 1TB (SATA)
+Shell       login shell zsh; non-interactive ssh PATH /home/labuser/.cargo/bin:/usr/local/bin:/usr/bin
+Other       Docker CE active; ccache 4.12 present with an existing ~/.cache/ccache (321 MB)
+            dnf warns on every run that the third-party COPR repo varlad/helix has no fedora-44 repodata (404); pre-existing, harmless
+
+Installed for the lab (2026-11-13; details in notes.txt)
+            cmake 4.3.0, libcurl-devel 8.18.0, vulkan-headers/vulkan-loader-devel/vulkan-tools 1.4.341, glslc 2026.1,
+            spirv-headers-devel 1.5.5 (dnf transactions 45-47)
+            llama.cpp b12376 (commit 61dbf4922) in ~/src/llama.cpp: build/ (CPU) and build-vulkan/ (Vulkan), not installed system-wide
+            Ollama 0.40.16 via https://ollama.com/install.sh: /usr/local/bin/ollama, /usr/local/lib/ollama, ollama.service (enabled, running)

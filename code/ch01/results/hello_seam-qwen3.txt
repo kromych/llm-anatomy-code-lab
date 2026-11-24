@@ -1,0 +1,6 @@
+# llama-server build 12359 (b1b770d90) from Homebrew on S3-macOS (macOS 27.2),
+#   llama-server -hf ggml-org/Qwen3-1.7B-GGUF:Q4_K_M --host 127.0.0.1 --port 8101
+# Python 3.15.2.
+$ python3 hello_seam.py http://127.0.0.1:8101/v1
+
+# exit status 0; the line above is empty: see hello_seam-qwen3.json

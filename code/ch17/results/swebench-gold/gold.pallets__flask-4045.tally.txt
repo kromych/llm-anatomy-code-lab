@@ -1,0 +1,11 @@
+ 102 failure  DeprecationWarning: 'werkzeug.urls.url_parse' is deprecated and will be removed in Werkzeug 3.0. Use 'urllib.parse.urlsplit' instead.
+              first: test_options_work
+  13 failure  TypeError: __init__() got an unexpected keyword argument 'as_tuple'
+              first: test_session_using_server_name
+   9 error    DeprecationWarning: 'werkzeug.urls.url_parse' is deprecated and will be removed in Werkzeug 3.0. Use 'urllib.parse.urlsplit' instead.
+              first: ERROR at setup of test_flashes
+   2 error    DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+              first: ERROR at setup of test_templates_and_static
+   1 failure  pytest.PytestUnhandledThreadExceptionWarning: Exception in thread Thread-5
+              first: test_before_first_request_functions_concurrent
+ 127 blocks

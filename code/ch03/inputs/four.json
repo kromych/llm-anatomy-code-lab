@@ -1,0 +1,4 @@
+[{"role": "system", "content": "Answer briefly."},
+ {"role": "user", "content": "Hi"},
+ {"role": "assistant", "content": "Hello."},
+ {"role": "user", "content": "List the Python files in src/"}]

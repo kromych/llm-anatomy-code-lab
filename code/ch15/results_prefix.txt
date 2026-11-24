@@ -1,0 +1,88 @@
+Exercise 15.10: the prefix that each request shares with earlier ones.
+S3-macOS, llama-server 1.0.0 (b12359), Qwen3-8B Q8_0, -c 40960 -np 1, behind
+proxy.py; the task and the commands of run_harnesses.sh.  Columns: request,
+prompt and cached tokens as the engine reported them, tokens of the request
+as prefix.py rendered it, tokens shared with the request before it, and the
+longest prefix shared with any earlier request.
+
+Thinking on (temp 0.6, top-p 0.95, top-k 20, min-p 0, presence 1.5):
+$ sh run_harnesses.sh OUT px aider opencode goose codex
+aider-px rc=0 secs=132 tests=pass tests_kept=yes
+opencode-px rc=0 secs=51 tests=fail tests_kept=yes
+goose-px rc=0 secs=175 tests=fail tests_kept=yes
+codex-px rc=0 secs=78 tests=pass tests_kept=yes
+$ python3 prefix.py http://127.0.0.1:8084 log.jsonl dumps aider-px opencode-px goose-px codex-px
+aider-px
+  n  prompt cached  tokens  previous  best earlier
+  1     890      3     890         -  -
+  2     668      3     668         3  3 (request 1)
+  3    1681      3    1681         3  509 (request 1)
+  4    1124      3    1124         3  175 (request 2)
+  5     798      3     798         3  3 (request 1)
+  6     798    797     798       798  798 (request 5)
+opencode-px
+  n  prompt cached  tokens  previous  best earlier
+  1     471    434     471         -  -
+  2    8383      4    8383         4  4 (request 1)
+goose-px
+  n  prompt cached  tokens  previous  best earlier
+  1    6493      5    6493         -  -
+  2    7205   7165    7205      6493  6493 (request 1)
+  3   10327  10114   10327      7205  7205 (request 2)
+  4   12083  12059   12083     10327  10327 (request 3)
+  5   12479  12083   12479     12083  12083 (request 4)
+  6   13422  13398   13422     12479  12479 (request 5)
+codex-px
+  n  prompt cached  tokens  previous  best earlier
+  1    6970      6    6973         -  -
+  2    7800   7766    7803      6973  6973 (request 1)
+  3    8540   8401    8543      7803  7803 (request 2)
+  4    9212   9162    9215      8543  8543 (request 3)
+  5    9560   9212    9563      9215  9215 (request 4)
+  6   10386  10334   10389      9563  9563 (request 5)
+  7   10564  10386   10567     10389  10389 (request 6)
+
+opencode's run above ended after one request of the agent; its runs for
+Exercise 15.13 (results_mcp.txt) each made two:
+$ python3 prefix.py http://127.0.0.1:8084 log.jsonl dumps opencode-mcp0 opencode-mcp2
+opencode-mcp0
+  n  prompt cached  tokens  previous  best earlier
+  1     471      4     471         -  -
+  2    8386      4    8386         4  4 (request 1)
+  3    9119   8961    9119      8386  8386 (request 2)
+opencode-mcp2
+  n  prompt cached  tokens  previous  best earlier
+  1     471    470     471         -  -
+  2    8518      4    8518         4  4 (request 1)
+  3    9122   9023    9122      8518  8518 (request 2)
+
+Thinking off (--reasoning off, temp 0.7, top-p 0.8, top-k 20, min-p 0,
+presence 1.5; the server started with -lv 4):
+$ sh run_harnesses.sh OUT pxoff aider
+aider-pxoff rc=0 secs=30 tests=pass tests_kept=yes
+$ python3 prefix.py http://127.0.0.1:8084 log.jsonl dumps aider-pxoff
+aider-pxoff
+  n  prompt cached  tokens  previous  best earlier
+  1     894      0     894         -  -
+  2     725      3     725         3  3 (request 1)
+  3    1755    509    1755         3  509 (request 1)
+  4     940      3     940         3  175 (request 2)
+  5    1285      3    1285         3  3 (request 1)
+  6    1285   1284    1285      1285  1285 (request 5)
+
+The server's log at Aider's third request, the reflection, with thinking off:
+the slot holds the request for a commit message (735 tokens); the prompt
+saved before it, the first request with its answer (1,288 tokens), shares
+509 tokens with the new one and is restored.
+0.18.041.750 I slot get_availabl: id  0 | task -1 |  - checking sim = 0.002 (3/1755) > 0.100
+0.18.041.752 I slot get_availabl: id  0 | task -1 | selected slot by LRU, n_tokens = 735, t_last = 124478553527
+0.18.041.752 I srv  get_availabl: updating prompt cache
+0.18.041.861 I srv   prompt_save:  - saving prompt with length 735, total state size = 103.369 MiB (draft: 0.000 MiB)
+0.18.050.443 I srv          load:  - looking for better prompt, base f_keep = 0.004, f_sim = 0.002
+0.18.050.448 I srv          load:    - prompt with length    1288, lcp =     509, f_keep = 0.395, f_sim = 0.290
+0.18.050.449 I srv          load:    - prompt with length     735, lcp =       3, f_keep = 0.004, f_sim = 0.002
+0.18.050.449 I srv          load:  - found better prompt with f_keep = 0.395, f_sim = 0.290
+
+With thinking on the slot held 3,378 tokens after the first request (890 of prompt and some 2,490 generated), so the same 509 tokens are 15 percent of the
+saved prompt, less than the quarter that the server asks for, and the
+reflection found 3 tokens in the cache.

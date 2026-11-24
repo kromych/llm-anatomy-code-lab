@@ -1,0 +1,37 @@
+{
+    "choices": [
+        {
+            "finish_reason": "length",
+            "index": 0,
+            "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "Okay, the user is asking about what a KV cache is in one sentence. Let me start by recalling what I know. KV cache stands for Key-Value Cache. From what I remember, in machine learning, especially in models like transformers, the KV cache is used to store the key and value vectors of the input tokens. So when the model processes a sequence, it needs to remember these vectors to avoid redundant calculations. \n\nWait, but I should make sure I'm not mixing up different concepts. The KV cache is related to attention mechanisms. In the self-attention process, the model computes attention scores between tokens. To"
+            }
+        }
+    ],
+    "created": 1794682466,
+    "model": "ggml-org/Qwen3-1.7B-GGUF:Q4_K_M",
+    "system_fingerprint": "b12359-b1b770d90",
+    "object": "chat.completion",
+    "usage": {
+        "completion_tokens": 128,
+        "prompt_tokens": 18,
+        "total_tokens": 146,
+        "prompt_tokens_details": {
+            "cached_tokens": 17
+        }
+    },
+    "id": "chatcmpl-187zQC5scj30U6bF8OPSTJOFjCxvN5yq",
+    "timings": {
+        "cache_n": 17,
+        "prompt_n": 1,
+        "prompt_ms": 7.79,
+        "prompt_per_token_ms": 7.79,
+        "prompt_per_second": 128.36970474967907,
+        "predicted_n": 128,
+        "predicted_ms": 1374.646,
+        "predicted_per_token_ms": 10.823984251968504,
+        "predicted_per_second": 92.38742192535388
+    }
+}

@@ -1,0 +1,16 @@
+# llama-server 1.0.0 (build 12359, commit b1b770d90) on S3-macOS, started with
+#   llama-server -m Qwen3-1.7B-Q4_K_M.gguf --port 8102 -c 4096 -np 1 -lv 4
+# and once more with --no-warmup added; the lines of each log that match
+# 'warm', 'model loaded' or 'listening' (time stamps are of a busy machine)
+
+## default
+0.00.447.275 I cmn  common_init_: warming up the model with an empty run - please wait ... (--no-warmup to disable)
+0.00.531.857 I srv  server_run_i: model loaded
+0.00.531.861 I srv  server_on_li: listening on http://127.0.0.1:8102
+
+## --no-warmup
+0.00.496.101 I srv  server_run_i: model loaded
+0.00.496.107 I srv  server_on_li: listening on http://127.0.0.1:8102
+
+## llama-server --help
+--warmup, --no-warmup                   whether to perform warmup with an empty run (default: enabled)

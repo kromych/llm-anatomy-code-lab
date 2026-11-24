@@ -1,0 +1,10 @@
+~/.ollama
+~/.ollama/cache
+~/.ollama/cache/model-recommendations.json
+~/.ollama/id_ed25519
+~/.ollama/id_ed25519.pub
+~/.ollama/models
+~/.ollama/models/blobs
+~/.ollama/models/manifests
+~/.ollama/models/manifests-v2
+~/.ollama/models/metadata

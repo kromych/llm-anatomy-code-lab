@@ -1,0 +1,46 @@
+## mlx_lm.server --model mlx-community/Qwen3-0.6B-4bit --host 127.0.0.1 --port 8180
+##     (mlx-lm 0.32.2 with MLX 0.32.4, on S3-macOS; the server's own
+##     default port is 8080)
+## python3 conform.py http://127.0.0.1:8180/v1 mlx-community/Qwen3-0.6B-4bit
+## Two runs against one server, with conform.py as it is now. They differ
+## only in the text that t_tool_required reports.
+## The first run:
+PASS  t_models
+PASS  t_basic
+FAIL  t_stream -- AssertionError objects {'chat.completion.chunk', 'chat.completion'}
+PASS  t_stop
+PASS  t_length
+PASS  t_max_completion
+FAIL  t_n -- AssertionError n ignored
+PASS  t_seed
+PASS  t_logprobs
+PASS  t_cached
+PASS  t_reasoning
+PASS  t_tool_auto
+FAIL  t_tool_required -- AssertionError no tool call: "\n\nHello! How can I assist you today? If you have a city in mind, please let me know, and I'll check the
+PASS  t_tool_stream
+FAIL  t_schema -- AssertionError not JSON: '\n\n```json\n{\n  "temperature_unit": "kelvi'
+FAIL  t_error -- AssertionError error "'str' object has no attribute 'get'"
+## The second run:
+PASS  t_models
+PASS  t_basic
+FAIL  t_stream -- AssertionError objects {'chat.completion.chunk', 'chat.completion'}
+PASS  t_stop
+PASS  t_length
+PASS  t_max_completion
+FAIL  t_n -- AssertionError n ignored
+PASS  t_seed
+PASS  t_logprobs
+PASS  t_cached
+PASS  t_reasoning
+PASS  t_tool_auto
+FAIL  t_tool_required -- AssertionError no tool call: '\n\nHello! How can I assist you today?'
+PASS  t_tool_stream
+FAIL  t_schema -- AssertionError not JSON: '\n\n```json\n{\n  "temperature_unit": "kelvi'
+FAIL  t_error -- AssertionError error "'str' object has no attribute 'get'"
+
+## The request of t_error by hand; the status and the content type follow
+## the body.
+## curl -s -w '\nstatus %{http_code}, content-type %{content_type}\n' http://127.0.0.1:8180/v1/chat/completions -H 'Content-Type: application/json' -d '{"model":"mlx-community/Qwen3-0.6B-4bit","messages":"not a list"}'
+{"error": "'str' object has no attribute 'get'"}
+status 400, content-type application/json

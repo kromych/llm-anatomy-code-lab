@@ -1,0 +1,4 @@
+[x64-t8.completion.log] 0.00.760.806 I system_info: n_threads = 8 (n_threads_batch = 8) / 16 | CPU : LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 |
+[x64-t8.stderr] load_backend: loaded RPC backend from C:\Users\labuser\AppData\Local\isa-bench\llama-x64\ggml-rpc.dll
+[x64-t8.stderr] load_backend: loaded CPU backend from C:\Users\labuser\AppData\Local\isa-bench\llama-x64\ggml-cpu-x64.dll
+[x64-t8.stderr] build: b1b770d90 (12359)

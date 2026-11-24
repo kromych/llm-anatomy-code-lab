@@ -1,0 +1,46 @@
+## Times of the runs behind Section 17.1, measured again on S3-macOS; the
+## logs of the first runs were not kept. Python 3.14.10 with the versions of
+## requirements.txt, llama-server 1.0.0 (build 12359), PORT=8310.
+##
+##   VENV=venv OUT=out-hf ./run_hf.sh           (twice: out-hf, out-hf2)
+## and these steps of run_all.sh, with Gemma 3 1B Q8_0:
+##   serve Q8_0 8
+##   lmeval gsm8k_chat chat-Q8_0                (once)
+##   inspect t0-serial-1 1 --temperature 0      (and t0-serial-2)
+##   inspect t0-parallel-1 8 --temperature 0    (and t0-parallel-2)
+##
+## Each step ran alone under code/lab/mac-lockrun.py exclusive, in the order
+## of the list below, and the server was stopped for run_hf.sh. These are
+## all the runs that were made. The machine was busy with other work: wall
+## time of each step, and the load averages just before and after it.
+##   out-hf          318 s   25.40 22.86 23.61 (128 s before the lock came)
+##                           13.99 15.68 19.47
+##   chat-Q8_0       758 s   14.65 15.67 19.33   35.96 30.06 24.46
+##   t0-serial-1     232 s   32.46 29.91 24.63   20.73 24.25 23.31
+##   t0-parallel-1    74 s   20.17 23.50 23.08   21.81 23.48 23.11
+##   t0-serial-2     245 s   32.13 25.98 24.07   20.06 23.72 23.69
+##   t0-parallel-2    77 s   19.26 23.50 23.61   28.36 25.67 24.46
+##   out-hf2         340 s   28.36 25.67 24.46   21.66 24.51 24.43
+## The scores of these runs are those of summary.txt, variance.csv, and
+## arc-hf-qwen3-1.7b.json, which is now the result file of out-hf (the
+## file of the first run, with the same scores, gave 438.88 s in all).
+## The book quotes the first run of each kind.
+##
+## venv/bin/python3 times.py out out-hf.log out-hf2.log
+lmeval-chat-Q8_0: 1319 requests in 12:26 (Requesting API), 746 s, 565.6 ms each
+  log: 7 s from the first line to the requests, 750 s from there to the next line
+  total_evaluation_time_seconds 756.3
+inspect-t0-parallel-1: 100 samples in 71 s from start to end, 0.71 s each (success)
+  connections 8; one sample took 4.88 s on average
+inspect-t0-parallel-2: 100 samples in 75 s from start to end, 0.75 s each (success)
+  connections 8; one sample took 5.12 s on average
+inspect-t0-serial-1: 100 samples in 230 s from start to end, 2.30 s each (success)
+  connections 1; one sample took 2.29 s on average
+inspect-t0-serial-2: 100 samples in 242 s from start to end, 2.42 s each (success)
+  connections 1; one sample took 2.41 s on average
+out-hf: 14188 requests in 04:55 (Running loglikelihood requests), 295 s, 20.8 ms each
+  log: 10 s from the first line to the requests, 301 s from there to the next line
+  total_evaluation_time_seconds 316.2
+out-hf2: 14188 requests in 05:10 (Running loglikelihood requests), 310 s, 21.8 ms each
+  log: 12 s from the first line to the requests, 317 s from there to the next line
+  total_evaluation_time_seconds 338.7

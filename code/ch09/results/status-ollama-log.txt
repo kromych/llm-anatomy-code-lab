@@ -1,0 +1,17 @@
+## ollama serve > serve.log 2>&1
+##     (Ollama 0.40.16 with qwen3:1.7b, on S3-macOS)
+## python3 status.py http://127.0.0.1:11434/v1 qwen3:1.7b
+unknown model    404  Retry-After=None
+    error: {"message": "model 'no-such-model' not found", "type": "not_found_error", "param": null, "code": null}
+prompt too long  200  Retry-After=None
+    usage: {'prompt_tokens': 20482, 'prompt_tokens_details': {'cached_tokens': 1}, 'completion_tokens': 5, 'total_tokens': 20487}
+malformed        400  Retry-After=None
+    error: {"message": "json: cannot unmarshal string into Go struct field ChatCompletionRequest.messages of type []openai.Message", "type": "invalid_request_error", "param": null, "code": null}
+## grep -E 'level=WARN|task.n_tokens = 20482' serve.log
+## The warnings of the server's log, all of them, and the line of the
+## runner that takes the shortened prompt. The server had loaded the model
+## for requests of another program before status.py ran, hence the first
+## line and its earlier time.
+time=2026-11-24T13:40:50.945-08:00 level=WARN source=server.go:112 msg="requested context size too large for model" num_ctx=262144 n_ctx_train=40960
+time=2026-11-24T13:50:03.044-08:00 level=WARN source=llama_server.go:344 msg="truncating input prompt" limit=20482 prompt=45011 keep=4 new=20482
+slot   operator(): id  0 | task 7611 | new prompt, n_ctx_slot = 40960, n_keep = 4, task.n_tokens = 20482

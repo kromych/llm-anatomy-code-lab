@@ -1,0 +1,2 @@
+C=1    done    0  out      0.0 tok/s  ttft p50     0.0 ms  tpot p50   0.00 ms  itl p50   0.00 p99    0.00 ms     0.0 s
+C=8    done    0  out      0.0 tok/s  ttft p50     0.0 ms  tpot p50   0.00 ms  itl p50   0.00 p99    0.00 ms     0.0 s

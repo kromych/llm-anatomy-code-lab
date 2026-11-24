@@ -1,0 +1,17 @@
+# python3 code/ch08/splits.py Qwen3-1.7B-Q4_K_M.gguf -ngl 28 \
+#     -ot 'blk\.5\.ffn_down\.weight=CPU'
+# krom1u (Apple M1 Ultra, macOS), llama.cpp build 12359 (Homebrew), Metal;
+# model from ggml-org/Qwen3-1.7B-GGUF at revision daeb8e2 (28 layers).
+split 1: CPU, 26 nodes, embd .. ffn_out-0
+split 2: MTL0, 114 nodes, l_out-0 .. ffn_swiglu-5
+    copy in: ffn_out-0 (8K)
+    copy in: ffn_inp-0 (8K)
+    copy in: inp_pos (<1K)
+    copy in: attn_inp_k_idxs (<1K)
+    copy in: attn_inp_v_idxs (<1K)
+    copy in: attn_inp_kq_mask (<1K)
+split 3: CPU, 1 node, ffn_out-5
+    copy in: ffn_swiglu-5 (24K)
+split 4: MTL0, 512 nodes, l_out-5 .. result_output
+    copy in: ffn_out-5 (8K)
+    copy in: out_ids (<1K)

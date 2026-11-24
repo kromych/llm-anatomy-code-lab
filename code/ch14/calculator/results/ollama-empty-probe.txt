@@ -1,0 +1,6 @@
+probe: Ollama 0.40.16, qwen3:1.7b, POST /api/chat, question 'What is 987654321 * 123456789?'
+calculator__calculate  empty empty empty empty empty call empty empty  calls 1 of 8
+calculate              call call call call call call call call  calls 8 of 8
+calc_calculate         call call call call call call call call  calls 8 of 8
+calc__calculate        call call call call call call call call  calls 8 of 8
+math__calculate        call call call call call call call call  calls 8 of 8

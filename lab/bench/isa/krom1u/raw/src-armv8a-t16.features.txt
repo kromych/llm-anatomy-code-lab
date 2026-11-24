@@ -1,0 +1,2 @@
+[src-armv8a-t16.completion.log] 0.00.574.477 I system_info: n_threads = 16 (n_threads_batch = 16) / 20 | CPU : NEON = 1 | ARM_FMA = 1 | LLAMAFILE = 1 | ACCELERATE = 1 | REPACK = 1 |
+[src-armv8a-t16.stderr] build: 61dbf49 (1)

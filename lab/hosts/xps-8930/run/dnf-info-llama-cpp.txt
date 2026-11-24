@@ -1,0 +1,81 @@
+# Recorded only, NOT installed. Fedora 44 repositories, 2026-11-13.
+$ dnf info llama-cpp
+Available packages
+Name           : llama-cpp
+Epoch          : 0
+Version        : b6153
+Release        : 3.fc44
+Architecture   : x86_64
+Download size  : 106.0 MiB
+Installed size : 1.3 GiB
+Source         : llama-cpp-b6153-3.fc44.src.rpm
+Repository     : fedora
+Summary        : Port of Facebook's LLaMA model in C/C++
+URL            : https://github.com/ggerganov/llama.cpp
+License        : MIT AND Apache-2.0 AND LicenseRef-Fedora-Public-Domain
+Description    : The main goal of llama.cpp is to run the LLaMA model using 4-bit
+               : integer quantization on a MacBook
+               : 
+               : * Plain C/C++ implementation without dependencies
+               : * Apple silicon first-class citizen - optimized via ARM NEON, Accelerate
+               :   and Metal frameworks
+               : * AVX, AVX2 and AVX512 support for x86 architectures
+               : * Mixed F16 / F32 precision
+               : * 2-bit, 3-bit, 4-bit, 5-bit, 6-bit and 8-bit integer quantization support
+               : * CUDA, Metal and OpenCL GPU backend support
+               : 
+               : The original implementation of llama.cpp was hacked in an evening.
+               : Since then, the project has improved significantly thanks to many
+               : contributions. This project is mainly for educational purposes and
+               : serves as the main playground for developing new features for the
+               : ggml library.
+Vendor         : Fedora Project
+
+$ dnf list "llama*" "ollama*" "python3-llama*"
+Available packages
+llama-cpp.x86_64                b6153-3.fc44   fedora
+llama-cpp-devel.x86_64          b6153-3.fc44   fedora
+ollama.x86_64                   0.12.11-4.fc44 fedora
+python3-llama-cpp-python.x86_64 0.3.14-5.fc44  fedora
+
+$ dnf repoquery -l llama-cpp  (executables only)
+/usr/bin/llama-batched-bench
+/usr/bin/llama-bench
+/usr/bin/llama-cli
+/usr/bin/llama-cvector-generator
+/usr/bin/llama-export-lora
+/usr/bin/llama-gguf-split
+/usr/bin/llama-imatrix
+/usr/bin/llama-mtmd-cli
+/usr/bin/llama-perplexity
+/usr/bin/llama-quantize
+/usr/bin/llama-run
+/usr/bin/llama-server
+/usr/bin/llama-tokenize
+/usr/bin/llama-tts
+
+$ dnf repoquery --requires llama-cpp  (non-glibc/libstdc++ entries)
+curl
+hipblas
+libamdhip64.so.7()(64bit)
+libamdhip64.so.7(hip_4.2)(64bit)
+libamdhip64.so.7(hip_6.0)(64bit)
+libhipblas.so.3()(64bit)
+rocblas
+
+$ dnf repoquery -l ollama  (Fedora package, for comparison with the official installer; doc/license/build-id omitted)
+/usr/bin/ollama
+/usr/lib/ollama/libggml-base.so
+/usr/lib/ollama/libggml-cpu-alderlake.so
+/usr/lib/ollama/libggml-cpu-haswell.so
+/usr/lib/ollama/libggml-cpu-icelake.so
+/usr/lib/ollama/libggml-cpu-sandybridge.so
+/usr/lib/ollama/libggml-cpu-skylakex.so
+/usr/lib/ollama/libggml-cpu-sse42.so
+/usr/lib/ollama/libggml-cpu-x64.so
+/usr/lib/ollama/libggml-hip.so
+/usr/lib/systemd/system/ollama.service
+/usr/lib/sysusers.d/ollama.conf
+/var/lib/ollama
+
+Note: dnf on this host warns that the third-party COPR repo varlad/helix returns 404 for fedora-44 (pre-existing; dnf continues).
